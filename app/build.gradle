@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlinx-serialization'
+}
+
+android {
+    namespace 'com.dertefter.neticlient'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.dertefter.neticlient"
+        minSdk 27
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'com.github.mobven:MBAndroidProgressBar:1.0.0'
+
+    implementation "androidx.activity:activity-ktx:1.10.0"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+
+    implementation 'com.github.hypeapps:NoiseView:1.0'
+
+    implementation 'com.github.Dimezis:BlurView:version-2.0.6'
+
+    implementation "androidx.core:core-splashscreen:1.0.1"
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okio:okio:3.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'org.jsoup:jsoup:1.16.1'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
+
+    implementation 'com.squareup.picasso:picasso:2.8'
+
+    implementation "androidx.datastore:datastore-preferences:1.1.2"
+    implementation "androidx.datastore:datastore:1.1.2"
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.0-alpha06'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.9.0-alpha06'
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.7'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+
+    implementation 'com.airbnb.android:lottie:6.6.2'
+    implementation 'com.github.tapadoo:alerter:7.2.4'
+
+    implementation "com.google.dagger:hilt-android:2.51.1"
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation 'androidx.hilt:hilt-common:1.2.0'
+    implementation 'androidx.work:work-runtime-ktx:2.10.0'
+    kapt "com.google.dagger:hilt-compiler:2.51.1"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}
+
+kapt {
+    correctErrorTypes true
+}

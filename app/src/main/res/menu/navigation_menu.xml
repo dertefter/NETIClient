@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_graph_schedule"
+        android:title="Расписание"
+        android:icon="@drawable/calendar_month_icon"
+        />
+
+    <item
+        android:id="@+id/nav_graph_news"
+        android:title="Учёба"
+        android:icon="@drawable/school_icon"/>
+
+    <item
+        android:id="@+id/nav_graph_messages"
+        android:title="Сообщения"
+        android:icon="@drawable/mail_icon"/>
+
+    <item
+        android:id="@+id/nav_graph_profile"
+        android:title="Профиль"
+        android:icon="@drawable/person"/>
+
+</menu>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/r">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:alpha="0.5"
+                android:rotation="180"
+                android:scaleType="centerInside"
+                android:scaleX="1.5"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="?attr/colorPrimary"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/gradient_top"
+                app:lottie_speed="0.8" />
+
+            <FrameLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0">
+
+                <Button
+                    android:id="@+id/setting_button"
+                    style="?attr/materialIconButtonFilledStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_margin="@dimen/margin"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+                    android:transitionName="tr1"
+                    app:icon="@drawable/menu_icon"
+                    app:iconGravity="textStart"
+                    app:iconTint="?attr/colorOnSecondary" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/header_label_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:animateLayoutChanges="true"
+                    android:elevation="8dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="8dp"
+                    app:cardMaxElevation="8dp">
+
+                    <TextView
+                        android:id="@+id/header_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:shadowColor="?attr/colorPrimary"
+                        android:shadowRadius="1000"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </FrameLayout>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Редактировать"
+            android:visibility="gone"
+            app:icon="@drawable/tune_icon" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/r"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <LinearLayout
+        android:id="@+id/no_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:orientation="vertical"
+        android:padding="@dimen/margin"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="?attr/colorPrimary"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/feed" />
+
+        <Button
+            android:id="@+id/tune_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Добавьте элементы на этот экран" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

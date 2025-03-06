@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="radius">28dp</dimen>
+    <dimen name="margin">16dp</dimen>
+
+</resources>

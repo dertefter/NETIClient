@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_messages"
+    app:startDestination="@id/messagesFragment">
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.dertefter.neticlient.ui.messages.MessagesFragment"
+        android:label="MessagesFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dertefter.neticlient.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/messagesDetailFragment"
+        android:name="com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment"
+        android:label="MessagesDetailFragment" />
+    <fragment
+        android:id="@+id/personViewFragment"
+        android:name="com.dertefter.neticlient.ui.person.PersonViewFragment"
+        android:label="PersonViewFragment" />
+</navigation>

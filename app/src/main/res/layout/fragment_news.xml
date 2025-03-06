@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:blurkit="http://schemas.android.com/tools"
+    android:fitsSystemWindows="false">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        blurkit:listitem="@layout/item_news" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/appbar_background"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true"
+        app:liftOnScrollColor="@android:color/transparent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="Новости"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
+            app:titleTextColor="?attr/colorOnSurfaceVariant" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:fadingEdgeLength="@dimen/margin"
+            android:requiresFadingEdge="horizontal"
+            android:scrollbarThumbHorizontal="@android:color/transparent"
+            android:scrollbarThumbVertical="@android:color/transparent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/margin"
+                android:paddingBottom="8dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_1"
+                    style="@style/Widget.App.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:includeFontPadding="true"
+                    android:text="Все"
+                    android:textSize="16sp"
+                    app:checkedIcon="@null"
+                    app:chipCornerRadius="@dimen/radius"
+                    app:chipEndPadding="@dimen/margin"
+                    app:chipStartPadding="@dimen/margin"
+                    app:chipStrokeColor="@android:color/transparent"
+                    app:closeIconStartPadding="0dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_2"
+                    style="@style/Widget.App.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:includeFontPadding="true"
+                    android:text="Новости"
+                    android:textSize="16sp"
+                    app:checkedIcon="@null"
+                    app:chipCornerRadius="@dimen/radius"
+                    app:chipEndPadding="@dimen/margin"
+                    app:chipStartPadding="@dimen/margin"
+                    app:chipStrokeColor="@android:color/transparent"
+                    app:closeIconStartPadding="0dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_3"
+                    style="@style/Widget.App.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:includeFontPadding="true"
+                    android:text="Объявления"
+                    android:textSize="16sp"
+                    app:checkedIcon="@null"
+                    app:chipCornerRadius="@dimen/radius"
+                    app:chipEndPadding="@dimen/margin"
+                    app:chipStartPadding="@dimen/margin"
+                    app:chipStrokeColor="@android:color/transparent"
+                    app:closeIconStartPadding="0dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_4"
+                    style="@style/Widget.App.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:includeFontPadding="true"
+                    android:text="Интервью"
+                    android:textSize="16sp"
+                    app:checkedIcon="@null"
+                    app:chipCornerRadius="@dimen/radius"
+                    app:chipEndPadding="@dimen/margin"
+                    app:chipStartPadding="@dimen/margin"
+                    app:chipStrokeColor="@android:color/transparent"
+                    app:closeIconStartPadding="0dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_5"
+                    style="@style/Widget.App.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:includeFontPadding="true"
+                    android:text="Фото"
+                    android:textSize="16sp"
+                    app:checkedIcon="@null"
+                    app:chipCornerRadius="@dimen/radius"
+                    app:chipEndPadding="@dimen/margin"
+                    app:chipStartPadding="@dimen/margin"
+                    app:chipStrokeColor="@android:color/transparent"
+                    app:closeIconStartPadding="0dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_news"
+    app:startDestination="@id/studyFragment">
+
+    <fragment
+        android:id="@+id/studyFragment"
+        android:name="com.dertefter.neticlient.ui.news.NewsFragment"
+        android:label="StudyFragment" />
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.dertefter.neticlient.ui.news.news_detail.NewsDetailFragment"
+        android:label="NewsDetailFragment" />
+</navigation>
