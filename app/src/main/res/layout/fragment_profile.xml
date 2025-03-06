@@ -27,28 +27,27 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:title="Профиль"
+                app:title="@string/profile_title"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
                 app:titleTextColor="?attr/colorOnSurfaceVariant" />
 
             <Button
+                android:contentDescription="@string/settings_button_disc"
                 android:id="@+id/settings_button"
                 style="@style/Widget.Material3.Button.IconButton.Filled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 app:icon="@drawable/settings_icon" />
 
             <FrameLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0">
+                android:layout_gravity="center_vertical">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
@@ -93,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ошибка авторизации"
+                    android:text="@string/auth_error"
                     android:textColor="?attr/colorOnError"
                     android:textSize="16sp" />
 
@@ -102,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/colorErrorContainer"
-                    android:text="Повторить попытку"
+                    android:text="@string/load_retry"
                     android:textColor="?attr/colorOnErrorContainer"
                     app:cornerRadius="@dimen/radius" />
             </LinearLayout>
@@ -129,14 +128,15 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
+                    android:contentDescription="@string/sync_icon_disc"
                     android:src="@drawable/sync"
-                    android:tint="?attr/colorOnPrimary" />
+                    app:tint="?attr/colorOnPrimary" />
 
                 <TextView
                     android:id="@+id/action_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Войдите в аккаунт студента чтобы получить больше функций"
+                    android:text="@string/auth_helper_text"
                     android:textColor="?attr/colorOnSecondary"
                     android:textSize="16sp" />
 
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/colorPrimaryContainer"
-                    android:text="Авторизация"
+                    android:text="@string/auth_button_text"
                     android:textColor="?attr/colorOnPrimaryContainer"
                     app:cornerRadius="@dimen/radius" />
             </LinearLayout>
@@ -155,6 +155,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:contentDescription="@string/profile_menu_items"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

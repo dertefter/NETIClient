@@ -10,12 +10,12 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:contentDescription="@string/auth_image_sync"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginBottom="28dp"
         android:src="@drawable/sync"
-        android:tint="?attr/colorPrimary"
+        app:tint="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/login" />
 
     <LinearLayout
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:enabled="false"
-            android:text="Войти"
+            android:text="@string/sign_in_button_text"
             app:cornerRadius="@dimen/radius" />
 
     </LinearLayout>
@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
-        android:text="Политика конфиденциальности"
+        android:text="@string/policy_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

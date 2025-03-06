@@ -24,17 +24,19 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <Button
+                android:contentDescription="@string/share_button_disc"
                 android:id="@+id/share_button"
                 style="?attr/materialIconButtonFilledStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_margin="8dp"
                 android:backgroundTint="?attr/colorPrimary"
                 app:icon="@drawable/share_icon"
                 app:iconTint="?attr/colorOnPrimary" />
 
             <Button
+                android:contentDescription="@string/back_button_disc"
                 android:id="@+id/back_button"
                 style="?attr/materialIconButtonFilledTonalStyle"
                 android:layout_width="wrap_content"
@@ -59,11 +61,12 @@
                 android:id="@+id/backgroundNews"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:contentDescription="@string/news_bg_image"
                 android:elevation="0dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:visibility="visible"
-                app:srcCompat="?attr/colorSurfaceContainer" />
+                app:srcCompat="?attr/colorSurface" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -244,7 +247,7 @@
                         android:id="@+id/news_contacts_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Управление информационной политики: pr@nstu.ru, is@nstu.ru"
+                        android:text="@string/pr_nstu_ru_is_nstu_ru"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp" />
 
@@ -254,7 +257,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="all"
                         android:linksClickable="true"
-                        android:text="Новостной портал: https://nstu.ru/news"
+                        android:text="@string/https_nstu_ru_news"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="14sp" />
 
@@ -283,7 +286,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-medium"
-            android:text="Не удалось загрузить данные"
+            android:text="@string/load_fail"
             android:textSize="16sp" />
 
         <Button
@@ -291,7 +294,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Повторить попытку" />
+            android:contentDescription="@string/load_retry"
+            android:text="@string/load_retry" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

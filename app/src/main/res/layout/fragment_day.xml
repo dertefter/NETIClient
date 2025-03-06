@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:isScrollContainer="false"
+        android:contentDescription="@string/lessons_list"
+        android:paddingVertical="@dimen/margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.schedule.week.day.DayFragment"
+        tools:listitem="@layout/item_time" />
+
     <TextView
         android:id="@+id/no_lessons"
         android:layout_width="match_parent"
@@ -13,18 +27,7 @@
         android:layout_margin="@dimen/margin"
         android:gravity="center"
         android:paddingVertical="@dimen/margin"
-        android:text="В этот день нет занятий"
+        android:text="@string/no_lessons"
         android:textSize="16sp"
         android:visibility="visible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:isScrollContainer="false"
-        android:paddingVertical="@dimen/margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.schedule.week.day.DayFragment"
-        tools:listitem="@layout/item_time" />
 </FrameLayout>

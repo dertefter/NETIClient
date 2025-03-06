@@ -13,11 +13,12 @@
         android:layout_gravity="center" />
 
     <Button
+        android:contentDescription="@string/close_photo_dialog"
         android:id="@+id/close"
         style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_margin="@dimen/margin"
         android:backgroundTint="?attr/colorSecondary"
         app:icon="@drawable/close_icon"

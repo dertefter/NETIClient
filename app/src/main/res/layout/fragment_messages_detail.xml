@@ -16,6 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <Button
+            android:contentDescription="@string/back_button_disc"
             android:id="@+id/back_button"
             style="?attr/materialIconButtonFilledTonalStyle"
             android:layout_width="wrap_content"

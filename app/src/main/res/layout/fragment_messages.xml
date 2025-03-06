@@ -22,12 +22,13 @@
             android:layout_weight="1"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="Сообщения"
+            app:title="@string/messages_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.tabs.TabLayout
+            android:contentDescription="@string/desc_tabs_messages"
             android:id="@+id/days_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="44dp"

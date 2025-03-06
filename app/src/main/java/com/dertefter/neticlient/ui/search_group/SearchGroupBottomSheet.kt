@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.databinding.DashboardTuneBottomSheetConentBinding
+import com.dertefter.neticlient.databinding.SearchGroupBottomSheetConentBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,7 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SearchGroupBottomSheet : BottomSheetDialogFragment() {
 
-    lateinit var binding: DashboardTuneBottomSheetConentBinding
+    lateinit var binding: SearchGroupBottomSheetConentBinding
     private val searchGroupViewModel: SearchGroupViewModel by activityViewModels()
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     lateinit var _dialog: BottomSheetDialog
@@ -30,7 +30,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DashboardTuneBottomSheetConentBinding.inflate(inflater, container, false)
+        binding = SearchGroupBottomSheetConentBinding.inflate(inflater, container, false)
         return binding.root
     }
 

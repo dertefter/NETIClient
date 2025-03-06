@@ -40,6 +40,7 @@
             app:cardCornerRadius="22dp">
 
             <com.google.android.material.tabs.TabLayout
+                android:contentDescription="@string/tabs"
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"

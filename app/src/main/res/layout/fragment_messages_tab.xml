@@ -8,6 +8,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:contentDescription="@string/messages_list_disc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -16,7 +17,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/auth_card"
-        android:layout_width="match_parent"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:layout_marginHorizontal="@dimen/margin"
@@ -36,15 +37,16 @@
                 android:id="@+id/action_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Войдите в аккаунт студента чтобы получить больше функций"
+                android:text="@string/auth_helper_text"
                 android:textSize="16sp" />
 
             <Button
+                android:contentDescription="@string/auth_button_text"
                 android:id="@+id/auth_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorPrimary"
-                android:text="Авторизация"
+                android:text="@string/auth_button_text"
                 android:textColor="?attr/colorOnPrimary"
                 app:cornerRadius="@dimen/radius" />
         </LinearLayout>
