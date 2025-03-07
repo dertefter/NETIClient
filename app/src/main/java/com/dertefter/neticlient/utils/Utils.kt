@@ -58,7 +58,6 @@ object Utils {
         val alphaAnim = ObjectAnimator.ofFloat(v, "alpha", 1f)
         val scaleXAnim = ObjectAnimator.ofFloat(v, "scaleX", 1f)
         val scaleYAnim = ObjectAnimator.ofFloat(v, "scaleY",  1f)
-
         return AnimatorSet().apply {
             playTogether(alphaAnim, scaleXAnim, scaleYAnim)
             duration = 300
@@ -159,7 +158,6 @@ object Utils {
 
     fun showToast(requireContext: Context, s: String) {
         Toast.makeText(requireContext, s, Toast.LENGTH_SHORT).show()
-
     }
 
 

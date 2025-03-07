@@ -21,7 +21,6 @@
             android:backgroundTint="?attr/colorSecondaryContainer"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
-            android:text="TextView"
             android:textColor="?attr/colorOnSecondaryContainer"
             android:textSize="16sp" />
 
@@ -30,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
-            android:text="TextView"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="18sp" />
     </LinearLayout>

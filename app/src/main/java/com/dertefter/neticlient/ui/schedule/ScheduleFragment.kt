@@ -94,7 +94,13 @@ class ScheduleFragment : Fragment() {
             Log.e("verticalOffset", verticalOffset.toString())
         }
 
-        val days = listOf("ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ")
+        val days = listOf(
+            getString(R.string.monday_short),
+            getString(R.string.tuesday_short),
+            getString(R.string.wednesday_short),
+            getString(R.string.thursday_short),
+            getString(R.string.friday_short),
+            getString(R.string.saturday_short))
 
         if (binding.pager.adapter == null){
             adapter = DayListPagerAdapter(this)

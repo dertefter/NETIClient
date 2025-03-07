@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="Расписание"
+            app:title="@string/schedule_title"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
             app:titleTextColor="?attr/colorOnSurfaceVariant" />

@@ -55,7 +55,18 @@ class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<Recycle
     }
 
     fun setFilter(filterType: String) {
-        selectedFilterType = filterType
+        if (selectedFilterType == filterType) return
+        if (filterType == newsFragment.getString(R.string.filter_news_all)){
+            selectedFilterType = "все"
+        } else if (filterType == newsFragment.getString(R.string.filter_news_news)){
+            selectedFilterType = "новости"
+        } else if (filterType == newsFragment.getString(R.string.filter_news_obj)){
+            selectedFilterType = "объявления"
+        } else if (filterType == newsFragment.getString(R.string.filter_news_interv)){
+            selectedFilterType = "интервью"
+        } else if (filterType == newsFragment.getString(R.string.filter_news_photo)){
+            selectedFilterType = "фото"
+        }
         applyFilter()
         notifyDataSetChanged()
     }

@@ -1,11 +1,16 @@
 package com.dertefter.neticlient.ui.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -36,9 +41,15 @@ import java.io.File
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
-
-    lateinit var binding: FragmentSettingsBinding
+    private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel: SettingsViewModel by activityViewModels()
+
+    // Ланчер для запроса разрешения
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        handlePermissionResult(isGranted)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +62,63 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appBarLayout.setStatusBarForegroundColor(
-            MaterialColors.getColor(binding.appBarLayout, com.google.android.material.R.attr.colorSurfaceContainer)
-        )
+        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
+            binding.appBarLayout.updatePadding(
+                top = it[0],
+                bottom = 0,
+                right = it[2],
+                left = it[3]
+            )
+        }
 
+        checkNotificationPermission()
+        setupPermissionUI()
         setupSwitches()
+    }
+
+    private fun checkNotificationPermission() {
+        val hasPermission = isNotificationPermissionGranted()
+        updateUIBasedOnPermission(hasPermission)
+    }
+
+    private fun updateUIBasedOnPermission(hasPermission: Boolean) {
+        binding.notificationCard.visibility = if (hasPermission) View.GONE else View.VISIBLE
+        binding.switchScheduleService.isEnabled = hasPermission
+    }
+
+    private fun handlePermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            updateUIBasedOnPermission(true)
+            binding.switchScheduleService.isChecked = true
+            settingsViewModel.setScheduleService(true)
+        } else {
+            // Дополнительная логика при отказе
+        }
+    }
+
+    fun isNotificationPermissionGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+    }
+
+    fun requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun setupPermissionUI() {
+        binding.permissionButton.setOnClickListener {
+            if (!isNotificationPermissionGranted()) {
+                requestPermission()
+            }
+        }
     }
 
     private fun setupSwitches() {

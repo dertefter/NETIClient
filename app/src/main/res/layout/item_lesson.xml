@@ -52,23 +52,23 @@
                     android:gravity="center"
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="4dp"
-                    android:text="2-2222"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:background="@drawable/rounded_background"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="Лекция"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
 
             </FrameLayout>
         </LinearLayout>

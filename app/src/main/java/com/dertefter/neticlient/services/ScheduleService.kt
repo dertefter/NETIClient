@@ -115,7 +115,18 @@ class ScheduleService : Service() {
     }
 
     private suspend fun checkFutureLesson() {
+        val enabledFutureLessons = settingsRepository.getNotifyFutureLessons().first()
+        Log.e("eeeeee", enabledFutureLessons.toString())
+        if (!enabledFutureLessons) {
+            hideFutureLessonNotification()
+            return
+        }
         val group = getCurrentGroup() ?: return
+        if (group.isEmpty()){
+            hideFutureLessonNotification()
+            return
+        }
+
         val weekNumber = scheduleRepository.fetchCurrentWeekNumber() ?: return
         val schedule = scheduleRepository.getLocalSchedule(group).first() ?: return
         val dayNumber = Calendar.getInstance().get(Calendar.DAY_OF_WEEK).let {

@@ -3,8 +3,7 @@ package com.dertefter.neticlient.ui.messages
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dertefter.neticlient.ui.messages.dispace_messages.DispaceMessagesTabFragment
-import com.dertefter.neticlient.ui.schedule.ScheduleFragment
+import com.dertefter.neticlient.ui.main.BaseNavFragment
 
 class MessagesPagerAdapter(val fragment: MessagesFragment) : FragmentStateAdapter(fragment) {
 
@@ -29,7 +28,7 @@ class MessagesPagerAdapter(val fragment: MessagesFragment) : FragmentStateAdapte
                 arguments = Bundle().apply { putString("tab", "tabs2-messages") }
             }
         } else {
-            return DispaceMessagesTabFragment()
+            return BaseNavFragment()
         }
     }
 }

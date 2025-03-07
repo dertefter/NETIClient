@@ -17,6 +17,7 @@
         app:cardMaxElevation="0dp">
 
         <ImageView
+            android:contentDescription="@string/image"
             android:id="@+id/news_background"
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -27,13 +28,12 @@
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_margin="@dimen/margin"
             android:background="@drawable/rounded_background"
             android:backgroundTint="?attr/colorSecondaryContainer"
             android:paddingHorizontal="12dp"
             android:paddingVertical="6dp"
-            android:text="TextView"
             android:textColor="?attr/colorOnSecondaryContainer" />
 
     </androidx.cardview.widget.CardView>
@@ -44,7 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin"
         android:paddingVertical="4dp"
-        android:text="TextView"
         android:textColor="?attr/colorOnSurface"
         android:textSize="18sp" />
 
@@ -53,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin"
-        android:text="TextView"
         android:textColor="?attr/colorOnSurfaceVariant" />
 
     <View
