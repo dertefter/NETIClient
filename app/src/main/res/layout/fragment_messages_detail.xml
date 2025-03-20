@@ -9,101 +9,77 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="?attr/colorSurfaceContainerLow"
+        app:liftOnScroll="true">
 
-        <Button
-            android:contentDescription="@string/back_button_disc"
-            android:id="@+id/back_button"
-            style="?attr/materialIconButtonFilledTonalStyle"
+        <LinearLayout
+            android:id="@+id/top_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:backgroundTint="?attr/colorSecondary"
-            app:icon="@drawable/arrow_back"
-            app:iconTint="?attr/colorOnSecondary"
-            app:layout_scrollFlags="scroll|enterAlways|snap" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profile_card"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:visibility="visible"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="26dp"
-            app:contentPadding="8dp"
+            android:divider="@drawable/horizontal_divider_small"
+            android:orientation="horizontal"
+            android:showDividers="middle"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/vertical_divider"
-                android:orientation="vertical"
-                android:showDividers="middle">
+            <Button
+                android:id="@+id/back_button"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/back_button_disc"
+                app:icon="@drawable/arrow_back"
+                app:iconPadding="0dp"
+                app:iconSize="24dp"
+                app:iconTint="?attr/colorOnSurface"
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
 
-                <LinearLayout
+            <FrameLayout
+                android:id="@+id/person"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0">
+
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/horizontal_divider"
-                    android:orientation="horizontal"
-                    android:showDividers="middle">
+                    android:background="?attr/colorSurfaceVariant"
+                    android:padding="4dp"
+                    app:contentPadding="4dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
+                    app:srcCompat="@drawable/person"
+                    app:tint="?attr/colorOnSurfaceVariant" />
 
-                    <FrameLayout
-                        android:layout_width="48dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/colorSurfaceVariant"
-                            app:contentPadding="4dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
-                            app:srcCompat="@drawable/person"
-                            app:tint="?attr/colorOnSurfaceVariant" />
+            </FrameLayout>
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/profilePic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSecondaryContainer"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="                       "
+                android:textColor="?attr/colorOnSecondaryContainer"
+                android:textSize="16sp" />
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="300dp"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/nameTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center_vertical"
-                        android:paddingVertical="2dp"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/title"
@@ -111,7 +87,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="@dimen/margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorOnSurfaceVariant" />
 

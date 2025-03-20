@@ -20,16 +20,16 @@ class ProfileViewModel @Inject constructor(
     val menuItemsAuthed: List<ProfileMenuItem> = listOf(
         ProfileMenuItem("Результаты сессии", R.drawable.person, R.id.sessiaResultsFragment),
         ProfileMenuItem("Стипендии и выплаты", R.drawable.person, R.id.moneyFragment),
-        ProfileMenuItem("Заявки на документы", R.drawable.person, ),
-        ProfileMenuItem("Бюро пропусков", R.drawable.person, ),
-        ProfileMenuItem("Поиск сотрудников", R.drawable.person, ),
+        //ProfileMenuItem("Заявки на документы", R.drawable.person, ),
+        //ProfileMenuItem("Бюро пропусков", R.drawable.person, ),
+       // ProfileMenuItem("Поиск сотрудников", R.drawable.person, ),
         )
     val menuItemsUnauthed: List<ProfileMenuItem> = listOf(
         ProfileMenuItem("Результаты сессии", R.drawable.person, null, false),
         ProfileMenuItem("Стипендии и выплаты", R.drawable.person, null, false),
-        ProfileMenuItem("Заявки на документы", R.drawable.person, null, false),
-        ProfileMenuItem("Бюро пропусков", R.drawable.person, null, false),
-        ProfileMenuItem("Поиск сотрудников", R.drawable.person, null, false),
+       // ProfileMenuItem("Заявки на документы", R.drawable.person, null, false),
+       // ProfileMenuItem("Бюро пропусков", R.drawable.person, null, false),
+       // ProfileMenuItem("Поиск сотрудников", R.drawable.person, null, false),
     )
 
     fun updateMenuItems(isAuthed: Boolean){

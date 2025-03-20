@@ -14,4 +14,8 @@
         android:id="@+id/lessonViewFragment"
         android:name="com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment"
         android:label="LessonViewFragment" />
+    <fragment
+        android:id="@+id/personViewFragment"
+        android:name="com.dertefter.neticlient.ui.person.PersonViewFragment"
+        android:label="PersonViewFragment" />
 </navigation>

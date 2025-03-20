@@ -9,14 +9,10 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:clipChildren="true"
-        android:divider="@drawable/vertical_divider"
-        android:fitsSystemWindows="true"
-        app:liftOnScroll="true"
-        app:liftOnScrollColor="@android:color/transparent">
+        android:background="?attr/colorSurfaceContainerLow">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -25,30 +21,30 @@
             android:layout_weight="1"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="Результаты сессии"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-            app:titleTextColor="?attr/colorOnSurfaceVariant" />
+            app:navigationIcon="@drawable/arrow_back"
+
+
+            app:title="Результаты сессии" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:layout_weight="1"
             android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginVertical="@dimen/margin"
-            android:background="?attr/colorSurface"
-            app:cardCornerRadius="22dp">
+            android:layout_weight="1"
+            android:elevation="0dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp">
 
             <com.google.android.material.tabs.TabLayout
-                android:contentDescription="@string/tabs"
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSurface"
+                android:backgroundTint="?attr/colorSurfaceContainer"
                 android:clipChildren="true"
-                android:fadingEdge="horizontal"
-                android:requiresFadingEdge="horizontal"
+                android:contentDescription="@string/tabs"
                 app:tabIndicator="@drawable/rounded_background"
                 app:tabIndicatorAnimationMode="elastic"
                 app:tabIndicatorColor="?attr/colorSecondary"

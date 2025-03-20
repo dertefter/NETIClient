@@ -2,7 +2,6 @@ package com.dertefter.neticlient.ui.search_group
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,8 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.SearchGroupBottomSheetConentBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
+import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -53,14 +53,18 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
 
         val adapterHistory = GroupListHistoryRecyclerViewAdapter(emptyList(), this)
 
-        val spanCount = if (resources.getBoolean(R.bool.isTab)){
-            4
-        } else {
-            2
-        }
+        val spanCount = resources.getInteger(R.integer.span_count) * 2
 
         binding.groupsRecyclerView.adapter = adapter
         binding.groupsRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+
+        binding.groupsRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                requireContext(),
+                spanCount,
+                R.dimen.margin
+            )
+        )
 
         binding.groupsHistoryRecyclerView.adapter = adapterHistory
         binding.groupsHistoryRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

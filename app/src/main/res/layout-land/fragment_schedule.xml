@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.schedule.ScheduleFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainerLow">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/schedule_title"
+
+
+            />
+
+        <LinearLayout
+            android:id="@+id/week_group_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_weight="1"
+            android:divider="@drawable/horizontal_divider_small"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/group_button"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_weight="0"
+                android:contentDescription="@string/group_selection_button"
+                android:fontFamily="sans-serif-medium"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingLeft="@dimen/margin"
+                android:paddingTop="@dimen/margin_min"
+                android:paddingRight="@dimen/margin"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="Группа"
+                android:textSize="16sp"
+                app:cornerRadius="@dimen/radius"
+                app:icon="@drawable/group_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="@dimen/margin_min"
+                app:iconSize="22dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/weeks_menu"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_gravity="end"
+                android:layout_weight="0"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:elevation="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:visibility="visible"
+                app:boxBackgroundColor="?attr/colorSecondary"
+                app:boxCornerRadiusBottomEnd="@dimen/radius"
+                app:boxCornerRadiusBottomStart="@dimen/radius"
+                app:boxCornerRadiusTopEnd="@dimen/radius"
+                app:boxCornerRadiusTopStart="@dimen/radius"
+                app:boxStrokeColor="?attr/colorSecondary"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconMode="dropdown_menu"
+                app:endIconScaleType="centerInside"
+                app:endIconTint="?attr/colorOnSecondary"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <AutoCompleteTextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="none"
+                    android:paddingStart="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="0dp"
+                    android:paddingEnd="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="0dp"
+                    android:textColor="?attr/colorOnSecondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/days_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSurfaceContainer"
+                android:contentDescription="@string/day_selection"
+                android:visibility="visible"
+                app:tabIndicator="@drawable/rounded_background"
+                app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicatorColor="?attr/colorPrimaryContainer"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorGravity="stretch"
+                app:tabMinWidth="48dp"
+                app:tabPaddingEnd="0dp"
+                app:tabPaddingStart="0dp"
+                app:tabRippleColor="?attr/colorPrimaryContainer"
+                app:tabSelectedTextColor="?attr/colorOnPrimaryContainer" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/horizontal_divider"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+
+            <FrameLayout
+                android:id="@+id/no_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurface"
+                android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:divider="@drawable/vertical_divider"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/icon"
+                        android:src="@drawable/calendar_month_icon"
+                        app:tint="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/add_group"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/search_group_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="4dp"
+                        android:contentDescription="@string/add_group_button"
+                        android:text="@string/add_group_button"
+                        app:iconSize="20dp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="true"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </androidx.viewpager2.widget.ViewPager2>
+
+            <FrameLayout
+                android:id="@+id/skeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <include
+                    layout="@layout/skeleton_lessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

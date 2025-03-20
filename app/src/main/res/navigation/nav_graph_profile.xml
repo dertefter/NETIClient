@@ -28,5 +28,9 @@
         android:name="com.dertefter.neticlient.ui.money.MoneyFragment"
         android:label="fragment_money"
         tools:layout="@layout/fragment_money" />
+    <fragment
+        android:id="@+id/profileDetailFragment"
+        android:name="com.dertefter.neticlient.ui.profile.profile_detail.ProfileDetailFragment"
+        android:label="ProfileDetailFragment" />
 
 </navigation>

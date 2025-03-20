@@ -7,23 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.schedule.Lesson
+import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
+import com.dertefter.neticlient.data.model.schedule.LessonDetail
 import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentDayBinding
-import com.dertefter.neticlient.ui.schedule.ScheduleFragment
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewViewModel
+import com.dertefter.neticlient.ui.schedule.lesson_view.LessonDetailViewModel
+import com.dertefter.neticlient.ui.settings.SettingsViewModel
 
 class DayFragment : Fragment() {
 
     lateinit var binding: FragmentDayBinding
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val lessonViewViewModel: LessonViewViewModel by activityViewModels()
+    private val lessonViewViewModel: LessonDetailViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +33,8 @@ class DayFragment : Fragment() {
         return binding.root
     }
 
-    fun showLessonInfo(lesson: Lesson, timeItem: Time){
-        lessonViewViewModel.setData(lesson, timeItem)
+    fun showLessonInfo(lessonDetail: LessonDetail){
+        lessonViewViewModel.setData(lessonDetail)
     }
 
 
@@ -44,12 +44,14 @@ class DayFragment : Fragment() {
         val dayNumber = arguments?.getInt("DAY_NUMBER")
         val group = arguments?.getString("GROUP")
 
-        val adapter = DayRecyclerViewAdapter(fragment = this)
+        val adapter = TimesAdapter(fragment = this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(requireContext(), 1, R.dimen.margin_min))
 
-
-
+        settingsViewModel.legendaryCardsState.observe(viewLifecycleOwner){
+            adapter.putLegendary(it)
+        }
 
 
         scheduleViewModel.getScheduleLiveData(group!!).observe(viewLifecycleOwner){

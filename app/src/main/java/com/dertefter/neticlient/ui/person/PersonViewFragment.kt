@@ -1,38 +1,24 @@
 package com.dertefter.neticlient.ui.person
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.person.Person
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentPersonViewBinding
-import com.dertefter.neticlient.databinding.FragmentProfileBinding
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.GridSpacingItemDecoration
-import com.dertefter.neticlient.utils.Utils
-import com.dertefter.neticlient.utils.Utils.displayHtml
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.displayHtml
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class PersonViewFragment : Fragment() {

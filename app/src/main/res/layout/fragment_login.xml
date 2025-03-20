@@ -10,13 +10,14 @@
 
 
     <ImageView
-        android:contentDescription="@string/auth_image_sync"
+        android:id="@+id/syncImageView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginBottom="28dp"
+        android:contentDescription="@string/auth_image_sync"
         android:src="@drawable/sync"
-        app:tint="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/login" />
+        app:layout_constraintBottom_toTopOf="@+id/login"
+        app:tint="?attr/colorPrimary" />
 
     <LinearLayout
         android:id="@+id/login"
@@ -87,6 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:text="@string/policy_button_text"
+        app:icon="@drawable/policy_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

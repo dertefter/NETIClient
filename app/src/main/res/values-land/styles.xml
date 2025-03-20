@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.App.AppBarLayout" parent="Widget.Material3.AppBarLayout">
+        <item name="android:clipChildren">true</item>
+        <item name="android:divider">@drawable/vertical_divider_small</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:showDividers">beginning|middle|end</item>
+        <item name="liftOnScroll">true</item>
+        <item name="liftOnScrollColor">?attr/colorSurface</item>
+        <item name="android:backgroundTint">?attr/colorSurface</item>
+    </style>
+
+</resources>

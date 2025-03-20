@@ -19,7 +19,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/SplashScreenTheme"
         android:name=".NetiClient"
         tools:targetApi="34">
 
@@ -38,6 +38,11 @@
             android:enabled="true"
             android:foregroundServiceType="dataSync"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.dertefter.neticlient.LICENSE"
+            android:value="MIT License" />
+
 
     </application>
 

@@ -293,12 +293,10 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:fitsSystemWindows="true"
-        android:showDividers="middle|beginning|end"
-        app:liftOnScroll="true">
+        android:background="?attr/colorSurfaceContainerLow">
 
         <FrameLayout
             android:id="@+id/topContainer"
@@ -306,8 +304,6 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:paddingHorizontal="@dimen/margin"
-            android:paddingTop="@dimen/margin"
-            android:paddingBottom="@dimen/margin"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <LinearLayout

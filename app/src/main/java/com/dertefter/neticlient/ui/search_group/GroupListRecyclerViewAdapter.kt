@@ -14,7 +14,7 @@ class GroupListRecyclerViewAdapter(
 
     fun setData(l: List<String>) {
         val max = if (l.size > 30){
-            30
+            60
         } else {
             l.size
         }

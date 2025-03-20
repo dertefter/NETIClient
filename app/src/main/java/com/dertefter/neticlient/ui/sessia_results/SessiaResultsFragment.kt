@@ -12,7 +12,7 @@ import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentSessiaResultsBinding
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,11 +46,14 @@ class SessiaResultsFragment : Fragment() {
             )
         }
 
+        binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0){
                 Utils.basicAnimationOff(binding.toolbar, false).start()
+                binding.appBarLayout.isLifted = true
             } else {
                 Utils.basicAnimationOn(binding.toolbar).start()
+                binding.appBarLayout.isLifted = false
             }
         }
 

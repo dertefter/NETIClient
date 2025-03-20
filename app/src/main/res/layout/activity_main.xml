@@ -8,35 +8,55 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/alertContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorError"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/alertTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/margin"
-            android:text="@string/login_failed"
-            android:textColor="?attr/colorOnError"
-            android:textSize="20sp" />
-    </FrameLayout>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alertContainer" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/alertContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainerHigh"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            app:cardBackgroundColor="?attr/colorError"
+            app:cardUseCompatPadding="false"
+            app:contentPadding="@dimen/margin">
+
+            <TextView
+                android:id="@+id/alertTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="@string/login_failed"
+                android:textColor="?attr/colorOnError"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/retry_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                android:backgroundTint="?attr/colorErrorContainer"
+                app:icon="@drawable/cached_icon"
+                app:iconTint="?attr/colorOnErrorContainer" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,6 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        app:backgroundTint="?attr/colorSurfaceContainerLow"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

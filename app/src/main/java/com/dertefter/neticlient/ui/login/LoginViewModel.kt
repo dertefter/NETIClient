@@ -60,5 +60,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            userRepository.removeUser()
+            authStateLiveData.postValue(AuthState.UNAUTHORIZED)
+            userLiveData.postValue(null)
+        }
+    }
+
 
 }

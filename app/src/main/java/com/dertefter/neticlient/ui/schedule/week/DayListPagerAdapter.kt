@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dertefter.neticlient.ui.schedule.ScheduleFragment
 import com.dertefter.neticlient.ui.schedule.week.day.DayFragment
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 
 class DayListPagerAdapter(val fragment: ScheduleFragment) : FragmentStateAdapter(fragment) {
 

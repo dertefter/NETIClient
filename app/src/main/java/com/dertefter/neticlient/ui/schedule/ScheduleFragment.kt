@@ -1,29 +1,28 @@
 package com.dertefter.neticlient.ui.schedule
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.widget.ViewPager2
+import androidx.fragment.app.commit
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentScheduleBinding
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
-import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewViewModel
+import com.dertefter.neticlient.ui.schedule.lesson_view.LessonDetailViewModel
 import com.dertefter.neticlient.ui.schedule.week.DayListPagerAdapter
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
-import com.google.android.material.color.MaterialColors
-import com.google.android.material.shape.MaterialShapeDrawable
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.ui.news.news_detail.NewsDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +35,7 @@ class ScheduleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val lessonViewViewModel: LessonViewViewModel by activityViewModels()
+    private val lessonDetailViewModel: LessonDetailViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     private lateinit var adapter: DayListPagerAdapter
@@ -60,19 +59,11 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null && savedInstanceState.getBoolean("STARTED")){
-            Log.e("state", "saved")
-            return
-        }
+        lessonDetailViewModel.clearData()
 
-        lessonViewViewModel.clearData()
-
-        lessonViewViewModel.lessonLiveData.observe(viewLifecycleOwner){ lesson ->
-            val time = lessonViewViewModel.timeLiveData.value
-            if (lesson != null && time != null){
-                openDialogForLesson(lesson, time)
-            } else {
-                clearDialogForLesson()
+        lessonDetailViewModel.lessonDetailLiveData.observe(viewLifecycleOwner){ lessonDetail ->
+            if (lessonDetail != null){
+                openDialogForLesson()
             }
         }
 
@@ -84,14 +75,15 @@ class ScheduleFragment : Fragment() {
                 left = it[3]
             )
         }
-
+        binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0){
                 Utils.basicAnimationOff(binding.toolbar, false).start()
+                binding.appBarLayout.isLifted = true
             } else {
                 Utils.basicAnimationOn(binding.toolbar).start()
+                binding.appBarLayout.isLifted = false
             }
-            Log.e("verticalOffset", verticalOffset.toString())
         }
 
         val days = listOf(
@@ -117,13 +109,20 @@ class ScheduleFragment : Fragment() {
                 right = it[2],
                 left = it[3]
             )
+            binding.detailContainer?.updatePadding(
+                bottom = binding.appBarLayout.height
+            )
         }
 
 
         scheduleViewModel.selectedGroupLiveData.observe(viewLifecycleOwner) { group ->
             if (group.isNullOrEmpty()) {
+                binding.weekGroupContainer.visibility = View.GONE
+                binding.daysTabLayout.visibility = View.GONE
                 binding.noGroup.visibility = View.VISIBLE
             } else {
+                binding.weekGroupContainer.visibility = View.VISIBLE
+                binding.daysTabLayout.visibility = View.VISIBLE
                 binding.noGroup.visibility = View.GONE
                 binding.groupButton.text = group
                 if (adapter.group != group){
@@ -225,30 +224,26 @@ class ScheduleFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     fun blinkPager() {
         Utils.basicAnimationOn(binding.pager).start()
     }
 
-    fun openDialogForLesson(lesson: Lesson, timeItem: Time){
-        val isTab = resources.getBoolean(R.bool.isTab)
-        if (!isTab) {
+    fun openDialogForLesson(){
+        if (binding.detail != null){
+            childFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.detail, LessonViewBottomSheetFragment::class.java, null)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            }
+            binding.detailTv?.visibility = View.GONE
+        }else{
             val modalBottomSheet = LessonViewBottomSheetFragment()
             modalBottomSheet.show(requireActivity().supportFragmentManager, LessonViewBottomSheetFragment.TAG)
-        } else {
         }
+
     }
 
-    fun clearDialogForLesson(){
-        val isTab = resources.getBoolean(R.bool.isTab)
-        if (isTab) {
 
-        }
-    }
 }
 
 

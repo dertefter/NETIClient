@@ -15,8 +15,8 @@ import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentNewsDetailBinding
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
-import com.dertefter.neticlient.utils.Utils.displayHtml
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.displayHtml
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,10 +39,13 @@ class NewsDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val newsId = arguments?.getString("newsId")
+        val imageUrl = arguments?.getString("imageUrl")
+        val isContainer = arguments?.getBoolean("isContainer") ?: false
 
         settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
             binding.appBarLayout.updatePadding(
-                top = it[0],
+                top = if (isContainer) 0 else it[0],
                 bottom = 0,
                 right = it[2],
                 left = it[3]
@@ -59,8 +62,11 @@ class NewsDetailFragment : Fragment() {
         }
 
 
-        val newsId = arguments?.getString("newsId")
-        val imageUrl = arguments?.getString("imageUrl")
+
+
+        if (isContainer){
+            binding.buttonsContainer.visibility = View.GONE
+        }
 
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
@@ -75,7 +81,6 @@ class NewsDetailFragment : Fragment() {
                     putExtra(Intent.EXTRA_TEXT, "https://www.nstu.ru/news/news_more?idnews=${newsId}")
                     type = "text/plain"
                 }
-
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
             }

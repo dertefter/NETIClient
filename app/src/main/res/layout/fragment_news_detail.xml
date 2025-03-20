@@ -9,22 +9,20 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:fitsSystemWindows="true"
-        app:liftOnScroll="true"
-        app:liftOnScrollColor="?attr/colorPrimaryContainer"
+        android:background="?attr/colorSurfaceContainerLow"
         app:liftOnScrollTargetViewId="@id/nestedScrollView">
 
         <FrameLayout
+            android:id="@+id/buttons_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <Button
-                android:contentDescription="@string/share_button_disc"
                 android:id="@+id/share_button"
                 style="?attr/materialIconButtonFilledStyle"
                 android:layout_width="wrap_content"
@@ -32,17 +30,18 @@
                 android:layout_gravity="end"
                 android:layout_margin="8dp"
                 android:backgroundTint="?attr/colorPrimary"
+                android:contentDescription="@string/share_button_disc"
                 app:icon="@drawable/share_icon"
                 app:iconTint="?attr/colorOnPrimary" />
 
             <Button
-                android:contentDescription="@string/back_button_disc"
                 android:id="@+id/back_button"
                 style="?attr/materialIconButtonFilledTonalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:backgroundTint="?attr/colorSecondary"
+                android:contentDescription="@string/back_button_disc"
                 app:icon="@drawable/arrow_back"
                 app:iconTint="?attr/colorOnSecondary" />
         </FrameLayout>
@@ -55,7 +54,7 @@
             app:cardCornerRadius="@dimen/radius"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
 
             <ImageView
                 android:id="@+id/backgroundNews"
@@ -66,7 +65,7 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:visibility="visible"
-                app:srcCompat="?attr/colorSurface" />
+                app:srcCompat="?attr/colorSurfaceContainer" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -75,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="@dimen/margin"
+            android:paddingVertical="12dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorOnSurfaceVariant" />
 

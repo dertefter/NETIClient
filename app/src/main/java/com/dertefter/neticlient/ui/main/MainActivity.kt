@@ -1,6 +1,7 @@
 package com.dertefter.neticlient.ui.main
 
 import android.content.Intent
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -11,11 +12,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat.ThemeCompat
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -26,10 +29,15 @@ import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.ActivityMainBinding
 import com.dertefter.neticlient.services.ScheduleService
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
@@ -44,6 +52,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ThemeEngine.setup(this)
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+        if (selectedTheme == 0){
+           // DynamicColors.applyToActivityIfAvailable(this)
+            setTheme(R.style.GreenTheme)
+        } else {
+            setTheme(selectedTheme)
+        }
+
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -90,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewpager.adapter = pagerAdapter
         binding.viewpager.isUserInputEnabled = false
         binding.viewpager.setOffscreenPageLimit(5)
+
         binding.bottomNavigation?.setOnItemSelectedListener { item ->
             var pos = 0
             when (item.itemId) {
@@ -100,7 +119,6 @@ class MainActivity : AppCompatActivity() {
             }
             binding.viewpager.setCurrentItem(pos, false)
             Utils.basicAnimationOn(binding.viewpager).start()
-
             true
         }
 
@@ -114,7 +132,6 @@ class MainActivity : AppCompatActivity() {
             }
             binding.viewpager.setCurrentItem(pos, false)
             Utils.basicAnimationOn(binding.viewpager).start()
-
             true
         }
 
@@ -134,16 +151,29 @@ class MainActivity : AppCompatActivity() {
                 right = it[2],
                 left = it[3]
             )
+
+            binding.navigationRail?.updatePadding(
+                top = it[0],
+                left = it[3],
+            )
+
+
             binding.alertContainer.updatePadding(
-                top = it[0]
+                top = it[0],
+                right = it[2],
+                left = it [3],
             )
         }
 
         loginViewModel.authStateLiveData.observe(this){
             when (it) {
-                AuthState.AUTHORIZED_WITH_ERROR -> showAlert("Ошибка авторизации")
+                AuthState.AUTHORIZED_WITH_ERROR -> {showAlert(getString(R.string.auth_error))}
                 else -> binding.alertContainer.visibility = View.GONE
             }
+        }
+
+        binding.retryButton.setOnClickListener {
+            loginViewModel.tryAuthorize()
         }
 
     }
@@ -161,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         alertDismissRunnable = Runnable {
             binding.alertContainer.visibility = View.GONE
         }
-        handler.postDelayed(alertDismissRunnable!!, 3000)
+        handler.postDelayed(alertDismissRunnable!!, 6000)
     }
 
 }

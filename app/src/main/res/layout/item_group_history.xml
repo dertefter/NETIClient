@@ -5,11 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
     app:cardBackgroundColor="?attr/colorSecondaryContainer"
     app:cardCornerRadius="@dimen/radius"
     app:cardUseCompatPadding="false"
-    app:contentPadding="12dp">
+    app:contentPadding="@dimen/margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
+            android:paddingHorizontal="8dp"
             android:textColor="?attr/colorOnSecondaryContainer" />
     </LinearLayout>
 

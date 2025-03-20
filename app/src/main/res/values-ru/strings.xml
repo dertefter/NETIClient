@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NETI Клиент</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Электронная почта</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in_short">Войти</string>
     <string name="login_failed">Ошибка авторизации</string>
@@ -73,4 +73,7 @@
     <string name="notify_lessons_future">Напоминать о начале пары</string>
     <string name="notify_for_minutes">За 15 минут</string>
     <string name="title_settings">Настройки</string>
+    <string name="customization">Внешний вид</string>
+    <string name="color_scheme">Цветовая схема</string>
+    <string name="about">О проекте</string>
 </resources>

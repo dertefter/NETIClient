@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/sync"> <!-- Укажите ваш векторный drawable -->
+
+  <target
+      android:name="path1"
+      android:animation="@animator/sync_animator" /> <!-- Анимация для пути -->
+</animated-vector>

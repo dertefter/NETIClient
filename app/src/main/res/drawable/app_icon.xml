@@ -1,0 +1,61 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="500"
+    android:viewportHeight="500">
+  <group
+      android:name="icon"
+      android:scaleX="0.5"
+      android:scaleY="0.5"
+      android:pivotX="250"
+      android:pivotY="250"
+      >
+  <group
+      android:name="bottom"
+      android:rotation="0"
+      android:pivotX="70"
+      android:pivotY="430"
+      >
+    <path
+        android:pathData="M422.45,377.89a44.56,44.56 0,0 1,0 89.11H77.55a44.56,44.56 0,0 1,0 -89.11h344.9m0,-33H77.55A77.55,77.55 0,0 0,0 422.45H0A77.55,77.55 0,0 0,77.55 500h344.9A77.55,77.55 0,0 0,500 422.45h0a77.55,77.55 0,0 0,-77.55 -77.56Z"
+        android:fillColor="?attr/colorPrimary"/>
+  </group>
+
+  <group
+      android:name="left"
+      android:rotation="0"
+      android:pivotX="80"
+      android:pivotY="75"
+      >
+    <path
+        android:pathData="M77.55,33a44.61,44.61 0,0 1,44.56 44.55v344.9a44.56,44.56 0,0 1,-89.11 0V77.55A44.61,44.61 0,0 1,77.55 33m0,-33h0A77.55,77.55 0,0 0,0 77.55v344.9A77.55,77.55 0,0 0,77.55 500h0a77.55,77.55 0,0 0,77.56 -77.55V77.55A77.55,77.55 0,0 0,77.55 0Z"
+        android:fillColor="?attr/colorPrimary"/>
+  </group>
+
+  <group
+      android:name="top"
+      android:rotation="0"
+      android:pivotX="420"
+      android:pivotY="75"
+      >
+    <path
+        android:pathData="M422.45,33a44.56,44.56 0,0 1,0 89.11H77.55a44.56,44.56 0,0 1,0 -89.11h344.9m0,-33H77.55A77.55,77.55 0,0 0,0 77.55H0a77.55,77.55 0,0 0,77.55 77.56h344.9A77.55,77.55 0,0 0,500 77.55h0A77.55,77.55 0,0 0,422.45 0Z"
+        android:fillColor="?attr/colorPrimary"/>
+
+  </group>
+
+  <group
+      android:name="right"
+      android:rotation="0"
+      android:pivotX="420"
+      android:pivotY="420"
+      >
+    <path
+        android:pathData="M422.45,33A44.61,44.61 0,0 1,467 77.55v344.9a44.56,44.56 0,0 1,-89.11 0V77.55A44.61,44.61 0,0 1,422.45 33m0,-33h0a77.55,77.55 0,0 0,-77.56 77.55v344.9A77.55,77.55 0,0 0,422.45 500h0A77.55,77.55 0,0 0,500 422.45V77.55A77.55,77.55 0,0 0,422.45 0Z"
+        android:fillColor="?attr/colorPrimary"/>
+
+  </group>
+
+  </group>
+
+</vector>

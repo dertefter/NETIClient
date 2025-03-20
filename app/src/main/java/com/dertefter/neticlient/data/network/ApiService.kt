@@ -89,4 +89,11 @@ interface ApiService {
     @POST("student_study/personal/money")
     suspend fun getMoneyItems(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
 
+    @GET("student_study/personal/contact_info")
+    suspend fun getProfileDetail(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/personal/contact_info")
+    suspend fun saveProfileDetails(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
 }

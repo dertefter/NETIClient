@@ -29,6 +29,12 @@ class SettingsRepository @Inject constructor(
         }
     }
 
+    suspend fun setLegendaryCards(boolean: Boolean) {
+        dataStore.edit { pref ->
+            pref[booleanPreferencesKey("legendaryCards")] = boolean
+        }
+    }
+
     fun getScheduleService(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[booleanPreferencesKey("scheduleService")] ?: false
@@ -92,6 +98,12 @@ class SettingsRepository @Inject constructor(
     fun getCacheMessages(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[booleanPreferencesKey("cacheMessages")] ?: true
+        }
+    }
+
+    fun getLegendaryCards(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[booleanPreferencesKey("legendaryCards")] ?: false
         }
     }
 }

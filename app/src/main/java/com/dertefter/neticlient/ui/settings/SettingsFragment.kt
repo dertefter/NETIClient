@@ -1,50 +1,34 @@
 package com.dertefter.neticlient.ui.settings
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.AuthState
-import com.dertefter.neticlient.databinding.FragmentMessagesBinding
-import com.dertefter.neticlient.databinding.FragmentProfileBinding
 import com.dertefter.neticlient.databinding.FragmentSettingsBinding
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import com.dertefter.neticlient.utils.GridSpacingItemDecoration
-import com.dertefter.neticlient.utils.Utils
-import com.google.android.material.color.MaterialColors
-import com.google.android.material.tabs.TabLayoutMediator
+import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
+import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.io.File
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel: SettingsViewModel by activityViewModels()
 
-    // Ланчер для запроса разрешения
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -74,6 +58,58 @@ class SettingsFragment : Fragment() {
         checkNotificationPermission()
         setupPermissionUI()
         setupSwitches()
+
+        binding.themesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+
+
+        val themes = mutableListOf<Int>(
+            R.style.RedTheme,
+            R.style.OrangeTheme,
+            R.style.YellowTheme,
+            R.style.GreenTheme,
+            R.style.TealTheme,
+            R.style.LightBlueTheme,
+            R.style.RoyalTheme,
+            R.style.PinkTheme,
+            R.style.LegendaryTheme,
+            R.style.DynamicTheme
+        )
+
+        binding.themesRecyclerView.addItemDecoration(GridSpacingItemDecoration(requireContext(),themes.size, R.dimen.margin_min))
+
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        val adapter = ThemeAdapter() { theme ->
+            ThemeEngine.setSelectedTheme(theme)
+            requireActivity().recreate()
+        }
+        val selectedTheme = ThemeEngine.getSelectedTheme()
+
+        adapter.setThemesList(themes, selectedTheme)
+
+
+        binding.themesRecyclerView.adapter = adapter
+
+        binding.githubButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW,
+                "https://github.com/dertefter/NETIClient".toUri())
+            startActivity(intent)
+        }
+
+        binding.policyButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW,
+                "https://docs.google.com/document/d/1D0f0Fp51h_Jj6MZro8nLKvSY2plH1CLZVD4js3ZFSYY/edit?usp=sharing".toUri())
+            startActivity(intent)
+        }
+
+        binding.tgButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/nstumobile_dev".toUri())
+            startActivity(intent)
+        }
+
     }
 
     private fun checkNotificationPermission() {
@@ -92,7 +128,7 @@ class SettingsFragment : Fragment() {
             binding.switchScheduleService.isChecked = true
             settingsViewModel.setScheduleService(true)
         } else {
-            // Дополнительная логика при отказе
+
         }
     }
 
@@ -126,6 +162,13 @@ class SettingsFragment : Fragment() {
         binding.switchScheduleService.setOnCheckedChangeListener { _, isChecked ->
             settingsViewModel.setScheduleService(isChecked)
         }
+
+        binding.switchLegendaeyCard.isChecked = settingsViewModel.legendaryCardsState.value == true
+        binding.switchLegendaeyCard.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.setLegendaryCards(isChecked)
+        }
+
+
         settingsViewModel.scheduleServiceState.observe(viewLifecycleOwner){
             (binding.switchNotifyLessons.parent as View).visibility = if (it == true) View.VISIBLE else View.GONE
         }
@@ -135,6 +178,10 @@ class SettingsFragment : Fragment() {
             settingsViewModel.setNotifyFutureLessons(isChecked)
         }
 
+        binding.switchNotifyLessons.isChecked = settingsViewModel.notifyFutureLessonsState.value == true
+        binding.switchNotifyLessons.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.setNotifyFutureLessons(isChecked)
+        }
 
     }
 

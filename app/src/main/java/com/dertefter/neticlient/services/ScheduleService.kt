@@ -19,7 +19,7 @@ import com.dertefter.neticlient.data.model.schedule.Lesson
 import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.repository.SettingsRepository
 import com.dertefter.neticlient.data.repository.UserRepository
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

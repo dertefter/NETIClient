@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.news.NewsItem
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import com.squareup.picasso.Picasso
 
 class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -76,6 +76,10 @@ class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<Recycle
             "все" -> originalItems.toMutableList()
             else -> originalItems.filter { it.type.lowercase() == selectedFilterType.lowercase() }.toMutableList()
         }
+    }
+
+    fun clearItems() {
+        originalItems.clear()
     }
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

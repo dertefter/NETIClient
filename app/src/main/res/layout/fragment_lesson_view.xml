@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:minHeight="300dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/vertical_divider"
-            android:fitsSystemWindows="true"
             android:orientation="vertical"
-            android:padding="@dimen/margin"
+            android:padding="@dimen/margin_max"
             android:showDividers="middle">
 
             <TextView
@@ -24,44 +24,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="?attr/colorOnSurface" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardCornerRadius="48dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
                     android:text="Лекция"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="20sp" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardCornerRadius="48dp">
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/aud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
                     android:text="2-2222"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="20sp" />
-            </com.google.android.material.card.MaterialCardView>
+                    android:textSize="16sp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSurfaceContainer"
+                android:divider="@drawable/horizontal_divider_small"
+                android:padding="@dimen/margin"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/timeStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif-medium"
+                    android:includeFontPadding="false"
+                    android:text="10:15"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="40"
+                    app:indicatorColor="?attr/colorOnPrimaryContainer"
+                    app:trackColor="?attr/colorOnSurfaceVariant"
+                    app:trackStopIndicatorSize="0dp" />
+
+                <TextView
+                    android:id="@+id/timeEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:fontFamily="sans-serif-medium"
+                    android:includeFontPadding="false"
+                    android:text="10:15"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/personsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

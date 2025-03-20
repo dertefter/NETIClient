@@ -15,9 +15,10 @@ import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsItem
 import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -392,9 +393,11 @@ class HtmlParser {
                 pathSegments.last()
             }
 
+            val date = linkElement?.parent()?.parent()?.parent()?.parent()?.parent()?.select("tr")?.get(1)?.select("span")?.first()?.ownText().toString()
+
             val contentHtml = doc.select("form").select("span")[6].html()
 
-            MessageDetail(title, contentHtml, personId)
+            MessageDetail(title, contentHtml, personId, date)
 
         } catch (e: Exception) {
             Log.e("ResponseParser", "parseMessageDetail: ${e.stackTraceToString()}")
@@ -548,5 +551,25 @@ class HtmlParser {
         }
     }
 
+    fun parseProfileDetail(body: ResponseBody?): ProfileDetail? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            ProfileDetail(
+                email = doc.selectFirst("input[name=n_email]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                address = doc.selectFirst("input[name=n_address]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                phone = doc.selectFirst("input[name=n_phone]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                snils = doc.selectFirst("input[name=n_snils]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                polis = doc.selectFirst("input[name=n_oms]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                vk = doc.selectFirst("input[name=n_vk]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                telegram = doc.selectFirst("input[name=n_tg]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                leaderId = doc.selectFirst("input[name=n_leader]")?.attr("value").takeIf { it?.isNotEmpty() == true }
+            )
+        } catch (e: Exception) {
+            Log.e("ResponseParser", e.stackTraceToString())
+            null
+        }
+    }
 
 }
