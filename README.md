@@ -1,1 +1,3 @@
-<img src="art/banner.jpg" width="1024" style="border-radius: 200px;">
+<p align="center">
+  <img width="1024" height="500" src="art/banner.jpg">
+</p>
