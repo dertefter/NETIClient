@@ -186,9 +186,9 @@ class LessonsAdapter(
             } else {
                 type.visibility = View.GONE
             }
-            if (futureOrPastOrNow == FutureOrPastOrNow.NOW && time != null){
-                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
-                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnPrimary))
+            if (futureOrPastOrNow == FutureOrPastOrNow.NOW && time == null){
+                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainerHigh))
+                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurface))
 
             } else {
                 (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainer))
