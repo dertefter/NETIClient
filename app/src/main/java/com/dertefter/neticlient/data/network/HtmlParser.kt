@@ -19,6 +19,7 @@ import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.news.PromoItem
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -570,6 +571,41 @@ class HtmlParser {
             Log.e("ResponseParser", e.stackTraceToString())
             null
         }
+    }
+
+    fun parsePromoList(body: ResponseBody?): List<PromoItem>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val mainPromo = doc.selectFirst("div.main-promo")
+            val promoElements = mainPromo?.select("a")
+                ?: return emptyList()
+
+            val output = mutableListOf<PromoItem>()
+            for (element in promoElements) {
+                var link = element.attr("href")
+                if (link[0] == '/'){
+                    link = "https://nstu.ru$link"
+                }
+                val style = element.attr("style")
+                var imageUrl = extractImageUrl(style)
+                imageUrl = "https://nstu.ru/$imageUrl"
+                val title = element.selectFirst(".main-promo__slide-title")?.text()?.trim() ?: ""
+                output.add(PromoItem(title, imageUrl, link))
+            }
+            output
+        } catch (e: Exception) {
+            Log.e("ResponseParser", e.stackTraceToString())
+            null
+        }
+    }
+
+    private fun extractImageUrl(style: String): String {
+        val regex = Regex("""background-image:\s*url\(['"]?(.*?)['"]?\)""")
+        val match = regex.find(style) ?: return ""
+        val urlPart = match.groupValues[1]
+        return Jsoup.parse(urlPart).text().replace("[\"']".toRegex(), "")
     }
 
 }

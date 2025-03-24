@@ -211,6 +211,56 @@
                 android:textColor="?attr/colorPrimary"
                 android:textSize="16sp" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/vertical_divider_small"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerInside"
+                        android:scaleX="1.8"
+                        android:scaleY="1.8"
+                        android:tint="?attr/colorOnPrimaryContainer"
+                        app:srcCompat="@drawable/app_icon" />
+
+                    <TextView
+                        android:id="@+id/app_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="TextView"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/app_verion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="TextView"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <LinearLayout
                 android:id="@+id/github_button"
                 android:layout_width="match_parent"
@@ -335,18 +385,17 @@
         android:id="@+id/appBarLayout"
         style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainerLow">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:layout_scrollFlags="snap"
+
+
             app:navigationIcon="@drawable/arrow_back"
-
-
             app:title="@string/title_settings" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -130,6 +130,11 @@ class TimesAdapter(
             val lessonsAdapter = LessonsAdapter(timeItem.lessons, fragment, timeItem, isLegendary)
             binding.recylerView.adapter = lessonsAdapter
             binding.recylerView.layoutManager = LinearLayoutManager(itemView.context)
+
+            for (decorationIndex in 0 until binding.recylerView.itemDecorationCount){
+                binding.recylerView.removeItemDecorationAt(decorationIndex)
+            }
+
             binding.recylerView.addItemDecoration(GridSpacingItemDecoration(binding.recylerView.context, 1, R.dimen.margin_min))
             binding.timeStart.text = timeItem.timeStart
             binding.timeEnd.text = timeItem.timeEnd

@@ -15,58 +15,66 @@
         android:background="?attr/colorSurfaceContainerLow"
         app:liftOnScrollTargetViewId="@id/nestedScrollView">
 
-        <FrameLayout
-            android:id="@+id/buttons_container"
+        <LinearLayout
+            android:id="@+id/top_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-            <Button
-                android:id="@+id/share_button"
-                style="?attr/materialIconButtonFilledStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorPrimary"
-                android:contentDescription="@string/share_button_disc"
-                app:icon="@drawable/share_icon"
-                app:iconTint="?attr/colorOnPrimary" />
-
-            <Button
-                android:id="@+id/back_button"
-                style="?attr/materialIconButtonFilledTonalStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorSecondary"
-                android:contentDescription="@string/back_button_disc"
-                app:icon="@drawable/arrow_back"
-                app:iconTint="?attr/colorOnSecondary" />
-        </FrameLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:elevation="0dp"
-            app:cardCornerRadius="@dimen/radius"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
-
-            <ImageView
-                android:id="@+id/backgroundNews"
+            <FrameLayout
+                android:id="@+id/buttons_container"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:contentDescription="@string/news_bg_image"
-                android:elevation="0dp"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
+                android:layout_height="match_parent"
                 android:visibility="visible"
-                app:srcCompat="?attr/colorSurfaceContainer" />
-        </androidx.cardview.widget.CardView>
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
+                <Button
+                    android:id="@+id/share_button"
+                    style="?attr/materialIconButtonFilledStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:contentDescription="@string/share_button_disc"
+                    app:icon="@drawable/share_icon"
+                    app:iconTint="?attr/colorOnPrimary" />
+
+                <Button
+                    android:id="@+id/back_button"
+                    style="?attr/materialIconButtonFilledTonalStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:contentDescription="@string/back_button_disc"
+                    app:icon="@drawable/arrow_back"
+                    app:iconTint="?attr/colorOnSecondary" />
+            </FrameLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:elevation="0dp"
+                app:cardCornerRadius="@dimen/radius"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
+
+                <ImageView
+                    android:id="@+id/backgroundNews"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/news_bg_image"
+                    android:elevation="0dp"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+                    app:srcCompat="?attr/colorSurfaceContainer" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/title"
@@ -74,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="12dp"
+            android:paddingVertical="@dimen/margin_min"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorOnSurfaceVariant" />
 

@@ -16,8 +16,7 @@
             android:id="@+id/appBarLayout"
             style="@style/Widget.App.AppBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorSurfaceContainerLow">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -38,13 +37,7 @@
                 android:layout_marginHorizontal="@dimen/margin"
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="?attr/colorSurfaceContainer"
-                android:contentDescription="@string/desc_tabs_messages"
-                app:tabIndicator="@drawable/rounded_background"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorColor="?attr/colorSecondaryContainer"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorGravity="stretch"
-                app:tabSelectedTextColor="?attr/colorOnSecondaryContainer" />
+                android:contentDescription="@string/desc_tabs_messages" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

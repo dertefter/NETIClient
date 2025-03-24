@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:textSize="18sp"
+            android:textSize="20sp"
             tools:text="Физическое химио-био" />
 
         <LinearLayout
@@ -42,10 +42,9 @@
                 android:backgroundTint="?attr/colorSurfaceVariant"
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
-                android:text="ФФФ"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="16sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/personsRecyclerView"
@@ -69,10 +68,9 @@
                 android:backgroundTint="?attr/colorSurfaceVariant"
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
-                android:text="ФФФ"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="16sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
         </LinearLayout>
     </LinearLayout>

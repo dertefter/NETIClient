@@ -8,6 +8,7 @@ import com.dertefter.neticlient.data.model.messages.MessageDetail
 import com.dertefter.neticlient.data.model.money.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsResponse
+import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.model.person.Person
 import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
@@ -342,6 +343,22 @@ class NetworkClient @Inject constructor(
             return null
         }
     }
+
+    suspend fun getPromoList(): List<PromoItem>? {
+        try {
+            val response = baseApiService.getPromoList()
+            if (response.isSuccessful) {
+                val promoList = HtmlParser().parsePromoList(response.body())
+                return promoList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("response parser getNews", e.stackTraceToString())
+            return null
+        }
+    }
+
 
     suspend fun getNewsDetail(id: String): NewsDetail? {
         try {

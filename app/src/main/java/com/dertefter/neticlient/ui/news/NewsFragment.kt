@@ -4,9 +4,11 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -17,8 +19,10 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.AutoScrollHelper
 import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentNewsBinding
@@ -26,7 +30,11 @@ import com.dertefter.neticlient.ui.news.news_detail.NewsDetailFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.news.PromoItem
+import com.google.android.material.carousel.CarouselLayoutManager
+import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.chip.Chip
+import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -129,6 +137,31 @@ class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.promoRecyclerView.setLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.promoRecyclerView)
+
+        val autoScrollHelper = AutoScrollHelper(binding.promoRecyclerView)
+        autoScrollHelper.startAutoScroll()
+
+        newsViewModel.promoListLiveData.observe(viewLifecycleOwner){
+            if (it.responseType == ResponseType.SUCCESS){
+                val promoAdapter = PromoAdapter(it.data as List<PromoItem>){
+                    promoItem ->
+                    val intent = Intent(Intent.ACTION_VIEW,
+                        promoItem.link.toUri())
+                    startActivity(intent)
+
+                }
+                binding.promoRecyclerView.adapter = promoAdapter
+            }
+        }
+
+        newsViewModel.fetchPromoList()
+
+
         detailShowed(false)
         page = 1
 
@@ -150,11 +183,12 @@ class NewsFragment : Fragment() {
 
         binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.toolbar, false).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.topContainer.alpha = alpha
+            if (verticalOffset < 0) {
                 binding.appBarLayout.isLifted = true
             } else {
-                Utils.basicAnimationOn(binding.toolbar).start()
                 binding.appBarLayout.isLifted = false
             }
         }

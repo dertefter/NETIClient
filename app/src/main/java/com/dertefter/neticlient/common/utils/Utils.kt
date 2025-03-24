@@ -56,10 +56,8 @@ object Utils {
     fun basicAnimationOn(v: View): AnimatorSet {
         v.visibility = View.VISIBLE
         val alphaAnim = ObjectAnimator.ofFloat(v, "alpha", 1f)
-        val scaleXAnim = ObjectAnimator.ofFloat(v, "scaleX", 1f)
-        val scaleYAnim = ObjectAnimator.ofFloat(v, "scaleY",  1f)
         return AnimatorSet().apply {
-            playTogether(alphaAnim, scaleXAnim, scaleYAnim)
+            playTogether(alphaAnim)
             duration = 300
             interpolator = OvershootInterpolator(1f)
         }
@@ -67,10 +65,8 @@ object Utils {
 
     fun basicAnimationOff(v: View, needGone: Boolean = true): AnimatorSet {
         val alphaAnim = ObjectAnimator.ofFloat(v, "alpha", 0f)
-        val scaleXAnim = ObjectAnimator.ofFloat(v, "scaleX", 0.81f)
-        val scaleYAnim = ObjectAnimator.ofFloat(v, "scaleY",  0.8f)
         return AnimatorSet().apply {
-            playTogether(alphaAnim, scaleXAnim, scaleYAnim)
+            playTogether(alphaAnim)
             duration = 150
             interpolator = OvershootInterpolator(1.5f)
             doOnEnd {
@@ -84,10 +80,6 @@ object Utils {
 
     fun basicTransitionAnimations(): NavOptions {
         val navOptions = NavOptions.Builder()
-            .setEnterAnim(R.anim.open)
-            .setExitAnim(R.anim.close)
-            .setPopEnterAnim(R.anim.open)
-            .setPopExitAnim(R.anim.close)
             .build()
         return navOptions
     }

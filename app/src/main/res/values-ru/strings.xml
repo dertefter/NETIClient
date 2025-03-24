@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">NETI Клиент</string>
-    <!-- Strings related to login -->
+    <string name="app_name">NETI Client</string>
     <string name="prompt_email">Электронная почта</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in_short">Войти</string>
@@ -31,8 +30,8 @@
     <string name="filter_news_photo">Фото</string>
     <string name="news_list">Список новостей</string>
     <string name="news_bg_image">Обложка новости</string>
-    <string name="https_nstu_ru_news">Новостной портал: https://nstu.ru/news</string>
-    <string name="pr_nstu_ru_is_nstu_ru">Управление информационной политики: pr@nstu.ru, is@nstu.ru</string>
+    <string name="https_nstu_ru_news">Новостной портал</string>
+    <string name="pr_nstu_ru_is_nstu_ru">Управление информационной политики</string>
     <string name="load_fail">Не удалось загрузить данные</string>
     <string name="load_retry">Повторить попытку</string>
     <string name="share_button_disc">Поделиться</string>

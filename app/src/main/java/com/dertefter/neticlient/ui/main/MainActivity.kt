@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         ThemeEngine.setup(this)
         val selectedTheme = ThemeEngine.getSelectedTheme()
         if (selectedTheme == 0){
-           // DynamicColors.applyToActivityIfAvailable(this)
             setTheme(R.style.GreenTheme)
         } else {
             setTheme(selectedTheme)

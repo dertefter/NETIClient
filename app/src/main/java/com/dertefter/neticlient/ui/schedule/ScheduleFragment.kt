@@ -77,11 +77,12 @@ class ScheduleFragment : Fragment() {
         }
         binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.toolbar, false).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.toolbar.alpha = alpha
+            if (verticalOffset < 0) {
                 binding.appBarLayout.isLifted = true
             } else {
-                Utils.basicAnimationOn(binding.toolbar).start()
                 binding.appBarLayout.isLifted = false
             }
         }

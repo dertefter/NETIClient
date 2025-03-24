@@ -56,13 +56,16 @@ class MessagesDetailFragment : Fragment() {
             )
         }
 
+        binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.topContainer, false).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.topContainer.alpha = alpha
+            if (verticalOffset < 0) {
+                binding.appBarLayout.isLifted = true
             } else {
-                Utils.basicAnimationOn(binding.topContainer).start()
+                binding.appBarLayout.isLifted = false
             }
-            Log.e("verticalOffset", verticalOffset.toString())
         }
 
 

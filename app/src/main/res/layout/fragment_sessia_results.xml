@@ -11,8 +11,7 @@
         android:id="@+id/appBarLayout"
         style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainerLow">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -33,7 +32,7 @@
             android:layout_weight="1"
             android:elevation="0dp"
             app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="22dp"
+            app:cardCornerRadius="@dimen/radius"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
 
@@ -45,13 +44,7 @@
                 android:backgroundTint="?attr/colorSurfaceContainer"
                 android:clipChildren="true"
                 android:contentDescription="@string/tabs"
-                app:tabIndicator="@drawable/rounded_background"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorColor="?attr/colorSecondary"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorGravity="stretch"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="?attr/colorOnSecondary" />
+                app:tabMode="scrollable" />
         </androidx.cardview.widget.CardView>
 
     </com.google.android.material.appbar.AppBarLayout>

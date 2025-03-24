@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="schedule_service"
+        android:title="Фоновый сервис"
+        android:summary="Запуск фонового сервиса для расписания"
+        android:defaultValue="false" />
+
+    <SwitchPreferenceCompat
+        android:key="legendary_cards"
+        android:title="Легендарные карточки"
+        android:summary="Использовать анимированные карточки"
+        android:defaultValue="false" />
+
+    <SwitchPreferenceCompat
+        android:key="notify_future_lessons"
+        android:title="Уведомления о занятиях"
+        android:summary="Получать уведомления о предстоящих занятиях"
+        android:defaultValue="false" />
+
+    <PreferenceCategory android:title="Дополнительно" />
+
+    <Preference
+        android:key="open_source_licenses"
+        android:title="Лицензии открытого ПО"
+        android:summary="Просмотреть лицензии используемых библиотек" />
+
+    <Preference
+        android:key="github"
+        android:title="GitHub проекта"
+        android:summary="Посетить репозиторий на GitHub" />
+
+    <Preference
+        android:key="policy"
+        android:title="Политика конфиденциальности"
+        android:summary="Открыть документ Google Docs" />
+
+    <Preference
+        android:key="telegram"
+        android:title="Telegram"
+        android:summary="Чат разработчиков" />
+
+</PreferenceScreen>

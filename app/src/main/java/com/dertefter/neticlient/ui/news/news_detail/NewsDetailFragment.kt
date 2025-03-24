@@ -53,12 +53,14 @@ class NewsDetailFragment : Fragment() {
         }
 
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.backgroundNews.parent as View, false).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.topContainer.alpha = alpha
+            if (verticalOffset < 0) {
+                binding.appBarLayout.isLifted = true
             } else {
-                Utils.basicAnimationOn(binding.backgroundNews.parent as View).start()
+                binding.appBarLayout.isLifted = false
             }
-            Log.e("verticalOffset", verticalOffset.toString())
         }
 
 

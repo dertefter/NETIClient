@@ -10,15 +10,15 @@
         android:id="@+id/appBarLayout"
         style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainerLow">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:id="@+id/topContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/margin">
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_min">
 
             <FrameLayout
                 android:layout_width="48dp"

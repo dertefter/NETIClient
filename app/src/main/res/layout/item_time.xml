@@ -25,7 +25,7 @@
             android:gravity="center_horizontal"
             android:includeFontPadding="false"
             android:text="12-00"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:visibility="visible" />
 
         <FrameLayout
@@ -63,8 +63,8 @@
             android:layout_weight="0"
             android:gravity="center_horizontal|top"
             android:includeFontPadding="false"
-            android:text="22:22"
-            android:textSize="16sp" />
+            android:text="18sp"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -75,7 +75,6 @@
         android:isScrollContainer="false"
         android:nestedScrollingEnabled="false"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/margin_min"
         tools:itemCount="10"
         tools:listitem="@layout/item_lesson" />
 
