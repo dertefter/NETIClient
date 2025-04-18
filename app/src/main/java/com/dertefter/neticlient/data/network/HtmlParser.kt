@@ -15,15 +15,19 @@ import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsItem
 import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.news.PromoItem
+import com.dertefter.neticlient.data.model.schedule.Week
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -66,7 +70,7 @@ class HtmlParser {
         }
     }
 
-    fun parseWeekNumberList(responseBody: ResponseBody?): List<Int>? {
+    fun parseWeekNumberList(responseBody: ResponseBody?): Pair<String, List<Int>>? {
         try{
             val output = mutableListOf<Int>()
 
@@ -74,6 +78,8 @@ class HtmlParser {
             val doc: Document = Jsoup.parse(pretty)
             val weeks_content = doc.select("div.schedule__weeks-content")
             val weeks_a = weeks_content.select("a")
+
+            val firstDayDateString = doc.select("span.schedule__table-date").first()!!.text()
 
             for (it in weeks_a){
                 val query = it.attr("data-week")
@@ -83,13 +89,17 @@ class HtmlParser {
                 }
             }
 
-            return output
+            return Pair(firstDayDateString, output)
         }catch (e: Exception){
             return null
         }
     }
 
-    fun parseSchedule(responseBody: ResponseBody?): Schedule? {
+    fun parseSchedule(
+        responseBody: ResponseBody?,
+        weekNumberList: List<Int>,
+        firstDayDate: String
+    ): Schedule? {
         try{
             val pretty = responseBody?.string().toString()
             val doc: Document = Jsoup.parse(pretty)
@@ -149,7 +159,9 @@ class HtmlParser {
                             }
                         }
                         if (lessonTitle.isNotEmpty()){
-                            val l = Lesson(lessonTitle, type, aud, personIds, trigger, triggerWeeks)
+                            val l = Lesson(lessonTitle, type, aud, personIds, trigger, triggerWeeks,
+                                timeStart.toString(), timeEnd.toString()
+                            )
                             lessonItems.add(l)
                             Log.e("lessons", l.toString())
 
@@ -160,10 +172,72 @@ class HtmlParser {
                         timeItems.add(Time(timeStart.toString(), timeEnd.toString(), lessonItems))
                     }
                 }
-                dayItems.add(Day(dayName, timeItems))
+                dayItems.add(Day(
+                    dayName, timeItems,
+                    dayNumber = 0,
+                    date = null
+                ))
 
             }
-            return Schedule(dayItems)
+
+            val yearTitle = doc.select("span.schedule__title-content").first()!!.text()
+            val yearPart = yearTitle.split(" ")[0].split("/")
+            Log.e("yearPart", yearPart.toString())
+
+            val year: String = if (yearPart.size == 2){
+                val yearSign = if (yearTitle.contains("весенний")) 1 else 0
+                yearPart[yearSign]
+            } else {
+                yearTitle.split(" ")[3].replace(",", "")
+            }
+
+            val combinedDate = "$firstDayDate.$year"
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            val firstDayLocalDate = LocalDate.parse(combinedDate, formatter)
+
+            val weeks = mutableListOf<Week>()
+
+            for (weekNumber in weekNumberList){
+                val days = mutableListOf<Day>()
+                var day_index = 0
+                for (dayItem in dayItems){
+                    val times = mutableListOf<Time>()
+                    for (time in dayItem.times){
+                        val lessons = mutableListOf<Lesson>()
+                        for (lesson in time.lessons){
+                            if (
+                                (lesson.trigger == LessonTrigger.ALL) ||
+                                (lesson.trigger == LessonTrigger.ODD && weekNumber % 2 != 0) ||
+                                (lesson.trigger == LessonTrigger.EVEN && weekNumber % 2 == 0) ||
+                                (lesson.trigger == LessonTrigger.CUSTOM && lesson.triggerWeeks.contains(weekNumber))
+                                ){
+                                lessons.add(lesson)
+                            }
+                        }
+                        val newTime = Time(
+                            timeEnd = time.timeEnd,
+                            timeStart = time.timeStart,
+                            lessons = lessons
+                        )
+                        if (lessons.isNotEmpty()) times.add(newTime)
+                    }
+                    val newDay = Day(
+                        dayName = dayItem.dayName,
+                        times = times,
+                        day_index+1,
+                        date = firstDayLocalDate.plusDays(day_index.toLong()).plusWeeks((weekNumber - 1).toLong()).toString(),
+                    )
+                    days.add(newDay)
+                    day_index = day_index + 1
+                }
+
+                val week = Week(
+                    weekNumber, days
+                )
+                weeks.add(week)
+
+            }
+            return Schedule(weeks)
         }
         catch (e: Exception){
             return null
@@ -261,6 +335,42 @@ class HtmlParser {
             return null
         }
     }
+
+    fun parseMessagesCount(body: ResponseBody?): List<Int>? {
+        try{
+            val pretty = body?.string().toString()
+            val doc: Document = Jsoup.parse(pretty)
+            var tab1 = 0
+            var tab2 = 0
+            var all = 0
+
+            val span1 = doc.select("span#vkl1").text().toString().split(" ")
+            val span2 = doc.select("span#vkl2").text().toString().split(" ")
+
+            if (span1.isNotEmpty()){
+                if (span1[0].toIntOrNull() != null){
+                    tab1 = span1[0].toInt()
+                }
+
+            }
+            if (span2.isNotEmpty()){
+                if (span2[0].toIntOrNull() != null){
+                    tab2 = span2[0].toInt()
+                }
+            }
+
+            val output = listOf(tab1, tab2, tab1+tab2)
+
+
+            return output
+
+        } catch (e: Exception){
+            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
+            return null
+        }
+    }
+
+
 
     fun parsePerson(body: ResponseBody?): Person? {
         try{
@@ -392,9 +502,11 @@ class HtmlParser {
                 pathSegments.last()
             }
 
+            val date = linkElement?.parent()?.parent()?.parent()?.parent()?.parent()?.select("tr")?.get(1)?.select("span")?.first()?.ownText().toString()
+
             val contentHtml = doc.select("form").select("span")[6].html()
 
-            MessageDetail(title, contentHtml, personId)
+            MessageDetail(title, contentHtml, personId, date)
 
         } catch (e: Exception) {
             Log.e("ResponseParser", "parseMessageDetail: ${e.stackTraceToString()}")
@@ -548,5 +660,88 @@ class HtmlParser {
         }
     }
 
+    fun parseProfileDetail(body: ResponseBody?): ProfileDetail? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            ProfileDetail(
+                email = doc.selectFirst("input[name=n_email]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                address = doc.selectFirst("input[name=n_address]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                phone = doc.selectFirst("input[name=n_phone]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                snils = doc.selectFirst("input[name=n_snils]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                polis = doc.selectFirst("input[name=n_oms]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                vk = doc.selectFirst("input[name=n_vk]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                telegram = doc.selectFirst("input[name=n_tg]")?.attr("value").takeIf { it?.isNotEmpty() == true },
+                leaderId = doc.selectFirst("input[name=n_leader]")?.attr("value").takeIf { it?.isNotEmpty() == true }
+            )
+        } catch (e: Exception) {
+            Log.e("ResponseParser", e.stackTraceToString())
+            null
+        }
+    }
+
+    fun parsePromoList(body: ResponseBody?): List<PromoItem>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val mainPromo = doc.selectFirst("div.main-promo")
+            val promoElements = mainPromo?.select("a")
+                ?: return emptyList()
+
+            val output = mutableListOf<PromoItem>()
+            for (element in promoElements) {
+                var link = element.attr("href")
+                if (link[0] == '/'){
+                    link = "https://nstu.ru$link"
+                }
+                val style = element.attr("style")
+                var imageUrl = extractImageUrl(style)
+                imageUrl = "https://nstu.ru/$imageUrl"
+                val title = element.selectFirst(".main-promo__slide-title")?.text()?.trim() ?: ""
+                output.add(PromoItem(title, imageUrl, link))
+            }
+            output
+        } catch (e: Exception) {
+            Log.e("ResponseParser", e.stackTraceToString())
+            null
+        }
+    }
+
+    private fun extractImageUrl(style: String): String {
+        val regex = Regex("""background-image:\s*url\(['"]?(.*?)['"]?\)""")
+        val match = regex.find(style) ?: return ""
+        val urlPart = match.groupValues[1]
+        return Jsoup.parse(urlPart).text().replace("[\"']".toRegex(), "")
+    }
+
+    fun parsePersonSearchResults(body: ResponseBody?): List<Pair<String, String>>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+            val elements = doc.select("div.search-result__item")
+            Log.e("personSearch", elements.toString())
+            val output = mutableListOf<Pair<String, String>>()
+            for (element in elements) {
+                val name = element.select("span").first()?.text().toString()
+                val links = element.select("a")
+                for (l in links){
+                    if (l.attr("href").contains("kaf/persons")){
+                        val p = l.attr("href").split("/")
+                        val id = p[p.size - 2]
+                        if (!id.isNullOrEmpty()){
+                            output.add(Pair(name, id))
+                            break
+                        }
+                    }
+                }
+            }
+            return output
+        } catch (e: Exception) {
+            Log.e("ResponseParser", e.stackTraceToString())
+            null
+        }
+    }
 
 }

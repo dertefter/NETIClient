@@ -6,24 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.FragmentProfileBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.GridSpacingItemDecoration
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
+import com.dertefter.neticlient.common.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -64,21 +60,41 @@ class ProfileFragment : Fragment() {
             } else {
                 Utils.basicAnimationOn(binding.topContainer).start()
             }
-            Log.e("verticalOffset", verticalOffset.toString())
+           
         }
 
         val adapter = ProfileMenuAdapter(fragment = this)
-        val spanCount = 2
+        val spanCount = (resources.getInteger(R.integer.span_count) * 2)
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, 8))
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                requireContext(),
+                spanCount,
+                R.dimen.margin_min
+            )
+        )
 
         loginViewModel.authStateLiveData.observe(viewLifecycleOwner){
             if (it == AuthState.UNAUTHORIZED){
                 binding.authCard.visibility = View.VISIBLE
+                binding.profilePic.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.loginFragment,
+                        null,
+                        Utils.basicTransitionAnimations(),
+                    )
+                }
             } else {
                 binding.authCard.visibility = View.GONE
+                binding.profilePic.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.profileDetailFragment,
+                        null,
+                        Utils.basicTransitionAnimations(),
+                    )
+                }
             }
 
             if (it == AuthState.AUTHORIZED){
@@ -111,25 +127,27 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        loginViewModel.fetchUser()
-
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
 
         loginViewModel.userLiveData.observe(viewLifecycleOwner){
-            if (!it?.name.isNullOrEmpty()){
-                if (!it?.profilePicPath.isNullOrEmpty()){
-                    val file = File(it?.profilePicPath!!)
+            if (it != null){
+                if (!it.profilePicPath.isNullOrEmpty()){
+                    val file = File(it.profilePicPath)
                     if (file.exists()){
                         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
                         binding.profilePic.setImageBitmap(bitmap)
                     }
+                } else{
+                    binding.profilePic.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.transparent))
                 }
+            } else {
+                binding.profilePic.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.transparent))
             }
         }
 
-
+        loginViewModel.fetchUser()
 
     }
 

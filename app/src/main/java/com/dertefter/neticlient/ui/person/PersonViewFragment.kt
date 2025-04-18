@@ -1,38 +1,28 @@
 package com.dertefter.neticlient.ui.person
 
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.person.Person
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentPersonViewBinding
-import com.dertefter.neticlient.databinding.FragmentProfileBinding
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.GridSpacingItemDecoration
-import com.dertefter.neticlient.utils.Utils
-import com.dertefter.neticlient.utils.Utils.displayHtml
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.displayHtml
+import com.dertefter.neticlient.ui.fullscreen_image_dialog.FullscreenImageDialog
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class PersonViewFragment : Fragment() {
@@ -56,21 +46,39 @@ class PersonViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
-            )
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+                binding.appBarLayout.updatePadding(
+                    top = it[0],
+                    bottom = 0,
+                    right = it[2],
+                    left = it[3]
+                )
+            }else{
+                binding.appBarLayout.updatePadding(
+                    top = 0,
+                    bottom = 0,
+                    right = 0,
+                    left = 0
+                )
+            }
         }
 
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.topContainer, false).start()
-            } else {
-                Utils.basicAnimationOn(binding.topContainer).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.topContainer.alpha = alpha
+            binding.profilePicContainer.alpha = alpha
+            binding.nameContainer.alpha = alpha
+            binding.toolbar.alpha = 1 - alpha
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            if (binding.toolbar.alpha > 0){
+                findNavController().popBackStack()
             }
-            Log.e("verticalOffset", verticalOffset.toString())
+        }
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
         }
 
 
@@ -82,8 +90,14 @@ class PersonViewFragment : Fragment() {
                     binding.skeleton.visibility = View.GONE
                     val person = it.data as Person
                     binding.name.text = person.name
+                    binding.toolbar.title = person.name
+
                     if (!person.avatarUrl.isNullOrEmpty()){
                         Picasso.get().load(person.avatarUrl).into(binding.profilePic)
+                        binding.profilePic.setOnClickListener {
+                            val dialog = FullscreenImageDialog().apply {arguments = Bundle().apply { putString("image_url", person.avatarUrl) } }
+                            dialog.show(childFragmentManager, "FullscreenImageDialog")
+                        }
                     }
 
                     if (!person.about_disc.isNullOrEmpty()){

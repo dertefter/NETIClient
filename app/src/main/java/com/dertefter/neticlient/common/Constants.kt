@@ -17,4 +17,5 @@ object Constants {
     val HEADER_LABEL = stringPreferencesKey("header_label")
     val DASHBOARD_ITEMS = stringPreferencesKey("dashboard_items")
     val GROUP_HISTORY = stringPreferencesKey("group_history")
+    val USER = stringPreferencesKey("user")
 }

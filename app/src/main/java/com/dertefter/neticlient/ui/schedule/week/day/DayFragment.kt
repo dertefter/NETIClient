@@ -1,29 +1,26 @@
 package com.dertefter.neticlient.ui.schedule.week.day
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.schedule.Lesson
+import com.dertefter.neticlient.data.model.schedule.LessonDetail
 import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentDayBinding
-import com.dertefter.neticlient.ui.schedule.ScheduleFragment
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewViewModel
+import com.dertefter.neticlient.ui.schedule.lesson_view.LessonDetailViewModel
+import com.dertefter.neticlient.ui.settings.SettingsViewModel
 
 class DayFragment : Fragment() {
 
     lateinit var binding: FragmentDayBinding
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val lessonViewViewModel: LessonViewViewModel by activityViewModels()
+    private val lessonViewViewModel: LessonDetailViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +30,8 @@ class DayFragment : Fragment() {
         return binding.root
     }
 
-    fun showLessonInfo(lesson: Lesson, timeItem: Time){
-        lessonViewViewModel.setData(lesson, timeItem)
+    fun showLessonInfo(lessonDetail: LessonDetail){
+        lessonViewViewModel.setData(lessonDetail)
     }
 
 
@@ -44,20 +41,29 @@ class DayFragment : Fragment() {
         val dayNumber = arguments?.getInt("DAY_NUMBER")
         val group = arguments?.getString("GROUP")
 
-        val adapter = DayRecyclerViewAdapter(fragment = this)
+        val adapter = TimesAdapter(fragment = this)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = layoutManager
 
 
+        settingsViewModel.legendaryCardsState.observe(viewLifecycleOwner){
+            adapter.putLegendary(it)
+        }
 
 
-
-        scheduleViewModel.getScheduleLiveData(group!!).observe(viewLifecycleOwner){
-            if (it.responseType == ResponseType.SUCCESS){
-                if (it.data != null){
-                    val schedule = it.data as Schedule
-                    Log.e("schedule", (schedule.days[dayNumber!! - 1].times).toString())
-                    adapter.setData(schedule.days[dayNumber!! - 1].times, weekNumber!!, dayNumber)
+        scheduleViewModel.getScheduleLiveData(group!!).observe(viewLifecycleOwner){ response ->
+            if (response.responseType == ResponseType.SUCCESS){
+                if (response.data != null){
+                    val schedule = response.data as Schedule
+                    val week = schedule.weeks.find{it.weekNumber == weekNumber}!!
+                    val day = week.days.find{it.dayNumber == dayNumber}!!
+                    val times = day.times
+                    adapter.setData(
+                        times,
+                        weekNumber = week.weekNumber,
+                        dayNumber = day.dayNumber,
+                    )
                 }
             }
         }

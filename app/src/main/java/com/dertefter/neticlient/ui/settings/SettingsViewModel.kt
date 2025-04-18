@@ -11,7 +11,9 @@ import com.dertefter.neticlient.data.repository.SettingsRepository
 import com.dertefter.neticlient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,9 +21,13 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ): ViewModel() {
-     var scheduleServiceState= MutableLiveData<Boolean>()
+    val legendaryCardsState = MutableLiveData<Boolean>()
+    var scheduleServiceState = MutableLiveData<Boolean>()
      var notifyFutureLessonsState = MutableLiveData<Boolean>()
-     var materialYouState = MutableLiveData<Boolean>()
+
+    val materialYouState = settingsRepository.getMaterialYou()
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
      var verticalScheduleState= MutableLiveData<Boolean>()
      var cacheMessagesState= MutableLiveData<Boolean>()
     var insetsViewModel = MutableLiveData<IntArray>()
@@ -35,9 +41,10 @@ class SettingsViewModel @Inject constructor(
        viewModelScope.launch {
            scheduleServiceState.postValue(settingsRepository.getScheduleService().first())
            notifyFutureLessonsState.postValue(settingsRepository.getNotifyFutureLessons().first())
-           materialYouState.postValue(settingsRepository.getMaterialYou().first())
            verticalScheduleState.postValue(settingsRepository.getVerticalSchedule().first())
            cacheMessagesState.postValue(settingsRepository.getCacheMessages().first())
+           legendaryCardsState.postValue(settingsRepository.getLegendaryCards().first())
+
        }
     }
 
@@ -45,6 +52,13 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             settingsRepository.setScheduleService(state)
             scheduleServiceState.value = state
+        }
+    }
+
+    fun setLegendaryCards(state: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setLegendaryCards(state)
+            legendaryCardsState.value = state
         }
     }
 
@@ -58,7 +72,6 @@ class SettingsViewModel @Inject constructor(
     fun setMaterialYou(state: Boolean) {
         viewModelScope.launch {
             settingsRepository.setMaterialYou(state)
-            materialYouState.postValue(state)
         }
     }
 

@@ -40,6 +40,18 @@ class MessagesRepository @Inject constructor(
         return ResponseResult(response.responseType, data = response.data as List<Message>?)
     }
 
+
+    suspend fun fetchCount(): List<Int>? {
+        val response = networkClient.getMessagesCount()
+        if (response.responseType == ResponseType.SUCCESS) {
+            return response.data as List<Int>?
+        } else {
+            return listOf(0, 0, 0)
+        }
+
+    }
+
+
     private suspend fun saveMessages(tab: String, messages: List<Message>) {
         dataStore.edit { preferences ->
             preferences[stringPreferencesKey("messages$tab")] = Gson().toJson(messages)

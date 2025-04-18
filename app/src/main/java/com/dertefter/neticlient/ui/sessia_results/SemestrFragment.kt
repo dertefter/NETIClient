@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.databinding.FragmentSemestrBinding
+import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 
 class SemestrFragment : Fragment() {
 
@@ -30,10 +31,28 @@ class SemestrFragment : Fragment() {
         val semestr = arguments?.getParcelable<SessiaResultSemestr>("SEMESTR")!!
         val items = semestr.items
         binding.recyclerView.adapter = SessiaResultAdapter(items)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-        decoration.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.vertical_divider, null)!!)
-        binding.recyclerView.addItemDecoration(decoration)
+
+        val spanCount = resources.getInteger(R.integer.span_count)
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+
+        if (spanCount == 1){
+            binding.recyclerView.addItemDecoration(
+                GridSpacingItemDecoration(
+                    requireContext(),
+                    resources.getInteger(R.integer.span_count),
+                    R.dimen.margin, R.dimen.margin_min
+                )
+            )
+        }else{
+            binding.recyclerView.addItemDecoration(
+                GridSpacingItemDecoration(
+                    requireContext(),
+                    resources.getInteger(R.integer.span_count),
+                    R.dimen.margin, R.dimen.margin
+                )
+            )
+        }
+
 
     }
 

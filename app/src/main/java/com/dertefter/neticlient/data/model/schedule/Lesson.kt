@@ -7,4 +7,6 @@ data class Lesson(
     val personIds: MutableList<String>,
     val trigger: LessonTrigger,
     val triggerWeeks: MutableList<Int>,
+    val timeStart: String,
+    val timeEnd: String
 )

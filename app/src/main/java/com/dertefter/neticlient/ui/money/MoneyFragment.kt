@@ -9,12 +9,13 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentMoneyBinding
 import com.dertefter.neticlient.ui.sessia_results.SemestrPagerAdapter
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +40,10 @@ class MoneyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
             binding.appBarLayout.updatePadding(
                 top = it[0],
@@ -47,12 +52,14 @@ class MoneyFragment : Fragment() {
                 left = it[3]
             )
         }
-
+        binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0){
                 Utils.basicAnimationOff(binding.toolbar, false).start()
+                binding.appBarLayout.isLifted = true
             } else {
                 Utils.basicAnimationOn(binding.toolbar).start()
+                binding.appBarLayout.isLifted = false
             }
         }
 

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.news.NewsItem
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import com.squareup.picasso.Picasso
 
 class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,12 +17,10 @@ class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<Recycle
         private const val TYPE_LOADING = 1
     }
 
-    private var originalItems = mutableListOf<NewsItem>()
-    private var filteredItems = mutableListOf<NewsItem>()
-    private var selectedFilterType: String = "все"
+    private var items = mutableListOf<NewsItem>()
 
     override fun getItemViewType(position: Int): Int {
-        return if (position < filteredItems.size) TYPE_NEWS else TYPE_LOADING
+        return if (position < items.size) TYPE_NEWS else TYPE_LOADING
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,52 +28,29 @@ class NewsAdapter(val newsFragment: NewsFragment) : RecyclerView.Adapter<Recycle
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
             NewsViewHolder(view)
         } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.skeleton_news, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+            newsFragment.loadNews()
             LoadingViewHolder(view)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NewsViewHolder) {
-            holder.bind(filteredItems[position], newsFragment)
+            holder.bind(items[position], newsFragment)
         }
     }
 
     override fun getItemCount(): Int {
-        return filteredItems.size + 1
+        return items.size + 20
     }
 
     fun addItems(newItems: List<NewsItem>) {
-        originalItems.addAll(newItems)
-        applyFilter()
-        if (filteredItems.size == 1){
-            newsFragment.loadNews()
-        }
+        items.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun setFilter(filterType: String) {
-        if (selectedFilterType == filterType) return
-        if (filterType == newsFragment.getString(R.string.filter_news_all)){
-            selectedFilterType = "все"
-        } else if (filterType == newsFragment.getString(R.string.filter_news_news)){
-            selectedFilterType = "новости"
-        } else if (filterType == newsFragment.getString(R.string.filter_news_obj)){
-            selectedFilterType = "объявления"
-        } else if (filterType == newsFragment.getString(R.string.filter_news_interv)){
-            selectedFilterType = "интервью"
-        } else if (filterType == newsFragment.getString(R.string.filter_news_photo)){
-            selectedFilterType = "фото"
-        }
-        applyFilter()
-        notifyDataSetChanged()
-    }
-
-    private fun applyFilter() {
-        filteredItems = when (selectedFilterType.lowercase()) {
-            "все" -> originalItems.toMutableList()
-            else -> originalItems.filter { it.type.lowercase() == selectedFilterType.lowercase() }.toMutableList()
-        }
+    fun clearItems() {
+        items.clear()
     }
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -7,9 +7,10 @@ import com.dertefter.neticlient.data.model.dispace.messages.CompanionList
 import com.dertefter.neticlient.data.model.messages.MessageDetail
 import com.dertefter.neticlient.data.model.money.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
-import com.dertefter.neticlient.data.model.news.NewsItem
 import com.dertefter.neticlient.data.model.news.NewsResponse
+import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
@@ -190,31 +191,34 @@ class NetworkClient @Inject constructor(
         }
     }
 
-    suspend fun getWeekNumberList(group: String): ResponseResult {
+    suspend fun getWeekNumberListAndFirstDayDate(group: String): Pair<String, List<Int>>? {
         return try {
             val response = baseApiService.getWeekNumberList(group)
             if (response.isSuccessful) {
                 val weekNumberList = HtmlParser().parseWeekNumberList(response.body())
-                ResponseResult(ResponseType.SUCCESS, data = weekNumberList)
+                weekNumberList
             } else {
-                ResponseResult(ResponseType.ERROR, "Ошибка получения списка недель")
+                null
             }
         } catch (e: Exception) {
-            ResponseResult(ResponseType.ERROR, "Ошибка: ${e.message}")
+            null
         }
     }
 
     suspend fun getSchedule(group: String, isIndividual: Boolean = false): ResponseResult {
         return try {
+            val weekNumberListAndFirstDate = getWeekNumberListAndFirstDayDate(group)!!
+            val weekNumberList = weekNumberListAndFirstDate.second
+            val firstDayDate = weekNumberListAndFirstDate.first
+
             val response = if (isIndividual){
-                Log.e("aboba", "indi")
                 ciuApiService.getIndividualSchedule()
             }else{
                 baseApiService.getSchedule(group)
             }
 
             if (response.isSuccessful) {
-                val schedule = HtmlParser().parseSchedule(response.body())
+                val schedule = HtmlParser().parseSchedule(response.body(), weekNumberList, firstDayDate)
                 ResponseResult(ResponseType.SUCCESS, data = schedule)
             } else {
                 ResponseResult(ResponseType.ERROR, "Ошибка получения расписания")
@@ -277,6 +281,21 @@ class NetworkClient @Inject constructor(
             return ResponseResult(ResponseType.ERROR)
         }
     }
+
+    suspend fun getMessagesCount(): ResponseResult {
+        try {
+            val response = ciuApiService.getMessages()
+            if (response.isSuccessful) {
+                val mes_count = HtmlParser().parseMessagesCount(response.body())
+                return ResponseResult(ResponseType.SUCCESS, data = mes_count )
+            } else {
+                return ResponseResult(ResponseType.ERROR)
+            }
+        } catch (e: Exception) {
+            return ResponseResult(ResponseType.ERROR)
+        }
+    }
+
 
     suspend fun getCoursesSearchResult(query: String): ResponseResult {
         try {
@@ -342,6 +361,22 @@ class NetworkClient @Inject constructor(
             return null
         }
     }
+
+    suspend fun getPromoList(): List<PromoItem>? {
+        try {
+            val response = baseApiService.getPromoList()
+            if (response.isSuccessful) {
+                val promoList = HtmlParser().parsePromoList(response.body())
+                return promoList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("response parser getNews", e.stackTraceToString())
+            return null
+        }
+    }
+
 
     suspend fun getNewsDetail(id: String): NewsDetail? {
         try {
@@ -417,6 +452,78 @@ class NetworkClient @Inject constructor(
             }
         } catch (e: Exception) {
             Log.e("response parser getMoneyYearsList", e.stackTraceToString())
+            return null
+        }
+    }
+
+    suspend fun fetchProfileDetail(): ProfileDetail? {
+        try {
+            val response = ciuApiService.getProfileDetail()
+            if (response.isSuccessful) {
+                val details = HtmlParser().parseProfileDetail(response.body())
+                return details
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("", e.stackTraceToString())
+            return null
+        }
+    }
+
+    suspend fun saveProfileDetail(
+        n_email: String,
+        n_address: String,
+        n_phone: String,
+        n_snils: String,
+        n_oms: String,
+        n_vk: String,
+        n_tg: String,
+        n_leader: String
+    ): ProfileDetail? {
+        try {
+
+            val params = HashMap<String?, String?>()
+            params["save"] = "1"
+            params["what"] = "0"
+            params["save_oms"] = ""
+            params["n_email"] = n_email
+            params["n_address"] = n_address
+            params["n_phone"] = n_phone
+            params["n_snils"] = n_snils
+            params["n_oms"] = n_oms
+            params["n_vk"] = n_vk
+            params["n_tg"] = n_tg
+            params["n_leader"] = n_leader
+            params["n_has_agree"] = ""
+
+
+            val response = ciuApiService.saveProfileDetails(params)
+
+            if (response.isSuccessful) {
+                val details = HtmlParser().parseProfileDetail(response.body())
+                return details
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("", e.stackTraceToString())
+            return null
+        }
+    }
+
+    suspend fun getPersonSearchResults(q: String): List<Pair<String, String>>? {
+        try {
+            val response = baseApiService.findPerson(q)
+
+            if (response.isSuccessful) {
+                val personIdList = HtmlParser().parsePersonSearchResults(response.body())
+                return personIdList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("", e.stackTraceToString())
             return null
         }
     }

@@ -11,12 +11,24 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.graphics.Bitmap
 import androidx.fragment.app.DialogFragment
 import com.dertefter.neticlient.R
 import com.github.chrisbanes.photoview.PhotoView
 import com.squareup.picasso.Picasso
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.updatePadding
+import androidx.fragment.app.activityViewModels
+import com.dertefter.neticlient.ui.settings.SettingsViewModel
 
 class FullscreenImageDialog : DialogFragment() {
+
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_FRAME, R.style.DialogTheme)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,17 +38,16 @@ class FullscreenImageDialog : DialogFragment() {
         return inflater.inflate(R.layout.fragment_fullscreen_dialog, container, false)
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val dialog = super.onCreateDialog(savedInstanceState).apply {
+            window?.apply {
+                setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+                setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.MATCH_PARENT
+                )
+            }
+        }
         return dialog
     }
 
@@ -46,15 +57,30 @@ class FullscreenImageDialog : DialogFragment() {
         val imageView = view.findViewById<PhotoView>(R.id.imageView)
         val closeButton = view.findViewById<Button>(R.id.close)
         val imageUrl = arguments?.getString("image_url")
+        val bitmap: Bitmap? = arguments?.getParcelable("bitmap")
 
-        closeButton.setOnClickListener {
-            dialog?.dismiss()
+        closeButton.setOnClickListener { dismiss() }
+
+        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
+            (closeButton.parent as View?)?.updatePadding(
+                top = it[0],
+                bottom = 0,
+                right = it[2],
+                left = it[3]
+            )
         }
+
 
         imageUrl?.let {
             Picasso.get()
                 .load(it)
+                .fit()
+                .centerInside()
                 .into(imageView)
+        }
+
+        if (bitmap != null){
+            imageView.setImageBitmap(bitmap)
         }
     }
 }

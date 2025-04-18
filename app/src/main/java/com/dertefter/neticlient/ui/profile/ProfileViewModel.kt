@@ -18,18 +18,18 @@ class ProfileViewModel @Inject constructor(
     val menuItems: LiveData<List<ProfileMenuItem>> = _menuItems
 
     val menuItemsAuthed: List<ProfileMenuItem> = listOf(
-        ProfileMenuItem("Результаты сессии", R.drawable.person, R.id.sessiaResultsFragment),
-        ProfileMenuItem("Стипендии и выплаты", R.drawable.person, R.id.moneyFragment),
-        ProfileMenuItem("Заявки на документы", R.drawable.person, ),
-        ProfileMenuItem("Бюро пропусков", R.drawable.person, ),
-        ProfileMenuItem("Поиск сотрудников", R.drawable.person, ),
+        ProfileMenuItem("Результаты сессии", R.drawable.school_icon, R.id.sessiaResultsFragment),
+        ProfileMenuItem("Стипендии и выплаты", R.drawable.currency_ruble_icon, R.id.moneyFragment),
+        ProfileMenuItem("Поиск сотрудников", R.drawable.person_search_icon, R.id.personSearchFragment),
+        //ProfileMenuItem("Бюро пропусков", R.drawable.person, ),
+       // ProfileMenuItem("Поиск сотрудников", R.drawable.person, ),
         )
     val menuItemsUnauthed: List<ProfileMenuItem> = listOf(
-        ProfileMenuItem("Результаты сессии", R.drawable.person, null, false),
-        ProfileMenuItem("Стипендии и выплаты", R.drawable.person, null, false),
-        ProfileMenuItem("Заявки на документы", R.drawable.person, null, false),
-        ProfileMenuItem("Бюро пропусков", R.drawable.person, null, false),
-        ProfileMenuItem("Поиск сотрудников", R.drawable.person, null, false),
+        ProfileMenuItem("Результаты сессии", R.drawable.school_icon, null, false),
+        ProfileMenuItem("Стипендии и выплаты", R.drawable.currency_ruble_icon, null, false),
+        ProfileMenuItem("Поиск сотрудников", R.drawable.person_search_icon, R.id.personSearchFragment, false),
+       // ProfileMenuItem("Бюро пропусков", R.drawable.person, null, false),
+       // ProfileMenuItem("Поиск сотрудников", R.drawable.person, null, false),
     )
 
     fun updateMenuItems(isAuthed: Boolean){

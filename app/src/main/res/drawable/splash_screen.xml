@@ -1,0 +1,8 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/app_icon">
+
+  <target
+      android:name="base"
+      android:animation="@animator/splash_scale_rotate" />
+
+</animated-vector>

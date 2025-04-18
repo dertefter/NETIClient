@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:fitsSystemWindows="true">
+    android:background="#000000"
+    android:fitsSystemWindows="false">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageView"
@@ -13,7 +13,6 @@
         android:layout_gravity="center" />
 
     <Button
-        android:contentDescription="@string/close_photo_dialog"
         android:id="@+id/close"
         style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="48dp"
@@ -21,6 +20,8 @@
         android:layout_gravity="end"
         android:layout_margin="@dimen/margin"
         android:backgroundTint="?attr/colorSecondary"
+        android:contentDescription="@string/close_photo_dialog"
+        app:cornerRadius="@dimen/radius_min"
         app:icon="@drawable/close_icon"
         app:iconTint="?attr/colorOnSecondary" />
 

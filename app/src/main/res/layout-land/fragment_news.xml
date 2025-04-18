@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:divider="@drawable/horizontal_divider"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="false"
+        app:cardBackgroundColor="?attr/colorSurface">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="3"
+            android:fitsSystemWindows="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:contentDescription="@string/news_list"
+                android:fadingEdge="none"
+                android:paddingVertical="@dimen/margin"
+                android:requiresFadingEdge="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:itemCount="20"
+                tools:listitem="@layout/item_news" />
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                style="@style/Widget.App.AppBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
+                app:liftOnScrollTargetViewId="@id/recyclerView">
+
+                <LinearLayout
+                    android:id="@+id/top_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="?attr/actionBarSize"
+                        app:layout_scrollFlags="scroll|enterAlways|snap"
+                        app:title="@string/title_news" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/promoRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_weight="1"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/news_list"
+                        android:fadingEdge="none"
+                        android:paddingHorizontal="@dimen/margin"
+                        android:requiresFadingEdge="none"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        tools:itemCount="20"
+                        tools:listitem="@layout/item_news" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:visibility="visible"
+        app:cardBackgroundColor="?attr/colorSurface">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

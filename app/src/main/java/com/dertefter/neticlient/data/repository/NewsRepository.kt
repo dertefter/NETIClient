@@ -30,4 +30,12 @@ class NewsRepository @Inject constructor(
         return ResponseResult(ResponseType.ERROR)
     }
 
+    suspend fun fetchPromoList(): ResponseResult {
+        val response = networkClient.getPromoList()
+        if (response != null){
+            return ResponseResult(ResponseType.SUCCESS, data = response)
+        }
+        return ResponseResult(ResponseType.ERROR)
+    }
+
 }

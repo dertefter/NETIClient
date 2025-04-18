@@ -6,13 +6,12 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:contentDescription="@string/list"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:contentDescription="@string/list"
         android:isScrollContainer="false"
-        android:paddingHorizontal="@dimen/margin"
         android:paddingVertical="@dimen/margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.schedule.week.day.DayFragment"

@@ -1,14 +1,12 @@
 package com.dertefter.neticlient.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.dertefter.neticlient.common.Constants
 import com.dertefter.neticlient.data.model.User
 import com.dertefter.neticlient.data.model.UserInfo
-import com.dertefter.neticlient.data.model.messages.Message
+import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.network.NetworkClient
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
@@ -24,14 +22,25 @@ class UserRepository @Inject constructor(
 ) {
 
     suspend fun saveUser(user: User) {
+        val userJson = Gson().toJson(user)
         dataStore.edit { pref ->
-            pref[Constants.LOGIN] = user.login
-            pref[Constants.PASSWORD] = user.password
-            pref[Constants.NAME] = user.name
-            pref[Constants.GROUP] = user.group.orEmpty()
-            pref[Constants.PROFILE_PIC_PATH] = user.profilePicPath.orEmpty()
+            pref[Constants.USER] = userJson
         }
     }
+
+    suspend fun removeUser() {
+        dataStore.edit { pref ->
+            pref.remove(Constants.USER)
+            networkClient.rebuildClientWithToken(null)
+        }
+    }
+
+    fun getUser(): Flow<User?> = dataStore.data.map { preferences ->
+        preferences[Constants.USER]?.let { json ->
+            Gson().fromJson(json, User::class.java)
+        }
+    }
+
 
     fun getSelectedGroup(): Flow<String?> = dataStore.data.map {
         val selectedGroup = it[Constants.SELECTED_GROUP]
@@ -78,25 +87,6 @@ class UserRepository @Inject constructor(
     }
 
 
-
-    fun getUser(): Flow<User?> = dataStore.data.map {
-        val login = it[Constants.LOGIN].orEmpty()
-        val password = it[Constants.PASSWORD].orEmpty()
-
-        if (login.isEmpty() || password.isEmpty()) {
-            null
-        } else {
-            User(
-                login = login,
-                password = password,
-                name = it[Constants.NAME].orEmpty(),
-                group = it[Constants.GROUP],
-                profilePicPath = it[Constants.PROFILE_PIC_PATH]
-            )
-        }
-    }
-
-
     suspend fun fetchAuth(login: String, password: String): ResponseResult {
         val authResponse = networkClient.authUser(login, password)
         if (authResponse.responseType == ResponseType.SUCCESS) {
@@ -125,4 +115,33 @@ class UserRepository @Inject constructor(
             }
         return ResponseResult(ResponseType.ERROR, "Ошибка авторизации")
     }
+
+    suspend fun fetchProfileDetail(): ResponseResult {
+        val details = networkClient.fetchProfileDetail()
+        if (details != null){
+            return ResponseResult(ResponseType.SUCCESS, data = details as ProfileDetail)
+        }else {
+            return ResponseResult(ResponseType.ERROR)
+        }
+    }
+
+    suspend fun saveProfileDetails(
+        n_email: String,
+        n_address: String,
+        n_phone: String,
+        n_snils: String,
+        n_oms: String,
+        n_vk: String,
+        n_tg: String,
+        n_leader: String
+    ): ResponseResult {
+        val details = networkClient.saveProfileDetail(n_email, n_address, n_phone, n_snils, n_oms, n_vk, n_tg, n_leader)
+        if (details != null){
+            return ResponseResult(ResponseType.SUCCESS, data = details)
+        }else {
+            return ResponseResult(ResponseType.ERROR)
+        }
+    }
+
+
 }

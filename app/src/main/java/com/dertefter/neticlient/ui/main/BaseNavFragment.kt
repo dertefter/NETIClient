@@ -18,19 +18,31 @@ class BaseNavFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentBaseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navGraphId = arguments?.getInt("NAV_GRAPH")
+
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
-        navController.setGraph(navGraphId!!)
-        navController.navigate(navController.graph.startDestinationId)
+        val navGraphId = arguments?.getInt("NAV_GRAPH")
+
+        try {
+            if (navController.graph.id != navGraphId) {
+                if (navGraphId != null) {
+                    navController.setGraph(navGraphId)
+                }
+            }
+        } catch (e: IllegalStateException){
+            if (navGraphId != null) {
+                navController.setGraph(navGraphId)
+            }
+        }
+
 
     }
 

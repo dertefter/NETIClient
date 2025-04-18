@@ -19,8 +19,13 @@ class MessagesViewModel @Inject constructor(
     val messagesTab1 = MutableLiveData<ResponseResult>()
     val messagesTab2 = MutableLiveData<ResponseResult>()
 
+    val newCountTab1 = MutableLiveData<Int>()
+    val newCountTab2 = MutableLiveData<Int>()
+    val newCountTabAll = MutableLiveData<Int>()
+
 
     fun updateMessages(tab: String) {
+        updateCount()
         viewModelScope.launch {
             getLiveDataForTab(tab).postValue(ResponseResult(ResponseType.LOADING))
             val result = messagesRepository.fetchMessages(tab)
@@ -40,12 +45,15 @@ class MessagesViewModel @Inject constructor(
         }
     }
 
-    fun getMessages(tab: String) {
+
+    fun updateCount() {
         viewModelScope.launch {
-            val result = messagesRepository.getSavedMessages(tab).first()
-            getLiveDataForTab(tab).postValue(
-                ResponseResult(ResponseType.SUCCESS, data = result)
-            )
+            val countList = messagesRepository.fetchCount()
+            if (countList?.size == 3){
+                newCountTab1.postValue(countList[0])
+                newCountTab2.postValue(countList[1])
+                newCountTabAll.postValue(countList[2])
+            }
         }
     }
 

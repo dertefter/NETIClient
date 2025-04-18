@@ -4,24 +4,32 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
-
     <application
+        android:name=".NetiClient"
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".NetiClient"
+        android:theme="@style/SplashScreenTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="34">
+        <receiver
+            android:name=".widgets.CurrentWeekLabelWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/current_week_label_widget_info" />
+        </receiver>
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -36,8 +44,29 @@
         <service
             android:name=".services.ScheduleService"
             android:enabled="true"
-            android:foregroundServiceType="dataSync"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <meta-data
+            android:name="com.dertefter.neticlient.LICENSE"
+            android:value="MIT License" />
+
+        <receiver android:name=".widgets.schedule_widget.ScheduleWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/schedule_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widgets.schedule_widget.LessonWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+
 
     </application>
 

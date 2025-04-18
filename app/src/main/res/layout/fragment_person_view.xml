@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,10 +21,10 @@
             android:showDividers="middle|beginning|end">
 
             <LinearLayout
-                android:contentDescription="@string/loading"
                 android:id="@+id/skeleton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/loading"
                 android:divider="@drawable/vertical_divider"
                 android:orientation="vertical"
                 android:showDividers="middle">
@@ -121,20 +122,20 @@
                     android:showDividers="middle">
 
                     <ImageView
-                        android:contentDescription="@string/icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0"
+                        android:contentDescription="@string/icon"
                         android:src="@drawable/call_icon" />
 
                     <TextView
-                        android:contentDescription="@string/icon"
                         android:id="@+id/phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
+                        android:contentDescription="@string/icon"
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -159,11 +160,11 @@
                     android:showDividers="middle">
 
                     <ImageView
-                        android:contentDescription="@string/icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0"
+                        android:contentDescription="@string/icon"
                         android:src="@drawable/location_icon" />
 
                     <TextView
@@ -196,11 +197,11 @@
                     android:showDividers="middle">
 
                     <ImageView
-                        android:contentDescription="@string/icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0"
+                        android:contentDescription="@string/icon"
                         android:src="@drawable/mail_icon" />
 
                     <TextView
@@ -293,12 +294,9 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:fitsSystemWindows="true"
-        android:showDividers="middle|beginning|end"
-        app:liftOnScroll="true">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:id="@+id/topContainer"
@@ -307,8 +305,15 @@
             android:layout_weight="0"
             android:paddingHorizontal="@dimen/margin"
             android:paddingTop="@dimen/margin"
-            android:paddingBottom="@dimen/margin"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
+            <Button
+                android:id="@+id/back_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="?attr/colorSurfaceContainer"
+                app:icon="@drawable/arrow_back" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -333,46 +338,74 @@
                     app:icon="@drawable/language_icon" />
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="top|start">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/colorSurfaceVariant"
-                    app:contentPadding="4dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
-                    app:srcCompat="@drawable/person"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profilePic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
-            </FrameLayout>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:paddingHorizontal="@dimen/margin"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="20sp" />
+        <FrameLayout
+            android:id="@+id/profile_pic_container"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
-        <TextView
-            android:id="@+id/about_disc"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurfaceVariant"
+                app:contentPadding="4dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
+                app:srcCompat="@drawable/person"
+                app:tint="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profilePic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin"
-            android:layout_weight="0"
-            android:paddingHorizontal="@dimen/margin"
-            android:textSize="16sp" />
+            android:layout_height="?attr/actionBarSize"
+            android:layout_weight="0">
+
+            <LinearLayout
+                android:id="@+id/name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/about_disc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:theme="?attr/actionBarTheme"
+                app:navigationIcon="@drawable/arrow_back" />
+
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

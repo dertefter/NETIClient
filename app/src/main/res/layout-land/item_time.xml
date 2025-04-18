@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:divider="@drawable/horizontal_divider_small"
+    android:maxWidth="300dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin"
+    android:showDividers="middle">
+
+    <LinearLayout
+        android:id="@+id/time_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/horizontal_divider_small"
+        android:padding="@dimen/margin"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/timeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:fontFamily="sans-serif-medium"
+            android:includeFontPadding="false"
+            android:text="10:15"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/horizontal_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="40"
+            app:indicatorColor="?attr/colorOnPrimaryContainer"
+            app:trackColor="?attr/colorSurfaceContainer"
+            app:trackStopIndicatorSize="0dp" />
+
+        <TextView
+            android:id="@+id/timeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:fontFamily="sans-serif-medium"
+            android:includeFontPadding="false"
+            android:text="10:15"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:isScrollContainer="false"
+        android:nestedScrollingEnabled="false"
+        android:orientation="vertical"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_lesson" />
+
+</LinearLayout>

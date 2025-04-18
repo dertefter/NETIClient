@@ -21,8 +21,6 @@ class ScheduleViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
 
-    val weekNumberListLiveData = MutableLiveData<ResponseResult>()
-
     val groupHistoryLiveData = MutableLiveData<List<String>>()
 
     val selectedGroupLiveData = MutableLiveData<String?>()
@@ -71,28 +69,13 @@ class ScheduleViewModel @Inject constructor(
         }
     }
 
-    fun fetchWeekNumberList(group: String){
-        Log.e("fetchWeekNumberListf", "fetchWeekNumberList")
-        viewModelScope.launch {
-            weekNumberListLiveData.postValue(ResponseResult(ResponseType.LOADING))
-            val weekList = scheduleRepository.fetchWeekNumberList(group)
-            if (!weekList.isNullOrEmpty()){
-                weekNumberListLiveData.postValue(ResponseResult(ResponseType.SUCCESS, data = weekList))
-            } else {
-                getLocalWeekNumberList(group)
-            }
-        }
-    }
-
     fun fetchSchedule(group: String){
         viewModelScope.launch {
-
             val scheduleLiveData = getScheduleLiveData(group)
             scheduleLiveData.postValue(ResponseResult(ResponseType.LOADING))
             val schedule = if (
                 userRepository.getUser().first() != null && userRepository.getUser().first()!!.group == group
             ){
-                Log.e("aboba", "individual")
                 scheduleRepository.fetchSchedule(group, true)
             } else {
                 scheduleRepository.fetchSchedule(group)
@@ -100,6 +83,7 @@ class ScheduleViewModel @Inject constructor(
             if (schedule != null){
                 scheduleLiveData.postValue(ResponseResult(ResponseType.SUCCESS, data = schedule))
             } else {
+                Log.e("getting local schedudk", "bfbfbf")
                 getLocalSchedule(group)
             }
         }
@@ -114,17 +98,6 @@ class ScheduleViewModel @Inject constructor(
                 scheduleLiveData.postValue(ResponseResult(ResponseType.SUCCESS, data = schedule))
             } else {
                 scheduleLiveData.postValue(ResponseResult(ResponseType.ERROR))
-            }
-        }
-    }
-
-    fun getLocalWeekNumberList(group: String){
-        viewModelScope.launch {
-            val weekList = scheduleRepository.getLocalWeekNumberList(group).first()
-            if (weekList != null){
-                weekNumberListLiveData.postValue(ResponseResult(ResponseType.SUCCESS, data = weekList))
-            } else {
-                weekNumberListLiveData.postValue(ResponseResult(ResponseType.ERROR))
             }
         }
     }

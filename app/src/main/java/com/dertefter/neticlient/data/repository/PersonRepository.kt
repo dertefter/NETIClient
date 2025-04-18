@@ -55,6 +55,13 @@ class PersonRepository @Inject constructor(
         }
     }
 
+    suspend fun fetchPersonSearchResults(q: String): ResponseResult {
+        val personIdList = networkClient.getPersonSearchResults(q)
+        if (personIdList as List<Pair<String, String>>? != null) {
+            return ResponseResult(ResponseType.SUCCESS, data = personIdList as List<Pair<String, String>>)
+        }
+        return ResponseResult(ResponseType.ERROR)
+    }
 
 
 

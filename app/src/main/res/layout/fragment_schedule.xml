@@ -9,106 +9,110 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:clipChildren="true"
         android:divider="@drawable/vertical_divider"
-        android:fitsSystemWindows="true"
-        app:liftOnScroll="true"
-        app:liftOnScrollColor="@android:color/transparent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="@string/schedule_title"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-            app:titleTextColor="?attr/colorOnSurfaceVariant" />
+        android:visibility="gone">
 
         <FrameLayout
+            android:id="@+id/week_group_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:contentDescription="@string/week_menu"
-                android:id="@+id/weeks_menu"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:elevation="0dp"
-                android:paddingVertical="3dp"
-                app:boxBackgroundColor="?attr/colorSecondary"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
-                app:boxStrokeColor="?attr/colorSecondary"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconMode="dropdown_menu"
-                app:endIconScaleType="centerInside"
-                app:endIconTint="?attr/colorOnSecondary"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <AutoCompleteTextView
-
-                    android:contentDescription="@string/week_menu"
-                    android:hint="@string/week_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="none"
-                    android:paddingStart="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="0dp"
-                    android:paddingEnd="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingBottom="0dp"
-                    android:textColor="?attr/colorOnSecondary" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="@dimen/margin"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/margin"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <Button
-                android:contentDescription="@string/group_selection_button"
-                android:id="@+id/group_button"
+                android:id="@+id/week_button"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
+                android:layout_height="44dp"
+                android:layout_gravity="end"
                 android:backgroundTint="?attr/colorSecondary"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:contentDescription="@string/group_selection_button"
+                android:fontFamily="sans-serif-medium"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingLeft="@dimen/margin"
+                android:paddingTop="@dimen/margin_min"
+                android:paddingRight="@dimen/margin"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="@string/week_menu"
                 android:textColor="?attr/colorOnSecondary"
+                android:textSize="16sp"
+                app:cornerRadius="@dimen/radius"
+                app:icon="@drawable/calendar_month_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="@dimen/margin_min"
+                app:iconSize="22dp"
+                app:iconTint="?attr/colorOnSecondary" />
+
+            <Button
+                android:id="@+id/group_button"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:contentDescription="@string/group_selection_button"
+                android:fontFamily="sans-serif-medium"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingLeft="@dimen/margin"
+                android:paddingTop="@dimen/margin_min"
+                android:paddingRight="@dimen/margin"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="@string/group_list"
+                android:textSize="16sp"
+                app:cornerRadius="@dimen/radius"
                 app:icon="@drawable/group_icon"
                 app:iconGravity="textStart"
-                app:iconSize="20dp"
-                app:iconTint="?attr/colorOnSecondary" />
+                app:iconPadding="@dimen/margin_min"
+                app:iconSize="22dp" />
         </FrameLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:contentDescription="@string/day_selection"
-            android:id="@+id/days_tab_layout"
+        <TextView
+            android:id="@+id/year_and_mounth"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginVertical="@dimen/margin"
-            android:background="@drawable/rounded_background"
-            android:backgroundTint="?attr/colorSurface"
-            app:tabIndicator="@drawable/rounded_background"
-            app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="?attr/colorSecondary"
-            app:tabIndicatorFullWidth="true"
-            app:tabIndicatorGravity="stretch"
-            app:tabSelectedTextColor="?attr/colorOnSecondary" />
+            android:layout_marginTop="@dimen/margin_min"
+            android:background="@drawable/rounded_background_top"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingTop="@dimen/margin"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="20sp"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap" />
+
+        <FrameLayout
+            android:id="@+id/days_tabs_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_background_bottom"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingTop="@dimen/margin_min"
+            android:paddingBottom="@dimen/margin">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/days_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background_bottom"
+                android:clipToPadding="false"
+                android:contentDescription="@string/tabs"
+                android:fitsSystemWindows="false"
+                app:tabGravity="fill"
+                app:tabIndicator="@drawable/rounded_background"
+                app:tabIndicatorAnimationMode="linear"
+                app:tabIndicatorColor="?attr/colorPrimaryContainer"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorGravity="stretch"
+                app:tabSelectedTextColor="?attr/colorOnPrimary" />
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -128,7 +132,7 @@
         android:id="@+id/skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include
@@ -142,8 +146,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
-        android:elevation="10dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="300dp"
@@ -170,11 +174,11 @@
                 android:textSize="16sp" />
 
             <Button
-                android:contentDescription="@string/add_group_button"
                 android:id="@+id/search_group_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"
+                android:contentDescription="@string/add_group_button"
                 android:text="@string/add_group_button"
                 app:iconSize="20dp" />
 

@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin"
-    android:clickable="false"
-    app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius"
-    app:cardElevation="0dp"
-    app:cardUseCompatPadding="false">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/news_background"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="?attr/colorSurfaceContainerLow" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?attr/colorSurfaceContainer"
-            android:orientation="vertical"
-            android:padding="@dimen/margin">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView\nа"
-                android:textColor="?attr/colorSurfaceContainer"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="?attr/colorSurfaceContainer" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin"
-        android:backgroundTint="?attr/colorSurfaceContainer"
-        app:cardCornerRadius="@dimen/radius">
-
-        <TextView
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="6dp"
-            android:text="TextView"
-            android:textColor="?attr/colorSurfaceContainer" />
-    </com.google.android.material.card.MaterialCardView>
+    android:layout_height="100dp">
 
 </com.google.android.material.card.MaterialCardView>

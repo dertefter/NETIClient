@@ -48,15 +48,6 @@ class ScheduleRepository @Inject constructor(
         }
     }
 
-
-    suspend fun fetchWeekNumberList(group: String): List<Int>? {
-        val response = networkClient.getWeekNumberList(group)
-        if (response.responseType == ResponseType.SUCCESS && !(response.data as List<Int>?).isNullOrEmpty()) {
-            saveWeekNumberList(group, response.data as List<Int>)
-        }
-        return (response.data as List<Int>?)
-    }
-
     private suspend fun saveWeekNumberList(group: String, list: List<Int>) {
         dataStore.edit { preferences ->
             Log.e("saveWeekNumberList", list.toString())
@@ -88,6 +79,15 @@ class ScheduleRepository @Inject constructor(
             } else {
                 return null
             }
+        }
+    }
+
+    suspend fun fetchCurrentWeekLabel(): String? {
+        val currentWeekNumber = networkClient.getHeaderLabel()
+        if (currentWeekNumber != null){
+            return currentWeekNumber
+        } else {
+            return null
         }
     }
 

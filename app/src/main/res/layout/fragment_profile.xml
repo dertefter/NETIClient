@@ -1,48 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorSurface"
     tools:context=".ui.profile.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:divider="@drawable/vertical_divider"
-        android:fitsSystemWindows="true"
-        android:showDividers="middle"
-        app:liftOnScroll="true">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:id="@+id/topContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/margin">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:title="@string/profile_title"
-                app:titleCentered="true"
-                app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-                app:titleTextColor="?attr/colorOnSurfaceVariant" />
-
-            <Button
-                android:contentDescription="@string/settings_button_disc"
-                android:id="@+id/settings_button"
-                style="@style/Widget.Material3.Button.IconButton.Filled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                app:icon="@drawable/settings_icon" />
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_min">
 
             <FrameLayout
                 android:layout_width="48dp"
@@ -69,6 +46,15 @@
 
             </FrameLayout>
 
+            <Button
+                android:id="@+id/settings_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:contentDescription="@string/settings_button_disc"
+                app:icon="@drawable/settings_icon" />
+
         </FrameLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -76,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginBottom="@dimen/margin"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorError"
             app:cardUseCompatPadding="false"
@@ -113,7 +98,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginBottom="@dimen/margin"
             app:cardBackgroundColor="?attr/colorSecondary"
             app:cardUseCompatPadding="false"
             app:contentPadding="@dimen/margin">
@@ -155,11 +139,12 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:contentDescription="@string/profile_menu_items"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:contentDescription="@string/profile_menu_items"
+        android:paddingHorizontal="@dimen/margin_min"
         android:paddingVertical="@dimen/margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

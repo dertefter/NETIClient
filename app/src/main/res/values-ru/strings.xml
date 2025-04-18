@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">NETI Клиент</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="app_name">NETI Client</string>
+    <string name="prompt_email">Электронная почта</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in_short">Войти</string>
     <string name="login_failed">Ошибка авторизации</string>
@@ -31,8 +30,8 @@
     <string name="filter_news_photo">Фото</string>
     <string name="news_list">Список новостей</string>
     <string name="news_bg_image">Обложка новости</string>
-    <string name="https_nstu_ru_news">Новостной портал: https://nstu.ru/news</string>
-    <string name="pr_nstu_ru_is_nstu_ru">Управление информационной политики: pr@nstu.ru, is@nstu.ru</string>
+    <string name="https_nstu_ru_news">Новостной портал</string>
+    <string name="pr_nstu_ru_is_nstu_ru">Управление информационной политики</string>
     <string name="load_fail">Не удалось загрузить данные</string>
     <string name="load_retry">Повторить попытку</string>
     <string name="share_button_disc">Поделиться</string>
@@ -73,4 +72,13 @@
     <string name="notify_lessons_future">Напоминать о начале пары</string>
     <string name="notify_for_minutes">За 15 минут</string>
     <string name="title_settings">Настройки</string>
+    <string name="customization">Внешний вид</string>
+    <string name="color_scheme">Цветовая схема</string>
+    <string name="about">О проекте</string>
+    <string name="title_person_search">Поиск сотрудников</string>
+    <string name="search_by_name_hint">Поиск...</string>
+    <string name="search_person_hint">Введите фамилию или имя сотрудника</string>
+    <string name="search_empty">Ничего не нашлось</string>
+    <string name="add_widget">Добавить виджет</string>
+    <string name="current_week_label_widget_desc">Текущая неделя</string>
 </resources>

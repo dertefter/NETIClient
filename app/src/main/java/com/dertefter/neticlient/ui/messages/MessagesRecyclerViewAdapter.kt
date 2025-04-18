@@ -18,6 +18,14 @@ class MessagesRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
+    fun setLoading() {
+        this.messagesList = List(30) {
+            Message("", "", "", "", false, "")
+        }
+        notifyDataSetChanged()
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(viewType, parent, false)
@@ -34,6 +42,8 @@ class MessagesRecyclerViewAdapter(
     override fun getItemViewType(position: Int): Int {
         return if (messagesList[position].is_new) R.layout.item_message_new else R.layout.item_message
     }
+
+
 
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

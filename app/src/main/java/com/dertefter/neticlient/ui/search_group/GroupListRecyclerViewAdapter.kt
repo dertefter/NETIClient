@@ -13,12 +13,7 @@ class GroupListRecyclerViewAdapter(
 ) : RecyclerView.Adapter<GroupListRecyclerViewAdapter.GroupItemViewHolder>() {
 
     fun setData(l: List<String>) {
-        val max = if (l.size > 30){
-            30
-        } else {
-            l.size
-        }
-        items = l.subList(0,max)
+        items = l
         notifyDataSetChanged()
     }
 

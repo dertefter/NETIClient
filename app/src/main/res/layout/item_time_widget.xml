@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin"
+    android:clipToPadding="false"
+    android:divider="@drawable/horizontal_divider_small"
+    android:orientation="horizontal"
+    android:showDividers="middle|none">
+
+    <LinearLayout
+        android:id="@+id/time_container"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:divider="@drawable/vertical_divider_small"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/timeStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:text="12-00"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/timeEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:gravity="center_horizontal|top"
+            android:includeFontPadding="false"
+            android:text="18sp"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:isScrollContainer="false"
+        android:nestedScrollingEnabled="false"
+        android:orientation="vertical"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_lesson" />
+
+</LinearLayout>

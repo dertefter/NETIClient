@@ -1,160 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:blurkit="http://schemas.android.com/tools"
-    android:fitsSystemWindows="false">
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="true">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:contentDescription="@string/news_list"
-        android:id="@+id/recyclerView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        blurkit:listitem="@layout/item_news" />
+        android:layout_gravity="start"
+        android:layout_weight="3"
+        android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/appbar_background"
-        android:fitsSystemWindows="true"
-        app:liftOnScroll="true"
-        app:liftOnScrollColor="@android:color/transparent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="Новости"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-            app:titleTextColor="?attr/colorOnSurfaceVariant" />
-
-        <HorizontalScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:clipToPadding="false"
-            android:fadingEdgeLength="@dimen/margin"
-            android:requiresFadingEdge="horizontal"
-            android:scrollbarThumbHorizontal="@android:color/transparent"
-            android:scrollbarThumbVertical="@android:color/transparent">
+            android:contentDescription="@string/news_list"
+            android:fadingEdge="none"
+            android:paddingVertical="@dimen/margin"
+            android:requiresFadingEdge="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="20"
+            tools:listitem="@layout/item_news" />
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group"
-                android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            style="@style/Widget.App.AppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
+            app:liftOnScrollTargetViewId="@id/recyclerView">
+
+            <LinearLayout
+                android:id="@+id/top_container"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/margin"
-                android:paddingBottom="8dp"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_1"
-                    style="@style/Widget.App.Chip"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:includeFontPadding="true"
-                    android:text="@string/filter_news_all"
-                    android:textSize="16sp"
-                    app:checkedIcon="@null"
-                    app:chipCornerRadius="@dimen/radius"
-                    app:chipEndPadding="@dimen/margin"
-                    app:chipStartPadding="@dimen/margin"
-                    app:chipStrokeColor="@android:color/transparent"
-                    app:closeIconStartPadding="0dp"
-                    app:iconEndPadding="0dp"
-                    app:textEndPadding="0dp"
-                    app:textStartPadding="0dp" />
+                    android:layout_weight="1"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    app:title="@string/title_news" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_2"
-                    style="@style/Widget.App.Chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:includeFontPadding="true"
-                    android:text="@string/filter_news_news"
-                    android:textSize="16sp"
-                    app:checkedIcon="@null"
-                    app:chipCornerRadius="@dimen/radius"
-                    app:chipEndPadding="@dimen/margin"
-                    app:chipStartPadding="@dimen/margin"
-                    app:chipStrokeColor="@android:color/transparent"
-                    app:closeIconStartPadding="0dp"
-                    app:iconEndPadding="0dp"
-                    app:textEndPadding="0dp"
-                    app:textStartPadding="0dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/promoRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:contentDescription="@string/news_list"
+                    android:fadingEdge="none"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:requiresFadingEdge="none"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/item_news" />
+            </LinearLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_3"
-                    style="@style/Widget.App.Chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:includeFontPadding="true"
-                    android:text="@string/filter_news_obj"
-                    android:textSize="16sp"
-                    app:checkedIcon="@null"
-                    app:chipCornerRadius="@dimen/radius"
-                    app:chipEndPadding="@dimen/margin"
-                    app:chipStartPadding="@dimen/margin"
-                    app:chipStrokeColor="@android:color/transparent"
-                    app:closeIconStartPadding="0dp"
-                    app:iconEndPadding="0dp"
-                    app:textEndPadding="0dp"
-                    app:textStartPadding="0dp" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_4"
-                    style="@style/Widget.App.Chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:includeFontPadding="true"
-                    android:text="@string/filter_news_interv"
-                    android:textSize="16sp"
-                    app:checkedIcon="@null"
-                    app:chipCornerRadius="@dimen/radius"
-                    app:chipEndPadding="@dimen/margin"
-                    app:chipStartPadding="@dimen/margin"
-                    app:chipStrokeColor="@android:color/transparent"
-                    app:closeIconStartPadding="0dp"
-                    app:iconEndPadding="0dp"
-                    app:textEndPadding="0dp"
-                    app:textStartPadding="0dp" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_5"
-                    style="@style/Widget.App.Chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:includeFontPadding="true"
-                    android:text="@string/filter_news_photo"
-                    android:textSize="16sp"
-                    app:checkedIcon="@null"
-                    app:chipCornerRadius="@dimen/radius"
-                    app:chipEndPadding="@dimen/margin"
-                    app:chipStartPadding="@dimen/margin"
-                    app:chipStrokeColor="@android:color/transparent"
-                    app:closeIconStartPadding="0dp"
-                    app:iconEndPadding="0dp"
-                    app:textEndPadding="0dp"
-                    app:textStartPadding="0dp" />
+    <LinearLayout
+        android:id="@+id/detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/buttons_container"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/share_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="1"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                app:icon="@drawable/share_icon"
+                app:iconTint="?attr/colorOnPrimaryContainer" />
+
+            <Button
+                android:id="@+id/close_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                app:icon="@drawable/close_icon" />
+        </LinearLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="Widget.App.AppBarLayout" parent="Widget.Material3.AppBarLayout">
+        <item name="android:clipChildren">true</item>
+        <item name="android:divider">@drawable/vertical_divider_small</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:showDividers">none</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="liftOnScroll">true</item>
+        <item name="liftOnScrollColor">?attr/colorSurfaceContainer</item>
+    </style>
+
+
     <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
         <item name="cardCornerRadius">@dimen/radius</item>
@@ -11,18 +23,27 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:navigationBarColor">?attr/colorSurfaceContainerLow</item>
     </style>
 
+    <style name="DialogTheme" parent="android:Theme.Dialog">
 
-    <style name="Widget.App.Chip" parent="@style/Widget.Material3.Chip.Filter">
-        <item name="chipBackgroundColor">@color/background_color_chip_state_list</item>
-        <item name="android:textColor">@color/text_color_chip_state_list</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="Widget.NETIClient.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.NETIClient.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
 

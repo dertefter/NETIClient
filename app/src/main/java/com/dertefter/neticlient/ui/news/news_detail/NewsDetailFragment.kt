@@ -1,6 +1,7 @@
 package com.dertefter.neticlient.ui.news.news_detail
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,8 @@ import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentNewsDetailBinding
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.utils.Utils
-import com.dertefter.neticlient.utils.Utils.displayHtml
+import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.displayHtml
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,28 +40,46 @@ class NewsDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val newsId = arguments?.getString("newsId")
+        val imageUrl = arguments?.getString("imageUrl")
+        val isContainer = arguments?.getBoolean("isContainer") ?: false
 
         settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
-            )
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+                binding.appBarLayout.updatePadding(
+                    top = it[0],
+                    bottom = 0,
+                    right = it[2],
+                    left = it[3]
+                )
+            }else{
+                binding.appBarLayout.updatePadding(
+                    top = 0,
+                    bottom = 0,
+                    right = 0,
+                    left = 0
+                )
+            }
+
         }
 
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.backgroundNews.parent as View, false).start()
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
+            binding.topContainer.alpha = alpha
+            if (verticalOffset < 0) {
+                binding.appBarLayout.isLifted = true
             } else {
-                Utils.basicAnimationOn(binding.backgroundNews.parent as View).start()
+                binding.appBarLayout.isLifted = false
             }
-            Log.e("verticalOffset", verticalOffset.toString())
         }
 
 
-        val newsId = arguments?.getString("newsId")
-        val imageUrl = arguments?.getString("imageUrl")
+
+
+        if (isContainer){
+            binding.backButton.visibility = View.GONE
+        }
 
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
@@ -75,7 +94,6 @@ class NewsDetailFragment : Fragment() {
                     putExtra(Intent.EXTRA_TEXT, "https://www.nstu.ru/news/news_more?idnews=${newsId}")
                     type = "text/plain"
                 }
-
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
             }

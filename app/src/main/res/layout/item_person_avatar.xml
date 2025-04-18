@@ -4,14 +4,13 @@
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="4dp"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="@dimen/radius"
     app:cardUseCompatPadding="false">
 
     <FrameLayout
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0">
 

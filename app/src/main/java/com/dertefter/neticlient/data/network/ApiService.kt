@@ -35,7 +35,7 @@ interface ApiService {
     suspend fun getProfilePic(@Query("what") what: String = "5"): Response<ResponseBody>
 
     @GET("studies/schedule/schedule_classes/schedule")
-    suspend fun getWeekNumberList(@Query("group") group: String): Response<ResponseBody>
+    suspend fun getWeekNumberList(@Query("group") group: String, @Query("week") week: String = "1"): Response<ResponseBody>
 
     @GET("studies/schedule/schedule_classes/schedule")
     suspend fun getSchedule(@Query("group") group: String, @Query("print") print: String = "true"): Response<ResponseBody>
@@ -88,5 +88,20 @@ interface ApiService {
     @FormUrlEncoded
     @POST("student_study/personal/money")
     suspend fun getMoneyItems(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET("student_study/personal/contact_info")
+    suspend fun getProfileDetail(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/personal/contact_info")
+    suspend fun saveProfileDetails(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET(".")
+    suspend fun getPromoList(): Response<ResponseBody>
+
+    @GET("phone/object")
+    suspend fun findPerson(@Query("search_term") search_term: String?): Response<ResponseBody>
+
+
 
 }

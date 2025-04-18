@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">NETI Client</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -31,8 +30,8 @@
     <string name="filter_news_photo">Photos</string>
     <string name="news_list">News list</string>
     <string name="news_bg_image">News cover</string>
-    <string name="https_nstu_ru_news">News portal: https://nstu.ru/news</string>
-    <string name="pr_nstu_ru_is_nstu_ru">Information Policy Department: pr@nstu.ru, is@nstu.ru</string>
+    <string name="https_nstu_ru_news">News portal</string>
+    <string name="pr_nstu_ru_is_nstu_ru">Information Policy Department</string>
     <string name="load_fail">Failed to load data</string>
     <string name="load_retry">Retry</string>
     <string name="share_button_disc">Share</string>
@@ -74,5 +73,14 @@
     <string name="notify_lessons_future">Remind about class start</string>
     <string name="notify_for_minutes">15 minutes before</string>
     <string name="title_settings">Settings</string>
+    <string name="customization">Customization</string>
+    <string name="color_scheme">Color scheme</string>
+    <string name="about">About</string>
+    <string name="title_person_search">Employee search</string>
+    <string name="search_by_name_hint">Search...</string>
+    <string name="search_person_hint">Enter last name or first name</string>
+    <string name="search_empty">Nothing found</string>
+    <string name="add_widget">Add widget</string>
+    <string name="current_week_label_widget_desc">Current week label</string>
 
 </resources>

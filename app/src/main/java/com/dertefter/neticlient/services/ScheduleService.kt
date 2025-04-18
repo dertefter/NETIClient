@@ -19,7 +19,7 @@ import com.dertefter.neticlient.data.model.schedule.Lesson
 import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.repository.SettingsRepository
 import com.dertefter.neticlient.data.repository.UserRepository
-import com.dertefter.neticlient.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -96,7 +96,7 @@ class ScheduleService : Service() {
             return
         }
 
-        val filteredTimeList = Utils.getFilteredTimeList(schedule, weekNumber, dayNumber)
+        val filteredTimeList = schedule.weeks.find { it.weekNumber == weekNumber }?.days?.find{it.dayNumber == dayNumber}?.times!!
         var foundActiveLesson = false
 
         for (timeItem in filteredTimeList) {
@@ -146,7 +146,7 @@ class ScheduleService : Service() {
             return
         }
 
-        val filteredTimeList = Utils.getFilteredTimeList(schedule, weekNumber, dayNumber)
+        val filteredTimeList = schedule.weeks.find { it.weekNumber == weekNumber }?.days?.find{it.dayNumber == dayNumber}?.times!!
         val currentTime = LocalTime.now()
         val futureTime = currentTime.plusMinutes(15)
 

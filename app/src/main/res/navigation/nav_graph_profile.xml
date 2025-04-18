@@ -28,5 +28,17 @@
         android:name="com.dertefter.neticlient.ui.money.MoneyFragment"
         android:label="fragment_money"
         tools:layout="@layout/fragment_money" />
+    <fragment
+        android:id="@+id/profileDetailFragment"
+        android:name="com.dertefter.neticlient.ui.profile.profile_detail.ProfileDetailFragment"
+        android:label="ProfileDetailFragment" />
+    <fragment
+        android:id="@+id/personSearchFragment"
+        android:name="com.dertefter.neticlient.ui.person_search.PersonSearchFragment"
+        android:label="PersonSearchFragment" />
+    <fragment
+        android:id="@+id/personViewFragment"
+        android:name="com.dertefter.neticlient.ui.person.PersonViewFragment"
+        android:label="PersonViewFragment" />
 
 </navigation>
