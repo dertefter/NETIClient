@@ -5,16 +5,21 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.os.bundleOf
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import androidx.viewpager2.widget.ViewPager2
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.CurrentTimeObject
@@ -23,10 +28,13 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentScheduleBinding
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonDetailViewModel
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
+import com.dertefter.neticlient.ui.schedule.week.WeekFragment
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.widgets.schedule_widget.ScheduleWidget
+import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -39,10 +47,9 @@ class ScheduleFragment : Fragment() {
     private val lessonDetailViewModel: LessonDetailViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
 
-    private lateinit var adapter: WeeksAdapter
-
-
-
+    private var currentWeekNumber: Int? = null
+    private var currentGroup: String? = null
+    private var weekFragmentLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,157 +59,165 @@ class ScheduleFragment : Fragment() {
         return binding.root
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean("STARTED", true)
+    private fun loadWeekFragment(weekNumber: Int, group: String) {
+        binding.weekButton.text = getString(R.string.week_menu) + " $weekNumber"
+
+        if (currentWeekNumber == weekNumber && currentGroup == group && weekFragmentLoaded) {
+            return
+        }
+
+        currentWeekNumber = weekNumber
+        currentGroup = group
+        weekFragmentLoaded = true
+        
+        val fragment = WeekFragment().apply {
+            arguments = bundleOf(
+                "WEEK_NUMBER" to weekNumber,
+                "GROUP" to group
+            )
+        }
+        childFragmentManager.commit {
+            replace(R.id.week_fragment_container, fragment)
+            setReorderingAllowed(true)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            val orientation = resources.configuration.orientation
-            if (orientation == Configuration.ORIENTATION_PORTRAIT){
-                binding.appBarLayout.updatePadding(
-                    top = it[0],
-                    bottom = 0,
-                    right = it[2],
-                    left = it[3]
-                )
-            }else{
-                binding.appBarLayout.updatePadding(
-                    top = 0,
-                    bottom = 0,
-                    right = 0,
-                    left = 0
-                )
-            }
-
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
         }
 
+        setupAppBar()
+        setupObservers()
+        setupClickListeners()
 
-        binding.pager.isUserInputEnabled = false
+        // Initialize data if needed
+        if (scheduleViewModel.selectedGroupLiveData.value == null) {
+            scheduleViewModel.getSelectedGroup()
+        }
+        if (CurrentTimeObject.currentWeekLiveData.value == null) {
+            scheduleViewModel.fetchCurrentWeekNumber()
+        }
+    }
+    
+    private fun setupAppBar() {
+
+        binding.appBarLayout.statusBarForeground =
+            MaterialShapeDrawable.createWithElevationOverlay(context)
         binding.appBarLayout.setLiftable(true)
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
-            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            binding.yearAndMounth.alpha = alpha
-            binding.weekGroupContainer.alpha = alpha
-
+            val percent = 1f - (-verticalOffset.toFloat() / totalScrollRange)
             val dayTabsPaddingH = resources.getDimension(R.dimen.margin)
-            val dayTabsPaddingV = resources.getDimension(R.dimen.margin_min)
 
-            val newPaddingHorizontal = dayTabsPaddingH - (dayTabsPaddingH - dayTabsPaddingH * alpha)
+            val newPaddingHorizontal = dayTabsPaddingH - (dayTabsPaddingH - dayTabsPaddingH * percent)
 
-            val newPaddingVertical = dayTabsPaddingH - (dayTabsPaddingH - dayTabsPaddingH * alpha) * 0.5
+            val newPaddingVertical = dayTabsPaddingH - (dayTabsPaddingH - dayTabsPaddingH * percent) * 0.5
 
-            binding.daysTabsContainer?.updatePadding(left = newPaddingHorizontal.toInt(), right = newPaddingHorizontal.toInt(), bottom = newPaddingVertical.toInt(), top = newPaddingVertical.toInt())
+            binding.daysTabsContainer.updatePadding(left = newPaddingHorizontal.toInt(), right = newPaddingHorizontal.toInt(), bottom = newPaddingVertical.toInt(), top = newPaddingVertical.toInt())
             if (verticalOffset < 0) {
                 binding.appBarLayout.isLifted = true
             } else {
                 binding.appBarLayout.isLifted = false
             }
         }
-
-
-        if (binding.pager.adapter == null){
-            adapter = WeeksAdapter(this)
-            binding.pager.adapter = adapter
-        }
-
-
+    }
+    
+    private fun setupObservers() {
         scheduleViewModel.selectedGroupLiveData.observe(viewLifecycleOwner) { group ->
-
-            val intent = Intent(requireContext(), ScheduleWidget::class.java).apply {
-                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-                    AppWidgetManager.getInstance(requireContext())
-                        .getAppWidgetIds(ComponentName(requireContext(), ScheduleWidget::class.java))
-                )
-            }
-            requireContext().sendBroadcast(intent)
-
-
+            updateWidgets()
+            
             if (group.isNullOrEmpty()) {
                 binding.appBarLayout.visibility = View.GONE
+                binding.skeleton.visibility = View.GONE
                 binding.noGroup.visibility = View.VISIBLE
             } else {
                 binding.appBarLayout.visibility = View.VISIBLE
                 binding.noGroup.visibility = View.GONE
                 binding.groupButton.text = group
-                if (adapter.group != group){
-                    scheduleViewModel.getScheduleLiveData(group).observe(viewLifecycleOwner){ it ->
-                        if (it.responseType == ResponseType.SUCCESS && it.data != null){
-                            Utils.basicAnimationOff(binding.skeleton, true).start()
-                            Utils.basicAnimationOn(binding.pager).start()
-                            val schedule = it.data as Schedule?
-                            val weeks = schedule?.weeks
-                            val weekNumbers: List<Int> = weeks!!.map { it.weekNumber }
-                            if (!weeks.isNullOrEmpty()){
-                                adapter.updateData(schedule.weeks, group)
 
-                                binding.weekButton.setOnClickListener {
-                                    val popup = PopupMenu(requireContext(), binding.weekButton)
-                                    weekNumbers.forEachIndexed { index, number ->
-                                        popup.menu.add(0, index, index, "$number неделя")
-                                    }
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        scheduleViewModel.getScheduleLiveData(group).observe(viewLifecycleOwner) { response ->
+                            if (response.responseType == ResponseType.SUCCESS && response.data != null) {
+                                binding.skeleton.visibility = View.GONE
+                                binding.weekFragmentContainer.visibility = View.VISIBLE
 
-                                    popup.setOnMenuItemClickListener { item ->
-                                        val selectedNumber = weekNumbers[item.itemId]
-                                        binding.pager.setCurrentItem(weekNumbers.indexOf(selectedNumber), false)
-                                        true
-                                    }
-
-                                    popup.show()
+                                val schedule = response.data as Schedule?
+                                val weeks = schedule?.weeks
+                                
+                                if (!weeks.isNullOrEmpty()) {
+                                    val weekNumbers: List<Int> = weeks.map { it.weekNumber }
+                                    setupWeekSelector(weekNumbers, group)
+                                    loadCurrentWeek(weekNumbers, group)
                                 }
-
-                                binding.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-                                    override fun onPageScrolled(
-                                        position: Int,
-                                        positionOffset: Float,
-                                        positionOffsetPixels: Int
-                                    ) {
-                                        super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                                    }
-
-                                    override fun onPageSelected(position: Int) {
-                                        super.onPageSelected(position)
-                                        binding.weekButton.text = weekNumbers[position].toString() + " неделя"
-                                    }
-
-                                    override fun onPageScrollStateChanged(state: Int) {
-                                        super.onPageScrollStateChanged(state)
-                                    }
-                                })
-
-                                if (CurrentTimeObject.currentWeekLiveData.value != null){
-                                    var weekNumber = CurrentTimeObject.currentWeekLiveData.value?: 1
-                                    if (CurrentTimeObject.currentDayLiveData.value == 7){
-                                        if (weekNumbers.indexOf(weekNumber + 1) != -1){
-                                            weekNumber += 1
-                                        }
-                                    }
-                                    binding.pager.setCurrentItem(weekNumbers.indexOf(weekNumber), false)
-                                }
+                            } else {
+                                binding.skeleton.visibility = View.VISIBLE
+                                binding.weekFragmentContainer.visibility = View.GONE
                             }
-
                         }
-                        else{
-                            Utils.basicAnimationOn(binding.skeleton).start()
-                            Utils.basicAnimationOff(binding.pager).start()
-                        }
-
                     }
-
-                    scheduleViewModel.fetchSchedule(group)
-
-
-
                 }
 
+                if (scheduleViewModel.getScheduleLiveData(group).value?.data == null) {
+                    scheduleViewModel.fetchSchedule(group)
+                }
             }
         }
 
+        lessonDetailViewModel.lessonDetailLiveData.observe(viewLifecycleOwner) { lesson ->
+            if (lesson != null) {
+                openDialogForLesson()
+            }
+        }
+    }
+    
+    private fun updateWidgets() {
+        val intent = Intent(requireContext(), ScheduleWidget::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            putExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_IDS,
+                AppWidgetManager.getInstance(requireContext())
+                    .getAppWidgetIds(ComponentName(requireContext(), ScheduleWidget::class.java))
+            )
+        }
+        requireContext().sendBroadcast(intent)
+    }
+    
+    private fun setupWeekSelector(weekNumbers: List<Int>, group: String) {
+        binding.weekButton.setOnClickListener {
+            val popup = PopupMenu(requireContext(), binding.weekButton)
+            weekNumbers.forEachIndexed { index, number ->
+                popup.menu.add(0, number, index, "$number неделя")
+            }
+
+            popup.setOnMenuItemClickListener { item ->
+                val selectedNumber = weekNumbers[item.itemId]
+                loadWeekFragment(weekNumbers.indexOf(selectedNumber), group)
+                true
+            }
+
+            popup.show()
+        }
+    }
+    
+    private fun loadCurrentWeek(weekNumbers: List<Int>, group: String) {
+        CurrentTimeObject.currentWeekLiveData.value?.let { currentWeek ->
+            var weekNumber = currentWeek
+
+            if (CurrentTimeObject.currentDayLiveData.value == 7) {
+                if (weekNumbers.contains(currentWeek + 1)) {
+                    weekNumber += 1
+                }
+            }
+
+            loadWeekFragment(weekNumber, group)
+        }
+    }
+    
+    private fun setupClickListeners() {
         binding.searchGroupButton.setOnClickListener {
             SearchGroupBottomSheet().show(
                 requireActivity().supportFragmentManager,
@@ -216,43 +231,24 @@ class ScheduleFragment : Fragment() {
                 SearchGroupBottomSheet.TAG
             )
         }
-
-        if (scheduleViewModel.selectedGroupLiveData.value == null) {
-            scheduleViewModel.getSelectedGroup()
-        }
-        if (CurrentTimeObject.currentWeekLiveData.value == null) {
-            scheduleViewModel.fetchCurrentWeekNumber()
-        }
-
-        lessonDetailViewModel.lessonDetailLiveData.observe(viewLifecycleOwner){
-            if (it != null){
-                openDialogForLesson()
-            }
-        }
-
     }
 
-    fun blinkPager() {
-        Utils.basicAnimationOn(binding.pager).start()
-    }
-
-    fun openDialogForLesson(){
-        if (binding.detail != null){
+    fun openDialogForLesson() {
+        if (binding.detail != null) {
             childFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.detail, LessonViewBottomSheetFragment::class.java, null)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             }
             binding.detailTv?.visibility = View.GONE
-        }else{
+        } else {
             val modalBottomSheet = LessonViewBottomSheetFragment()
             modalBottomSheet.show(requireActivity().supportFragmentManager, LessonViewBottomSheetFragment.TAG)
         }
-
     }
-
-
+    
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
-
-
-

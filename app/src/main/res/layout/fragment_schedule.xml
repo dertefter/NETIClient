@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@drawable/rounded_background"
+    android:backgroundTint="?attr/colorSurface"
     tools:context=".ui.schedule.ScheduleFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@drawable/vertical_divider"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <FrameLayout
             android:id="@+id/week_group_container"
@@ -49,26 +51,45 @@
                 app:iconSize="22dp"
                 app:iconTint="?attr/colorOnSecondary" />
 
-            <Button
-                android:id="@+id/group_button"
-                style="@style/Widget.Material3.Button"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="44dp"
-                android:contentDescription="@string/group_selection_button"
-                android:fontFamily="sans-serif-medium"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:paddingLeft="@dimen/margin"
-                android:paddingTop="@dimen/margin_min"
-                android:paddingRight="@dimen/margin"
-                android:paddingBottom="@dimen/margin_min"
-                android:text="@string/group_list"
-                android:textSize="16sp"
-                app:cornerRadius="@dimen/radius"
-                app:icon="@drawable/group_icon"
-                app:iconGravity="textStart"
-                app:iconPadding="@dimen/margin_min"
-                app:iconSize="22dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/back_button"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="0"
+                    app:icon="@drawable/arrow_back"
+                    app:iconSize="24dp"
+                    app:iconTint="?attr/colorOnSurfaceVariant" />
+
+                <Button
+                    android:id="@+id/group_button"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/group_selection_button"
+                    android:fontFamily="sans-serif-medium"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:paddingLeft="@dimen/margin"
+                    android:paddingTop="@dimen/margin_min"
+                    android:paddingRight="@dimen/margin"
+                    android:paddingBottom="@dimen/margin_min"
+                    android:text="@string/group_list"
+                    android:textSize="16sp"
+                    app:cornerRadius="@dimen/radius"
+                    app:icon="@drawable/group_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="@dimen/margin_min"
+                    app:iconSize="22dp" />
+            </LinearLayout>
+
         </FrameLayout>
 
         <TextView
@@ -116,17 +137,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
+    <FrameLayout
+        android:id="@+id/week_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:nestedScrollingEnabled="true"
-        android:orientation="horizontal"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.viewpager2.widget.ViewPager2>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/skeleton"
@@ -145,7 +163,7 @@
         android:id="@+id/no_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
+        android:background="@android:color/transparent"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

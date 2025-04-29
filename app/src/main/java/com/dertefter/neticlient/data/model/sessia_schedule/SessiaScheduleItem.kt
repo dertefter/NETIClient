@@ -6,6 +6,6 @@ data class SessiaScheduleItem(
     val date: String,
     val type: String,
     val aud: String,
-    val personLink: String,
+    val personIds: List<String>,
     val dayName: String
 )

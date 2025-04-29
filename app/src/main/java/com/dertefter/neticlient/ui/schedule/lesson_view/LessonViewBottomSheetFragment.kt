@@ -56,9 +56,11 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
 
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PersonListRecyclerViewAdapter(fragment = this, listStyle = PersonListStyle.CARDS){
+        val adapter = PersonListRecyclerViewAdapter(fragment = this, listStyle = PersonListStyle.LIST){
             val bundle = Bundle()
             bundle.putString("personId", it)
             requireActivity().findNavController(R.id.nav_host).navigate(R.id.personViewFragment, bundle)
@@ -117,6 +119,7 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
+        lessonViewViewModel.clearData()
         super.onDestroyView()
         _binding = null
     }

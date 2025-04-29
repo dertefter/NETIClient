@@ -29,7 +29,12 @@ class WeekFragment : Fragment() {
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     private val lessonViewViewModel: LessonDetailViewModel by activityViewModels()
 
-    private lateinit var adapter: DaysAdapter
+    private var _adapter: DaysAdapter? = null
+
+    private val adapter: DaysAdapter
+        get() = _adapter ?: DaysAdapter(this).also {
+            _adapter = it
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +44,9 @@ class WeekFragment : Fragment() {
         return binding.root
     }
 
-    fun showLessonInfo(lessonDetail: LessonDetail){
-        lessonViewViewModel.setData(lessonDetail)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,8 +54,8 @@ class WeekFragment : Fragment() {
         val weekNumber = arguments?.getInt("WEEK_NUMBER")!!
         val group = arguments?.getString("GROUP")!!
 
-        adapter = DaysAdapter(this)
         binding.pager.adapter = adapter
+
         val daysTabLayout = (parentFragment as ScheduleFragment).binding.daysTabLayout
         val yearAndMounth = (parentFragment as ScheduleFragment).binding.yearAndMounth
 
@@ -145,19 +151,15 @@ class WeekFragment : Fragment() {
                     }
                 })
 
-                if (CurrentTimeObject.currentDayLiveData.value != null && CurrentTimeObject.currentDayLiveData.value!! < 7){
-                    daysTabLayout.getTabAt(CurrentTimeObject.currentDayLiveData.value!! - 1)?.select()
-                }else{
-                    daysTabLayout.getTabAt(0)?.select()
+                binding.pager.post {
+                    val currentDay = CurrentTimeObject.currentDayLiveData.value
+                    val tabIndex = if (currentDay != null && currentDay < 7) currentDay - 1 else 0
+                    daysTabLayout.getTabAt(tabIndex)?.select()
                 }
             }
         }
 
 
-    }
-
-    fun setVisibleNoLessons(b: Boolean){
-        //binding.noLessons.visibility = if (b) View.VISIBLE else View.GONE
     }
 
 }

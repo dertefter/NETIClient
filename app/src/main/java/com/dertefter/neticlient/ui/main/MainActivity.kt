@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,10 @@ import androidx.core.view.ViewGroupCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -38,6 +43,7 @@ import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.ui.messages.MessagesViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -54,23 +60,25 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
-    private val messagesViewModel: MessagesViewModel by viewModels()
 
-    private lateinit var pagerAdapter: MainActivityPagerAdapter
-    private var keepSplashScreen = true
+    private lateinit var navController: NavController
+    private var keepSplashScreen = false
+
+    override fun onSupportNavigateUp(): Boolean =
+        navController.navigateUp() || super.onSupportNavigateUp()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         ThemeEngine.setup(this)
         val selectedTheme = ThemeEngine.getSelectedTheme()
-        if (selectedTheme == 0){
+        if (selectedTheme == 0) {
             setTheme(R.style.GreenTheme)
         } else {
             setTheme(selectedTheme)
         }
 
-        if (Build.VERSION.SDK_INT >= 31){
+        if (VERSION.SDK_INT >= 31) {
             val splashScreen = this.splashScreen
             splashScreen.setSplashScreenTheme(selectedTheme)
         }
@@ -90,9 +98,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        settingsViewModel.scheduleServiceState.observe(this){
+        settingsViewModel.scheduleServiceState.observe(this) {
             Log.e("settingsViewModel", it.toString())
-            if (it == true){
+            if (it == true) {
                 Log.e("settingsViewModel.scheduleServiceState", "starting service")
                 val intent = Intent(this, ScheduleService::class.java)
                 startForegroundService(intent)
@@ -103,108 +111,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_container) as NavHostFragment
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val currentFragment = supportFragmentManager.findFragmentByTag("f${binding.viewpager.currentItem}") as? BaseNavFragment
-                val navController = currentFragment?.getNavController()
+        navController = navHostFragment.navController
 
-                if (navController?.currentDestination?.id != navController?.graph?.startDestinationId) {
-                    navController?.popBackStack()
-                } else {
-                    finish()
-                }
-            }
-        })
-
-
-        pagerAdapter = MainActivityPagerAdapter(this)
-        pagerAdapter.setData(
-            intArrayOf(
-                R.navigation.nav_graph_schedule,
-                R.navigation.nav_graph_news,
-                R.navigation.nav_graph_messages,
-                R.navigation.nav_graph_profile
-            ).toList()
-        )
         mainActivityViewModel.startUpdatingTime()
-        binding.viewpager.adapter = pagerAdapter
-        binding.viewpager.isUserInputEnabled = false
-        binding.viewpager.setOffscreenPageLimit(5)
 
-        binding.bottomNavigation?.setOnItemSelectedListener { item ->
-            var pos = 0
-            when (item.itemId) {
-                R.id.nav_graph_schedule -> pos = 0
-                R.id.nav_graph_news -> pos = 1
-                R.id.nav_graph_messages -> pos = 2
-                R.id.nav_graph_profile -> pos = 3
-            }
-            binding.viewpager.setCurrentItem(pos, false)
-            Utils.basicAnimationOn(binding.viewpager).start()
-            true
-        }
-
-        messagesViewModel.newCountTabAll.observe(this){
-            val badge_bottom_nav = binding.bottomNavigation?.getOrCreateBadge(R.id.nav_graph_messages)
-            val badge_rail = binding.navigationRail?.getOrCreateBadge(R.id.nav_graph_messages)
-            val count = it
-            badge_bottom_nav?.isVisible = count > 0
-            badge_bottom_nav?.number = count
-            badge_rail?.isVisible = count > 0
-            badge_rail?.number = count
-        }
-
-        binding.navigationRail?.setOnItemSelectedListener { item ->
-            var pos = 0
-            when (item.itemId) {
-                R.id.nav_graph_schedule -> pos = 0
-                R.id.nav_graph_news -> pos = 1
-                R.id.nav_graph_messages -> pos = 2
-                R.id.nav_graph_profile -> pos = 3
-            }
-            binding.viewpager.setCurrentItem(pos, false)
-            Utils.basicAnimationOn(binding.viewpager).start()
-            true
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val deviceInsets: Insets = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-                        or WindowInsetsCompat.Type.displayCutout()
-            )
-            val top = deviceInsets.top
-            val bottom = deviceInsets.bottom
-            val right =  deviceInsets.right
-            val left = deviceInsets.left
-            settingsViewModel.insetsViewModel.postValue(intArrayOf(top, bottom, right, left))
-            WindowInsetsCompat.CONSUMED
-        }
-
-
-        settingsViewModel.insetsViewModel.observe(this){
-            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE){
-                binding.root.updatePadding(
-                    top = it[0],
-                    bottom = it[1],
-                    right = it[2],
-                    left = it[3]
-                )
-            }
-            else{
-                binding.bottomNavigation?.updatePadding(
-                    bottom = it[1],
-                    right = it[2],
-                    left = it[3]
-                )
-                binding.alertContainer.updatePadding(
-                    top = it[0],
-                    right = it[2],
-                    left = it [3],
-                )
-            }
-            keepSplashScreen = false
-        }
+        ViewGroupCompat.installCompatInsetsDispatch(binding.root)
 
         loginViewModel.authStateLiveData.observe(this){
             when (it) {

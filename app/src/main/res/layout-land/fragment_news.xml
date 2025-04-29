@@ -74,11 +74,71 @@
                         android:fadingEdge="none"
                         android:paddingHorizontal="@dimen/margin"
                         android:requiresFadingEdge="none"
+                        android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         tools:itemCount="20"
                         tools:listitem="@layout/item_news" />
                 </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:fitsSystemWindows="false"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:scrollbarThumbHorizontal="@null">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/filter_chips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_all"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/filter_news_all" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_news"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_news" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_obj"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_obj" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_interview"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_interv" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_photo"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_photo" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
 
             </com.google.android.material.appbar.AppBarLayout>
 

@@ -1,66 +1,56 @@
-package com.dertefter.neticlient.ui.profile
+package com.dertefter.neticlient.ui.profile.profile_dialog
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.AuthState
-import com.dertefter.neticlient.databinding.FragmentProfileBinding
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
-import dagger.hilt.android.AndroidEntryPoint
+import com.dertefter.neticlient.data.model.AuthState
+import com.dertefter.neticlient.databinding.FragmentProfileDialogBinding
+import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticlient.ui.profile.ProfileMenuAdapter
+import com.dertefter.neticlient.ui.profile.ProfileViewModel
 import java.io.File
 
-@AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileDialogFragment : DialogFragment() {
 
-    lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentProfileDialogBinding
 
     private val loginViewModel: LoginViewModel by activityViewModels()
-    private val profileViewModel: ProfileViewModel by viewModels()
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
-
+    private val profileViewModel: ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
-
+        binding = FragmentProfileDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_FRAME, R.style.SomeDialogTheme)
+    }
+    
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
+        binding.profileCard.setOnClickListener {
+            findNavController().navigate(
+                R.id.profileDetailFragment,
+                null,
+                Utils.getNavOptions(),
             )
-        }
-
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.topContainer, false).start()
-            } else {
-                Utils.basicAnimationOn(binding.topContainer).start()
-            }
-           
+            dismiss()
         }
 
         val adapter = ProfileMenuAdapter(fragment = this)
@@ -79,22 +69,10 @@ class ProfileFragment : Fragment() {
         loginViewModel.authStateLiveData.observe(viewLifecycleOwner){
             if (it == AuthState.UNAUTHORIZED){
                 binding.authCard.visibility = View.VISIBLE
-                binding.profilePic.setOnClickListener {
-                    findNavController().navigate(
-                        R.id.loginFragment,
-                        null,
-                        Utils.basicTransitionAnimations(),
-                    )
-                }
+                binding.profileCard.visibility = View.GONE
             } else {
                 binding.authCard.visibility = View.GONE
-                binding.profilePic.setOnClickListener {
-                    findNavController().navigate(
-                        R.id.profileDetailFragment,
-                        null,
-                        Utils.basicTransitionAnimations(),
-                    )
-                }
+                binding.profileCard.visibility = View.VISIBLE
             }
 
             if (it == AuthState.AUTHORIZED){
@@ -118,17 +96,35 @@ class ProfileFragment : Fragment() {
             adapter.updateItems(it)
         }
 
+        loginViewModel.userLiveData.observe(viewLifecycleOwner){ it->
+            if (it != null){
+                if (it.name.split(" ").size >= 2){
+                    binding.name.text = it.name.split(" ")[1]
+                }else{
+                    binding.name.text = it.name
+                }
+
+                binding.login.text = it.login
+            }
+        }
+
 
         binding.authButton.setOnClickListener {
             findNavController().navigate(
                 R.id.loginFragment,
                 null,
-                Utils.basicTransitionAnimations(),
+                Utils.getNavOptions(),
             )
+            dismiss()
         }
 
         binding.settingsButton.setOnClickListener {
-            findNavController().navigate(R.id.settingsFragment)
+            findNavController().navigate(
+                R.id.settingsFragment,
+                null,
+                Utils.getNavOptions(),
+            )
+            dismiss()
         }
 
         loginViewModel.userLiveData.observe(viewLifecycleOwner){
@@ -151,4 +147,10 @@ class ProfileFragment : Fragment() {
 
     }
 
+
+    companion object {
+        fun newInstance(): ProfileDialogFragment {
+            return ProfileDialogFragment()
+        }
+    }
 }

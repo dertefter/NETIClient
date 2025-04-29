@@ -1,7 +1,6 @@
 package com.dertefter.neticlient.data.model.schedule
 
 import java.time.LocalDate
-import java.time.LocalTime
 
 data class Day (
     val dayName: String,
@@ -18,4 +17,5 @@ data class Day (
         }
         return lessons.toList()
     }
+
 }

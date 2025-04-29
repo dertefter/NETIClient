@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -31,6 +34,11 @@ class SemestrFragment : Fragment() {
         val semestr = arguments?.getParcelable<SessiaResultSemestr>("SEMESTR")!!
         val items = semestr.items
         binding.recyclerView.adapter = SessiaResultAdapter(items)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         val spanCount = resources.getInteger(R.integer.span_count)
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)

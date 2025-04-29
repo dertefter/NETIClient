@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -42,21 +44,18 @@ class PersonSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
-            )
-        }
-
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0){
                 Utils.basicAnimationOff(binding.toolbar, false).start()
             } else {
                 Utils.basicAnimationOn(binding.toolbar).start()
             }
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
 
         binding.searchField.editText?.doOnTextChanged { text, start, before, count ->

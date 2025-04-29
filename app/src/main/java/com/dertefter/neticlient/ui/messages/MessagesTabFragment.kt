@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -43,6 +46,12 @@ class MessagesTabFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
         val spanCount = resources.getInteger(R.integer.span_count)
 
         val adapter = MessagesRecyclerViewAdapter(fragment = this)
@@ -65,7 +74,11 @@ class MessagesTabFragment : Fragment() {
         )
 
         binding.authButton.setOnClickListener {
-            findNavController().navigate(R.id.loginFragment)
+            findNavController().navigate(
+                R.id.loginFragment,
+                null,
+                Utils.getNavOptions(),
+            )
         }
 
         val tab = arguments?.getString("tab")
@@ -85,7 +98,9 @@ class MessagesTabFragment : Fragment() {
             messagesViewModel.getLiveDataForTab(tab).observe(viewLifecycleOwner){
 
                 if (it.responseType == ResponseType.LOADING){
-                    adapter.setLoading()
+                    if (adapter.messagesList.isEmpty()){
+                        adapter.setLoading()
+                    }
                 }
 
                 if (it.data != null){

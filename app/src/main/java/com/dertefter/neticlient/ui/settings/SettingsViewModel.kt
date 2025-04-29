@@ -1,16 +1,10 @@
 package com.dertefter.neticlient.ui.settings
 
-import androidx.core.graphics.Insets
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.profile_menu.ProfileMenuItem
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
@@ -21,16 +15,12 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ): ViewModel() {
-    val legendaryCardsState = MutableLiveData<Boolean>()
-    var scheduleServiceState = MutableLiveData<Boolean>()
+     val legendaryCardsState = MutableLiveData<Boolean>()
+     var scheduleServiceState = MutableLiveData<Boolean>()
      var notifyFutureLessonsState = MutableLiveData<Boolean>()
-
-    val materialYouState = settingsRepository.getMaterialYou()
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
-
      var verticalScheduleState= MutableLiveData<Boolean>()
      var cacheMessagesState= MutableLiveData<Boolean>()
-    var insetsViewModel = MutableLiveData<IntArray>()
+    var dashboardTitle = MutableLiveData<String>()
 
     init {
         loadAllSettings()
@@ -44,9 +34,18 @@ class SettingsViewModel @Inject constructor(
            verticalScheduleState.postValue(settingsRepository.getVerticalSchedule().first())
            cacheMessagesState.postValue(settingsRepository.getCacheMessages().first())
            legendaryCardsState.postValue(settingsRepository.getLegendaryCards().first())
+           dashboardTitle.postValue(settingsRepository.getDashboardTitle().first())
 
        }
     }
+
+    fun setDashboardTitle(state: String) {
+        viewModelScope.launch {
+            settingsRepository.setDashboardTitle(state)
+            dashboardTitle.value = state
+        }
+    }
+
 
     fun setScheduleService(state: Boolean) {
         viewModelScope.launch {

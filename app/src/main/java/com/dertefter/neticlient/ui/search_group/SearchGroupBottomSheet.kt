@@ -65,7 +65,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
             GridSpacingItemDecoration(
                 requireContext(),
                 spanCount,
-                R.dimen.margin
+                R.dimen.margin_min
             )
         )
 
@@ -107,7 +107,8 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
                 GridSpacingItemDecoration(
                     requireContext(),
                     it.size,
-                    R.dimen.margin
+                    R.dimen.margin_min,
+                    R.dimen.zero
                 )
             )
 

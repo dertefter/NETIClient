@@ -106,4 +106,16 @@ class SettingsRepository @Inject constructor(
             preferences[booleanPreferencesKey("legendaryCards")] ?: false
         }
     }
+
+    fun getDashboardTitle(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[stringPreferencesKey("dashboardTitle")] ?: ""
+        }
+    }
+
+    suspend fun setDashboardTitle(state: String) {
+        dataStore.edit { pref ->
+            pref[stringPreferencesKey("dashboardTitle")] = state
+        }
+    }
 }

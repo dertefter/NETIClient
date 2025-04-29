@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -49,23 +51,10 @@ class MessagesDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
-                binding.appBarLayout.updatePadding(
-                    top = it[0],
-                    bottom = 0,
-                    right = it[2],
-                    left = it[3]
-                )
-            } else{
-                binding.appBarLayout.updatePadding(
-                    top = 0,
-                    bottom = 0,
-                    right = 0,
-                    left = 0
-                )
-            }
-
+        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
 
         binding.appBarLayout.setLiftable(true)
@@ -117,7 +106,14 @@ class MessagesDetailFragment : Fragment() {
                             binding.person.setOnClickListener {
                                 val bundle = Bundle()
                                 bundle.putString("personId", messageDetail.personId)
-                                findNavController().navigate(R.id.personViewFragment, bundle)
+
+                                findNavController().navigate(
+                                    R.id.personViewFragment,
+                                    bundle,
+                                    Utils.getNavOptions(),
+
+                                )
+
                             }
                         }
                     }

@@ -7,13 +7,13 @@ import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-
 class GridSpacingItemDecoration(
     context: Context,
     private val spanCount: Int,
     @DimenRes horizontalSpacingResId: Int,
     @DimenRes verticalSpacingResId: Int = horizontalSpacingResId
 ) : ItemDecoration() {
+
     private val horizontalSpacing = context.resources.getDimensionPixelSize(horizontalSpacingResId)
     private val verticalSpacing = context.resources.getDimensionPixelSize(verticalSpacingResId)
 
@@ -29,12 +29,16 @@ class GridSpacingItemDecoration(
         }
 
         val column = position % spanCount
-        outRect.left = horizontalSpacing - column * horizontalSpacing / spanCount
-        outRect.right = (column + 1) * horizontalSpacing / spanCount
+
+        if (column != 0) {
+            outRect.left = horizontalSpacing / 2
+        }
+        if (column != spanCount - 1) {
+            outRect.right = horizontalSpacing / 2
+        }
 
         if (position >= spanCount) {
             outRect.top = verticalSpacing
         }
     }
 }
-

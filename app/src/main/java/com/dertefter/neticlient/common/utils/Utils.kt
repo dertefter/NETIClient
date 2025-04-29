@@ -78,14 +78,18 @@ object Utils {
         }
     }
 
-    fun basicTransitionAnimations(): NavOptions {
-        val navOptions = NavOptions.Builder()
+    fun getNavOptions(): NavOptions {
+        return NavOptions.Builder()
+            .setEnterAnim(R.animator.nav_default_enter_anim)
+            .setExitAnim(R.animator.nav_default_exit_anim)
+            .setPopEnterAnim(R.animator.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.animator.nav_default_pop_exit_anim)
             .build()
-        return navOptions
     }
 
+
     fun NavController.navigateTo(destinationId: Int, args: Bundle? = null) {
-        this.navigate(destinationId, args, navOptions = basicTransitionAnimations())
+        this.navigate(destinationId, args, navOptions = getNavOptions())
     }
 
     fun TextView.displayHtml(html: String) {

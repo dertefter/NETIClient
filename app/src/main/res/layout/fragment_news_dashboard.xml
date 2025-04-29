@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:paddingBottom="@dimen/margin_min"
+        android:text="@string/title_news"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="24sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:contentDescription="@string/lessons_list"
+        android:fadingEdge="none"
+        android:isScrollContainer="false"
+        android:requiresFadingEdge="none"
+        android:visibility="visible"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_time" />
+
+    <Button
+        android:id="@+id/more_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_min"
+        android:layout_weight="1"
+        android:backgroundTint="?attr/colorSecondaryContainer"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Больше новостей"
+        android:textColor="?attr/colorOnSecondaryContainer"
+        app:cornerRadius="@dimen/radius"
+        app:icon="@drawable/news_icon"
+        app:iconPadding="0dp"
+        app:iconSize="20dp"
+        app:iconTint="?attr/colorOnSecondaryContainer" />
+
+</LinearLayout>

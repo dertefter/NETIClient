@@ -1,6 +1,7 @@
 package com.dertefter.neticlient.ui.settings
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -8,9 +9,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,6 +27,8 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import com.dertefter.neticlient.databinding.FragmentSettingsBinding
 import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,21 +54,18 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
         binding.appName.text = getString(R.string.app_name)
         val versionName = requireContext().packageManager
             .getPackageInfo(requireContext().packageName, 0).versionName
         val versionCode = requireContext().packageManager
             .getPackageInfo(requireContext().packageName, 0).versionCode
         binding.appVerion.text = "$versionName ($versionCode)"
-
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
-            )
-        }
 
         checkNotificationPermission()
         setupPermissionUI()
@@ -163,7 +169,42 @@ class SettingsFragment : Fragment() {
         }
     }
 
+
+    fun showChangeDialog(context: Context) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_title, null)
+        val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radioGroup)
+        val field = dialogView.findViewById<TextInputLayout>(R.id.field)
+        val radioCustom = dialogView.findViewById<RadioButton>(R.id.radioCustom)
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            field.visibility = if (checkedId == R.id.radioCustom) View.VISIBLE else View.GONE
+        }
+
+        MaterialAlertDialogBuilder(context)
+            .setTitle(getString(R.string.edit))
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.save)) { dialog, _ ->
+                val selectedOption = when (radioGroup.checkedRadioButtonId) {
+                    R.id.radioOption1 -> getString(R.string.app_name)
+                    R.id.radioOption2 -> getString(R.string.title_nstu)
+                    R.id.radioCustom -> field.editText!!.text.toString()
+                    else -> ""
+                }
+                settingsViewModel.setDashboardTitle(selectedOption)
+
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+
     private fun setupSwitches() {
+
+        binding.editTitle.setOnClickListener {
+            showChangeDialog(requireContext())
+        }
+
         binding.switchScheduleService.isChecked = settingsViewModel.scheduleServiceState.value == true
         binding.switchScheduleService.setOnCheckedChangeListener { _, isChecked ->
             settingsViewModel.setScheduleService(isChecked)

@@ -9,8 +9,10 @@
     android:fitsSystemWindows="false">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -86,7 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/notify_lessons_now"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -115,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/notify_lessons_future"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="18sp" />
 
                     <TextView
@@ -156,7 +158,7 @@
                     android:layout_weight="1"
                     android:paddingEnd="@dimen/margin"
                     android:text="Карточки расписания как в оригинале"
-                    android:textColor="?attr/colorOnSurface"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="18sp" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -164,6 +166,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingEnd="@dimen/margin"
+                    android:text="Заголовок начальной страницы"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/edit_icon" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -184,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/margin"
                         android:text="@string/color_scheme"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="18sp" />
 
                     <androidx.recyclerview.widget.RecyclerView

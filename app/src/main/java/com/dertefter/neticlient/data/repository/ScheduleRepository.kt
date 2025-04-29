@@ -10,6 +10,7 @@ import com.dertefter.neticlient.data.model.schedule.LessonTrigger
 import com.dertefter.neticlient.data.model.schedule.Schedule
 import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.network.NetworkClient
+import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -29,6 +30,10 @@ class ScheduleRepository @Inject constructor(
             saveSchedule(group, schedule.data as Schedule)
         }
         return schedule.data as Schedule?
+    }
+
+    suspend fun fetchSessiaSchedule(group: String): ResponseResult {
+        return networkClient.getSessiaSchedule(group)
     }
 
     private suspend fun saveSchedule(group: String, schedule: Schedule) {

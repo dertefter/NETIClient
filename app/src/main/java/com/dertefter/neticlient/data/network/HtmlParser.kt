@@ -48,8 +48,16 @@ class HtmlParser {
                 val name = i.select("div.schedule__session-item").first()?.ownText().toString()
                 val aud = i.select("div.schedule__session-class").first()?.text().toString()
                 val type = i.select("div.schedule__session-label").first()?.text().toString()
-                val personLink = i.select("div.schedule__session-item").first()?.select("a")?.first()?.attr("href")+"/"
-                output.add(SessiaScheduleItem(name, time, date, type, aud, personLink, dayName))
+                val personLinks = i.select("div.schedule__session-item").first()?.select("a")
+                val personIds = mutableListOf<String>()
+                if (personLinks != null) {
+                    for (l in personLinks){
+                        val id = l.attr("href").substringAfterLast('/')
+                        personIds.add(id)
+                    }
+                }
+
+                    output.add(SessiaScheduleItem(name, time, date, type, aud, personIds, dayName))
             }
             return output
         }catch (e: Exception) {
@@ -210,7 +218,7 @@ class HtmlParser {
                                 (lesson.trigger == LessonTrigger.ODD && weekNumber % 2 != 0) ||
                                 (lesson.trigger == LessonTrigger.EVEN && weekNumber % 2 == 0) ||
                                 (lesson.trigger == LessonTrigger.CUSTOM && lesson.triggerWeeks.contains(weekNumber))
-                                ){
+                            ){
                                 lessons.add(lesson)
                             }
                         }

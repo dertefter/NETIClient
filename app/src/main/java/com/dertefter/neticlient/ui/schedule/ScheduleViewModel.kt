@@ -25,7 +25,17 @@ class ScheduleViewModel @Inject constructor(
 
     val selectedGroupLiveData = MutableLiveData<String?>()
 
+    val sessiaScheduleLiveData = MutableLiveData<ResponseResult>()
+
     private val scheduleLiveDataMap: MutableMap<String, MutableLiveData<ResponseResult>> = mutableMapOf()
+
+    fun getSessiaSchedule(group: String){
+        viewModelScope.launch {
+            val response = scheduleRepository.fetchSessiaSchedule(group)
+            sessiaScheduleLiveData.postValue(response)
+        }
+
+    }
 
     fun getGroupHistory(){
         viewModelScope.launch {
@@ -99,6 +109,13 @@ class ScheduleViewModel @Inject constructor(
             } else {
                 scheduleLiveData.postValue(ResponseResult(ResponseType.ERROR))
             }
+        }
+    }
+
+    fun fetchWeekLabel(){
+        viewModelScope.launch {
+            val weekLabel = scheduleRepository.fetchCurrentWeekLabel()
+            CurrentTimeObject.weekLabelLiveData.postValue(weekLabel)
         }
     }
 

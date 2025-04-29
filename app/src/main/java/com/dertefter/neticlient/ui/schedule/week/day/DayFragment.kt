@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +43,12 @@ class DayFragment : Fragment() {
         val weekNumber = arguments?.getInt("WEEK_NUMBER")
         val dayNumber = arguments?.getInt("DAY_NUMBER")
         val group = arguments?.getString("GROUP")
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         val adapter = TimesAdapter(fragment = this)
         binding.recyclerView.adapter = adapter

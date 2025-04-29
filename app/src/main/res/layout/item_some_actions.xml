@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:divider="@drawable/vertical_divider_small"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <Button
+            android:id="@+id/button_schedule_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/colorSecondaryContainer"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Показать всё расписание"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            app:cornerRadius="@dimen/radius"
+            app:icon="@drawable/calendar_month_icon"
+            app:iconPadding="0dp"
+            app:iconSize="20dp"
+            app:iconTint="?attr/colorOnSecondaryContainer" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@drawable/horizontal_divider_small"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/button_sessia_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="?attr/colorSurfaceContainer"
+                android:gravity="start|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Расписание сессии"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:cornerRadius="@dimen/radius"
+                app:icon="@drawable/school_icon"
+                app:iconPadding="12dp"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant" />
+
+            <Button
+                android:id="@+id/button_person_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="?attr/colorSurfaceContainer"
+                android:gravity="start|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Поиск сотрудников"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                app:cornerRadius="@dimen/radius"
+                app:icon="@drawable/person_search_icon"
+                app:iconPadding="12dp"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

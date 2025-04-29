@@ -8,11 +8,13 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.profile_menu.ProfileMenuItem
+import com.dertefter.neticlient.ui.profile.profile_dialog.ProfileDialogFragment
 
 class ProfileMenuAdapter(
     private var items: List<ProfileMenuItem> = emptyList(),
-    private val fragment: ProfileFragment
+    private val fragment: ProfileDialogFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ItemDisabledViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -24,7 +26,7 @@ class ProfileMenuAdapter(
         }
     }
 
-    inner class ItemViewHolder(view: View, fragment: ProfileFragment) : RecyclerView.ViewHolder(view) {
+    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val icon: ImageView = view.findViewById(R.id.icon)
         private val title: TextView = view.findViewById(R.id.title)
 
@@ -32,7 +34,14 @@ class ProfileMenuAdapter(
             title.text = item.title
             item.iconResId?.let { icon.setImageResource(it) }
             itemView.setOnClickListener {
-                item.navigateToDestination?.let { it1 -> fragment.findNavController().navigate(it1) }
+                item.navigateToDestination?.let { it1 ->
+                    fragment.findNavController().navigate(
+                        it1,
+                        null,
+                        Utils.getNavOptions(),
+                    )
+                    fragment.dismiss()
+                }
             }
         }
     }
@@ -46,7 +55,7 @@ class ProfileMenuAdapter(
             0 -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_profile_menu, parent, false)
-                ItemViewHolder(view, fragment)
+                ItemViewHolder(view)
             }
             1 -> {
                 val view = LayoutInflater.from(parent.context)

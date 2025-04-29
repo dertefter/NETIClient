@@ -11,18 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:divider="@drawable/vertical_divider"
         android:orientation="vertical"
         android:showDividers="middle"
         android:visibility="visible">
 
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_min"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin_min"
+            android:minHeight="@dimen/margin_max"
+            android:paddingBottom="0dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchGroupField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin_min"
             android:hint="@string/hint_group_name"
             app:boxBackgroundColor="?attr/colorSurfaceContainer"
             app:boxCornerRadiusBottomEnd="@dimen/radius"
@@ -46,10 +54,12 @@
             android:id="@+id/groupsHistoryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_min"
             android:layout_weight="0"
             android:clipToPadding="false"
             android:fadingEdge="none"
             android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/margin"
             android:requiresFadingEdge="none"
             android:visibility="visible"
             tools:listitem="@layout/item_group_history">
@@ -76,7 +86,7 @@
             android:contentDescription="@string/desc_group_list"
             android:minHeight="300dp"
             android:nestedScrollingEnabled="false"
-            android:paddingVertical="@dimen/margin" />
+            android:paddingHorizontal="@dimen/margin" />
 
 
     </LinearLayout>

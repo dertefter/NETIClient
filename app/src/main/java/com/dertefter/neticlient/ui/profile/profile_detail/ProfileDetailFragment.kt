@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,7 +44,13 @@ class ProfileDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         binding.agreeCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.saveButton.isEnabled = isChecked
@@ -58,15 +66,6 @@ class ProfileDetailFragment : Fragment() {
             val n_tg = binding.tg.editText?.text.toString()
             val n_leader = binding.leaderId.editText?.text.toString()
             profileDetailViewModel.saveData(n_email, n_address, n_phone, n_snils, n_oms, n_vk, n_tg, n_leader)
-        }
-
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            binding.appBarLayout.updatePadding(
-                top = it[0],
-                bottom = 0,
-                right = it[2],
-                left = it[3]
-            )
         }
 
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NETI Client</string>
+    <string name="app_name">NETI Клиент</string>
     <string name="prompt_email">Электронная почта</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in_short">Войти</string>
@@ -45,7 +45,7 @@
     <string name="sync_icon_disc">Вход в личный кабинет</string>
     <string name="settings_button_disc">Настройки</string>
     <string name="profile_menu_items">Элементы меню</string>
-    <string name="week_menu">Выбор недели</string>
+    <string name="week_menu">Неделя</string>
     <string name="add_group">Добавьте свою группу чтобы посмотреть расписание занятий</string>
     <string name="add_group_button">Поиск учебной группы</string>
     <string name="group_selection_button">Выбор группы</string>
@@ -81,4 +81,13 @@
     <string name="search_empty">Ничего не нашлось</string>
     <string name="add_widget">Добавить виджет</string>
     <string name="current_week_label_widget_desc">Текущая неделя</string>
+    <string name="title_dashboard">Главное</string>
+    <string name="today">сегодня</string>
+    <string name="tomorrow">завтра</string>
+    <string name="classses_for">Занятия на</string>
+    <string name="title_nstu">НГТУ НЭТИ</string>
+    <string name="other_variant">Свой вариант</string>
+    <string name="edit">Изменить</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
 </resources>

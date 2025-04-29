@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -40,6 +43,12 @@ class MoneyYearFragment : Fragment() {
         val year = arguments?.getString("YEAR")!!
         Log.e("year", year)
         moneyItemsViewModel.fetchMoneyItemsForYear(year)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         moneyItemsViewModel.moneyItemsLiveData.observe(viewLifecycleOwner){
             if (it.responseType == ResponseType.SUCCESS){

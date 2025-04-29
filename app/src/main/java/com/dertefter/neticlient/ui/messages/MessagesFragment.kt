@@ -45,6 +45,11 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupUI() {
+
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         val tabs = listOf("Преподаватели и службы", "Прочее")
         val adapter = MessagesPagerAdapter(this)
         adapter.setData(tabs)
@@ -71,15 +76,6 @@ class MessagesFragment : Fragment() {
             val badge = binding.tabLayout.getTabAt(1)?.orCreateBadge
             badge?.isVisible = count > 0
             badge?.number = count
-        }
-
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner) { insets ->
-            binding.appBarLayout.updatePadding(
-                top = insets[0],
-                bottom = 0,
-                right = insets[2],
-                left = insets[3]
-            )
         }
 
         binding.appBarLayout.setLiftable(true)
@@ -112,7 +108,11 @@ class MessagesFragment : Fragment() {
 
     private fun navigateToDetail(messageId: String) {
         val args = bundleOf("id" to messageId)
-        findNavController().navigate(R.id.messagesDetailFragment, args)
+        findNavController().navigate(
+            R.id.messagesDetailFragment,
+            args,
+            Utils.getNavOptions(),
+        )
     }
 
     fun detailShowed(show: Boolean) {

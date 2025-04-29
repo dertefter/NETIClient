@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="@drawable/rounded_background"
+    android:backgroundTint="?attr/colorSurface"
     tools:context=".ui.profile.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -29,11 +30,11 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/colorSecondary"
+                    android:background="?attr/colorSurfaceContainer"
                     app:contentPadding="4dp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
                     app:srcCompat="@drawable/person"
-                    app:tint="?attr/colorOnSecondary" />
+                    app:tint="?attr/colorOnSurfaceVariant" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profilePic"
@@ -98,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
-            app:cardBackgroundColor="?attr/colorSecondary"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
             app:cardUseCompatPadding="false"
             app:contentPadding="@dimen/margin">
 
@@ -114,23 +115,21 @@
                     android:layout_height="32dp"
                     android:contentDescription="@string/sync_icon_disc"
                     android:src="@drawable/sync"
-                    app:tint="?attr/colorOnPrimary" />
+                    app:tint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/action_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/auth_helper_text"
-                    android:textColor="?attr/colorOnSecondary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/auth_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/colorPrimaryContainer"
                     android:text="@string/auth_button_text"
-                    android:textColor="?attr/colorOnPrimaryContainer"
                     app:cornerRadius="@dimen/radius" />
             </LinearLayout>
 

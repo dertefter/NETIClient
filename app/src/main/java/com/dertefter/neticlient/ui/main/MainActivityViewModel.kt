@@ -38,5 +38,6 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     private fun updateDay() {
         val now = LocalDate.now()
         CurrentTimeObject.currentDayLiveData.postValue(now.dayOfWeek.value)
+        CurrentTimeObject.currentDateLiveData.postValue(now)
     }
 }

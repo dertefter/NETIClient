@@ -45,7 +45,7 @@
     <string name="sync_icon_disc">Student account login</string>
     <string name="settings_button_disc">Settings</string>
     <string name="profile_menu_items">Menu items</string>
-    <string name="week_menu">Week selection</string>
+    <string name="week_menu">Week</string>
     <string name="add_group">Add your group to view the class schedule</string>
     <string name="add_group_button">Search for a study group</string>
     <string name="group_selection_button">Group selection</string>
@@ -82,5 +82,14 @@
     <string name="search_empty">Nothing found</string>
     <string name="add_widget">Add widget</string>
     <string name="current_week_label_widget_desc">Current week label</string>
+    <string name="title_dashboard">Главное</string>
+    <string name="today">today</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="classses_for">Classes for</string>
+    <string name="title_nstu">NSTU NETI</string>
+    <string name="other_variant">Other</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

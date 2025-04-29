@@ -45,24 +45,6 @@ class PersonViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingsViewModel.insetsViewModel.observe(viewLifecycleOwner){
-            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
-                binding.appBarLayout.updatePadding(
-                    top = it[0],
-                    bottom = 0,
-                    right = it[2],
-                    left = it[3]
-                )
-            }else{
-                binding.appBarLayout.updatePadding(
-                    top = 0,
-                    bottom = 0,
-                    right = 0,
-                    left = 0
-                )
-            }
-        }
-
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
             val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)

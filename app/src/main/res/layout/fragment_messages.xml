@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@drawable/rounded_background"
+    android:backgroundTint="?attr/colorSurface"
     android:divider="@drawable/horizontal_divider"
     android:showDividers="middle"
     tools:context=".ui.schedule.ScheduleFragment">
@@ -38,9 +40,9 @@
                     android:layout_weight="1"
                     android:minHeight="?attr/actionBarSize"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                    app:title="@string/messages_title"
+                    app:navigationIcon="@drawable/arrow_back"
 
-                    />
+                    app:title="@string/messages_title" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"

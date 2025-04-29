@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dertefter.neticlient.data.model.news.NewsItem
+import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.network.model.ResponseResult
+import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.CourcesRepository
 import com.dertefter.neticlient.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,15 +20,41 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ): ViewModel() {
 
-    val newsResponseLiveData = MutableLiveData<ResponseResult>()
+    val newsListLiveData = MutableLiveData<List<NewsItem>?>()
 
     val promoListLiveData = MutableLiveData<ResponseResult>()
 
-    fun fetchNews(page: Int){
-        Log.e("fetchNews", page.toString())
+    val appBarExpanded = MutableLiveData<Boolean>()
+
+    var page = 1
+
+    var loading = false
+
+    fun fetchNews(){
+        if (loading) return
         viewModelScope.launch {
+            Log.e("newsLoad", "loading")
+            loading = true
             val responseResult = newsRepository.fetchNews(page)
-            newsResponseLiveData.postValue(responseResult)
+            if (responseResult.responseType == ResponseType.SUCCESS && responseResult.data!= null){
+                val lastValue = newsListLiveData.value?.toMutableList()
+                val newsResponse = responseResult.data as NewsResponse
+                if (!lastValue.isNullOrEmpty()) {
+                    for (i in newsResponse.items){
+                        if (!lastValue.contains(i)){
+                            lastValue.add(i)
+                        }
+                    }
+                    newsListLiveData.postValue(lastValue)
+                    page++
+                } else {
+                    newsListLiveData.postValue(newsResponse.items)
+                    page++
+                }
+
+            }
+            loading = false
+
         }
     }
 

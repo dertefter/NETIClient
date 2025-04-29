@@ -27,13 +27,17 @@
         <item name="android:navigationBarColor">?attr/colorSurfaceContainerLow</item>
     </style>
 
-    <style name="DialogTheme" parent="android:Theme.Dialog">
-
+    <style name="ImageDialogTheme" parent="android:Theme.Dialog">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="SomeDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
     </style>
 
     <style name="Widget.NETIClient.AppWidget.Container" parent="android:Widget">
@@ -46,5 +50,15 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorSurface">?attr/colorSurfaceContainer</item>
+        <item name="colorSecondaryContainer">?attr/colorPrimaryContainer</item>
+        <item name="colorOnSecondaryContainer">?attr/colorOnPrimaryContainer</item>
+    </style>
 
 </resources>

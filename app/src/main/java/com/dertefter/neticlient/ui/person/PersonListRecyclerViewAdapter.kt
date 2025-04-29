@@ -29,6 +29,7 @@ class PersonListRecyclerViewAdapter(
         val view = LayoutInflater.from(parent.context).inflate(
             if (listStyle == PersonListStyle.AVATARS_ONLY) R.layout.item_person_avatar
             else if (listStyle == PersonListStyle.SMALL_TEXT) R.layout.item_person_small_text
+            else if (listStyle == PersonListStyle.LIST) R.layout.item_person_list
                 else R.layout.item_person_card,
             parent, false
         )

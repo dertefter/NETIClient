@@ -9,14 +9,14 @@ plugins {
 
 android {
     namespace 'com.dertefter.neticlient'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.dertefter.neticlient"
-        minSdk 27
-        targetSdk 35
-        versionCode 10
-        versionName "1.0.0"
+        minSdk 26
+        targetSdk 36
+        versionCode 11
+        versionName "2.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,8 +42,9 @@ android {
 dependencies {
 
     implementation 'com.github.mobven:MBAndroidProgressBar:1.0.0'
-
-    implementation "androidx.activity:activity-ktx:1.10.0"
+    implementation "androidx.transition:transition-ktx:1.6.0"
+    implementation "androidx.fragment:fragment-ktx:1.8.6"
+    implementation "androidx.activity:activity:1.6.0-alpha05"
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.core:core-ktx:1.16.0'

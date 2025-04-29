@@ -5,19 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="@dimen/radius_min"
     app:contentPadding="@dimen/margin">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider"
-        android:orientation="vertical"
+        android:divider="@drawable/horizontal_divider"
+        android:orientation="horizontal"
         android:showDividers="middle">
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
             app:tint="?attr/colorPrimary"
             tools:src="@drawable/school" />
 
@@ -25,9 +28,12 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Результаты\nсессии"
+            android:layout_gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Поиск сотрудников"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

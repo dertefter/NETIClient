@@ -25,13 +25,17 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
+            android:letterSpacing="0.07"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="20sp"
+            android:textStyle="normal"
             tools:text="Физическое химио-био" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="28dp"
             android:showDividers="middle">
 
             <TextView
@@ -51,7 +55,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/personsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:clickable="false"
