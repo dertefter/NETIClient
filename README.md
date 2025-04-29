@@ -27,12 +27,13 @@
 
 ### Скриншоты:
 <div style="display: flex; gap: 10px;">
-  <img src="art/screen2.png" alt="Скриншот 2" width="200" />
-  <img src="art/screen3.png" alt="Скриншот 3" width="200" />
-  <img src="art/screen4.png" alt="Скриншот 1" width="200" />
-  <img src="art/screen5.png" alt="Скриншот 2" width="200" />
-  <img src="art/screen6.png" alt="Скриншот 3" width="200" />
-  <img src="art/screen7.png" alt="Скриншот 1" width="200" />
+  <img src="art/screen1.png" alt="Скриншот 2" width="200" />
+  <img src="art/screen2.png" alt="Скриншот 3" width="200" />
+  <img src="art/screen3.png" alt="Скриншот 1" width="200" />
+  <img src="art/screen4.png" alt="Скриншот 2" width="200" />
+  <img src="art/screen5.png" alt="Скриншот 3" width="200" />
+  <img src="art/screen6.png" alt="Скриншот 1" width="200" />
+  <img src="art/screen7.png" alt="Скриншот 2" width="200" />
   <img src="art/screen8.png" alt="Скриншот 2" width="200" />
 </div>
 
