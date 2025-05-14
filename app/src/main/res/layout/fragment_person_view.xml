@@ -238,7 +238,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-medium"
                         android:text="@string/person_profiles"
                         android:textSize="18sp" />
 
@@ -276,7 +275,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-medium"
                         android:text="@string/disciplines"
                         android:textSize="18sp" />
 

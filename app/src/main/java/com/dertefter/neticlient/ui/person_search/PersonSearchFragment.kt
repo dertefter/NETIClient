@@ -78,7 +78,6 @@ class PersonSearchFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         personSearchViewModel.personIdListLiveData.observe(viewLifecycleOwner){
-            Log.e("personSearchViewModel", it.toString())
             if (it.responseType == ResponseType.SUCCESS){
                 if (it.data != null){
                     adapter.setData(it.data as List<Pair<String, String>>)

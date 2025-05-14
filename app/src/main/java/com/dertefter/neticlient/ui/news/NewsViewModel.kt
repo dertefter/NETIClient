@@ -33,7 +33,7 @@ class NewsViewModel @Inject constructor(
     fun fetchNews(){
         if (loading) return
         viewModelScope.launch {
-            Log.e("newsLoad", "loading")
+            
             loading = true
             val responseResult = newsRepository.fetchNews(page)
             if (responseResult.responseType == ResponseType.SUCCESS && responseResult.data!= null){

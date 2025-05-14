@@ -27,7 +27,7 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/f3"
                 android:text="Лала"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp" />

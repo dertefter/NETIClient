@@ -12,6 +12,7 @@ import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -20,6 +21,23 @@ class UserRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val networkClient: NetworkClient
 ) {
+
+    fun getSelectedGroupFlow(): Flow<String?> = dataStore.data
+        .map {
+        val selectedGroup = it[Constants.SELECTED_GROUP]
+        if (selectedGroup.isNullOrEmpty()){
+            null
+        }else{
+            selectedGroup
+        }
+      }.distinctUntilChanged()
+
+    suspend fun updateSelectedGroup(selectedGroup: String){
+        dataStore.edit { pref ->
+            pref[Constants.SELECTED_GROUP] = selectedGroup
+        }
+        addGroupToHistory(group = selectedGroup)
+    }
 
     suspend fun saveUser(user: User) {
         val userJson = Gson().toJson(user)
@@ -42,20 +60,7 @@ class UserRepository @Inject constructor(
     }
 
 
-    fun getSelectedGroup(): Flow<String?> = dataStore.data.map {
-        val selectedGroup = it[Constants.SELECTED_GROUP]
-        if (selectedGroup.isNullOrEmpty()){
-            null
-        }else{
-            selectedGroup
-        }
-    }
 
-    suspend fun satSelectedGroup(selectedGroup: String){
-        dataStore.edit { pref ->
-            pref[Constants.SELECTED_GROUP] = selectedGroup
-        }
-    }
 
     suspend fun addGroupToHistory(group: String) {
         dataStore.edit { preferences ->
@@ -94,17 +99,19 @@ class UserRepository @Inject constructor(
             val profilePicResponse = networkClient.getProfilePic()
             if (userResponse.responseType == ResponseType.SUCCESS) {
                 val profilePicPath = profilePicResponse.data as String
-                val userInfo: UserInfo = userResponse.data as UserInfo
+                val userInfo: UserInfo = userResponse.data as UserInfo?
+                    ?: return ResponseResult(ResponseType.ERROR)
+
                 val user = User(
                     login = login,
                     password = password,
                     name = userInfo.name,
                     group = userInfo.group,
-                    profilePicPath = profilePicPath
+                    profilePicPath = profilePicPath,
                 )
                 if (!userInfo.group.isNullOrEmpty()){
-                    if (getSelectedGroup().first().isNullOrEmpty()){
-                        satSelectedGroup(userInfo.group)
+                    if (getSelectedGroupFlow().first().isNullOrEmpty()){
+                        updateSelectedGroup(userInfo.group)
                     }
 
                 }

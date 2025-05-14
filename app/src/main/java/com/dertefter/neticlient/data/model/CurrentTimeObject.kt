@@ -6,8 +6,6 @@ import java.time.LocalTime
 
 object CurrentTimeObject {
     val currentTimeLiveData = MutableLiveData<LocalTime>()
-    val currentWeekLiveData = MutableLiveData<Int>()
     val currentDayLiveData = MutableLiveData<Int>()
-    val weekLabelLiveData = MutableLiveData<String?>()
     val currentDateLiveData = MutableLiveData<LocalDate>()
 }

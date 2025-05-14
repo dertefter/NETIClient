@@ -1,25 +1,27 @@
 package com.dertefter.neticlient.ui.dashboard
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.data.model.news.NewsItem
-import com.dertefter.neticlient.data.model.schedule.Schedule
+import com.dertefter.neticlient.data.model.schedule.Day
+import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentDayDashboardBinding
 import com.dertefter.neticlient.databinding.FragmentNewsDashboardBinding
 import com.dertefter.neticlient.databinding.ItemDashboardHeaderBinding
 import com.dertefter.neticlient.ui.news.NewsAdapter
+import com.dertefter.neticlient.ui.schedule.ScheduleUiState
+import com.dertefter.neticlient.ui.schedule.week.day.TimesAdapter
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class DashboardAdapter(val fragment: DashboardFragment) :
@@ -39,10 +41,9 @@ class DashboardAdapter(val fragment: DashboardFragment) :
         }
     )
 
+    val adapter = TimesAdapter(fragment)
 
-    var group: String? = null
-    var dayNumber: Int? = null
-    var weekNumber: Int? = null
+    var scheduleUiState: ScheduleUiState = ScheduleUiState(responseType = ResponseType.LOADING)
 
     var weekLabel: String = ""
     var currentDate: String = ""
@@ -50,6 +51,7 @@ class DashboardAdapter(val fragment: DashboardFragment) :
     fun updateHeader(weekLabel: String, currentDate: String) {
         this.weekLabel = weekLabel
         this.currentDate = currentDate
+        Log.e("updateHeader", "$weekLabel $currentDate")
         notifyItemChanged(0)
     }
 
@@ -60,12 +62,13 @@ class DashboardAdapter(val fragment: DashboardFragment) :
         newsAdapter.submitList(slicedList)
     }
 
-    fun updateScheduleData(group: String, weekNumber: Int, dayNumber: Int) {
-        Log.e("updateScheduleData", "$group, $weekNumber, $dayNumber")
-        this.group = group
-        this.dayNumber = dayNumber
-        this.weekNumber = weekNumber
+    fun updateScheduleState(scheduleUiState: ScheduleUiState) {
+        this.scheduleUiState = scheduleUiState
         notifyItemChanged(1)
+    }
+
+    fun updateTimeAndDate(date: LocalDate, time: LocalTime) {
+        adapter.updateTimeAndDate(time, date)
     }
 
     companion object {
@@ -88,11 +91,11 @@ class DashboardAdapter(val fragment: DashboardFragment) :
         return when (viewType) {
             TYPE_HEADER -> {
                 val binding = ItemDashboardHeaderBinding.inflate(layoutInflater, parent, false)
-                HeaderViewHolder(binding, weekLabel, currentDate)
+                HeaderViewHolder(binding)
             }
             TYPE_SCHEDULE -> {
                 val binding = FragmentDayDashboardBinding.inflate(layoutInflater, parent, false)
-                ScheduleViewHolder(binding, fragment, group, weekNumber, dayNumber)
+                ScheduleViewHolder(binding, fragment, adapter)
             }
             TYPE_NEWS_LIST -> {
                 val binding = FragmentNewsDashboardBinding.inflate(layoutInflater, parent, false)
@@ -106,18 +109,16 @@ class DashboardAdapter(val fragment: DashboardFragment) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is HeaderViewHolder -> holder.bind()
-            is ScheduleViewHolder -> holder.bind()
+            is HeaderViewHolder -> holder.bind(weekLabel, currentDate)
+            is ScheduleViewHolder -> holder.bind(state = scheduleUiState)
             is NewsListViewHolder -> holder.bind()
         }
     }
 
     class HeaderViewHolder(
         private val binding: ItemDashboardHeaderBinding,
-        val weekLabel: String,
-        val currentDate: String
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
+        fun bind(weekLabel: String, currentDate: String) {
             binding.weekLabel.text = weekLabel
             binding.currentDate.text = currentDate
         }
@@ -126,12 +127,9 @@ class DashboardAdapter(val fragment: DashboardFragment) :
     class ScheduleViewHolder(
         private val binding: FragmentDayDashboardBinding,
         val fragment: DashboardFragment,
-        val group: String?,
-        val weekNumber: Int?,
-        var dayNumber: Int?
+        val adapter: TimesAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-
+        fun bind(state: ScheduleUiState) {
             binding.buttonScheduleAll.setOnClickListener {
                 fragment.navigateTo(R.id.scheduleFragment)
             }
@@ -144,73 +142,89 @@ class DashboardAdapter(val fragment: DashboardFragment) :
                 fragment.navigateTo(R.id.personSearchFragment)
             }
 
-            if (!group.isNullOrEmpty()){
-                (binding.group.parent as View).visibility = View.VISIBLE
-            } else {
-                (binding.group.parent as View).visibility = View.INVISIBLE
-            }
             binding.group.setOnClickListener {
                 fragment.openGroupSearchDialog()
             }
-            binding.group.text = group
 
-            if (group.isNullOrEmpty()){
-                binding.noGroup.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-                binding.dateGroupContainer.visibility = View.GONE
-                binding.buttonsContainer.visibility = View.GONE
-                binding.searchGroupButton.setOnClickListener {
-                    fragment.openGroupSearchDialog()
-                }
-            } else {
-                binding.dateGroupContainer.visibility = View.VISIBLE
-                binding.noGroup.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.buttonsContainer.visibility = View.VISIBLE
+            binding.searchGroupButton.setOnClickListener {
+                fragment.openGroupSearchDialog()
             }
 
+            when(state.responseType){
+                ResponseType.SUCCESS -> onSuccess(state)
+                ResponseType.LOADING -> onLoading(state)
+                ResponseType.ERROR -> onError(state)
+            }
+        }
 
-            binding.recyclerView.isNestedScrollingEnabled = false
-            if (!group.isNullOrEmpty() && weekNumber != null && dayNumber != null) {
-                fragment.scheduleViewModel.getScheduleLiveData(group).observe(fragment.viewLifecycleOwner) { response ->
-                    if (response.responseType == ResponseType.SUCCESS && response.data != null) {
-                        val schedule = response.data as Schedule
-                        var week = schedule.weeks.find { it.weekNumber == weekNumber }!!
-                        if (dayNumber == 7){
-                            if (schedule.weeks.find { it.weekNumber == weekNumber + 1 } != null){
-                                week = schedule.weeks.find { it.weekNumber == weekNumber + 1 }!!
-                                dayNumber = 1
-                            }else {
-                                dayNumber = 6
-                            }
+        fun onSuccess(state: ScheduleUiState) {
+            binding.skeleton.visibility = View.GONE
+            binding.schedule.visibility = View.VISIBLE
+            binding.loadFail.root.visibility = View.GONE
+            val schedule = state.schedule
+
+            if (schedule == null){
+                onError(state)
+                return
+            }
+
+            val currentDate = CurrentTimeObject.currentDateLiveData.value
+            val currentTime = CurrentTimeObject.currentTimeLiveData.value
+
+            val nexDayWithLessons = schedule?.findNextDayWithLessonsAfter(currentDate, currentTime)
+
+            val group = state.group
+            if (group.isNullOrEmpty()){
+                binding.noGroup.visibility = View.VISIBLE
+            } else {
+                binding.noGroup.visibility = View.GONE
+                binding.group.text = group
+                if (nexDayWithLessons != null){
+                    adapter.setData(nexDayWithLessons)
+                    binding.recyclerView.adapter = adapter
+                    binding.recyclerView.layoutManager = LinearLayoutManager(itemView.context)
+                    val todayDate = LocalDate.now()
+                    val date = nexDayWithLessons.getDate()
+                    when (date) {
+                        todayDate ->  {
+                            binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + fragment.getString(R.string.today) + " • "
                         }
-                        val day =  week.days.find { it.dayNumber == dayNumber }
-                        val times = day!!.times
-                        val adapter = DashboardTimesAdapter(times, weekNumber, dayNumber!!, fragment)
-
-                        val todayDate = LocalDate.now()
-                        val date = day.getDate()
-
-                        when (date) {
-                            todayDate ->  {
-                                binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + fragment.getString(R.string.today) + " • "
-                            }
-                            todayDate.plusDays(1) -> {
-                                binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + fragment.getString(R.string.tomorrow) + " • "
-                            }
-                            else -> {
-                                val formatter = DateTimeFormatter.ofPattern("dd.MM")
-                                val dateString = date.format(formatter)
-                                binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + dateString + " • "
-                            }
+                        todayDate.plusDays(1) -> {
+                            binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + fragment.getString(R.string.tomorrow) + " • "
                         }
-
-                        adapter.setData(times, week.weekNumber, day.dayNumber)
-                        binding.recyclerView.adapter = adapter
-                        binding.recyclerView.layoutManager = LinearLayoutManager(fragment.requireContext())
-
+                        else -> {
+                            val formatter = DateTimeFormatter.ofPattern("dd.MM")
+                            val dateString = date?.format(formatter)
+                            binding.dateTextView.text = fragment.getString(R.string.classses_for) + " " + dateString + " • "
+                        }
                     }
+
                 }
+            }
+        }
+
+        fun onLoading(state: ScheduleUiState) {
+            val group = state.group
+            adapter.clearData()
+            binding.loadFail.root.visibility = View.GONE
+            if (group.isNullOrEmpty()){
+                binding.noGroup.visibility = View.VISIBLE
+                binding.skeleton.visibility = View.GONE
+            } else {
+                binding.noGroup.visibility = View.GONE
+                binding.skeleton.visibility = View.VISIBLE
+                binding.group.text = group
+            }
+
+        }
+
+        fun onError(state: ScheduleUiState) {
+            adapter.clearData()
+            binding.loadFail.root.visibility = View.VISIBLE
+            binding.skeleton.visibility = View.GONE
+            binding.schedule.visibility = View.GONE
+            binding.loadFail.buttonRetry.setOnClickListener {
+                fragment.scheduleViewModel.updateSchedule(group = state.group.orEmpty())
             }
         }
     }

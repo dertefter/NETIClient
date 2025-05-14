@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:divider="@drawable/vertical_divider_small"
     android:orientation="vertical"
-    android:paddingVertical="4dp"
     android:showDividers="middle">
 
         <include

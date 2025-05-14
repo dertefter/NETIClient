@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Filled"
+    android:layout_width="44dp"
+    android:layout_height="44dp"
+    app:cardBackgroundColor="?attr/colorTertiaryContainer"
+    app:cardCornerRadius="@dimen/radius_min"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
+    app:strokeColor="@android:color/transparent"
+    app:strokeWidth="3dp">
+
+    <TextView
+        android:id="@+id/weekNumber"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/f3"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="13"
+        android:textColor="?attr/colorOnTertiaryContainer"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+</com.google.android.material.card.MaterialCardView>

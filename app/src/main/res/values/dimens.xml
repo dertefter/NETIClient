@@ -1,18 +1,17 @@
 <resources>
-    <dimen name="radius_max">24dp</dimen>
-    <dimen name="radius">18dp</dimen>
+    <dimen name="radius_max">28dp</dimen>
+    <dimen name="radius">20dp</dimen>
     <dimen name="radius_min">12dp</dimen>
 
-    <dimen name="margin_max">18dp</dimen>
+    <dimen name="margin_max">14dp</dimen>
     <dimen name="margin">14dp</dimen>
     <dimen name="margin_min">8dp</dimen>
 
+
+
+
     <dimen name="insets_min">4dp</dimen>
 
-    <!--
-Refer to App Widget Documentation for margin information
-http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
-    -->
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="zero">0dp</dimen>
 

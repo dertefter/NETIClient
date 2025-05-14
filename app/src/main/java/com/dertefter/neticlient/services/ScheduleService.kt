@@ -77,8 +77,8 @@ class ScheduleService : Service() {
 
     private suspend fun checkCurrentLesson() {
         val group = getCurrentGroup() ?: return
-        val weekNumber = scheduleRepository.fetchCurrentWeekNumber() ?: return
-        val schedule = scheduleRepository.getLocalSchedule(group).first() ?: return
+        val weekNumber = scheduleRepository.getWeekNumberFlow().first() ?: return
+        val schedule = scheduleRepository.getScheduleFlow(group).first() ?: return
         val dayNumber = Calendar.getInstance().get(Calendar.DAY_OF_WEEK).let {
             when (it) {
                 Calendar.MONDAY -> 1
@@ -116,7 +116,6 @@ class ScheduleService : Service() {
 
     private suspend fun checkFutureLesson() {
         val enabledFutureLessons = settingsRepository.getNotifyFutureLessons().first()
-        Log.e("eeeeee", enabledFutureLessons.toString())
         if (!enabledFutureLessons) {
             hideFutureLessonNotification()
             return
@@ -127,8 +126,8 @@ class ScheduleService : Service() {
             return
         }
 
-        val weekNumber = scheduleRepository.fetchCurrentWeekNumber() ?: return
-        val schedule = scheduleRepository.getLocalSchedule(group).first() ?: return
+        val weekNumber = scheduleRepository.getWeekNumberFlow().first() ?: return
+        val schedule = scheduleRepository.getScheduleFlow(group).first() ?: return
         val dayNumber = Calendar.getInstance().get(Calendar.DAY_OF_WEEK).let {
             when (it) {
                 Calendar.MONDAY -> 1
@@ -148,7 +147,8 @@ class ScheduleService : Service() {
 
         val filteredTimeList = schedule.weeks.find { it.weekNumber == weekNumber }?.days?.find{it.dayNumber == dayNumber}?.times!!
         val currentTime = LocalTime.now()
-        val futureTime = currentTime.plusMinutes(15)
+        val minutes = settingsRepository.getNotifyValue().first()
+        val futureTime = currentTime.plusMinutes(minutes.toLong())
 
         var upcomingLesson: Lesson? = null
         var upcomingTime: Time? = null
@@ -223,7 +223,7 @@ class ScheduleService : Service() {
     }
 
     private suspend fun getCurrentGroup(): String? {
-        return userRepository.getSelectedGroup().first()
+        return userRepository.getSelectedGroupFlow().first()
     }
 
     companion object {

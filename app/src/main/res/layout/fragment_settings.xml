@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/f3"
                 android:paddingHorizontal="@dimen/margin"
                 android:paddingTop="12dp"
                 android:text="@string/notify"
@@ -120,12 +120,6 @@
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="18sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/notify_for_minutes"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -134,11 +128,54 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Когда напоминать о начале пары"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/slider_notify_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="За 15 минут"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_notify"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stepSize="1"
+                        android:valueFrom="5"
+                        android:valueTo="60"
+                        app:thumbHeight="@dimen/margin_max"
+                        app:thumbWidth="@dimen/margin_min" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/f3"
                 android:paddingTop="12dp"
                 android:text="@string/customization"
                 android:textColor="?attr/colorPrimary"
@@ -191,7 +228,8 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:padding="8dp"
+                    android:padding="10dp"
+                    android:tint="?attr/colorOnSurfaceVariant"
                     app:srcCompat="@drawable/edit_icon" />
 
             </LinearLayout>
@@ -236,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/f3"
                 android:paddingTop="12dp"
                 android:text="@string/about"
                 android:textColor="?attr/colorPrimary"
@@ -269,7 +307,7 @@
                         android:id="@+id/app_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/f3"
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:text="TextView"

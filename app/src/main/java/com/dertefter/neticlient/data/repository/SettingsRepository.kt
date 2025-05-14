@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.dertefter.neticlient.common.Constants
 import com.dertefter.neticlient.data.model.User
@@ -118,4 +119,17 @@ class SettingsRepository @Inject constructor(
             pref[stringPreferencesKey("dashboardTitle")] = state
         }
     }
+
+    fun getNotifyValue(): Flow<Int> {
+        return dataStore.data.map { preferences ->
+            preferences[intPreferencesKey("notifyValue")] ?: 15
+        }
+    }
+
+    suspend fun setNotifyValue(state: Int) {
+        dataStore.edit { pref ->
+            pref[intPreferencesKey("notifyValue")] = state
+        }
+    }
+
 }

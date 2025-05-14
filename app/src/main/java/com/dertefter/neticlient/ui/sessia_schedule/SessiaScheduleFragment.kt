@@ -10,7 +10,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
@@ -18,6 +21,7 @@ import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentSessiaScheduleBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
+import kotlinx.coroutines.launch
 
 class SessiaScheduleFragment : Fragment() {
 
@@ -50,20 +54,22 @@ class SessiaScheduleFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
-        scheduleViewModel.selectedGroupLiveData.observe(viewLifecycleOwner){
-            if (!it.isNullOrEmpty()){
-                binding.toolbar.subtitle = it
-                scheduleViewModel.getSessiaSchedule(it)
-                scheduleViewModel.sessiaScheduleLiveData.observe(viewLifecycleOwner){
-                    if (it.responseType == ResponseType.SUCCESS && it.data != null){
-                        val sessiaSchedule = it.data as List<SessiaScheduleItem>
-                        adapter.updateList(sessiaSchedule)
-                        adapter.setLoading(false)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scheduleViewModel.scheduleSessiaState.collect { state ->
+                    when (state.responseType) {
+                        ResponseType.LOADING -> {
+                            adapter.setLoading(true)
+                        }
+                        ResponseType.SUCCESS -> {
+                            adapter.setLoading(false)
+                            adapter.updateList(state.schedule.orEmpty())
+                        }
+                        ResponseType.ERROR -> {}
                     }
                 }
             }
         }
-
 
     }
 }

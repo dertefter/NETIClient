@@ -557,6 +557,13 @@
     </style>
 
     <style name="DynamicTheme" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+
+        <item name="android:fontFamily">@font/f1</item>
+        <item name="textAppearanceDisplaySmall">@style/My.DisplaySmall</item>
+        <item name="textAppearanceBodyMedium">@style/My.DisplayMedium</item>
+        <item name="textAppearanceDisplayLarge">@style/My.DisplayLarge</item>
+
+
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
         <item name="android:windowBackground">?attr/colorSurface</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>

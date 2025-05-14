@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/f3"
         android:paddingBottom="@dimen/margin_min"
         android:text="@string/title_news"
         android:textColor="?attr/colorOnSurfaceVariant"

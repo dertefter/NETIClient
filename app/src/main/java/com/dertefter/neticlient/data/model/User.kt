@@ -5,5 +5,5 @@ data class User(
     val password: String,
     val name: String,
     val group: String? = null,
-    val profilePicPath: String?,
+    val profilePicPath: String?
 )

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="@drawable/rounded_background"
+    android:backgroundTint="?attr/colorSurface"
     android:divider="@drawable/horizontal_divider"
     android:showDividers="middle"
     tools:context=".ui.schedule.ScheduleFragment">
@@ -38,9 +40,9 @@
                     android:layout_weight="1"
                     android:minHeight="?attr/actionBarSize"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                    app:title="@string/messages_title"
+                    app:navigationIcon="@drawable/arrow_back"
 
-                    />
+                    app:title="@string/messages_title" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -53,6 +55,54 @@
                     android:contentDescription="@string/desc_tabs_messages" />
 
             </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/auth_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:layout_marginVertical="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"
+                android:visibility="visible"
+                app:cardBackgroundColor="?attr/colorSecondary"
+                app:cardCornerRadius="@dimen/radius_max"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="@dimen/margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/vertical_divider"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:contentDescription="@string/sync_icon_disc"
+                        android:src="@drawable/sync"
+                        app:tint="?attr/colorOnPrimary" />
+
+                    <TextView
+                        android:id="@+id/action_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auth_helper_text"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/auth_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorPrimaryContainer"
+                        android:text="@string/auth_button_text"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        app:cornerRadius="@dimen/radius" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/pager"
@@ -73,30 +123,40 @@
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:clickable="false"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardBackgroundColor="?attr/colorSurface">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:orientation="vertical"
             android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/buttons_container"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="end"
+                android:layout_marginHorizontal="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/close_button"
+                    style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|end"
+                    app:icon="@drawable/close_icon" />
+            </LinearLayout>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/detail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/close_button"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="@dimen/margin"
-                app:icon="@drawable/close_icon" />
-
-        </FrameLayout>
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

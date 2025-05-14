@@ -14,6 +14,7 @@ import com.dertefter.neticlient.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -67,7 +68,7 @@ class CurrentWeekLabelWidget : AppWidgetProvider() {
 
 
         CoroutineScope(Dispatchers.IO).launch {
-            val weekLabel =scheduleRepository.fetchCurrentWeekLabel()
+            val weekLabel = scheduleRepository.getWeekLabelFlow().first()
             if (weekLabel != null){
                 widgetText = weekLabel
                 views.setTextViewText(R.id.week_label_text_view, widgetText)

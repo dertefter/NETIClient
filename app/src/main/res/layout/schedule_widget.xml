@@ -46,12 +46,11 @@
         android:id="@+id/days_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin"
         android:layout_marginTop="8dp"
-        android:divider="@drawable/horizontal_divider_small"
         android:elevation="0dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/margin"
         android:showDividers="middle">
 
         <Button

@@ -67,6 +67,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("testAuth")
+    fun provideTestAuthRetrofit(@Named("default") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://login2.nstu.ru/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @Named("dispace")
     fun provideDispaceRetrofit(@Named("dispace") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -91,8 +102,9 @@ object NetworkModule {
         @Named("auth") authRetrofit: Retrofit,
         @Named("ciu") ciuRetrofit: Retrofit,
         @Named("base") baseRetrofit: Retrofit,
+        @Named("testAuth") testAuthRetrofit: Retrofit,
         @Named("dispace") dispaceRetrofit: Retrofit
     ): NetworkClient {
-        return NetworkClient(context, client, dispaceClient, authRetrofit, ciuRetrofit, baseRetrofit, dispaceRetrofit)
+        return NetworkClient(context, client, dispaceClient, authRetrofit, ciuRetrofit, baseRetrofit, testAuthRetrofit, dispaceRetrofit)
     }
 }

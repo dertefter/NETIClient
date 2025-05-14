@@ -13,9 +13,9 @@
         android:clipToPadding="false"
         android:contentDescription="@string/lessons_list"
         android:fadingEdge="none"
-        android:isScrollContainer="false"
+        android:nestedScrollingEnabled="true"
         android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin"
+        android:paddingVertical="@dimen/margin_min"
         android:requiresFadingEdge="none"
         tools:context=".ui.schedule.week.day.DayFragment"
         tools:listitem="@layout/item_time" />

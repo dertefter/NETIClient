@@ -102,6 +102,47 @@ interface ApiService {
     @GET("phone/object")
     suspend fun findPerson(@Query("search_term") search_term: String?): Response<ResponseBody>
 
+    @GET("student_study/docs/claims")
+    suspend fun getDocuments(): Response<ResponseBody>
 
 
+    @FormUrlEncoded
+    @POST("student_study/docs/claims/ajax_claims")
+    suspend fun getDocumentRequestItem(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/docs/claims")
+    suspend fun claimNewDocument(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET("student_study/docs/claims/edit_claim")
+    suspend fun checkDocCancelable(@Query("id") id: String?): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/docs/claims/edit_claim")
+    suspend fun cancelDocument(@Query("id") id: String?, @FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+
+    //NEW AUTH
+    @GET("realms/master/protocol/openid-connect/auth")
+    suspend fun tst1(
+        @Query("response_type") response_type: String = "code",
+        @Query("client_id") client_id: String = "ciu-web-id-client",
+        @Query("redirect_uri") redirect_uri: String = "https://id.nstu.ru/account_recovery_data",
+        @Query("scope") scope: String = "openid email profile",
+        ): Response<ResponseBody>
+
+
+    @FormUrlEncoded
+    @POST("realms/master/login-actions/authenticate")
+    suspend fun tst2(
+        @Query("session_code") session_code: String = "code",
+        @Query("execution") execution: String = "ciu-web-id-client",
+        @Query("client_id") client_id: String = "https://id.nstu.ru/account_recovery_data",
+        @Query("tab_id") tab_id: String = "tab_id",
+        @Query("client_data") client_data: String = "client_data",
+        @FieldMap params: HashMap<String?, String?>
+    ): Response<ResponseBody>
+
+    @GET("student_study")
+    suspend fun base(): Response<ResponseBody>
 }

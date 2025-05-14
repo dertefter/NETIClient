@@ -1,42 +1,39 @@
 package com.dertefter.neticlient.data.model.schedule
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 import java.time.LocalTime
 
+@Parcelize
 data class Schedule (
     val weeks: List<Week>
-){
+) : Parcelable {
     fun getWeek(weekNumber: Int): Week? {
         return weeks.find { it.weekNumber == weekNumber }
     }
 
-    fun findNextDayWithLessonsAfter(weekNumber: Int, date: LocalDate, time: LocalTime): Pair<Int, Int>? {
-        val futureDays = mutableListOf<Pair<Int, Day>>()
+    fun findNextDayWithLessonsAfter(date: LocalDate?, time: LocalTime?): Day? {
+        if (time == null || date == null) return null
+        val futureDays = mutableListOf<Day>()
         for (week in weeks) {
-            if (week.weekNumber < weekNumber) continue
-
             for (day in week.days) {
                 val dayDate = day.date?.let { LocalDate.parse(it) } ?: continue
                 if (dayDate.isBefore(date)) continue
                 if (dayDate.isEqual(date)) {
                     val hasFutureLessons = day.times.any { LocalTime.parse(it.timeEnd).isAfter(time) && it.lessons.isNotEmpty() }
                     if (hasFutureLessons) {
-                        return Pair(day.dayNumber, week.weekNumber)
+                        return day
                     }
                 } else {
                     if (day.getAllLessons().isNotEmpty()) {
-                        futureDays.add(Pair(week.weekNumber, day))
+                        futureDays.add(day)
                     }
                 }
             }
         }
 
-        return futureDays
-            .sortedBy { LocalDate.parse(it.second.date) }
-            .firstOrNull()
-            ?.let { Pair(it.second.dayNumber, it.first) }
+        return futureDays.sortedBy { it.getDate() }.firstOrNull()
+
     }
-
-
-
 }

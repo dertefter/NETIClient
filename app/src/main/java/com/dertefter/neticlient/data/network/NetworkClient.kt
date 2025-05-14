@@ -2,8 +2,12 @@ package com.dertefter.neticlient.data.network
 
 import android.content.Context
 import android.util.Log
+import com.dertefter.neticlient.data.model.UserInfo
 import com.dertefter.neticlient.data.model.dispace.messages.Companion
 import com.dertefter.neticlient.data.model.dispace.messages.CompanionList
+import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
+import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
+import com.dertefter.neticlient.data.model.documents.DocumentsItem
 import com.dertefter.neticlient.data.model.messages.MessageDetail
 import com.dertefter.neticlient.data.model.money.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
@@ -22,9 +26,12 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.jsoup.Jsoup
 import retrofit2.Retrofit
 import java.io.File
 import java.io.FileOutputStream
+import java.net.CookieManager
+import java.net.CookiePolicy
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -37,14 +44,19 @@ class NetworkClient @Inject constructor(
     @Named("auth") private var authRetrofit: Retrofit,
     @Named("ciu") private var ciuRetrofit: Retrofit,
     @Named("base") private var baseRetrofit: Retrofit,
+    @Named("testAuth") private var testAuthRetrofit: Retrofit,
     @Named("dispace") private var dispaceRetrofit: Retrofit
 ) {
     var authApiService: ApiService = authRetrofit.create(ApiService::class.java)
     var ciuApiService: ApiService = ciuRetrofit.create(ApiService::class.java)
     var baseApiService: ApiService = baseRetrofit.create(ApiService::class.java)
+    var testAuthApiService: ApiService = testAuthRetrofit.create(ApiService::class.java)
     var dispaceApiService: ApiService = dispaceRetrofit.create(ApiService::class.java)
 
     fun rebuildClientWithToken(token: String?) {
+
+        val cookieManager = CookieManager()
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
 
         val cookieJar = object : CookieJar {
             val cookieStore: HashMap<String, List<Cookie>> = HashMap()
@@ -57,7 +69,7 @@ class NetworkClient @Inject constructor(
                 return cookies ?: ArrayList()
             }
         }
-
+        client = OkHttpClient.Builder().cookieJar(JavaNetCookieJar(cookieManager)).build()
 
         dispaceClient = OkHttpClient.Builder().cookieJar(cookieJar)
             .addInterceptor { chain ->
@@ -68,24 +80,19 @@ class NetworkClient @Inject constructor(
             }
             .build()
 
-        client = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Cookie", "NstuSsoToken=$token")
-                    .build()
-                chain.proceed(request)
-            }
-            .build()
+
 
         authRetrofit = authRetrofit.newBuilder().client(client).build()
         ciuRetrofit = ciuRetrofit.newBuilder().client(client).build()
         baseRetrofit = baseRetrofit.newBuilder().client(client).build()
+        testAuthRetrofit = testAuthRetrofit.newBuilder().client(client).build()
         dispaceRetrofit = dispaceRetrofit.newBuilder().client(dispaceClient).build()
 
         authApiService = authRetrofit.create(ApiService::class.java)
         ciuApiService = ciuRetrofit.create(ApiService::class.java)
         baseApiService = baseRetrofit.create(ApiService::class.java)
         dispaceApiService = dispaceRetrofit.create(ApiService::class.java)
+        testAuthApiService = testAuthRetrofit.create(ApiService::class.java)
     }
 
     suspend fun getResponseFromAuthIdRequest(): ResponseFromAuthIdRequest? {
@@ -100,31 +107,36 @@ class NetworkClient @Inject constructor(
     }
 
     suspend fun authUser(login: String, password: String): ResponseResult {
-        return try {
-            val authIdRequest = getResponseFromAuthIdRequest()
-                ?: return ResponseResult(ResponseType.ERROR, "Ошибка сети или сервера")
+       try {
+           rebuildClientWithToken(null)
+           val response1 = testAuthApiService.tst1()
+           val respBody1 = response1.body()?.string().toString()
+           if (respBody1 != null){
+                val params = HtmlParser().extractFormParams(respBody1)
+                val paramLoginPassword = HashMap<String?, String?>()
+               paramLoginPassword["username"] = login
+               paramLoginPassword["selected_subset"] = ""
+               paramLoginPassword["username-visible"] = login
+               paramLoginPassword["password"] = password
+               paramLoginPassword["credentialId"] = ""
 
-            authIdRequest.callbacks.forEach { callback ->
-                when (callback.type) {
-                    "NameCallback" -> callback.input.find { it.name == "IDToken1" }?.value = login
-                    "PasswordCallback" -> callback.input.find { it.name == "IDToken2" }?.value = password
-                }
-            }
+                val resp2 = testAuthApiService.tst2(
+                    session_code = params.get("session_code")!!,
+                    execution = params.get("execution")!!,
+                    client_id = params.get("client_id")!!,
+                    tab_id = params.get("tab_id")!!,
+                    client_data = params.get("client_data")!!,
+                    params = paramLoginPassword
+                )
+                val uI = getUserInfo()
+               if (uI.data as UserInfo? != null) return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
 
-            val requestBody = Gson().toJson(authIdRequest).toRequestBody("application/json".toMediaTypeOrNull())
-            val response = authApiService.auth(requestBody)
+           }
 
-            if (response.isSuccessful) {
-                val authResponse = Gson().fromJson(response.body()?.string(), AuthResponse::class.java)
-                authResponse.tokenId?.let {
-                    rebuildClientWithToken(it)
-                    ResponseResult(ResponseType.SUCCESS, "Успешный вход", data = it)
-                } ?: ResponseResult(ResponseType.ERROR, "Неверные данные")
-            } else {
-                ResponseResult(ResponseType.ERROR, "Ошибка авторизации")
-            }
+           return ResponseResult(ResponseType.ERROR, "Ошибка сети:")
         } catch (e: Exception) {
-            ResponseResult(ResponseType.ERROR, "Ошибка сети: ${e.message}")
+            Log.e("eeee", e.stackTraceToString())
+            return ResponseResult(ResponseType.ERROR, "Ошибка сети: ${e.message}")
         }
     }
 
@@ -335,14 +347,12 @@ class NetworkClient @Inject constructor(
             val response = ciuApiService.getPersonById(id)
             if (response.isSuccessful) {
                 val person = HtmlParser().parsePerson(response.body())
-                Log.e("response parser", person.toString())
                 return person
             } else {
-                Log.e("response parser", "err")
+                
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser", e.stackTraceToString())
             return null
         }
     }
@@ -357,7 +367,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getNews", e.stackTraceToString())
             return null
         }
     }
@@ -372,7 +381,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getNews", e.stackTraceToString())
             return null
         }
     }
@@ -388,7 +396,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getNewsDetail", e.stackTraceToString())
             return null
         }
     }
@@ -403,7 +410,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getNewsDetail", e.stackTraceToString())
             return null
         }
     }
@@ -418,7 +424,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getNewsDetail", e.stackTraceToString())
             return null
         }
     }
@@ -433,7 +438,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getMoneyYearsList", e.stackTraceToString())
             return null
         }
     }
@@ -451,7 +455,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("response parser getMoneyYearsList", e.stackTraceToString())
             return null
         }
     }
@@ -466,7 +469,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("", e.stackTraceToString())
             return null
         }
     }
@@ -507,7 +509,6 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("", e.stackTraceToString())
             return null
         }
     }
@@ -523,7 +524,112 @@ class NetworkClient @Inject constructor(
                 return null
             }
         } catch (e: Exception) {
-            Log.e("", e.stackTraceToString())
+            return null
+        }
+    }
+
+    suspend fun getDocumentList(): List<DocumentsItem>? {
+        try {
+            val response = ciuApiService.getDocuments()
+
+            if (response.isSuccessful) {
+                val documentList = HtmlParser().parseDocumentList(response.body())
+                return documentList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getDocumentOptionList(): List<DocumentOptionItem>? {
+        try {
+            val response = ciuApiService.getDocuments()
+
+            if (response.isSuccessful) {
+                val documentOptionList = HtmlParser().parseDocumentOptionsList(response.body())
+                return documentOptionList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getDocumentRequestItem(value: String): DocumentRequestItem? {
+        try {
+
+            val params = HashMap<String?, String?>()
+            params["ajax"] = "1"
+            params["type_doc"] = value
+
+            val response = ciuApiService.getDocumentRequestItem(params)
+
+            if (response.isSuccessful) {
+                val d = HtmlParser().parseDocumentRequest(response.body())
+                return d
+            } else {
+                return null
+            }
+        } catch (e:Exception) {
+            return null
+        }
+    }
+
+    suspend fun claimNewDocument(typeClaim: String, comment: String): Boolean? {
+        try {
+            val params = HashMap<String?, String?>()
+            params["what"] = "1"
+            params["send"] = "1"
+            params["type_claim"] = typeClaim
+            params["file_pay"] = ""
+            params["file_zayav"] = ""
+            params["comment"] = comment
+            val response = ciuApiService.claimNewDocument(params)
+
+            if (response.isSuccessful) {
+                return true
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun checkCancelable(id: String): Boolean? {
+        try {
+            val response = ciuApiService.checkDocCancelable(id)
+            if (response.isSuccessful) {
+                val pretty = response.body()?.string().toString()
+                var doc = Jsoup.parse(pretty)
+                val body = doc.body().toString()
+                if (body.contains("Удалить заявку")){
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun cancelDocument(id: String?): Boolean? {
+        try {
+            val params = HashMap<String?, String?>()
+            params["act"] = "2"
+            val response = ciuApiService.cancelDocument(id, params)
+            if (response.isSuccessful) {
+                return true
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
             return null
         }
     }

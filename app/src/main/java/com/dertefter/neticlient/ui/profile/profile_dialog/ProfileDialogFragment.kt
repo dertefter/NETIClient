@@ -18,6 +18,7 @@ import com.dertefter.neticlient.databinding.FragmentProfileDialogBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.dertefter.neticlient.ui.profile.ProfileMenuAdapter
 import com.dertefter.neticlient.ui.profile.ProfileViewModel
+import com.dertefter.neticlient.ui.webview.WebViewBottomSheetFragment
 import java.io.File
 
 class ProfileDialogFragment : DialogFragment() {
@@ -44,6 +45,11 @@ class ProfileDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.dispaceButton.setOnClickListener {
+            val bottomSheet = WebViewBottomSheetFragment()
+            bottomSheet.show(parentFragmentManager, WebViewBottomSheetFragment.TAG)
+        }
+
         binding.profileCard.setOnClickListener {
             findNavController().navigate(
                 R.id.profileDetailFragment,
@@ -54,7 +60,7 @@ class ProfileDialogFragment : DialogFragment() {
         }
 
         val adapter = ProfileMenuAdapter(fragment = this)
-        val spanCount = (resources.getInteger(R.integer.span_count) * 2)
+        val spanCount = (resources.getInteger(R.integer.span_count))
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter

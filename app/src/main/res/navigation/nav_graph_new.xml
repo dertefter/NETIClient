@@ -64,4 +64,8 @@
         android:name="com.dertefter.neticlient.ui.sessia_schedule.SessiaScheduleFragment"
         android:label="fragment_sessia_schedule"
         tools:layout="@layout/fragment_sessia_schedule" />
+    <fragment
+        android:id="@+id/documentsFragment"
+        android:name="com.dertefter.neticlient.ui.documents.DocumentsFragment"
+        android:label="DocumentsFragment" />
 </navigation>

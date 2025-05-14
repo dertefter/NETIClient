@@ -19,6 +19,9 @@ import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
+import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
+import com.dertefter.neticlient.data.model.documents.DocumentsItem
 import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.model.schedule.Week
 import okhttp3.ResponseBody
@@ -32,6 +35,36 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class HtmlParser {
+
+    fun extractFormParams(html: String): Map<String, String> {
+        val params = mutableMapOf<String, String>()
+
+        try {
+            val doc = Jsoup.parse(html)
+            val form = doc.selectFirst("form.login-form")
+
+            form?.attr("action")?.let { actionUrl ->
+                val queryString = actionUrl.split("?").getOrNull(1)
+                queryString?.split("&")?.forEach { param ->
+                    val pair = param.split("=", limit = 2)
+                    if (pair.size == 2) {
+                        when (pair[0]) {
+                            "session_code" -> params["session_code"] = pair[1]
+                            "execution" -> params["execution"] = pair[1]
+                            "client_id" -> params["client_id"] = pair[1]
+                            "tab_id" -> params["tab_id"] = pair[1]
+                            "client_data" -> params["client_data"] = pair[1]
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return params
+    }
+
 
     fun parseSessiaSchedule(responseBody: ResponseBody?): List<SessiaScheduleItem>?{
         try{
@@ -70,6 +103,7 @@ class HtmlParser {
         try{
             val pretty = input?.string().toString()
             val doc: Document = Jsoup.parse(pretty)
+            Log.e("pui", doc.html().toString())
             val fullName = doc.select("span.fio").text().split(",")[0]
             val group = doc.select("span.fio").text().split(",")[1].replace(" ", "")
             return UserInfo(name = fullName, group = group)
@@ -171,8 +205,6 @@ class HtmlParser {
                                 timeStart.toString(), timeEnd.toString()
                             )
                             lessonItems.add(l)
-                            Log.e("lessons", l.toString())
-
                         }
 
                     }
@@ -190,7 +222,6 @@ class HtmlParser {
 
             val yearTitle = doc.select("span.schedule__title-content").first()!!.text()
             val yearPart = yearTitle.split(" ")[0].split("/")
-            Log.e("yearPart", yearPart.toString())
 
             val year: String = if (yearPart.size == 2){
                 val yearSign = if (yearTitle.contains("весенний")) 1 else 0
@@ -288,7 +319,6 @@ class HtmlParser {
 
             return null
         } catch (e: Exception){
-            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
             return null
         }
 
@@ -307,7 +337,7 @@ class HtmlParser {
 
             return null
         } catch (e: Exception){
-            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
+            
             return null
         }
 
@@ -339,7 +369,7 @@ class HtmlParser {
             return output
 
         } catch (e: Exception){
-            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
+            
             return null
         }
     }
@@ -373,7 +403,7 @@ class HtmlParser {
             return output
 
         } catch (e: Exception){
-            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
+            
             return null
         }
     }
@@ -401,7 +431,6 @@ class HtmlParser {
             }
 
             val address = doc.select("div.contacts__card-address").first()?.text()
-            Log.e("email", email.toString())
             val profiles_ = doc.select("div.col-9").first()
             profiles_?.select("h3")?.remove()
             val profiles = profiles_?.html()
@@ -413,7 +442,7 @@ class HtmlParser {
             return Person(name,avatarUrl, contacts__card_post, phone, email, address, profiles, disceplines, hasTimetable)
 
         } catch (e: Exception){
-            Log.e("ResponseParser", "parseCurrentWeekNumber: ${e.stackTraceToString()}")
+            
             return null
         }
     }
@@ -459,7 +488,7 @@ class HtmlParser {
 
             NewsResponse(haveMore, items, nextUrl)
         } catch (e: Exception) {
-            Log.e("ResponseParser", "parseNews: ${e.stackTraceToString()}")
+            
             null
         }
     }
@@ -489,7 +518,7 @@ class HtmlParser {
             NewsDetail(title, contentHtml, imageUrls.toList())
 
         } catch (e: Exception) {
-            Log.e("ResponseParser", "parseNewsDetail: ${e.stackTraceToString()}")
+            
             null
         }
     }
@@ -517,7 +546,7 @@ class HtmlParser {
             MessageDetail(title, contentHtml, personId, date)
 
         } catch (e: Exception) {
-            Log.e("ResponseParser", "parseMessageDetail: ${e.stackTraceToString()}")
+            
             null
         }
     }
@@ -591,7 +620,7 @@ class HtmlParser {
 
             semesters
         } catch (e: Exception) {
-            Log.e("ResponseParser", "Error parsing sessia results: ${e.stackTraceToString()}")
+            
             null
         }
     }
@@ -610,11 +639,11 @@ class HtmlParser {
                     years.add(year)
                 }
             }
-            Log.e("years", years.toString())
+
             years
 
         } catch (e: Exception) {
-            Log.e("ResponseParser", "parseMessageDetail: ${e.stackTraceToString()}")
+            
             null
         }
     }
@@ -663,7 +692,6 @@ class HtmlParser {
 
             items
         } catch (e: Exception) {
-            Log.e("ResponseParser", e.stackTraceToString())
             null
         }
     }
@@ -684,7 +712,6 @@ class HtmlParser {
                 leaderId = doc.selectFirst("input[name=n_leader]")?.attr("value").takeIf { it?.isNotEmpty() == true }
             )
         } catch (e: Exception) {
-            Log.e("ResponseParser", e.stackTraceToString())
             null
         }
     }
@@ -712,7 +739,6 @@ class HtmlParser {
             }
             output
         } catch (e: Exception) {
-            Log.e("ResponseParser", e.stackTraceToString())
             null
         }
     }
@@ -729,7 +755,6 @@ class HtmlParser {
             val html = body?.string() ?: return null
             val doc = Jsoup.parse(html)
             val elements = doc.select("div.search-result__item")
-            Log.e("personSearch", elements.toString())
             val output = mutableListOf<Pair<String, String>>()
             for (element in elements) {
                 val name = element.select("span").first()?.text().toString()
@@ -747,9 +772,86 @@ class HtmlParser {
             }
             return output
         } catch (e: Exception) {
-            Log.e("ResponseParser", e.stackTraceToString())
             null
         }
     }
+
+    fun parseDocumentList(body: ResponseBody?): List<DocumentsItem>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+            val output = mutableListOf<DocumentsItem>()
+
+            doc.select("table#tutor-messages tbody tr").forEach { row ->
+                val cells = row.select("td")
+                if (cells.size >= 6) {
+                    val type = cells[0].select("a").first()?.text() ?: ""
+                    val date = cells[1].text().trim { it <= ' ' }
+                    val status = cells[2].text().trim()
+                    val person = cells[3].text().trim()
+                    val comment = cells[4].select("i").first()?.text()?.trim() ?: ""
+                    val number = cells[5].text().trim()
+
+                    output.add(
+                        DocumentsItem(
+                            type = type.ifEmpty { null },
+                            date = date.ifEmpty { null },
+                            status = status.ifEmpty { null },
+                            person = person.ifEmpty { null },
+                            comment = comment.ifEmpty { null },
+                            number = number.ifEmpty { null }
+                        )
+                    )
+                }
+            }
+            output
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun parseDocumentOptionsList(body: ResponseBody?): List<DocumentOptionItem>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+            val output = mutableListOf<DocumentOptionItem>()
+
+            val options = doc.select("select.types").first()?.select("option")
+            if (options != null) {
+                for (i in options){
+                    output.add(
+                        DocumentOptionItem(
+                            text = i.text().toString(),
+                            value = i.attr("value")
+                        )
+                    )
+                }
+            }
+
+
+            output
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun parseDocumentRequest(body: ResponseBody?): DocumentRequestItem? {
+        return try {
+            val jsonString = body?.string() ?: return null
+            val jsonObject = JSONObject(jsonString)
+
+            DocumentRequestItem(
+                is_avail = jsonObject.optString("is_avail"),
+                need_appl = jsonObject.optString("need_appl"),
+                need_pay = jsonObject.optString("need_pay"),
+                need_verify = jsonObject.optString("need_verify"),
+                text_comm = jsonObject.optString("text_comm"),
+                text_doc = jsonObject.optString("text_doc")
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
 }

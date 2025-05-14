@@ -4,20 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
 
-    <FrameLayout
+    <include
+        android:id="@+id/load_fail"
+        layout="@layout/load_failed_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/no_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:clickable="true"
         android:paddingVertical="@dimen/margin"
         android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:cardCornerRadius="@dimen/radius"
+        app:contentPadding="@dimen/margin">
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:divider="@drawable/vertical_divider_small"
@@ -25,20 +34,21 @@
             android:showDividers="middle">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/calendar_month_icon"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="?attr/colorPrimary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start"
+                android:letterSpacing="0.02"
                 android:text="@string/add_group"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/search_group_button"
@@ -49,138 +59,172 @@
                 app:iconSize="20dp" />
 
         </LinearLayout>
-    </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:id="@+id/date_group_container"
+        android:id="@+id/skeleton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/horizontal_divider_small"
-        android:orientation="horizontal"
-        android:showDividers="none"
-        android:visibility="invisible">
+        android:divider="@drawable/vertical_divider_small"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/date_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:fontFamily="sans-serif-medium"
-            android:paddingBottom="@dimen/margin_min"
-            android:text="Занятия сегодня • "
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/group"
+        <include
+            layout="@layout/skeleton_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:paddingBottom="@dimen/margin_min"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="24sp" />
+            android:layout_height="wrap_content" />
 
+        <include
+            layout="@layout/skeleton_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            layout="@layout/skeleton_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:id="@+id/schedule"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:contentDescription="@string/lessons_list"
-        android:fadingEdge="none"
-        android:isScrollContainer="false"
-        android:requiresFadingEdge="none"
-        tools:listitem="@layout/item_time" />
-
-    <FrameLayout
-        android:id="@+id/buttons_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/date_group_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:divider="@drawable/vertical_divider_small"
-            android:orientation="vertical"
-            android:showDividers="middle">
+            android:layout_height="match_parent"
+            android:divider="@drawable/horizontal_divider_small"
+            android:orientation="horizontal"
+            android:showDividers="none"
+            android:visibility="visible">
 
-            <Button
-                android:id="@+id/button_schedule_all"
+            <TextView
+                android:id="@+id/date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:fontFamily="@font/f3"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="Занятия сегодня • "
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryContainer"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="Показать всё расписание"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                app:cornerRadius="@dimen/radius"
-                app:icon="@drawable/calendar_month_icon"
-                app:iconPadding="0dp"
-                app:iconSize="20dp"
-                app:iconTint="?attr/colorOnSecondaryContainer" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:divider="@drawable/horizontal_divider_small"
-                android:orientation="horizontal"
-                android:showDividers="middle">
-
-                <Button
-                    android:id="@+id/button_sessia_schedule"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:backgroundTint="?attr/colorSurfaceContainer"
-                    android:gravity="start|center_vertical"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Расписание сессии"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:visibility="visible"
-                    app:cornerRadius="@dimen/radius"
-                    app:icon="@drawable/school_icon"
-                    app:iconPadding="12dp"
-                    app:iconSize="20dp"
-                    app:iconTint="?attr/colorOnSurfaceVariant" />
-
-                <Button
-                    android:id="@+id/button_person_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:backgroundTint="?attr/colorSurfaceContainer"
-                    android:gravity="start|center_vertical"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Поиск сотрудников"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:cornerRadius="@dimen/radius"
-                    app:icon="@drawable/person_search_icon"
-                    app:iconPadding="12dp"
-                    app:iconSize="20dp"
-                    app:iconTint="?attr/colorOnSurfaceVariant" />
-            </LinearLayout>
+                android:fontFamily="@font/f3"
+                android:paddingBottom="@dimen/margin_min"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:contentDescription="@string/lessons_list"
+            android:fadingEdge="none"
+            android:isScrollContainer="false"
+            android:requiresFadingEdge="none"
+            tools:listitem="@layout/item_time" />
 
-    <TextView
-        android:id="@+id/no_lessons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_margin="@dimen/margin"
-        android:gravity="center"
-        android:paddingVertical="@dimen/margin"
-        android:text="@string/no_lessons"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        <FrameLayout
+            android:id="@+id/buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:divider="@drawable/vertical_divider_small"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/button_schedule_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="?attr/colorSecondaryContainer"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Показать всё расписание"
+                    android:textColor="?attr/colorOnSecondaryContainer"
+                    app:cornerRadius="@dimen/radius"
+                    app:icon="@drawable/calendar_month_icon"
+                    app:iconPadding="0dp"
+                    app:iconSize="20dp"
+                    app:iconTint="?attr/colorOnSecondaryContainer" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:divider="@drawable/horizontal_divider_small"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+                    <Button
+                        android:id="@+id/button_sessia_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:gravity="start|center_vertical"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Расписание сессии"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:visibility="visible"
+                        app:cornerRadius="@dimen/radius"
+                        app:icon="@drawable/school_icon"
+                        app:iconPadding="12dp"
+                        app:iconSize="20dp"
+                        app:iconTint="?attr/colorOnSurfaceVariant" />
+
+                    <Button
+                        android:id="@+id/button_person_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:gravity="start|center_vertical"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Поиск сотрудников"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:cornerRadius="@dimen/radius"
+                        app:icon="@drawable/person_search_icon"
+                        app:iconPadding="12dp"
+                        app:iconSize="20dp"
+                        app:iconTint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/no_lessons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_margin="@dimen/margin"
+            android:gravity="center"
+            android:paddingVertical="@dimen/margin"
+            android:text="@string/no_lessons"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
 </LinearLayout>

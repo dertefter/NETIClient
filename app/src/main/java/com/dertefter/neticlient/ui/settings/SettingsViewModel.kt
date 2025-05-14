@@ -20,7 +20,8 @@ class SettingsViewModel @Inject constructor(
      var notifyFutureLessonsState = MutableLiveData<Boolean>()
      var verticalScheduleState= MutableLiveData<Boolean>()
      var cacheMessagesState= MutableLiveData<Boolean>()
-    var dashboardTitle = MutableLiveData<String>()
+     var dashboardTitle = MutableLiveData<String>()
+    var notifyValue = MutableLiveData<Int>()
 
     init {
         loadAllSettings()
@@ -35,8 +36,16 @@ class SettingsViewModel @Inject constructor(
            cacheMessagesState.postValue(settingsRepository.getCacheMessages().first())
            legendaryCardsState.postValue(settingsRepository.getLegendaryCards().first())
            dashboardTitle.postValue(settingsRepository.getDashboardTitle().first())
+           notifyValue.postValue(settingsRepository.getNotifyValue().first())
 
        }
+    }
+
+    fun setNotifyValue(state: Int) {
+        viewModelScope.launch {
+            settingsRepository.setNotifyValue(state)
+            notifyValue.value = state
+        }
     }
 
     fun setDashboardTitle(state: String) {

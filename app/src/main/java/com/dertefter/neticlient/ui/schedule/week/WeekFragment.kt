@@ -1,40 +1,50 @@
 package com.dertefter.neticlient.ui.schedule.week
 
+import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.PathInterpolator
 import android.widget.TextView
+import androidx.core.view.indices
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.LessonDetail
-import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.network.model.ResponseType
+import com.dertefter.neticlient.data.model.schedule.Week
 import com.dertefter.neticlient.databinding.FragmentWeekBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleFragment
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import com.dertefter.neticlient.ui.schedule.lesson_view.LessonDetailViewModel
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class WeekFragment : Fragment() {
 
     lateinit var binding: FragmentWeekBinding
-    private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val lessonViewViewModel: LessonDetailViewModel by activityViewModels()
-
     private var _adapter: DaysAdapter? = null
 
     private val adapter: DaysAdapter
         get() = _adapter ?: DaysAdapter(this).also {
             _adapter = it
         }
+
+    var mediator: TabLayoutMediator? = null
+    var pagerCallback: ViewPager2.OnPageChangeCallback? = null
+    private val scheduleViewModel: ScheduleViewModel by activityViewModels()
+    private var dayIndex = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,115 +61,134 @@ class WeekFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weekNumber = arguments?.getInt("WEEK_NUMBER")!!
-        val group = arguments?.getString("GROUP")!!
-
-        binding.pager.adapter = adapter
 
         val daysTabLayout = (parentFragment as ScheduleFragment).binding.daysTabLayout
-        val yearAndMounth = (parentFragment as ScheduleFragment).binding.yearAndMounth
+        val yearAndMonth = (parentFragment as ScheduleFragment).binding.yearAndMounth
 
-        scheduleViewModel.getScheduleLiveData(group).observe(viewLifecycleOwner){ response ->
-            if (response.responseType == ResponseType.SUCCESS){
-                val schedule = response.data as Schedule
-                val weekInFragment = schedule.weeks.find { it.weekNumber == weekNumber}!!
-                val days = weekInFragment.days
-                adapter.updateData(days, group, weekNumber)
+        binding.pager.adapter = adapter
+        binding.pager.offscreenPageLimit = 6
 
-                val inflater = LayoutInflater.from(context)
-
-                TabLayoutMediator(daysTabLayout, binding.pager) { tab, position ->
-
-                    val day = days[position]
-                    val customTabView = inflater.inflate(R.layout.day_tab, null)
-
-                    val dateTextView = customTabView.findViewById<TextView>(R.id.dayDate)
-                    val dayNameTextView = customTabView.findViewById<TextView>(R.id.dayName)
-
-                    val formatter = DateTimeFormatter.ofPattern("E", Locale.getDefault())
-
-                    dateTextView.text = day.getDate().dayOfMonth.toString()
-                    dayNameTextView.text = day.getDate().format(formatter) ?: day.dayName
-
-                    tab.customView = customTabView
-
-                }.attach()
-
-                daysTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                        val date = days[tab!!.position].getDate()
-                        val formatter = DateTimeFormatter.ofPattern("LLLL, yyyy", Locale("ru"))
-                        val formattedDate = date.format(formatter).replaceFirstChar { it.uppercaseChar() }
-                        yearAndMounth.text = formattedDate
-
-                        val customView = tab.customView
-                        customView?.findViewById<TextView>(R.id.dayDate)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
-                        customView?.findViewById<TextView>(R.id.dayName)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
-                    }
-
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {
-                        val customView = tab?.customView
-                        customView?.findViewById<TextView>(R.id.dayDate)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurface)
-                        )
-                        customView?.findViewById<TextView>(R.id.dayName)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurface)
-                        )
-                    }
-
-                    override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                        val date = days[tab!!.position].getDate()
-                        val formatter = DateTimeFormatter.ofPattern("LLLL, yyyy", Locale("ru"))
-                        val formattedDate = date.format(formatter).replaceFirstChar { it.uppercaseChar() }
-                        yearAndMounth.text = formattedDate
-
-                        val customView = tab.customView
-                        customView?.findViewById<TextView>(R.id.dayDate)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
-                        customView?.findViewById<TextView>(R.id.dayName)?.setTextColor(
-                            MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
-                    }
-                })
-
-                binding.pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrolled(
-                        position: Int,
-                        positionOffset: Float,
-                        positionOffsetPixels: Int
-                    ) {
-                        super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                    }
-
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        val date = days[position].getDate()
-                        val formatter = DateTimeFormatter.ofPattern("LLLL, yyyy", Locale("ru"))
-                        val formattedDate = date.format(formatter).replaceFirstChar { it.uppercaseChar() }
-                        yearAndMounth.text = formattedDate
-                    }
-
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                    }
-                })
-
-                binding.pager.post {
-                    val currentDay = CurrentTimeObject.currentDayLiveData.value
-                    val tabIndex = if (currentDay != null && currentDay < 7) currentDay - 1 else 0
-                    daysTabLayout.getTabAt(tabIndex)?.select()
-                }
-            }
+        val week = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("WEEK", Week::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("WEEK") as? Week
         }
 
+        if (week != null){
+            adapter.updateData(week)
+            val inflater = LayoutInflater.from(requireContext())
+            mediator?.detach()
+            mediator = TabLayoutMediator(daysTabLayout, binding.pager) { tab, position ->
+
+                val day = week.days[position]
+                val customTabView = inflater.inflate(R.layout.day_tab, null)
+
+                val dateTextView = customTabView.findViewById<TextView>(R.id.dayDate)
+                val dayNameTextView = customTabView.findViewById<TextView>(R.id.dayName)
+
+                val formatter = DateTimeFormatter.ofPattern("E", Locale.getDefault())
+
+                dateTextView.text = day.getDate()?.dayOfMonth.toString()
+                dayNameTextView.text = day.getDate()?.format(formatter) ?: day.dayName
+
+                tab.customView = customTabView
+            }
+            mediator?.attach()
+            pagerCallback?.let { binding.pager.unregisterOnPageChangeCallback(it) }
+            pagerCallback = object : ViewPager2.OnPageChangeCallback() {
+
+                private fun animateSmth(view: View, translationY: Float, scale: Float, alpha: Float) {
+                    val translationYAnim = ObjectAnimator.ofFloat(view, "translationY", translationY)
+                    val scaleXAnim = ObjectAnimator.ofFloat(view, "scaleX", scale)
+                    val scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", scale)
+                    val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", alpha)
+
+                        val interpolator = 	PathInterpolator(0.2f, 0f, 0f, 1f)
+
+                    translationYAnim.interpolator = interpolator
+                    scaleXAnim.interpolator = interpolator
+                    scaleYAnim.interpolator = interpolator
+                    alphaAnim.interpolator = interpolator
+
+                    translationYAnim.start()
+                    scaleXAnim.start()
+                    scaleYAnim.start()
+                    alphaAnim.start()
+                }
+
+
+
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    if (position in week.days.indices) {
+                        val date = week.days[position].getDate()
+                        val formatter = DateTimeFormatter.ofPattern("LLLL, yyyy", Locale("ru"))
+                        val formattedDate = date?.format(formatter)?.replaceFirstChar { it.uppercaseChar() }
+                        yearAndMonth.text = formattedDate
+                    }
+
+                    for (i in 0 until daysTabLayout.tabCount) {
+                        val tab = daysTabLayout.getTabAt(i)
+                        val customView = tab?.customView
+                        val isSelected = i == position
+                        val textColorAttr = if (isSelected)
+                            com.google.android.material.R.attr.colorOnPrimaryContainer
+                        else
+                            com.google.android.material.R.attr.colorOnSurface
+
+                        val density = context?.resources?.displayMetrics?.density ?: 1f
+                        val dayNameView = customView?.findViewById<TextView>(R.id.dayName)?: return
+                        val dayDateView = customView?.findViewById<TextView>(R.id.dayDate)?: return
+                        if (isSelected) {
+                            animateSmth(dayNameView, -16 * density, 2.3f, 1f)
+                            animateSmth(dayDateView, 24 * density, 3f, 0.07f)
+                        } else {
+                            animateSmth(dayNameView, 0f, 1f, 0.85f)
+                            animateSmth(dayDateView, 0f, 1f, 1f)
+                        }
+
+
+                        customView?.findViewById<TextView>(R.id.dayDate)?.setTextColor(
+                            MaterialColors.getColor(binding.root, textColorAttr)
+                        )
+                        customView?.findViewById<TextView>(R.id.dayName)?.setTextColor(
+                            MaterialColors.getColor(binding.root, textColorAttr)
+                        )
+                    }
+                }
+            }
+            binding.pager.registerOnPageChangeCallback(pagerCallback as ViewPager2.OnPageChangeCallback)
+
+
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    val currentWeekNumber = scheduleViewModel.weekNumberFlow.first()
+                    if (currentWeekNumber == week.weekNumber){
+                        val dayNumber = CurrentTimeObject.currentDayLiveData.value
+                        if (dayNumber!= null && dayNumber < 7){
+
+                            daysTabLayout.selectTab(
+                                daysTabLayout.getTabAt(CurrentTimeObject.currentDayLiveData.value!! - 1), false
+                            )
+                            daysTabLayout.selectTab(
+                                daysTabLayout.getTabAt(CurrentTimeObject.currentDayLiveData.value!! - 1),
+                            )
+                        }
+                    }
+                }
+            }
+
+
+
+        }
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        pagerCallback?.let { binding.pager.unregisterOnPageChangeCallback(it) }
+        pagerCallback = null
+    }
 }

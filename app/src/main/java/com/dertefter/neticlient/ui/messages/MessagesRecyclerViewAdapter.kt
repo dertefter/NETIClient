@@ -4,27 +4,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.messages.Message
 
 class MessagesRecyclerViewAdapter(
-    var messagesList: List<Message> = emptyList(),
     val fragment: MessagesTabFragment,
-) : RecyclerView.Adapter<MessagesRecyclerViewAdapter.MessageViewHolder>() {
+) : ListAdapter<Message, MessagesRecyclerViewAdapter.MessageViewHolder>(DiffCallback()) {
 
     fun setData(newList: List<Message>) {
-        this.messagesList = newList
-        notifyDataSetChanged()
+        submitList(newList)
     }
 
     fun setLoading() {
-        this.messagesList = List(30) {
+        val loadingList = List(30) {
             Message("", "", "", "", false, "")
         }
-        notifyDataSetChanged()
+        submitList(loadingList)
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -33,18 +32,13 @@ class MessagesRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val item = messagesList[position]
+        val item = getItem(position)
         holder.bind(item, fragment)
     }
 
-    override fun getItemCount(): Int = messagesList.size
-
     override fun getItemViewType(position: Int): Int {
-        return if (messagesList[position].is_new) R.layout.item_message_new else R.layout.item_message
+        return if (getItem(position).is_new) R.layout.item_message_new else R.layout.item_message
     }
-
-
-
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val sender_name: TextView = itemView.findViewById(R.id.sender_name)
@@ -59,7 +53,15 @@ class MessagesRecyclerViewAdapter(
                 fragment.openMessageDetail(item.id)
             }
         }
+    }
 
+    class DiffCallback : DiffUtil.ItemCallback<Message>() {
+        override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+            return oldItem.id == newItem.id
+        }
 
+        override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
+            return oldItem == newItem
+        }
     }
 }

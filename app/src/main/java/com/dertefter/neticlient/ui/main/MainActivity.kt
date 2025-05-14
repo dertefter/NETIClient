@@ -43,6 +43,7 @@ import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.ui.messages.MessagesViewModel
+import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +61,9 @@ class MainActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
+    private val scheduleViewModel: ScheduleViewModel by viewModels()
+
+
 
     private lateinit var navController: NavController
     private var keepSplashScreen = false
@@ -69,6 +73,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        scheduleViewModel.observeScheduleAndUpdateWidget(this)
 
         ThemeEngine.setup(this)
         val selectedTheme = ThemeEngine.getSelectedTheme()
@@ -82,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             val splashScreen = this.splashScreen
             splashScreen.setSplashScreenTheme(selectedTheme)
         }
-
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 keepSplashScreen
@@ -99,13 +104,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         settingsViewModel.scheduleServiceState.observe(this) {
-            Log.e("settingsViewModel", it.toString())
+
             if (it == true) {
-                Log.e("settingsViewModel.scheduleServiceState", "starting service")
                 val intent = Intent(this, ScheduleService::class.java)
                 startForegroundService(intent)
             } else {
-                Log.e("settingsViewModel.scheduleServiceState", "stopping service")
+                
                 val intent = Intent(this, ScheduleService::class.java)
                 stopService(intent)
             }

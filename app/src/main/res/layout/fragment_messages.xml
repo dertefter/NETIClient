@@ -56,6 +56,54 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/auth_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:layout_marginVertical="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"
+                android:visibility="visible"
+                app:cardBackgroundColor="?attr/colorSecondary"
+                app:cardCornerRadius="@dimen/radius_max"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="@dimen/margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/vertical_divider"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:contentDescription="@string/sync_icon_disc"
+                        android:src="@drawable/sync"
+                        app:tint="?attr/colorOnPrimary" />
+
+                    <TextView
+                        android:id="@+id/action_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auth_helper_text"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/auth_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorPrimaryContainer"
+                        android:text="@string/auth_button_text"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        app:cornerRadius="@dimen/radius" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/pager"
                 android:layout_width="match_parent"

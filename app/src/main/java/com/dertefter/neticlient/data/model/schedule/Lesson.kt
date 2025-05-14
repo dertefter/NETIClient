@@ -1,5 +1,9 @@
 package com.dertefter.neticlient.data.model.schedule
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Lesson(
     val title: String,
     val type: String,
@@ -9,4 +13,4 @@ data class Lesson(
     val triggerWeeks: MutableList<Int>,
     val timeStart: String,
     val timeEnd: String
-)
+) : Parcelable

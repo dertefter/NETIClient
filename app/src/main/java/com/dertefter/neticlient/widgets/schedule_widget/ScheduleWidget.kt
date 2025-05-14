@@ -96,7 +96,7 @@ class ScheduleWidget : AppWidgetProvider() {
             val btnId = DAY_BUTTONS[i - 1]
             views.setOnClickPendingIntent(btnId, pendingIntent)
             if (i == selectedDay) {
-                views.setInt(btnId, "setBackgroundResource", R.drawable.rounded_background)
+               views.setInt(btnId, "setBackgroundResource", R.drawable.rounded_background)
             } else {
                 views.setInt(btnId, "setBackgroundResource", R.drawable.transparent)
             }
@@ -118,13 +118,13 @@ class ScheduleWidget : AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, views)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val selectedGroup = userRepository.getSelectedGroup().first()
+            val selectedGroup = userRepository.getSelectedGroupFlow().first()
             if (selectedGroup.isNullOrEmpty()) {
                 views.setTextViewText(R.id.week_label_text_view, context.getString(R.string.add_group))
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             } else {
-                val weekNumber = scheduleRepository.fetchCurrentWeekNumber()
-                val schedule = scheduleRepository.getLocalSchedule(selectedGroup).first()
+                val weekNumber = scheduleRepository.getWeekNumberFlow().first()
+                val schedule = scheduleRepository.getScheduleFlow(selectedGroup).first()
                 if (schedule != null && weekNumber != null) {
                     val intent = Intent(context, LessonWidgetService::class.java).apply {
                         putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)

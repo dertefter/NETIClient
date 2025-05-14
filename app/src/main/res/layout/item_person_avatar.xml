@@ -9,16 +9,16 @@
     app:cardUseCompatPadding="false">
 
     <FrameLayout
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorSurfaceContainerLow"
-            app:contentPadding="4dp"
+            android:background="?attr/colorSurfaceVariant"
+            app:contentPadding="2dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
             app:srcCompat="@drawable/person"
             app:tint="?attr/colorOnSurfaceVariant" />

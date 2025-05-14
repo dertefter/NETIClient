@@ -84,7 +84,7 @@ class MessagesDetailFragment : Fragment() {
         }
 
         messagesDetailViewModel.messageDetailLiveData.observe(viewLifecycleOwner){
-            Log.e("newsDetailLiveData", it.toString())
+
             if (it.responseType == ResponseType.SUCCESS){
                 Utils.basicAnimationOn(binding.nestedScrollView).start()
                 binding.skeleton.visibility = View.GONE
@@ -99,7 +99,6 @@ class MessagesDetailFragment : Fragment() {
                 binding.date.text = messageDetail.date
                 messageDetail.personId?.let { it1 ->
                     personViewModel.getLiveDataForId(it1).observe(viewLifecycleOwner){
-                        Log.e("person", it.toString())
                         if (it.responseType == ResponseType.SUCCESS){
                             val person = it.data as Person
                             Picasso.get().load(person.avatarUrl).into(binding.profilePic)

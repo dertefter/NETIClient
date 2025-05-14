@@ -21,7 +21,7 @@
         android:id="@+id/promo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/f3"
         android:padding="@dimen/margin"
         android:text="TextView"
         android:textColor="#ffffff"

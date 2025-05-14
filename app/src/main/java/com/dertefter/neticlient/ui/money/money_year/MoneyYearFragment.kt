@@ -41,7 +41,7 @@ class MoneyYearFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val year = arguments?.getString("YEAR")!!
-        Log.e("year", year)
+        
         moneyItemsViewModel.fetchMoneyItemsForYear(year)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->

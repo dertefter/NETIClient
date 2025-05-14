@@ -1,14 +1,23 @@
 package com.dertefter.neticlient.data.model.schedule
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
+@Parcelize
 data class Day (
     val dayName: String,
     val times: List<Time>,
     val dayNumber: Int,
     var date: String? = null
-){
-    fun getDate(): LocalDate = LocalDate.parse(date)
+) : Parcelable {
+    fun getDate(): LocalDate? {
+        try{
+            return LocalDate.parse(date)
+        } catch (e: Exception){
+            return null
+        }
+    }
 
     fun getAllLessons(): List<Lesson> {
         val lessons = mutableListOf<Lesson>()

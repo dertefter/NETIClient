@@ -82,7 +82,7 @@ class LessonRemoteViewsFactory(
         }
         rv.setTextViewText(R.id.timeStart, lesson.timeStart)
         rv.setTextViewText(R.id.timeEnd, lesson.timeEnd)
-        Log.e("getViewAt:", "$position, $lesson")
+        
         return rv
     }
 
@@ -92,13 +92,12 @@ class LessonRemoteViewsFactory(
     override fun hasStableIds(): Boolean = true
 
     private fun loadLessons() {
-        val schedule = group?.let { runBlocking { scheduleRepository.getLocalSchedule(group = it).first() } }
+        val schedule = group?.let { runBlocking { scheduleRepository.getScheduleFlow(group = it).first() } }
         if (schedule != null) {
             val week = schedule.weeks.find { it.weekNumber == weekNumber }
             val day = week?.days?.find { it.dayNumber == dayNumber }
             val newList = day?.getAllLessons()
             if (newList != null){
-                Log.e("newList", newList.toString())
                 lessons = newList.toMutableList()
             }
         }

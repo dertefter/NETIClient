@@ -26,6 +26,7 @@ import com.dertefter.neticlient.data.model.schedule.NextTimeInfo
 import com.dertefter.neticlient.data.model.schedule.Schedule
 import com.dertefter.neticlient.data.model.schedule.Time
 import java.util.Locale
+import androidx.core.text.parseAsHtml
 
 object Utils {
     fun formatDayName(dateString: String): String {
@@ -97,9 +98,7 @@ object Utils {
         val imageGetter = ImageGetter(resources, this)
 
         // Using Html framework to parse html
-        val styledText= HtmlCompat.fromHtml(html,
-            HtmlCompat.FROM_HTML_MODE_LEGACY,
-            imageGetter,null)
+        val styledText= html.parseAsHtml(HtmlCompat.FROM_HTML_MODE_COMPACT, imageGetter)
 
         // to enable image/link clicking
         this.movementMethod = LinkMovementMethod.getInstance()

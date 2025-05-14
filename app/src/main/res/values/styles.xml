@@ -61,4 +61,18 @@
         <item name="colorOnSecondaryContainer">?attr/colorOnPrimaryContainer</item>
     </style>
 
+    <style name="My.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="fontFamily">@font/f1</item>
+    </style>
+
+    <style name="My.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="fontFamily">@font/f1</item>
+    </style>
+
+    <style name="My.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontFamily">@font/f1</item>
+    </style>
+
+
+
 </resources>

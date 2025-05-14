@@ -18,6 +18,8 @@ import com.dertefter.neticlient.databinding.FragmentMessagesBinding
 import com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.AuthState
+import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MessagesFragment : Fragment() {
 
     lateinit var binding: FragmentMessagesBinding
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val messagesViewModel: MessagesViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +47,15 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupUI() {
+
+        binding.authButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.loginFragment,
+                null,
+                Utils.getNavOptions(),
+            )
+        }
+
 
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -65,6 +76,19 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setupObservers() {
+
+        loginViewModel.authStateLiveData.observe(viewLifecycleOwner) { authState ->
+            if (authState == AuthState.UNAUTHORIZED) {
+                binding.authCard.visibility = View.VISIBLE
+                binding.pager.visibility = View.GONE
+                binding.tabLayout.visibility = View.GONE
+            } else {
+                binding.authCard.visibility = View.GONE
+                binding.pager.visibility = View.VISIBLE
+                binding.tabLayout.visibility = View.VISIBLE
+            }
+        }
+
 
         messagesViewModel.newCountTab1.observe(viewLifecycleOwner){ count ->
             val badge = binding.tabLayout.getTabAt(0)?.orCreateBadge

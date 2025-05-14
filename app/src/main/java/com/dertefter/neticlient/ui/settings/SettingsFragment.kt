@@ -205,6 +205,17 @@ class SettingsFragment : Fragment() {
             showChangeDialog(requireContext())
         }
 
+        binding.sliderNotify.value = settingsViewModel.notifyValue.value?.toFloat() ?: 15f
+
+        binding.sliderNotify.addOnChangeListener { slider, value, fromUser ->
+            settingsViewModel.setNotifyValue(value.toInt())
+        }
+
+        settingsViewModel.notifyValue.observe(viewLifecycleOwner){
+            binding.sliderNotifyText.text = "За $it минут"
+        }
+
+
         binding.switchScheduleService.isChecked = settingsViewModel.scheduleServiceState.value == true
         binding.switchScheduleService.setOnCheckedChangeListener { _, isChecked ->
             settingsViewModel.setScheduleService(isChecked)

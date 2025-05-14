@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:minHeight="300dp">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/vertical_divider"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_max"
+            android:showDividers="middle">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/margin_max"
+                android:paddingBottom="@dimen/margin_min" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="24sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
+                    app:contentPaddingLeft="@dimen/margin_min"
+                    app:contentPaddingRight="@dimen/margin_min">
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:maxWidth="160dp"
+                        android:paddingVertical="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="TextView"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="18sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
+                    app:contentPaddingLeft="@dimen/margin_min"
+                    app:contentPaddingRight="@dimen/margin_min">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@drawable/horizontal_divider_small"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="18dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:tint="?attr/colorOnSurfaceVariant"
+                            app:srcCompat="@drawable/tag_icon" />
+
+                        <TextView
+                            android:id="@+id/number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="4dp"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:text="TextView"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/horizontal_divider_small"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="0"
+                    android:tint="?attr/colorOnSurfaceVariant"
+                    app:srcCompat="@drawable/person" />
+
+                <TextView
+                    android:id="@+id/person"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="3sp"
+                    android:paddingEnd="@dimen/margin"
+                    android:text="TextView"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/horizontal_divider_small"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="0"
+                    android:tint="?attr/colorOnSurfaceVariant"
+                    app:srcCompat="@drawable/calendar_month_icon" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="3sp"
+                    android:paddingEnd="@dimen/margin"
+                    android:text="Дегтярева Е. А., старший инспектор-специалист, деканат РЭФ"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:cardCornerRadius="@dimen/radius"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp"
+                app:contentPadding="@dimen/margin">
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="18sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/cancel_claim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorError"
+                android:text="Отменить заявку"
+                android:textColor="?attr/colorOnError"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

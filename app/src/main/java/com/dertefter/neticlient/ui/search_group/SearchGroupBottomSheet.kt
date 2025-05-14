@@ -26,6 +26,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
     private val searchGroupViewModel: SearchGroupViewModel by activityViewModels()
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     lateinit var _dialog: BottomSheetDialog
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -131,7 +132,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
     }
 
     fun selectGroup(group: String) {
-        scheduleViewModel.setSelectedGroup(group)
+        scheduleViewModel.updateSelectedGroup(group)
         dismiss()
     }
 

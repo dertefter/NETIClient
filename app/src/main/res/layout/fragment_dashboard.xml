@@ -12,6 +12,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
 
+        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
@@ -83,7 +84,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:fontFamily="sans-serif-medium"
                         android:gravity="center"
                         android:includeFontPadding="false"
                         android:text="1"

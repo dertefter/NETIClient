@@ -110,7 +110,6 @@ class NewsDetailFragment : Fragment() {
 
 
         newsDetailViewModel.newsDetailLiveData.observe(viewLifecycleOwner){
-            Log.e("newsDetailLiveData", it.toString())
             if (it.responseType == ResponseType.SUCCESS){
                 Utils.basicAnimationOn(binding.nestedScrollView).start()
                 binding.skeleton.visibility = View.GONE

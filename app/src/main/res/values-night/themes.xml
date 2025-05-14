@@ -14,6 +14,7 @@
 
 
     <style name="RedTheme" parent="DynamicTheme">
+
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
@@ -451,6 +452,12 @@
     </style>
 
     <style name="DynamicTheme"  parent="Theme.Material3.DynamicColors.Dark.NoActionBar">
+
+        <item name="android:fontFamily">@font/f1</item>
+        <item name="textAppearanceDisplaySmall">@style/My.DisplaySmall</item>
+        <item name="textAppearanceBodyMedium">@style/My.DisplayMedium</item>
+        <item name="textAppearanceDisplayLarge">@style/My.DisplayLarge</item>
+
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
         <item name="android:windowBackground">?attr/colorSurface</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>

@@ -70,7 +70,7 @@
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/f3"
                         android:paddingVertical="2dp"
                         android:singleLine="true"
                         android:text="Гость"
@@ -81,7 +81,7 @@
                         android:id="@+id/login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/f3"
                         android:paddingVertical="2dp"
                         android:singleLine="true"
                         android:text="Логин"
@@ -90,6 +90,16 @@
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/dispace_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin"
+            android:text="DiSpace"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:cornerRadius="@dimen/radius" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/error_card"

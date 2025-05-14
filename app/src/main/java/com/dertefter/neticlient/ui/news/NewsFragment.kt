@@ -192,7 +192,6 @@ class NewsFragment : Fragment() {
 
         newsViewModel.newsListLiveData.observe(viewLifecycleOwner) { it ->
             if (it != null){
-                Log.e("newsItems", it.toString())
                 adapter?.updateItems(it)
                 if (newsViewModel.page <= 2){
                     binding.recyclerView.scrollToPosition(0)

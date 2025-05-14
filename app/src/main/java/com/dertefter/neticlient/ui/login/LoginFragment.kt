@@ -89,7 +89,6 @@ class LoginFragment : Fragment() {
                     binding.login.visibility = View.VISIBLE
                 }
                 AuthState.AUTHORIZED -> {
-                    scheduleViewModel.getSelectedGroup()
                     binding.login.visibility = View.GONE
                     findNavController().popBackStack()
                 }

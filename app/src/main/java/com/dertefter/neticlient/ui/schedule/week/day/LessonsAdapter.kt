@@ -2,31 +2,35 @@ package com.dertefter.neticlient.ui.schedule.week.day
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
+import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.LeadingMarginSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.AvatarOverlapItemDecoration
-import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
 import com.dertefter.neticlient.data.model.schedule.Lesson
 import com.dertefter.neticlient.data.model.schedule.LessonDetail
 import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
 import com.dertefter.neticlient.ui.person.PersonListStyle
+import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 
 class LessonsAdapter(
     private var lessonList: List<Lesson> = emptyList(),
-    val fragment: DayFragment,
-    val timeItem: Time,
-    val isLegendary: Boolean = false
+    val fragment: Fragment,
+    val timeItem: Time
 
     ) : RecyclerView.Adapter<LessonsAdapter.TimeViewHolder>() {
     var futureOrPastOrNow: FutureOrPastOrNow = FutureOrPastOrNow.FUTURE
@@ -35,16 +39,16 @@ class LessonsAdapter(
         if (this.lessonList != lessonList || this.futureOrPastOrNow != futureOrPastOrNow){
             this.lessonList = lessonList
             this.futureOrPastOrNow = futureOrPastOrNow
-            Log.e("lessonList", "setData: $lessonList")
+            
             notifyDataSetChanged()
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
-        val layoutRes = if (!isLegendary) R.layout.item_lesson else R.layout.item_lesson_legendary
+        val layoutRes = R.layout.item_lesson
         val view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
-        return TimeViewHolder(view, isLegendary)
+        return TimeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
@@ -62,23 +66,19 @@ class LessonsAdapter(
 
     }
 
-    class TimeViewHolder(itemView: View, isLegendary: Boolean) : RecyclerView.ViewHolder(itemView) {
+    class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.title)
         private val type: TextView = itemView.findViewById(R.id.type)
+        private val type_exp: TextView = itemView.findViewById(R.id.type_exp)
         private val aud: TextView = itemView.findViewById(R.id.aud)
-        private val legendary_indicator: ImageView? = itemView.findViewById(R.id.legendary_indicator)
-        private val time: TextView? = itemView.findViewById(R.id.time)
 
 
         val personsRecyclerView: RecyclerView = itemView.findViewById(R.id.personsRecyclerView)
 
 
-        fun bind(lessonItem: Lesson, futureOrPastOrNow: FutureOrPastOrNow, fragment: DayFragment, timeItem: Time) {
-            val adapter = if (time == null) {
-                PersonListRecyclerViewAdapter(fragment = fragment, listStyle = PersonListStyle.AVATARS_ONLY){}
-            } else {
-                PersonListRecyclerViewAdapter(fragment = fragment, listStyle = PersonListStyle.SMALL_TEXT){}
-            }
+        fun bind(lessonItem: Lesson, futureOrPastOrNow: FutureOrPastOrNow, fragment: Fragment, timeItem: Time) {
+            val adapter = PersonListRecyclerViewAdapter(fragment = fragment, listStyle = PersonListStyle.AVATARS_ONLY){}
+
             itemView.setOnClickListener {
                 val lessonDetail = LessonDetail(
                     lessonItem,
@@ -86,30 +86,44 @@ class LessonsAdapter(
                     futureOrPastOrNow
 
                 )
-                fragment.showLessonInfo(lessonDetail)
+                val bottomSheet = LessonViewBottomSheetFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("lessonDetail", lessonDetail)
+                    }
+                }
+                bottomSheet.show(fragment.parentFragmentManager, "LessonDetail")
             }
 
 
             title.text = lessonItem.title
             type.text = lessonItem.type
+            type_exp.text = lessonItem.type
             aud.text = lessonItem.aud
 
             (itemView as MaterialCardView).setStrokeColor(Color.TRANSPARENT)
 
-            time?.text = "${timeItem.timeStart}-${timeItem.timeEnd}"
-
             personsRecyclerView.adapter = adapter
 
-            if (time != null){
-                personsRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
-            }else {
-                personsRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-                personsRecyclerView.addItemDecoration(AvatarOverlapItemDecoration(itemView.context, R.dimen.margin))
-            }
+            personsRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
+            personsRecyclerView.addItemDecoration(AvatarOverlapItemDecoration(itemView.context, R.dimen.margin))
 
 
-            if (!lessonItem.personIds.isNullOrEmpty()){
+            if (lessonItem.personIds.isNotEmpty()){
                 adapter.setData(lessonItem.personIds)
+
+                personsRecyclerView.doOnPreDraw {
+                    val spannable = SpannableString(title.text)
+                    spannable.setSpan(
+                        LeadingMarginSpan.Standard(personsRecyclerView.width, 0),
+                        0, title.text.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+
+                    title.text = spannable
+
+                }
+
+
             }
 
 
@@ -122,67 +136,28 @@ class LessonsAdapter(
                 type.visibility = View.VISIBLE
                 when {
                     type.text.contains("Лаб") -> {
-                        if (time != null){
-                            legendary_indicator?.imageTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiary)
-                            )
-                            time?.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiary)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiary)
-                            )
-                        } else {
-                            type.backgroundTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
-                            )
-                        }
+                        type.backgroundTintList = ColorStateList.valueOf(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
+                        )
+                        type.setTextColor(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                        )
                     }
                     type.text.contains("Практика") -> {
-                        if (time != null){
-                            legendary_indicator?.imageTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimary)
-                            )
-                            time?.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimary)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimary)
-                            )
-                        }
-                        else {
-                            type.backgroundTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimaryContainer)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                            )
-                        }
+                        type.backgroundTintList = ColorStateList.valueOf(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimaryContainer)
+                        )
+                        type.setTextColor(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnPrimaryContainer)
+                        )
                     }
                     else -> {
-                        if (time != null){
-                            time.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondary)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondary)
-                            )
-                            legendary_indicator?.imageTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondary)
-                            )
-                        } else {
-                            type.backgroundTintList = ColorStateList.valueOf(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
-                            )
-                            type.setTextColor(
-                                MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
-                            )
-                        }
-
-
+                        type.backgroundTintList = ColorStateList.valueOf(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
+                        )
+                        type.setTextColor(
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
+                        )
 
 
                     }
@@ -190,14 +165,30 @@ class LessonsAdapter(
             } else {
                 type.visibility = View.GONE
             }
-            if (futureOrPastOrNow == FutureOrPastOrNow.NOW && time == null){
+            if (futureOrPastOrNow == FutureOrPastOrNow.NOW){
                 (itemView as MaterialCardView).setStrokeColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
                 (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainer))
                 title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurface))
+            }
 
-            } else {
-                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainer))
-                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurface))
+            if (futureOrPastOrNow == FutureOrPastOrNow.PAST){
+                (itemView as MaterialCardView).alpha = 0.6f
+                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainerHighest))
+                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
+                type.backgroundTintList = ColorStateList.valueOf(
+                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorSurfaceContainerHigh)
+                )
+                type.setTextColor(
+                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSurfaceVariant)
+                )
+                aud.backgroundTintList = ColorStateList.valueOf(
+                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorSurfaceContainerHigh)
+                )
+                aud.setTextColor(
+                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSurfaceVariant)
+                )
+
+
             }
         }
     }

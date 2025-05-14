@@ -34,7 +34,6 @@ class PersonViewModel @Inject constructor(
         viewModelScope.launch {
             liveData.postValue(ResponseResult(ResponseType.LOADING))
             val person = personRepository.fetchPersonById(id, forceOffline)
-            Log.e("person is", person.toString())
             liveData.postValue(person)
         }
     }

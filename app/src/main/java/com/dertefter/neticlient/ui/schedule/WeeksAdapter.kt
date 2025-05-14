@@ -1,48 +1,58 @@
 package com.dertefter.neticlient.ui.schedule
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dertefter.neticlient.ui.schedule.ScheduleFragment
-import com.dertefter.neticlient.ui.schedule.week.day.DayFragment
-import com.dertefter.neticlient.common.utils.Utils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.schedule.Week
-import com.dertefter.neticlient.ui.schedule.week.WeekFragment
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.color.MaterialColors
 
-class WeeksAdapter(val fragment: ScheduleFragment) : FragmentStateAdapter(fragment) {
+class WeeksAdapter(
+    private var weeks: List<Week> = emptyList(),
+    private val onItemClick: (Week) -> Unit
+) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
-    var group: String = ""
+    var currentWeekNumber: Int? = null
 
-    var weeks: List<Week> = emptyList()
-
-    fun updateData(list: List<Week>, group: String?) {
-        this.weeks = list
-        this.group = group ?: ""
+    fun updateWeeks(weeks: List<Week>){
+        this.weeks = weeks
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = weeks.size
+    fun updateCurrentWeekNumber(v: Int){
+        currentWeekNumber = v
+        notifyDataSetChanged()
+    }
 
-    override fun createFragment(position: Int): Fragment {
-        return WeekFragment().apply {
-            arguments = Bundle().apply {
-                putInt("WEEK_NUMBER", position + 1)
-                putString("GROUP", group)
-            }
+    inner class WeekViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textView: TextView = itemView.findViewById(R.id.weekNumber)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_week, parent, false)
+        return WeekViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: WeekViewHolder, position: Int) {
+        val week = weeks[position]
+        holder.textView.text = week.weekNumber.toString()
+        holder.itemView.setOnClickListener { onItemClick(week) }
+        if (week.weekNumber == currentWeekNumber){
+            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.radius_max)
+            (holder.itemView as MaterialCardView).setRadius(radius.toFloat())
+            holder.textView.setTextColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorOnTertiary))
+            (holder.itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorTertiary))
+        } else {
+            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.radius_min)
+            (holder.itemView as MaterialCardView).setRadius(radius.toFloat())
+            holder.textView.setTextColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorOnTertiaryContainer))
+            (holder.itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorTertiaryContainer))
         }
     }
 
-    override fun getItemId(position: Int): Long {
-        return try {
-            "${weeks[position]}_${group}".hashCode().toLong()
-        } catch (e: Exception) {
-            super.getItemId(position)
-        }
-    }
-
-    override fun containsItem(itemId: Long): Boolean {
-        return (0 until itemCount).any {
-            getItemId(it) == itemId
-        }
-    }
+    override fun getItemCount() = weeks.size
 }

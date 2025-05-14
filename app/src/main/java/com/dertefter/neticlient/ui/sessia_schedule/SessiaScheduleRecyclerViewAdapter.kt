@@ -1,10 +1,14 @@
 package com.dertefter.neticlient.ui.sessia_schedule
 
 import android.content.res.ColorStateList
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.LeadingMarginSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
@@ -95,9 +99,25 @@ class SessiaScheduleRecyclerViewAdapter(
             personsRecyclerView.layoutManager =
                 LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
 
-            if (item.personIds.isNotEmpty()) {
+            if (item.personIds.isNotEmpty()){
                 adapter.setData(item.personIds)
+
+                personsRecyclerView.doOnPreDraw {
+                    val spannable = SpannableString(title.text)
+                    spannable.setSpan(
+                        LeadingMarginSpan.Standard(personsRecyclerView.width, 0),
+                        0, title.text.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+
+                    title.text = spannable
+
+                }
+
+
             }
+
+
 
             aud.visibility = if (aud.text.isEmpty()) View.GONE else View.VISIBLE
             type.visibility = if (type.text.isEmpty()) View.GONE else View.VISIBLE

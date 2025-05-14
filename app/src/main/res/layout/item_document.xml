@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Filled"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+    app:cardCornerRadius="@dimen/radius_max"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
+    app:strokeColor="@android:color/transparent"
+    app:strokeWidth="4dp">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/vertical_divider_big"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_max"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/f3"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.07"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            tools:text="Физическое химио-био" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:contentPaddingBottom="4dp"
+                app:contentPaddingLeft="8dp"
+                app:contentPaddingRight="12dp"
+                app:contentPaddingTop="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="4dp"
+                        android:tint="?attr/colorOnSurfaceVariant"
+                        app:srcCompat="@drawable/calendar_month_icon" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="16sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSurfaceVariant"
+                android:gravity="center"
+                android:maxWidth="168dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Готово"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
