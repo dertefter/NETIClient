@@ -34,7 +34,7 @@
             android:maxLines="2"
             android:text="Поиск сотрудников"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="14sp" />
+             />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

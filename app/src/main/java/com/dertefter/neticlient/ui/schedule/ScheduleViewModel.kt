@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.neticlient.data.model.CurrentTimeObject
+import com.dertefter.neticlient.data.model.schedule.Day
 import com.dertefter.neticlient.data.model.schedule.Schedule
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.collections.getOrPut
 
@@ -98,6 +100,9 @@ class ScheduleViewModel @Inject constructor(
     }
 
 
+    fun getScheduleForDate(date: LocalDate): Day? {
+        return scheduleState.value.schedule?.getDayForDate(date)
+    }
     fun updateSchedule(group: String) {
         viewModelScope.launch {
 
@@ -105,7 +110,7 @@ class ScheduleViewModel @Inject constructor(
                 _scheduleState.value = ScheduleUiState(responseType = ResponseType.LOADING, group = group)
             }
 
-            val user = userRepository.getUser().first()
+            val user = userRepository.getUserFlow().first()
             val isIndividual = user?.group == group
 
             try {

@@ -3,7 +3,9 @@ package com.dertefter.neticlient.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.dertefter.neticlient.common.Constants
+import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.User
 import com.dertefter.neticlient.data.model.UserInfo
 import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
@@ -11,6 +13,7 @@ import com.dertefter.neticlient.data.network.NetworkClient
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -21,6 +24,50 @@ class UserRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val networkClient: NetworkClient
 ) {
+
+    suspend fun updateProfileDetail() {
+        val details = networkClient.fetchProfileDetail()
+        if (details != null){
+            saveProfileDetail(details)
+        }
+
+    }
+
+    suspend fun saveProfileDetail(profileDetail: ProfileDetail){
+        val _json = Gson().toJson(profileDetail)
+        dataStore.edit { pref ->
+            pref[stringPreferencesKey("profileDetail")] = _json
+        }
+    }
+
+    fun getProfileDetailFlow(): Flow<ProfileDetail?> = dataStore.data.map { preferences ->
+        preferences[stringPreferencesKey("profileDetail")]?.let { json ->
+            Gson().fromJson(json, ProfileDetail::class.java)
+        }
+    }
+
+    suspend fun updateGroupStudents() {
+        val gs = networkClient.getGroupStudents()
+        if (gs != null){
+            saveGroupStudents(gs)
+        }
+
+    }
+    suspend fun saveGroupStudents(gs: List<String>){
+        val _json = Gson().toJson(gs)
+        dataStore.edit { pref ->
+            pref[stringPreferencesKey("gs")] = _json
+        }
+    }
+
+    fun getGroupStudentsFlow(): Flow<List<String>?> = dataStore.data.map { preferences ->
+        preferences[stringPreferencesKey("gs")]?.let { json ->
+            val type = object : TypeToken<List<String>?>() {}.type
+            Gson().fromJson<List<String>?>(json, type)
+        }
+    }
+
+
 
     fun getSelectedGroupFlow(): Flow<String?> = dataStore.data
         .map {
@@ -39,21 +86,16 @@ class UserRepository @Inject constructor(
         addGroupToHistory(group = selectedGroup)
     }
 
-    suspend fun saveUser(user: User) {
+    suspend fun setUser(user: User?) {
         val userJson = Gson().toJson(user)
         dataStore.edit { pref ->
             pref[Constants.USER] = userJson
         }
+        if (user == null) networkClient.rebuildClientWithToken(null)
     }
 
-    suspend fun removeUser() {
-        dataStore.edit { pref ->
-            pref.remove(Constants.USER)
-            networkClient.rebuildClientWithToken(null)
-        }
-    }
 
-    fun getUser(): Flow<User?> = dataStore.data.map { preferences ->
+    fun getUserFlow(): Flow<User?> = dataStore.data.map { preferences ->
         preferences[Constants.USER]?.let { json ->
             Gson().fromJson(json, User::class.java)
         }
@@ -92,15 +134,18 @@ class UserRepository @Inject constructor(
     }
 
 
-    suspend fun fetchAuth(login: String, password: String): ResponseResult {
+    suspend fun fetchAuth(login: String, password: String): AuthState {
         val authResponse = networkClient.authUser(login, password)
         if (authResponse.responseType == ResponseType.SUCCESS) {
+
+            val dispaceLoginResponse = networkClient.authUserDispace()
+
             val userResponse = networkClient.getUserInfo()
             val profilePicResponse = networkClient.getProfilePic()
             if (userResponse.responseType == ResponseType.SUCCESS) {
-                val profilePicPath = profilePicResponse.data as String
+                val profilePicPath = profilePicResponse.data as String?
                 val userInfo: UserInfo = userResponse.data as UserInfo?
-                    ?: return ResponseResult(ResponseType.ERROR)
+                    ?: return AuthState.AUTHORIZED_WITH_ERROR
 
                 val user = User(
                     login = login,
@@ -115,24 +160,15 @@ class UserRepository @Inject constructor(
                     }
 
                 }
-                saveUser(user)
-                return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
+                setUser(user)
+                return AuthState.AUTHORIZED
             }
-            return ResponseResult(ResponseType.ERROR, "Ошибка авторизации")
+            return AuthState.AUTHORIZED_WITH_ERROR
             }
-        return ResponseResult(ResponseType.ERROR, "Ошибка авторизации")
+        return AuthState.AUTHORIZED_WITH_ERROR
     }
 
-    suspend fun fetchProfileDetail(): ResponseResult {
-        val details = networkClient.fetchProfileDetail()
-        if (details != null){
-            return ResponseResult(ResponseType.SUCCESS, data = details as ProfileDetail)
-        }else {
-            return ResponseResult(ResponseType.ERROR)
-        }
-    }
-
-    suspend fun saveProfileDetails(
+    suspend fun sendProfileDetails(
         n_email: String,
         n_address: String,
         n_phone: String,
@@ -152,3 +188,5 @@ class UserRepository @Inject constructor(
 
 
 }
+
+

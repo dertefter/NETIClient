@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:minHeight="300dp">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="false"
+            android:divider="@drawable/vertical_divider"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_max"
+            android:showDividers="middle">
+
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:id="@+id/drag_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/margin_max"
+                android:paddingBottom="@dimen/margin_min" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:includeFontPadding="false"
+                android:letterSpacing="0.07"
+                android:text="@string/share_score_title"
+                android:textColor="?attr/colorOnSurface"
+
+                android:textStyle="normal" />
+
+            <include
+                android:id="@+id/load_fail"
+                layout="@layout/load_failed_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin"
+                android:visibility="gone" />
+
+            <com.dertefter.neticlient.common.ShimmerLayout
+                android:id="@+id/skeleton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/vertical_divider_small"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/rounded_background"
+                        android:backgroundTint="?attr/colorSurfaceContainerHighest"
+                        android:padding="@dimen/margin"
+                        app:tint="?attr/colorOnPrimary" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:boxBackgroundColor="?attr/colorSurfaceContainerHighest"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius"
+                        app:boxCornerRadiusBottomStart="@dimen/radius"
+                        app:boxCornerRadiusTopEnd="@dimen/radius"
+                        app:boxCornerRadiusTopStart="@dimen/radius"
+                        app:boxStrokeColor="@android:color/transparent"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:startIconTint="?attr/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@drawable/horizontal_divider_small"
+                        android:orientation="horizontal"
+                        android:showDividers="middle">
+
+                        <Button
+                            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0"
+                            android:backgroundTint="?attr/colorSurfaceContainer"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="@dimen/radius"
+                            app:icon="@drawable/content_copy_icon"
+                            app:iconGravity="textStart"
+                            app:iconSize="24dp"
+                            app:iconTint="?attr/colorSurfaceContainer" />
+
+                        <Button
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_background"
+                            android:backgroundTint="?attr/colorSurfaceContainer"
+                            android:foregroundTint="?attr/colorSurfaceContainer"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            android:textColor="?attr/colorSurfaceContainer"
+                            app:cornerRadius="@dimen/radius"
+                            app:iconTint="?attr/colorSurfaceContainer" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.dertefter.neticlient.common.ShimmerLayout>
+
+            <LinearLayout
+                android:id="@+id/success"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/vertical_divider_small"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <ImageView
+                    android:id="@+id/qr_code_view"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                    android:padding="@dimen/margin"
+                    app:tint="?attr/colorOnPrimaryContainer" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/link_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:boxBackgroundColor="?attr/colorSurfaceContainer"
+                    app:boxCornerRadiusBottomEnd="@dimen/radius"
+                    app:boxCornerRadiusBottomStart="@dimen/radius"
+                    app:boxCornerRadiusTopEnd="@dimen/radius"
+                    app:boxCornerRadiusTopStart="@dimen/radius"
+                    app:boxStrokeColor="@android:color/transparent"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:startIconTint="?attr/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/horizontal_divider_small"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+                    <Button
+                        android:id="@+id/copy_button"
+                        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="0"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="@dimen/radius"
+                        app:icon="@drawable/content_copy_icon"
+                        app:iconGravity="textStart"
+                        app:iconSize="24dp"
+                        app:iconTint="?attr/colorOnPrimary" />
+
+                    <Button
+                        android:id="@+id/replace_link_button"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_background"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/replace_link"
+                        app:cornerRadius="@dimen/radius" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share_score_info"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

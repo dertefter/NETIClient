@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/margin"
+        android:paddingVertical="@dimen/margin_min"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -24,433 +26,476 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/f3"
-                android:paddingHorizontal="@dimen/margin"
-                android:paddingTop="12dp"
+                android:layout_marginBottom="@dimen/margin_min"
+
+                android:paddingHorizontal="@dimen/radius_max"
                 android:text="@string/notify"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="16sp" />
+                 />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/notification_card"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:layout_marginVertical="8dp"
-                android:background="?attr/colorSurfaceContainer"
-                android:elevation="0dp"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                app:cardCornerRadius="@dimen/radius"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp"
-                app:cardUseCompatPadding="false"
-                app:contentPadding="@dimen/margin">
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:visibility="visible"
+                app:cardBackgroundColor="?attr/colorSurface"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider"
+                    android:divider="@drawable/vertical_divider_micro"
                     android:orientation="vertical"
                     android:showDividers="middle">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/notification_permission_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainerHigh"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:divider="@drawable/vertical_divider"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_max"
+                        android:showDividers="middle">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="@string/need_permissions_notify"
+                            android:textColor="?attr/colorOnSurface"
+                             />
+
+                        <Button
+                            android:id="@+id/permission_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            android:text="@string/permissions_button"
+                            app:cornerRadius="@dimen/radius" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/need_permissions_notify"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="18sp" />
+                        android:background="?attr/colorSurfaceContainer"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max">
 
-                    <Button
-                        android:id="@+id/permission_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:text="@string/permissions_button" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/class_notify"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switch_notify_lessons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checked="false"
+                            android:enabled="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/notify_future_lessons_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/notify_lessons_future"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switch_notify_future_lessons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:enabled="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/notify_future_lessons_value_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/when_notify"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                            <TextView
+                                android:id="@+id/slider_notify_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                 />
+
+                            <com.google.android.material.slider.Slider
+                                android:id="@+id/slider_notify"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:stepSize="15"
+                                android:valueFrom="15"
+                                android:valueTo="120"
+                                app:minTouchTargetSize="24dp"
+                                app:thumbHeight="@dimen/margin_max"
+                                app:thumbWidth="@dimen/margin_min" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/notify_lessons_now"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switch_schedule_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/notify_lessons_future"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switch_notify_lessons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Когда напоминать о начале пары"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/slider_notify_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="За 15 минут"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="14sp" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/slider_notify"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:stepSize="1"
-                        android:valueFrom="5"
-                        android:valueTo="60"
-                        app:thumbHeight="@dimen/margin_max"
-                        app:thumbWidth="@dimen/margin_min" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:fontFamily="@font/f3"
+                android:layout_marginBottom="@dimen/margin_min"
+
+                android:paddingHorizontal="@dimen/radius_max"
                 android:paddingTop="12dp"
                 android:text="@string/customization"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="16sp" />
+                 />
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="@dimen/margin"
-                    android:text="Карточки расписания как в оригинале"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switch_legendaey_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/edit_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="@dimen/margin"
-                    android:text="Заголовок начальной страницы"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0"
-                    android:padding="10dp"
-                    android:tint="?attr/colorOnSurfaceVariant"
-                    app:srcCompat="@drawable/edit_icon" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp">
+                android:clickable="false"
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/vertical_divider_micro"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        android:text="@string/color_scheme"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="18sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/themes_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:backgroundTint="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="@dimen/margin"
-                        android:paddingVertical="@dimen/margin"
-                        tools:itemCount="0"
-                        tools:listitem="@layout/item_theme" />
+                        android:padding="@dimen/margin_max">
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/use_system_color"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switch_dynamic_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:enabled="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/edit_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/color_scheme"
+                            android:textColor="?attr/colorOnSurface"
+                             />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0"
+                            app:cardCornerRadius="@dimen/radius_max">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                app:srcCompat="?attr/colorPrimary" />
+
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:paddingTop="24dp"
+                                app:srcCompat="?attr/colorSecondaryContainer" />
+
+                            <ImageView
+                                android:id="@+id/imageView5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="24dp"
+                                android:paddingTop="24dp"
+                                app:srcCompat="?attr/colorTertiary" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
                 </LinearLayout>
-
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:fontFamily="@font/f3"
+                android:layout_marginBottom="@dimen/margin_min"
+
+                android:paddingHorizontal="@dimen/radius_max"
                 android:paddingTop="12dp"
                 android:text="@string/about"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="16sp" />
+                 />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                android:clickable="false"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="@dimen/radius_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider_small"
+                    android:divider="@drawable/vertical_divider_micro"
                     android:orientation="vertical"
                     android:showDividers="middle">
 
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_gravity="center_horizontal"
-                        android:scaleType="centerInside"
-                        android:tint="?attr/colorOnPrimaryContainer"
-                        app:srcCompat="@drawable/app_icon" />
-
-                    <TextView
-                        android:id="@+id/app_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/f3"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        android:text="TextView"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="20sp" />
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorPrimaryContainer"
+                        android:divider="@drawable/vertical_divider_micro"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_max"
+                        android:showDividers="middle">
 
-                    <TextView
-                        android:id="@+id/app_verion"
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="centerInside"
+                            app:tint="?attr/colorOnPrimaryContainer"
+                            app:srcCompat="@drawable/app_icon" />
+
+                        <TextView
+                            android:id="@+id/app_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="TextView"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                             />
+
+                        <TextView
+                            android:id="@+id/app_verion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="TextView"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                             />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/policy_button"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        android:text="TextView"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="16sp" />
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/policy_button_text"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0"
+                            android:padding="8dp"
+                            app:tint="?attr/colorOnSurface"
+                            app:srcCompat="@drawable/policy_icon" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tg_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/contact_dev"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tg_channel"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                 />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0"
+                            android:padding="8dp"
+                            app:tint="?attr/colorOnSurface"
+                            app:srcCompat="@drawable/telegram_logo" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/github_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceContainer"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_max">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/source_code"
+                                android:textColor="?attr/colorOnSurface"
+                                 />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/repo"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                 />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="0"
+                            android:padding="8dp"
+                            app:tint="?attr/colorOnSurface"
+                            app:srcCompat="@drawable/github_mark" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:id="@+id/github_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/margin"
-                android:paddingVertical="@dimen/margin_min">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Исходный код"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="GitHub репозиторий"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="0"
-                    android:padding="8dp"
-                    android:tint="?attr/colorOnSurface"
-                    app:srcCompat="@drawable/github_mark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tg_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/margin"
-                android:paddingVertical="@dimen/margin_min">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Связь с разработчиком"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Телеграм канал"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="0"
-                    android:padding="8dp"
-                    android:tint="?attr/colorOnSurface"
-                    app:srcCompat="@drawable/telegram_logo" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/policy_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/margin"
-                android:paddingVertical="@dimen/margin_min">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Политика конфиденциальности"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="0"
-                    android:padding="8dp"
-                    android:tint="?attr/colorOnSurface"
-                    app:srcCompat="@drawable/policy_icon" />
-
-            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        style="@style/Widget.App.AppBarLayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

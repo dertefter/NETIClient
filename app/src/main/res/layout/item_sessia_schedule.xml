@@ -9,26 +9,27 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_min">
+        android:paddingHorizontal="@dimen/radius_max"
+        android:paddingBottom="@dimen/margin_micro">
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/f3"
+
             android:text="TextView"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="24sp" />
+            android:textColor="?attr/colorPrimary"
+             />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:fontFamily="@font/f3"
+
             android:text="TextView"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="24sp" />
+             />
     </FrameLayout>
 
     <com.google.android.material.card.MaterialCardView
@@ -59,11 +60,11 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/f3"
+
                     android:includeFontPadding="false"
                     android:letterSpacing="0.07"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="20sp"
+                    android:textColor="?attr/colorOnSurface"
+
                     android:textStyle="normal"
                     tools:text="Физическое химио-био" />
 
@@ -96,7 +97,7 @@
                     android:paddingHorizontal="12dp"
                     android:text="1111111"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp"
+
                     android:visibility="invisible" />
 
                 <TextView
@@ -109,7 +110,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp"
+
                     android:visibility="invisible" />
 
             </FrameLayout>

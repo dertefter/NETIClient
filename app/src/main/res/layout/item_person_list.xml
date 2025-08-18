@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:background="?attr/colorSurfaceContainer"
                 app:contentPadding="4dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
+                app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
                 app:srcCompat="@drawable/person"
                 app:tint="?attr/colorOnSurfaceVariant" />
 
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
+                app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded" />
 
         </FrameLayout>
 
@@ -47,7 +47,7 @@
             android:lines="1"
             android:paddingHorizontal="@dimen/margin_min"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="16sp" />
+             />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

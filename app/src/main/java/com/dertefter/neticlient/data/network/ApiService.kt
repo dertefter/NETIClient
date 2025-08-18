@@ -38,7 +38,7 @@ interface ApiService {
     suspend fun getWeekNumberList(@Query("group") group: String, @Query("week") week: String = "1"): Response<ResponseBody>
 
     @GET("studies/schedule/schedule_classes/schedule")
-    suspend fun getSchedule(@Query("group") group: String, @Query("print") print: String = "true"): Response<ResponseBody>
+    suspend fun getSchedule(@Query("group") group: String, @Query("week") week: String = "1", @Query("print") print: String = "true"): Response<ResponseBody>
 
     @GET("student_study/timetable/timetable_lessons")
     suspend fun getIndividualSchedule(@Query("print") print: String = "true"): Response<ResponseBody>
@@ -61,7 +61,7 @@ interface ApiService {
     suspend fun getCoursesSearchResult(query: String): Response<ResponseBody>
 
     @GET("user/proceed")
-    suspend fun authDispace(@Query("login") login: String = "openam", @Query("password") password: String = "auth"): Response<ResponseBody>
+    suspend fun authDispace(@Query("login") login: String = "keycloak", @Query("password") password: String = "auth"): Response<ResponseBody>
 
     @FormUrlEncoded
     @POST("diclass/privmsg/dialog/")
@@ -81,6 +81,17 @@ interface ApiService {
 
     @GET("student_study/student_info/progress")
     suspend fun getSessiaResults(): Response<ResponseBody>
+
+    @GET("student_study/student_info/task")
+    suspend fun getControlWeeks(): Response<ResponseBody>
+
+
+    @GET("student_study/student_info/link_progress")
+    suspend fun getShareScore(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/student_info/link_progress")
+    suspend fun getShareScoreReplaceLink(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
 
     @GET("student_study/personal/money")
     suspend fun getMoneyYearsList(): Response<ResponseBody>
@@ -145,4 +156,16 @@ interface ApiService {
 
     @GET("student_study")
     suspend fun base(): Response<ResponseBody>
+
+    @GET("diclass/group/my")
+    suspend fun getGroupStudents(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("calendar")
+    suspend fun getEvents(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET("campus")
+    suspend fun getPhotoList(
+    ): Response<ResponseBody>
+
 }

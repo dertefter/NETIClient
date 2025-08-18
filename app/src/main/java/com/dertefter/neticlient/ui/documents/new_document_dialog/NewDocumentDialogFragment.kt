@@ -1,32 +1,17 @@
 package com.dertefter.neticlient.ui.documents.new_document_dialog
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
-import com.dertefter.neticlient.data.model.documents.DocumentsItem
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentNewDocumentDialogBinding
-import com.dertefter.neticlient.databinding.FragmentProfileDialogBinding
 import com.dertefter.neticlient.ui.documents.DocumentsViewModel
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.profile.ProfileMenuAdapter
-import com.dertefter.neticlient.ui.profile.ProfileViewModel
-import com.dertefter.neticlient.ui.webview.WebViewBottomSheetFragment
-import java.io.File
 
 class NewDocumentDialogFragment : DialogFragment() {
 
@@ -44,10 +29,6 @@ class NewDocumentDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.SomeDialogTheme)
-    }
 
     override fun onDestroyView() {
         documentsViewModel.selectedRequestItem.postValue(null)

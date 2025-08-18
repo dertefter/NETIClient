@@ -11,7 +11,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        style="@style/Widget.App.AppBarLayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -37,34 +37,13 @@
                 app:cardCornerRadius="24dp">
 
                 <TextView
-                    android:id="@+id/w1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/f9"
-                    android:includeFontPadding="false"
-                    android:text="1"
-                    android:textColor="?attr/colorTertiary"
-                    android:textSize="60sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/w2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="-14dp"
-                    android:alpha="0.7"
-                    android:fontFamily="@font/f9"
-                    android:includeFontPadding="false"
-                    android:paddingEnd="-2dp"
-                    android:text="8"
+                    android:id="@+id/w"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall.Emphasized"
                     android:textColor="?attr/colorOnTertiaryContainer"
-                    android:textSize="52sp"
-                    android:textStyle="bold" />
-
+                    tools:text="12" />
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
@@ -98,19 +77,17 @@
                         android:layout_marginTop="@dimen/margin_min"
                         android:alpha="0.2"
                         android:src="@drawable/group_icon"
-                        android:tint="?attr/colorPrimary" />
+                        app:tint="?attr/colorPrimary" />
 
                     <TextView
                         android:id="@+id/group"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/f3"
+
                         android:paddingHorizontal="@dimen/margin_max"
-                        android:text="TextView"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="18sp" />
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                        android:textColor="?attr/colorOnPrimaryContainer" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
@@ -147,19 +124,45 @@
                 tools:listitem="@layout/item_week" />
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/year_and_mounth"
+        <FrameLayout
+            android:id="@+id/c1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/margin"
             android:layout_marginTop="@dimen/margin_min"
+            android:layout_weight="1"
             android:background="@drawable/rounded_background_top"
-            android:fontFamily="@font/f3"
+            android:backgroundTint="?attr/colorSurfaceContainerLow"
             android:paddingHorizontal="@dimen/margin_max"
             android:paddingTop="@dimen/margin_max"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="20sp"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap" />
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
+            <Button
+                android:id="@+id/calendar_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Filled"
+                android:layout_width="52dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical|end"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/calendar_month_icon"
+                app:iconGravity="textEnd"
+                app:iconSize="20dp" />
+
+            <TextView
+                android:id="@+id/year_and_mounth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_vertical"
+
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="dhvdjvdjkvsdjk" />
+
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/days_tabs_container"
@@ -167,6 +170,7 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/margin"
             android:background="@drawable/rounded_background_bottom"
+            android:backgroundTint="?attr/colorSurfaceContainerLow"
             android:paddingHorizontal="@dimen/margin"
             android:paddingBottom="@dimen/margin">
 
@@ -176,6 +180,7 @@
                 android:layout_height="68dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_background_bottom"
+                android:backgroundTint="?attr/colorSurfaceContainerLow"
                 android:clipToPadding="false"
                 android:contentDescription="@string/tabs"
                 android:fitsSystemWindows="false"
@@ -247,7 +252,7 @@
                 android:text="@string/add_group"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                 />
 
             <Button
                 android:id="@+id/search_group_button"

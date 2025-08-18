@@ -1,78 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.App.AppBarLayout" parent="Widget.Material3.AppBarLayout">
+    <style name="NETIClient.Widget.AppBarLayout" parent="Widget.Material3.AppBarLayout">
         <item name="android:clipChildren">true</item>
         <item name="android:divider">@drawable/vertical_divider_small</item>
-        <item name="android:fitsSystemWindows">true</item>
         <item name="android:showDividers">none</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="liftOnScroll">true</item>
-        <item name="liftOnScrollColor">?attr/colorSurfaceContainer</item>
+        <item name="liftOnScrollColor">?attr/colorSurfaceContainerLow</item>
+        <item name="elevation">0dp</item>
     </style>
 
 
-    <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Filled">
+    <style name="NETIClient.Widget.CardView" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
         <item name="cardCornerRadius">@dimen/radius</item>
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="ShapeAppearance.Image.Rounded" parent="">
+    <style name="NETIClient.ShapeAppearance.Rounded" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+    <style name="NETIClient.ThemeOverlay.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="android:navigationBarColor">?attr/colorSurfaceContainerLow</item>
     </style>
 
-    <style name="ImageDialogTheme" parent="android:Theme.Dialog">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+    <style name="NETIClient.Widget.LoginTextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius</item>
     </style>
-
-    <style name="SomeDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-    </style>
-
-    <style name="Widget.NETIClient.AppWidget.Container" parent="android:Widget">
-        <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
-    </style>
-
-    <style name="Widget.NETIClient.AppWidget.InnerView" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
-
-    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
-    </style>
-
-    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
-        <item name="colorSurface">?attr/colorSurfaceContainer</item>
-        <item name="colorSecondaryContainer">?attr/colorPrimaryContainer</item>
-        <item name="colorOnSecondaryContainer">?attr/colorOnPrimaryContainer</item>
-    </style>
-
-    <style name="My.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
-        <item name="fontFamily">@font/f1</item>
-    </style>
-
-    <style name="My.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
-        <item name="fontFamily">@font/f1</item>
-    </style>
-
-    <style name="My.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
-        <item name="fontFamily">@font/f1</item>
-    </style>
-
 
 
 </resources>

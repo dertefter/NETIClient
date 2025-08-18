@@ -104,7 +104,7 @@ class WeekFragment : Fragment() {
                     val scaleYAnim = ObjectAnimator.ofFloat(view, "scaleY", scale)
                     val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", alpha)
 
-                        val interpolator = 	PathInterpolator(0.2f, 0f, 0f, 1f)
+                    val interpolator = 	PathInterpolator(0.2f, 0f, 0f, 1f)
 
                     translationYAnim.interpolator = interpolator
                     scaleXAnim.interpolator = interpolator
@@ -141,8 +141,8 @@ class WeekFragment : Fragment() {
                         val dayNameView = customView?.findViewById<TextView>(R.id.dayName)?: return
                         val dayDateView = customView?.findViewById<TextView>(R.id.dayDate)?: return
                         if (isSelected) {
-                            animateSmth(dayNameView, -16 * density, 2.3f, 1f)
-                            animateSmth(dayDateView, 24 * density, 3f, 0.07f)
+                            animateSmth(dayNameView, -20 * density, 2f, 1f)
+                            animateSmth(dayDateView, 24 * density, 3f, 0.2f)
                         } else {
                             animateSmth(dayNameView, 0f, 1f, 0.85f)
                             animateSmth(dayDateView, 0f, 1f, 1f)

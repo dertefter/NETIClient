@@ -10,11 +10,78 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/f3"
+
         android:paddingBottom="@dimen/margin_min"
         android:text="@string/title_news"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="24sp" />
+         />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="false"
+        android:paddingHorizontal="@dimen/margin"
+        android:scrollbarThumbHorizontal="@null">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filter_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/margin_min"
+            app:chipSpacingVertical="0dp"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_all"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/filter_news_all"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_news"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/filter_news_news"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_obj"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/filter_news_obj"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_interview"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/filter_news_interv"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_photo"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/filter_news_photo"
+                app:ensureMinTouchTargetSize="false" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -28,22 +95,5 @@
         android:visibility="visible"
         tools:itemCount="2"
         tools:listitem="@layout/item_time" />
-
-    <Button
-        android:id="@+id/more_news"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_min"
-        android:layout_weight="1"
-        android:backgroundTint="?attr/colorSecondaryContainer"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="Больше новостей"
-        android:textColor="?attr/colorOnSecondaryContainer"
-        app:cornerRadius="@dimen/radius"
-        app:icon="@drawable/news_icon"
-        app:iconPadding="0dp"
-        app:iconSize="20dp"
-        app:iconTint="?attr/colorOnSecondaryContainer" />
 
 </LinearLayout>

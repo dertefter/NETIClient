@@ -25,11 +25,11 @@
             android:id="@+id/type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/f3"
+
             android:includeFontPadding="false"
             android:letterSpacing="0.07"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="20sp"
+            android:textColor="?attr/colorOnSurface"
+
             android:textStyle="normal"
             tools:text="Физическое химио-био" />
 
@@ -57,7 +57,7 @@
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="4dp"
-                        android:tint="?attr/colorOnSurfaceVariant"
+                        app:tint="?attr/colorOnSurfaceVariant"
                         app:srcCompat="@drawable/calendar_month_icon" />
 
                     <TextView
@@ -68,7 +68,7 @@
                         android:layout_weight="0"
                         android:gravity="center"
                         android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="16sp"
+
                         android:visibility="visible" />
                 </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:paddingVertical="4dp"
                 android:text="Готово"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="16sp"
+
                 android:visibility="visible" />
 
         </FrameLayout>

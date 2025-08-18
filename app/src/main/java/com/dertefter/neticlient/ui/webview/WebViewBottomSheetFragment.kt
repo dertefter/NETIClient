@@ -71,13 +71,6 @@ class WebViewBottomSheetFragment : BottomSheetDialogFragment() {
                 return true // Возвращаем true, чтобы обработать URL самостоятельно
             }
         }
-
-        val cookieManager = android.webkit.CookieManager.getInstance()
-        cookieManager.setAcceptCookie(true)
-        val token = loginViewModel.userLiveData.value!!
-        cookieManager.setCookie("https://login.nstu.ru/", "NstuSsoToken=$token")
-        val headers = mapOf("Cookie" to "NstuSsoToken=$token")
-        binding.webView.loadUrl(url, headers)
     }
 
     override fun onDestroyView() {

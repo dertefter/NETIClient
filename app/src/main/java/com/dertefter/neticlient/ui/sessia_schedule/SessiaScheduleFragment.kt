@@ -57,6 +57,7 @@ class SessiaScheduleFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 scheduleViewModel.scheduleSessiaState.collect { state ->
+                    Log.e("schs", state.toString())
                     when (state.responseType) {
                         ResponseType.LOADING -> {
                             adapter.setLoading(true)

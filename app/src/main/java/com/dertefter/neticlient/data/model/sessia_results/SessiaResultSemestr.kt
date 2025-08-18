@@ -6,5 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SessiaResultSemestr(
     val title: String,
-    val items: List<SessiaResultItem>
+    val items: List<SessiaResultItem>?,
+    val srScoreSem: Float? = null
 ): Parcelable

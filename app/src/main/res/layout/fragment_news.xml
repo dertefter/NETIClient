@@ -32,7 +32,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
-            style="@style/Widget.App.AppBarLayout"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="true"
@@ -45,8 +45,33 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:minHeight="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:navigationIcon="@drawable/arrow_back"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                app:navigationIcon="@drawable/arrow_back" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/promoRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginBottom="@dimen/margin_min"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:contentDescription="@string/news_list"
+                android:fadingEdge="none"
+                android:paddingHorizontal="@dimen/margin"
+                android:requiresFadingEdge="none"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                tools:itemCount="20"
+                tools:listitem="@layout/item_news" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                 app:title="@string/title_news" />
 
             <HorizontalScrollView
@@ -63,6 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingTop="@dimen/margin_min"
+                    app:chipSpacingVertical="0dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
@@ -72,7 +99,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/filter_news_all" />
+                        android:text="@string/filter_news_all"
+                        app:ensureMinTouchTargetSize="false" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_news"
@@ -80,7 +108,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="@string/filter_news_news" />
+                        android:text="@string/filter_news_news"
+                        app:ensureMinTouchTargetSize="false" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_obj"
@@ -88,7 +117,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="@string/filter_news_obj" />
+                        android:text="@string/filter_news_obj"
+                        app:ensureMinTouchTargetSize="false" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_interview"
@@ -96,7 +126,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="@string/filter_news_interv" />
+                        android:text="@string/filter_news_interv"
+                        app:ensureMinTouchTargetSize="false" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_photo"
@@ -104,35 +135,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="@string/filter_news_photo" />
+                        android:text="@string/filter_news_photo"
+                        app:ensureMinTouchTargetSize="false" />
 
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
-
-            <LinearLayout
-                android:id="@+id/top_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/promoRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:contentDescription="@string/news_list"
-                    android:fadingEdge="none"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:requiresFadingEdge="none"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    tools:itemCount="20"
-                    tools:listitem="@layout/item_news" />
-            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 

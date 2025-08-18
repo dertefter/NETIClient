@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
 
 @AndroidEntryPoint
 class NewsDetailFragment : Fragment() {
@@ -66,22 +67,8 @@ class NewsDetailFragment : Fragment() {
         val imageUrl = arguments?.getString("imageUrl")
         val isContainer = arguments?.getBoolean("isContainer") ?: false
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
 
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val totalScrollRange = appBarLayout.totalScrollRange
-            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            binding.topContainer.alpha = alpha
-            if (verticalOffset < 0) {
-                binding.appBarLayout.isLifted = true
-            } else {
-                binding.appBarLayout.isLifted = false
-            }
-        }
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
 
 

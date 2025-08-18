@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.messages.Message
@@ -24,6 +25,7 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentMessagesTabBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
+import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,30 +55,16 @@ class MessagesTabFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-
-        val spanCount = resources.getInteger(R.integer.span_count)
-
         adapter = MessagesRecyclerViewAdapter(fragment = this)
         adapter.setLoading()
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val verticalOffset = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            R.dimen.margin
-        } else {
-            R.dimen.margin_min
-        }
+        val verticalOffset =   R.dimen.margin_micro
 
         binding.recyclerView.addItemDecoration(
-            GridSpacingItemDecoration(
-                requireContext(),
-                spanCount,
-                R.dimen.margin, verticalOffset
+            VerticalSpaceItemDecoration(
+                verticalOffset
             )
         )
 

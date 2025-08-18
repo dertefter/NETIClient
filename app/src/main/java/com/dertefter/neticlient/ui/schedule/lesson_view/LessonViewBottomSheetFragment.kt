@@ -88,15 +88,14 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
             binding.timeStart.text = time?.timeStart.toString()
 
             binding.personsRecyclerView.adapter = adapter
-            val spacingInPixels = resources.getDimensionPixelSize(R.dimen.margin_min)
-            binding.personsRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
+            binding.personsRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.margin_min))
 
             binding.personsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter.setData(lesson.personIds)
             when (lessonDetail.futureOrPastOrNow){
                 FutureOrPastOrNow.NOW -> {
                     if (time != null){
-                        binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorPrimary))
+                        binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorSecondary))
                         binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorOnSurfaceVariant))
 
                         val currentTime = CurrentTimeObject.currentTimeLiveData.value
@@ -112,8 +111,8 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
                     binding.progress.progress = 0
                 }
                 FutureOrPastOrNow.PAST -> {
-                    binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorPrimary))
-                    binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorPrimary))
+                    binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorSecondary))
+                    binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorSecondary))
                     binding.progress.progress = 100
                     (binding.progress.parent as View).alpha = 0.5f
                 }
@@ -132,10 +131,10 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
                 when {
                     type.text.contains("Лаб") -> {
                         type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
                         )
                         type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
                         )
                     }
                     type.text.contains("Практика") -> {
@@ -148,10 +147,10 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
                     }
                     else -> {
                         type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
                         )
                         type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
                         )
 
 

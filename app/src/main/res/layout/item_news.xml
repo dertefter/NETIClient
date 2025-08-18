@@ -30,20 +30,21 @@
                 android:contentDescription="@string/image"
                 android:scaleType="centerCrop"
                 android:visibility="visible"
-                app:srcCompat="?attr/colorSurface" />
+                app:srcCompat="?attr/colorSurfaceContainerHigh" />
 
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/margin"
-                android:layout_marginEnd="@dimen/margin"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="@dimen/margin_min"
                 android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSecondaryContainer"
+                android:backgroundTint="?attr/colorSurfaceVariant"
+                android:gravity="center"
+
                 android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
-                android:textColor="?attr/colorOnSecondaryContainer"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:visibility="gone" />
 
         </androidx.cardview.widget.CardView>
@@ -52,16 +53,16 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:fontFamily="@font/f3"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="18sp" />
+
+            android:paddingHorizontal="@dimen/margin_min"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_marginHorizontal="@dimen/margin_min"
             android:layout_marginBottom="@dimen/margin_min"
             android:maxLines="1"
             android:textColor="?attr/colorOnSurfaceVariant"

@@ -36,4 +36,15 @@ data class Schedule (
         return futureDays.sortedBy { it.getDate() }.firstOrNull()
 
     }
+
+    fun getDayForDate(date: LocalDate): Day? {
+        for (week in weeks) {
+            for (day in week.days){
+                if (day.getDate() == date){
+                    return day
+                }
+            }
+        }
+        return null
+    }
 }

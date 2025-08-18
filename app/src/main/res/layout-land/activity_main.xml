@@ -1,75 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?attr/colorSurfaceContainerLowest"
-    android:fitsSystemWindows="true"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
     tools:context=".ui.main.MainActivity">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewpagercard"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_min"
-        android:clickable="false"
-        app:cardBackgroundColor="?attr/colorSurfaceContainerLowest"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_container"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph_new" />
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <FrameLayout
-        android:id="@+id/alertContainer"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:id="@+id/vertical_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:background="?attr/colorSurfaceContainerLow"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/margin">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            app:cardBackgroundColor="?attr/colorError"
-            app:cardUseCompatPadding="false"
-            app:contentPadding="@dimen/margin">
+            android:id="@+id/profile_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/radius_min">
 
-            <TextView
-                android:id="@+id/alertTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="@string/login_failed"
-                android:textColor="?attr/colorOnError"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/auth_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainerHighest"
+                android:padding="@dimen/margin_min"
+                android:visibility="gone"
+                app:srcCompat="@drawable/person"
+                app:tint="?attr/colorOnSecondaryContainer"
+                tools:visibility="gone" />
 
-            <Button
-                android:id="@+id/retry_button"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical|end"
-                android:backgroundTint="?attr/colorErrorContainer"
-                app:icon="@drawable/cached_icon"
-                app:iconTint="?attr/colorOnErrorContainer" />
+            <FrameLayout
+                android:id="@+id/auth_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimaryContainer"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <com.google.android.material.loadingindicator.LoadingIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:indicatorColor="?attr/colorPrimary"
+                    app:indicatorSize="40dp"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/auth_avatar_shape_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
+
+                <com.dertefter.neticlient.common.AnotherShapeView
+                    android:id="@+id/avatar_shape"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:rippleForeground="?attr/selectableItemBackground" />
+            </FrameLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
-    </FrameLayout>
+        <com.google.android.material.navigationrail.NavigationRailView
+            android:id="@+id/navigation_rail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="false"
+            android:minHeight="0dp"
+            android:paddingVertical="@dimen/margin"
+            app:itemGravity="center"
+            app:itemPaddingBottom="0dp"
+            app:itemPaddingTop="0dp"
+            app:menu="@menu/navigation_menu" />
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_container"
+
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_root" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

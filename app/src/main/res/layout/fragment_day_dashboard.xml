@@ -48,7 +48,7 @@
                 android:text="@string/add_group"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="18sp" />
+                 />
 
             <Button
                 android:id="@+id/search_group_button"
@@ -61,15 +61,18 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
+    <com.dertefter.neticlient.common.ShimmerLayout
         android:id="@+id/skeleton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone">
+    <LinearLayout
         android:divider="@drawable/vertical_divider_small"
         android:orientation="vertical"
         android:showDividers="middle"
-        android:visibility="gone">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <include
             layout="@layout/skeleton_time"
             android:layout_width="match_parent"
@@ -85,6 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    </com.dertefter.neticlient.common.ShimmerLayout>
 
     <LinearLayout
         android:id="@+id/schedule"
@@ -107,21 +112,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:fontFamily="@font/f3"
+
                 android:paddingBottom="@dimen/margin_min"
                 android:text="Занятия сегодня • "
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="24sp" />
+                 />
 
             <TextView
                 android:id="@+id/group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/f3"
+
                 android:paddingBottom="@dimen/margin_min"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="24sp" />
+                 />
 
         </LinearLayout>
 
@@ -133,6 +138,7 @@
             android:contentDescription="@string/lessons_list"
             android:fadingEdge="none"
             android:isScrollContainer="false"
+            android:nestedScrollingEnabled="false"
             android:requiresFadingEdge="none"
             tools:listitem="@layout/item_time" />
 
@@ -223,7 +229,7 @@
             android:paddingVertical="@dimen/margin"
             android:text="@string/no_lessons"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="16sp"
+
             android:visibility="gone" />
     </LinearLayout>
 

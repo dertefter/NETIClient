@@ -34,6 +34,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.color.MaterialColors
 
 
@@ -69,7 +72,7 @@ class ScheduleFragment : Fragment() {
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
             val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            binding.yearAndMounth.alpha = alpha
+            binding.c1.alpha = alpha
             binding.weekGroupContainer.alpha = alpha
             binding.weeksContainer.alpha = alpha
         }
@@ -111,7 +114,6 @@ class ScheduleFragment : Fragment() {
         state.schedule?.let { schedule ->
             val currentWeekNumber = scheduleViewModel.weekNumberFlow.first()
             if (currentWeekNumber != null){
-                weeksAdapter.updateCurrentWeekNumber(currentWeekNumber)
                 val dayNumber = CurrentTimeObject.currentDayLiveData.value
                 if (dayNumber == 7 && schedule.getWeek(currentWeekNumber + 1) != null){
                     schedule.getWeek(currentWeekNumber + 1)?.let {
@@ -127,6 +129,12 @@ class ScheduleFragment : Fragment() {
                     }
                 }
 
+            } else {
+                schedule.getWeek(1)?.let {
+                    loadWeekFragment(
+                        it
+                    )
+                }
             }
 
         }
@@ -145,20 +153,13 @@ class ScheduleFragment : Fragment() {
 
 
     fun setWeekText(text: String){
-        if (text.length == 2){
-            binding.w1.text = text[0].toString()
-            binding.w2.text = text[1].toString()
-            binding.w1.isGone = false
-        } else {
-            binding.w2.text = text
-            binding.w1.isGone = true
-        }
+        binding.w.text = text
     }
 
     private fun loadWeekFragment(week: Week) {
         binding.weeksContainer.isGone = true
         setWeekText(week.weekNumber.toString())
-
+        weeksAdapter.updateCurrentWeekNumber(week.weekNumber)
         val bundle = Bundle().apply {
             putParcelable("WEEK", week)
         }
@@ -203,6 +204,10 @@ class ScheduleFragment : Fragment() {
         weeksAdapter.updateWeeks(weeks)
         binding.weekButton.setOnClickListener {
             binding.weeksContainer.isGone = !binding.weeksContainer.isGone
+            val transition = AutoTransition().apply {
+                duration = 200
+            }
+            TransitionManager.beginDelayedTransition(binding.weeksContainer, transition)
 
         }
         binding.weeksRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -222,7 +227,13 @@ class ScheduleFragment : Fragment() {
                 SearchGroupBottomSheet.TAG
             )
         }
-
+        binding.calendarButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.calendarFragment,
+                null,
+                Utils.getNavOptions(),
+            )
+        }
         binding.groupButton.setOnClickListener {
             SearchGroupBottomSheet().show(
                 requireActivity().supportFragmentManager,

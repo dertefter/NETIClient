@@ -22,7 +22,7 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
             android:textColor="?attr/colorOnSecondaryContainer"
-            android:textSize="16sp" />
+             />
 
         <TextView
             android:id="@+id/text"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="6dp"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="18sp" />
+             />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

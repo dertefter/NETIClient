@@ -44,12 +44,6 @@ class MoneyYearFragment : Fragment() {
         
         moneyItemsViewModel.fetchMoneyItemsForYear(year)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-
         moneyItemsViewModel.moneyItemsLiveData.observe(viewLifecycleOwner){
             if (it.responseType == ResponseType.SUCCESS){
                 binding.recyclerView.adapter = MoneyRecyclerViewAdapter((it.data as List<MoneyItem>))

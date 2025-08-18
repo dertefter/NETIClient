@@ -4,4 +4,32 @@
         <attr name="appWidgetInnerRadius" format="dimension" />
         <attr name="appWidgetRadius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ShaderView">
+        <attr name="curvature" format="float"/>
+        <attr name="thickness" format="dimension"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="blurRadius" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="AnotherShapeView">
+        <attr name="rippleForeground" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ScrollableBarChartView">
+        <attr name="barWidth" format="dimension" />
+        <attr name="barSpacing" format="dimension" />
+        <attr name="barDrawable" format="reference" />
+        <attr name="barMaxDrawable" format="reference" />
+        <attr name="maxIconDrawable" format="reference" />
+        <attr name="labelTextSize" format="dimension" />
+        <attr name="valueTextSize" format="dimension" />
+
+        <attr name="labelFontFamily" format="reference|string" />
+        <attr name="valueFontFamily" format="reference|string" />
+
+
+    </declare-styleable>
+
+
 </resources>

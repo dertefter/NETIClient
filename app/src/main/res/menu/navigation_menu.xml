@@ -2,30 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_graph_home"
+        android:title="@string/title_home"
+        android:icon="@drawable/dashboard"
+        />
+
+    <item
         android:id="@+id/nav_graph_dashboard"
         android:title="@string/title_dashboard"
-        android:icon="@drawable/calendar_month_icon"
-        />
+        android:icon="@drawable/school"/>
 
     <item
-        android:id="@+id/nav_graph_schedule"
-        android:title="@string/schedule_title"
-        android:icon="@drawable/calendar_month_icon"
-        />
-
-    <item
-        android:id="@+id/nav_graph_news"
-        android:title="@string/title_news"
-        android:icon="@drawable/school_icon"/>
-
-    <item
-        android:id="@+id/nav_graph_messages"
+        android:id="@+id/nav_graph_inbox"
         android:title="@string/messages_title"
-        android:icon="@drawable/mail_icon"/>
-
-    <item
-        android:id="@+id/nav_graph_profile"
-        android:title="@string/profile_title"
-        android:icon="@drawable/person"/>
+        android:icon="@drawable/inbox_text"/>
 
 </menu>

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:divider="@drawable/vertical_divider"
+            android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin"
             android:showDividers="middle|beginning|end">
@@ -25,17 +25,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/loading"
-                android:divider="@drawable/vertical_divider"
+                android:divider="@drawable/vertical_divider_small"
                 android:orientation="vertical"
                 android:showDividers="middle">
 
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="68dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -44,10 +45,11 @@
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="104dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -56,10 +58,11 @@
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="68dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -68,10 +71,11 @@
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="68dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -80,10 +84,11 @@
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="200dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -92,10 +97,11 @@
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Filled"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="68dp"
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="@dimen/radius_max"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -109,10 +115,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:contentPaddingBottom="12dp"
-                app:contentPaddingLeft="12dp"
-                app:contentPaddingRight="12dp"
-                app:contentPaddingTop="12dp">
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -136,7 +140,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:contentDescription="@string/icon"
-                        android:textSize="16sp" />
+                         />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -147,10 +151,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:contentPaddingBottom="12dp"
-                app:contentPaddingLeft="12dp"
-                app:contentPaddingRight="12dp"
-                app:contentPaddingTop="12dp">
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:textSize="16sp" />
+                         />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -184,10 +186,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:contentPaddingBottom="12dp"
-                app:contentPaddingLeft="12dp"
-                app:contentPaddingRight="12dp"
-                app:contentPaddingTop="12dp">
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:textSize="16sp" />
+                         />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -221,10 +221,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:contentPaddingBottom="12dp"
-                app:contentPaddingLeft="12dp"
-                app:contentPaddingRight="12dp"
-                app:contentPaddingTop="12dp">
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -239,7 +237,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:text="@string/person_profiles"
-                        android:textSize="18sp" />
+                         />
 
                     <TextView
                         android:id="@+id/profiles"
@@ -247,7 +245,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:textSize="16sp" />
+                         />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -258,10 +256,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:contentPaddingBottom="12dp"
-                app:contentPaddingLeft="12dp"
-                app:contentPaddingRight="12dp"
-                app:contentPaddingTop="12dp">
+                app:cardCornerRadius="@dimen/radius_max"
+                app:contentPadding="@dimen/margin_max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -276,7 +272,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:text="@string/disciplines"
-                        android:textSize="18sp" />
+                         />
 
                     <TextView
                         android:id="@+id/disceplines"
@@ -284,7 +280,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:textSize="16sp" />
+                         />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -292,7 +288,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        style="@style/Widget.App.AppBarLayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -348,9 +344,9 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/colorSurfaceVariant"
+                android:background="?attr/colorSurfaceContainer"
                 app:contentPadding="4dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
+                app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
                 app:srcCompat="@drawable/person"
                 app:tint="?attr/colorOnSurfaceVariant" />
 
@@ -359,7 +355,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
+                app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded" />
         </FrameLayout>
 
         <FrameLayout
@@ -372,7 +368,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/margin_min">
 
                 <TextView
                     android:id="@+id/name"
@@ -382,7 +379,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin"
                     android:textColor="?attr/colorOnSurface"
-                    android:textSize="20sp" />
+                     />
 
                 <TextView
                     android:id="@+id/about_disc"
@@ -392,16 +389,8 @@
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="16sp" />
+                     />
             </LinearLayout>
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0"
-                android:theme="?attr/actionBarTheme"
-                app:navigationIcon="@drawable/arrow_back" />
 
         </FrameLayout>
 

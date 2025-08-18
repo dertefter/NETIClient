@@ -29,6 +29,7 @@ class ScheduleRepository @Inject constructor(
 ) {
 
     suspend fun updateSchedule(group: String, isIndividual: Boolean = false) {
+
         val schedule = networkClient.getSchedule(group, isIndividual)
         if (schedule.responseType == ResponseType.SUCCESS && schedule.data != null) {
             saveSchedule(group, schedule.data as Schedule)
@@ -94,13 +95,13 @@ class ScheduleRepository @Inject constructor(
 
     private suspend fun saveWeekNumber(weekNumber: Int) {
         dataStore.edit { preferences ->
-            preferences[intPreferencesKey("weekNumber")] = weekNumber
+            preferences[intPreferencesKey("weekNumberInt")] = weekNumber
         }
     }
 
     fun getWeekNumberFlow(): Flow<Int?> {
         return dataStore.data.map { preferences ->
-            preferences[intPreferencesKey("weekNumber")]
+            preferences[intPreferencesKey("weekNumberInt")]
         }
     }
 

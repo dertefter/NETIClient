@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="?attr/colorPrimaryContainer" />
+    <item android:drawable="?attr/colorSurface" />
 
     <item android:gravity="center" android:drawable="@drawable/app_icon" />
 </layer-list>

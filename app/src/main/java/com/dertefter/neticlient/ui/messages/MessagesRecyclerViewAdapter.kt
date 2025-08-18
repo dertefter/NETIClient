@@ -9,17 +9,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.messages.Message
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 
 class MessagesRecyclerViewAdapter(
     val fragment: MessagesTabFragment,
 ) : ListAdapter<Message, MessagesRecyclerViewAdapter.MessageViewHolder>(DiffCallback()) {
 
     fun setData(newList: List<Message>) {
-        submitList(newList)
+        val sortedList = newList.sortedByDescending { it.is_new }
+        submitList(sortedList)
     }
 
     fun setLoading() {
-        val loadingList = List(30) {
+        val loadingList = List(15) {
             Message("", "", "", "", false, "")
         }
         submitList(loadingList)
@@ -34,6 +37,39 @@ class MessagesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, fragment)
+
+        val context = holder.itemView.context
+        val cardView = holder.itemView as com.google.android.material.card.MaterialCardView
+        val radiusMax = context.resources.getDimension(R.dimen.radius_max)
+        val radiusMin = context.resources.getDimension(R.dimen.radius_micro)
+
+        // Логика скругления углов остаётся прежней и будет работать корректно,
+        // так как она зависит от позиции элемента в уже отсортированном списке.
+        val shapeModel = when (position) {
+            0 -> ShapeAppearanceModel()
+                .toBuilder()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMax)
+                .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
+                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
+                .build()
+
+            itemCount - 1 -> ShapeAppearanceModel()
+                .toBuilder()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                .setTopRightCorner(CornerFamily.ROUNDED, radiusMin)
+                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMax)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMax)
+                .build()
+
+            else -> ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radiusMin)
+                .build()
+        }
+
+        cardView.shapeAppearanceModel = shapeModel
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -50,7 +86,9 @@ class MessagesRecyclerViewAdapter(
             title.text = item.title
             text.text = item.text
             itemView.setOnClickListener {
-                fragment.openMessageDetail(item.id)
+                if (item.id.isNotEmpty()){
+                    fragment.openMessageDetail(item.id)
+                }
             }
         }
     }

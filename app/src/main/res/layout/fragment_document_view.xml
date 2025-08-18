@@ -34,7 +34,7 @@
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="24sp" />
+                 />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                         android:paddingEnd="4dp"
                         android:text="TextView"
                         android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="18sp" />
+                         />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -90,7 +90,7 @@
                             android:layout_width="18dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
-                            android:tint="?attr/colorOnSurfaceVariant"
+                            app:tint="?attr/colorOnSurfaceVariant"
                             app:srcCompat="@drawable/tag_icon" />
 
                         <TextView
@@ -104,7 +104,7 @@
                             android:paddingEnd="4dp"
                             android:text="TextView"
                             android:textColor="?attr/colorOnSurfaceVariant"
-                            android:textSize="18sp" />
+                             />
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
@@ -121,7 +121,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_weight="0"
-                    android:tint="?attr/colorOnSurfaceVariant"
+                    app:tint="?attr/colorOnSurfaceVariant"
                     app:srcCompat="@drawable/person" />
 
                 <TextView
@@ -134,7 +134,7 @@
                     android:paddingEnd="@dimen/margin"
                     android:text="TextView"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -148,7 +148,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_weight="0"
-                    android:tint="?attr/colorOnSurfaceVariant"
+                    app:tint="?attr/colorOnSurfaceVariant"
                     app:srcCompat="@drawable/calendar_month_icon" />
 
                 <TextView
@@ -161,7 +161,7 @@
                     android:paddingEnd="@dimen/margin"
                     android:text="Дегтярева Е. А., старший инспектор-специалист, деканат РЭФ"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
+                     />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -181,7 +181,7 @@
                     android:layout_weight="1"
                     android:text="TextView"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
+                     />
 
             </androidx.cardview.widget.CardView>
 

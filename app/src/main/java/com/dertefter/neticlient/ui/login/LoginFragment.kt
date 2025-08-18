@@ -2,7 +2,6 @@ package com.dertefter.neticlient.ui.login
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -10,18 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.net.toUri
+import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.FragmentLoginBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment(val type: LoginReasonType? = null) : Fragment() {
 
     lateinit var binding: FragmentLoginBinding
     private val loginViewModel: LoginViewModel by activityViewModels()
@@ -41,6 +45,10 @@ class LoginFragment : Fragment() {
         val loginEditText = binding.loginTextField.editText
         val passwordEditText = binding.passwordTextField.editText
         val loginButton = binding.loginButton
+
+
+        binding.desc.isGone = type != LoginReasonType.UNAUTHORIZED
+
 
         fun isInputValid(): Boolean {
             return !loginEditText?.text.isNullOrEmpty() && !passwordEditText?.text.isNullOrEmpty()
@@ -82,24 +90,31 @@ class LoginFragment : Fragment() {
             )
             startActivity(intent)
         }
-
-        loginViewModel.authStateLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                AuthState.UNAUTHORIZED -> {
-                    binding.login.visibility = View.VISIBLE
-                }
-                AuthState.AUTHORIZED -> {
-                    binding.login.visibility = View.GONE
-                    findNavController().popBackStack()
-                }
-                AuthState.AUTHORIZED_WITH_ERROR -> {
-                    binding.login.visibility = View.VISIBLE
-                    Utils.showToast(requireContext(), "Ошибка авторизации")
-                    loginEditText?.setText("")
-                    passwordEditText?.setText("")
-                }
-                AuthState.AUTHORIZING -> {
-                    binding.login.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.authStateFlow.collect { authState ->
+                    when (authState) {
+                        AuthState.UNAUTHORIZED -> {
+                            binding.loading.visibility = View.GONE
+                            binding.login.visibility = View.VISIBLE
+                        }
+                        AuthState.AUTHORIZED -> {
+                            binding.loading.visibility = View.GONE
+                            binding.login.visibility = View.GONE
+                            findNavController().popBackStack()
+                        }
+                        AuthState.AUTHORIZED_WITH_ERROR -> {
+                            binding.loading.visibility = View.GONE
+                            binding.login.visibility = View.VISIBLE
+                            Utils.showToast(requireContext(), "Ошибка авторизации")
+                            loginEditText?.setText("")
+                            passwordEditText?.setText("")
+                        }
+                        AuthState.AUTHORIZING -> {
+                            binding.login.visibility = View.GONE
+                            binding.loading.visibility = View.VISIBLE
+                        }
+                    }
                 }
             }
         }

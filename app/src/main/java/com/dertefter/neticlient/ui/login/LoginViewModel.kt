@@ -9,6 +9,7 @@ import com.dertefter.neticlient.data.model.User
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +19,10 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ): ViewModel() {
 
-    val userLiveData = MutableLiveData<User?>()
-    val authStateLiveData = MutableLiveData<AuthState>()
+    val userFlow = userRepository.getUserFlow()
+    val authStateFlow = MutableStateFlow<AuthState>(
+        value = AuthState.AUTHORIZING
+    )
 
     init {
         tryAuthorize()
@@ -27,13 +30,11 @@ class LoginViewModel @Inject constructor(
 
     fun tryAuthorize(){
         viewModelScope.launch {
-            val user = userRepository.getUser().first()
+            val user = userRepository.getUserFlow().first()
             if (user != null){
-                authStateLiveData.postValue(AuthState.AUTHORIZED)
-                userLiveData.postValue(user)
                 auth(user.login, user.password)
             } else {
-                authStateLiveData.postValue(AuthState.UNAUTHORIZED)
+                authStateFlow.value = AuthState.UNAUTHORIZED
             }
         }
     }
@@ -41,30 +42,15 @@ class LoginViewModel @Inject constructor(
 
     fun auth(login: String, password: String){
         viewModelScope.launch {
-            authStateLiveData.postValue(AuthState.AUTHORIZING)
-            val responseResult = userRepository.fetchAuth(login, password)
-            if (responseResult.responseType == ResponseType.SUCCESS){
-                val user = userRepository.getUser().first()
-                authStateLiveData.postValue(AuthState.AUTHORIZED)
-                userLiveData.postValue(user)
-            } else {
-                authStateLiveData.postValue(AuthState.AUTHORIZED_WITH_ERROR)
-            }
-        }
-    }
-
-    fun fetchUser(){
-        viewModelScope.launch {
-            val user = userRepository.getUser().first()
-            userLiveData.postValue(user)
+            authStateFlow.value = AuthState.AUTHORIZING
+            authStateFlow.value = userRepository.fetchAuth(login, password)
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            userRepository.removeUser()
-            authStateLiveData.postValue(AuthState.UNAUTHORIZED)
-            userLiveData.postValue(null)
+            userRepository.setUser(null)
+            authStateFlow.value = AuthState.UNAUTHORIZED
         }
     }
 

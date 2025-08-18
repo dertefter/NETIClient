@@ -38,7 +38,7 @@ class SettingsRepository @Inject constructor(
 
     fun getScheduleService(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[booleanPreferencesKey("scheduleService")] ?: false
+            preferences[booleanPreferencesKey("scheduleService")] == true
         }
     }
 
@@ -63,6 +63,18 @@ class SettingsRepository @Inject constructor(
     fun getMaterialYou(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[booleanPreferencesKey("MaterialYou")] ?: false
+        }
+    }
+
+    fun getOnBoarding(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[booleanPreferencesKey("OnBoarding")] ?: true
+        }
+    }
+
+    suspend fun setOnBoarding(enable: Boolean) {
+        dataStore.edit { pref ->
+            pref[booleanPreferencesKey("OnBoarding")] = enable
         }
     }
 

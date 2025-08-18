@@ -13,10 +13,12 @@ import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
 import com.dertefter.neticlient.ui.person.PersonListStyle
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 
 class DocumentsAdapter(
     private var itemList: List<DocumentsItem> = emptyList(),
-    private val onItemClick: (DocumentsItem) -> Unit // добавили callback
+    private val onItemClick: (DocumentsItem) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var loading = false
@@ -64,6 +66,37 @@ class DocumentsAdapter(
             val item = itemList[position]
             holder.bind(item)
         }
+
+        val context = holder.itemView.context
+        val cardView = holder.itemView as com.google.android.material.card.MaterialCardView
+        val radiusMax = context.resources.getDimension(R.dimen.radius_max)
+        val radiusMin = context.resources.getDimension(R.dimen.radius_micro)
+
+        val shapeModel = when (position) {
+            0 -> ShapeAppearanceModel()
+                .toBuilder()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMax)
+                .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
+                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
+                .build()
+
+            itemCount - 1 -> ShapeAppearanceModel()
+                .toBuilder()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                .setTopRightCorner(CornerFamily.ROUNDED, radiusMin)
+                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMax)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMax)
+                .build()
+
+            else -> ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radiusMin)
+                .build()
+        }
+
+        cardView.shapeAppearanceModel = shapeModel
+
     }
 
     override fun getItemCount(): Int {

@@ -8,47 +8,6 @@
     android:background="?attr/colorSurface"
     tools:context=".ui.schedule.ScheduleFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        style="@style/Widget.App.AppBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-
-
-            app:navigationIcon="@drawable/arrow_back"
-            app:title="Результаты сессии" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:layout_weight="1"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="@dimen/radius"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSurfaceContainer"
-                android:clipChildren="true"
-                android:contentDescription="@string/tabs"
-                app:tabMode="scrollable" />
-        </androidx.cardview.widget.CardView>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -61,5 +20,83 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.viewpager2.widget.ViewPager2>
+
+    <com.dertefter.neticlient.common.ShimmerLayout
+        android:id="@+id/skeleton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/vertical_divider_small"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_min"
+            android:showDividers="middle">
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </com.dertefter.neticlient.common.ShimmerLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="?attr/colorSurfaceContainer"
+        android:clipChildren="true"
+        android:contentDescription="@string/tabs"
+        android:visibility="visible"
+        app:tabMode="scrollable" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

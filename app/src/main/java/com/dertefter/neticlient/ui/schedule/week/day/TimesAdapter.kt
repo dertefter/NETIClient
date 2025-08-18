@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.WaveDrawable
+import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.data.model.schedule.Day
 import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
@@ -90,20 +93,16 @@ class TimesAdapter(
         lateinit var lessonsAdapter: LessonsAdapter
 
         fun bind(uiTime: UiTime, fragment: Fragment) {
+
             binding.timeStart.text = uiTime.time.timeStart
             binding.timeEnd.text = uiTime.time.timeEnd
             lessonsAdapter = LessonsAdapter(uiTime.time.lessons, fragment, uiTime.time)
             binding.recylerView.adapter = lessonsAdapter
             binding.recylerView.layoutManager = LinearLayoutManager(itemView.context)
-
-            for (i in binding.recylerView.itemDecorationCount - 1 downTo 0) {
-                binding.recylerView.removeItemDecorationAt(i)
-            }
-
             when(uiTime.status) {
                 FutureOrPastOrNow.FUTURE -> futureTime()
                 FutureOrPastOrNow.PAST -> pastTime()
-                FutureOrPastOrNow.NOW -> onGoingTime(uiTime.progress.toFloat())
+                FutureOrPastOrNow.NOW -> onGoingTime(uiTime.progress)
             }
 
             lessonsAdapter.updateFutureOrPastOrNow(uiTime.status)
@@ -111,11 +110,9 @@ class TimesAdapter(
 
         fun pastTime(){
             itemView.alpha = 0.5f
-            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
-            binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
-            binding.progressBar?.visibility = View.VISIBLE
-            binding.progressBar?.progress = 100f
-            binding.horizontalProgress?.progress = 100
+            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
+            binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
+            binding.verticalProgressIndicator.progress = 100
             lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.PAST)
         }
 
@@ -123,19 +120,15 @@ class TimesAdapter(
             binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
             binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
             itemView.alpha = 1f
-            binding.progressBar?.visibility = View.GONE
-            binding.progressBar?.progress = 0f
-            binding.horizontalProgress?.progress = 0
+            binding.verticalProgressIndicator.progress = 0
             lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.FUTURE)
         }
 
-        fun onGoingTime(progress: Float){
-            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
+        fun onGoingTime(progress: Int){
+            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
             binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
             itemView.alpha = 1f
-            binding.progressBar?.visibility = View.VISIBLE
-            binding.progressBar?.progress = progress
-            binding.horizontalProgress?.progress = progress.toInt()
+
             lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.NOW)
         }
 

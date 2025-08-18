@@ -32,7 +32,7 @@
                 android:layout_gravity="top|end"
                 android:layout_margin="@dimen/margin_min"
                 android:layout_weight="1"
-                android:tint="?attr/colorTertiary"
+                app:tint="?attr/colorTertiary"
                 app:srcCompat="@drawable/rounded_background" />
 
             <ImageView
@@ -52,7 +52,7 @@
                 android:layout_gravity="bottom|start"
                 android:layout_margin="@dimen/margin_min"
                 android:layout_weight="1"
-                android:tint="?attr/colorPrimary"
+                app:tint="?attr/colorPrimary"
                 app:srcCompat="@drawable/rounded_background" />
 
             <ImageView
@@ -61,7 +61,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/margin_min"
                 android:layout_weight="1"
-                android:tint="?attr/colorSecondary"
+                app:tint="?attr/colorSecondary"
                 app:srcCompat="@drawable/rounded_background" />
         </FrameLayout>
     </FrameLayout>

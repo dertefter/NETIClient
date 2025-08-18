@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="profile"
+        android:enabled="true"
+        android:icon="@mipmap/shortcut_profile"
+        android:shortcutShortLabel="@string/profile_title"
+        android:shortcutLongLabel="@string/profile_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.dertefter.neticlient"
+            android:targetClass="com.dertefter.neticlient.ui.main.MainActivity"
+          >
+            <extra
+                android:name="shortcut_id"
+                android:value="profile" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="schedule"
+        android:enabled="true"
+        android:icon="@mipmap/shortcut_calendar"
+        android:shortcutShortLabel="@string/schedule_title"
+        android:shortcutLongLabel="@string/schedule_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.dertefter.neticlient"
+            android:targetClass="com.dertefter.neticlient.ui.main.MainActivity"
+            >
+            <extra
+                android:name="shortcut_id"
+                android:value="schedule" />
+        </intent>
+    </shortcut>
+
+</shortcuts>

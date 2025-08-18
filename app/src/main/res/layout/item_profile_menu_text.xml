@@ -20,7 +20,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="РТС9-11"
             android:textColor="?attr/colorPrimary"
-            android:textSize="34sp" />
+             />
 
         <TextView
             android:id="@+id/title"
@@ -28,6 +28,6 @@
             android:layout_height="wrap_content"
             android:text="Учебная\nгруппа"
             android:textColor="?attr/colorOnSurface"
-            android:textSize="16sp" />
+             />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

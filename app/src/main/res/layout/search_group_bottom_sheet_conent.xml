@@ -74,7 +74,7 @@
             android:layout_margin="@dimen/margin"
             android:gravity="center"
             android:paddingVertical="@dimen/margin"
-            android:textSize="16sp"
+
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.data.model.person.Person
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentPersonViewBinding
@@ -45,20 +46,8 @@ class PersonViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val totalScrollRange = appBarLayout.totalScrollRange
-            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            binding.topContainer.alpha = alpha
-            binding.profilePicContainer.alpha = alpha
-            binding.nameContainer.alpha = alpha
-            binding.toolbar.alpha = 1 - alpha
-        }
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
-        binding.toolbar.setNavigationOnClickListener {
-            if (binding.toolbar.alpha > 0){
-                findNavController().popBackStack()
-            }
-        }
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -72,7 +61,6 @@ class PersonViewFragment : Fragment() {
                     binding.skeleton.visibility = View.GONE
                     val person = it.data as Person
                     binding.name.text = person.name
-                    binding.toolbar.title = person.name
 
                     if (!person.avatarUrl.isNullOrEmpty()){
                         Picasso.get().load(person.avatarUrl).into(binding.profilePic)

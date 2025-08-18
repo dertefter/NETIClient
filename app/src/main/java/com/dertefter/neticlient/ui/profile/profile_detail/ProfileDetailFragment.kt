@@ -7,11 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentProfileDetailBinding
@@ -21,6 +27,7 @@ import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.ui.fullscreen_image_dialog.FullscreenImageDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
@@ -45,12 +52,7 @@ class ProfileDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
         binding.agreeCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.saveButton.isEnabled = isChecked
@@ -80,64 +82,60 @@ class ProfileDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        profileDetailViewModel.profileDetailLiveData.observe(viewLifecycleOwner){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                profileDetailViewModel.uiStateFlow.collect { uiState ->
+                    val enabledInput = uiState.responseType != ResponseType.LOADING
+                    binding.saveButton.isGone = !enabledInput
+                    binding.mail.isEnabled = enabledInput
+                    binding.adress.isEnabled = enabledInput
+                    binding.phone.isEnabled = enabledInput
+                    binding.snils.isEnabled = enabledInput
+                    binding.polis.isEnabled = enabledInput
+                    binding.vk.isEnabled = enabledInput
+                    binding.tg.isEnabled = enabledInput
+                    binding.leaderId.isEnabled = enabledInput
 
-            val enabledInput = it.responseType != ResponseType.LOADING
-
-            binding.mail.isEnabled = enabledInput
-            binding.adress.isEnabled = enabledInput
-            binding.phone.isEnabled = enabledInput
-            binding.snils.isEnabled = enabledInput
-            binding.polis.isEnabled = enabledInput
-            binding.vk.isEnabled = enabledInput
-            binding.tg.isEnabled = enabledInput
-            binding.leaderId.isEnabled = enabledInput
-
-            if (enabledInput){
-                binding.saveButton.visibility = View.VISIBLE
-            }   else {
-                binding.saveButton.visibility = View.GONE
+                    val details = uiState.data as ProfileDetail?
+                    if (details != null){
+                        binding.mail.editText?.setText(details.email)
+                        binding.adress.editText?.setText(details.address)
+                        binding.phone.editText?.setText(details.phone)
+                        binding.snils.editText?.setText(details.snils)
+                        binding.polis.editText?.setText(details.polis)
+                        binding.vk.editText?.setText(details.vk)
+                        binding.tg.editText?.setText(details.telegram)
+                        binding.leaderId.editText?.setText(details.leaderId)
+                    }
+                }
             }
-
-
-            if (it.responseType == ResponseType.SUCCESS){
-                val details = it.data as ProfileDetail
-                binding.mail.editText?.setText(details.email)
-                binding.adress.editText?.setText(details.address)
-                binding.phone.editText?.setText(details.phone)
-                binding.snils.editText?.setText(details.snils)
-                binding.polis.editText?.setText(details.polis)
-                binding.vk.editText?.setText(details.vk)
-                binding.tg.editText?.setText(details.telegram)
-                binding.leaderId.editText?.setText(details.leaderId)
-            }
-
         }
 
-        profileDetailViewModel.fetchProfileDetails()
+        profileDetailViewModel.updateProfileDetails()
 
-        loginViewModel.userLiveData.observe(viewLifecycleOwner){
-            if (it != null){
-                binding.name.text = it.name
-                binding.group.text = it.group
-                binding.login.text = it.login
-                if (!it.profilePicPath.isNullOrEmpty()){
-                    val file = File(it.profilePicPath)
-                    if (file.exists()){
-                        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                        binding.profilePic.setImageBitmap(bitmap)
-                        binding.profilePic.setOnClickListener {
-                            val dialog = FullscreenImageDialog().apply {arguments = Bundle().apply { putParcelable("bitmap", bitmap) } }
-                            dialog.show(childFragmentManager, "FullscreenImageDialog")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.userFlow.collect { it ->
+                    if (it != null){
+                        binding.nameTv.text = it.name
+                        binding.loginTv.text = it.login
+                        if (!it.profilePicPath.isNullOrEmpty()){
+                            val file = File(it.profilePicPath)
+                            if (file.exists()){
+                                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                                binding.profilePic.setImageBitmap(bitmap)
+                                binding.profilePic.setOnClickListener {
+                                    val dialog = FullscreenImageDialog().apply {arguments = Bundle().apply { putParcelable("bitmap", bitmap) } }
+                                    dialog.show(childFragmentManager, "FullscreenImageDialog")
+                                }
+                            }
                         }
                     }
                 }
-            } else {
-
             }
         }
 
-        binding.logout.setOnClickListener {
+        binding.logOutButton.setOnClickListener {
             loginViewModel.logout()
             findNavController().popBackStack()
         }

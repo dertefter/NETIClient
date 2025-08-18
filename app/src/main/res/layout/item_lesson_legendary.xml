@@ -38,7 +38,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="14sp"
+
                 tools:text="08:30-10:00" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="14sp"
+
                 tools:text="Физическое химио-био" />
 
             <LinearLayout
@@ -78,7 +78,7 @@
                         android:layout_weight="0"
                         android:gravity="center"
                         android:text="ФФФ"
-                        android:textSize="14sp"
+
                         android:visibility="visible" />
                 </LinearLayout>
 
@@ -99,7 +99,7 @@
                         android:gravity="center"
                         android:text="ФФФ"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="14sp"
+
                         android:visibility="visible" />
                 </LinearLayout>
 

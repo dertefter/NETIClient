@@ -8,20 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.databinding.FragmentMessagesBinding
 import com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.AuthState
+import com.dertefter.neticlient.ui.login.LoginFragment
+import com.dertefter.neticlient.ui.login.LoginReasonType
 import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MessagesFragment : Fragment() {
@@ -48,74 +56,60 @@ class MessagesFragment : Fragment() {
 
     private fun setupUI() {
 
-        binding.authButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.loginFragment,
-                null,
-                Utils.getNavOptions(),
-            )
-        }
-
-
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
         val tabs = listOf("Преподаватели и службы", "Прочее")
         val adapter = MessagesPagerAdapter(this)
         adapter.setData(tabs)
 
-        with(binding) {
-            pager.adapter = adapter
-            TabLayoutMediator(tabLayout, pager) { tab, position ->
-                tab.text = tabs[position]
-            }.attach()
+        binding.pager.adapter = adapter
 
-           closeButton.setOnClickListener { detailShowed(false) }
+        binding.filterP1.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) return@setOnCheckedChangeListener
+            binding.pager.currentItem = 0
         }
+
+        binding.filterP2.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) return@setOnCheckedChangeListener
+            binding.pager.currentItem = 1
+        }
+
+
     }
 
     private fun setupObservers() {
 
-        loginViewModel.authStateLiveData.observe(viewLifecycleOwner) { authState ->
-            if (authState == AuthState.UNAUTHORIZED) {
-                binding.authCard.visibility = View.VISIBLE
-                binding.pager.visibility = View.GONE
-                binding.tabLayout.visibility = View.GONE
-            } else {
-                binding.authCard.visibility = View.GONE
-                binding.pager.visibility = View.VISIBLE
-                binding.tabLayout.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.authStateFlow.collect { authState ->
+
+
+                    val unauthorized = authState == AuthState.UNAUTHORIZED
+                    binding.pager.isGone = unauthorized
+
+                    if (unauthorized){
+                        binding.loginHelper.isGone = false
+                        childFragmentManager.beginTransaction().replace(binding.loginHelper.id, LoginFragment(
+                            LoginReasonType.UNAUTHORIZED)
+                        ).commit()
+                    }else{
+                        binding.loginHelper.isGone = true
+                    }
+                }
             }
         }
 
-
         messagesViewModel.newCountTab1.observe(viewLifecycleOwner){ count ->
-            val badge = binding.tabLayout.getTabAt(0)?.orCreateBadge
-            badge?.isVisible = count > 0
-            badge?.number = count
+            //TODO
         }
 
         messagesViewModel.newCountTab2.observe(viewLifecycleOwner){ count ->
-            val badge = binding.tabLayout.getTabAt(1)?.orCreateBadge
-            badge?.isVisible = count > 0
-            badge?.number = count
+            //TODO
         }
 
-        binding.appBarLayout.setLiftable(true)
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (verticalOffset < 0){
-                Utils.basicAnimationOff(binding.toolbar, false).start()
-                binding.appBarLayout.isLifted = true
-            } else {
-                Utils.basicAnimationOn(binding.toolbar).start()
-                binding.appBarLayout.isLifted = false
-            }
-        }
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
     }
 
     fun openMessageDetail(messageId: String) {
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (binding.detail != null) {
             showDetailInContainer(messageId)
         } else {
             navigateToDetail(messageId)
@@ -127,7 +121,6 @@ class MessagesFragment : Fragment() {
             replace(R.id.detail, MessagesDetailFragment::class.java, bundleOf("id" to messageId, "isContainer" to true))
             setReorderingAllowed(true)
         }
-        detailShowed(true)
     }
 
     private fun navigateToDetail(messageId: String) {
@@ -139,14 +132,4 @@ class MessagesFragment : Fragment() {
         )
     }
 
-    fun detailShowed(show: Boolean) {
-       binding.detailContainer.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            detailShowed(false)
-        }
-    }
 }

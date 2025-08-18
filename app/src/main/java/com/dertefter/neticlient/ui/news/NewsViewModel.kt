@@ -12,6 +12,7 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.CourcesRepository
 import com.dertefter.neticlient.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,24 +21,28 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ): ViewModel() {
 
-    val newsListLiveData = MutableLiveData<List<NewsItem>?>()
+    val newsListFlow = MutableStateFlow<List<NewsItem>?>(emptyList())
 
-    val promoListLiveData = MutableLiveData<ResponseResult>()
+    val isNewsUpdateFlow = MutableStateFlow<Boolean>(false)
 
-    val appBarExpanded = MutableLiveData<Boolean>()
+    val promoListFlow = newsRepository.getPromoListFlow()
 
     var page = 1
 
-    var loading = false
+    fun fetchNews(withClear: Boolean = false){
 
-    fun fetchNews(){
-        if (loading) return
         viewModelScope.launch {
-            
-            loading = true
+            if (isNewsUpdateFlow.value && !withClear) return@launch
+            isNewsUpdateFlow.value = true
+
+            if (withClear){
+                newsListFlow.value = emptyList()
+                page = 1
+            }
+
             val responseResult = newsRepository.fetchNews(page)
             if (responseResult.responseType == ResponseType.SUCCESS && responseResult.data!= null){
-                val lastValue = newsListLiveData.value?.toMutableList()
+                val lastValue = newsListFlow.value?.toMutableList()
                 val newsResponse = responseResult.data as NewsResponse
                 if (!lastValue.isNullOrEmpty()) {
                     for (i in newsResponse.items){
@@ -45,24 +50,25 @@ class NewsViewModel @Inject constructor(
                             lastValue.add(i)
                         }
                     }
-                    newsListLiveData.postValue(lastValue)
+                    newsListFlow.value = lastValue
                     page++
                 } else {
-                    newsListLiveData.postValue(newsResponse.items)
+                    newsListFlow.value = newsResponse.items
                     page++
                 }
 
             }
-            loading = false
+            isNewsUpdateFlow.value = false
 
         }
     }
 
-    fun fetchPromoList(){
+    fun updatePromoList(){
         viewModelScope.launch {
-            val responseResult = newsRepository.fetchPromoList()
-            promoListLiveData.postValue(responseResult)
+            newsRepository.updatePromoList()
         }
     }
+
+
 
 }

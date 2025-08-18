@@ -2,28 +2,74 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="?attr/colorSurfaceContainerLow"
+    android:elevation="@dimen/margin"
     tools:context=".ui.login.LoginFragment">
 
 
-    <ImageView
-        android:id="@+id/syncImageView"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginBottom="28dp"
-        android:contentDescription="@string/auth_image_sync"
-        android:src="@drawable/sync"
-        app:layout_constraintBottom_toTopOf="@+id/login"
-        app:tint="?attr/colorPrimary" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_max"
+        android:layout_marginTop="@dimen/margin_max"
+        android:paddingTop="@dimen/margin_max"
+        android:text="@string/auth_title"
+        android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
+        android:textColor="?attr/colorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_max"
+        android:layout_marginTop="@dimen/margin_min"
+        android:text="@string/login_resason_1"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        android:textColor="?attr/colorTertiary"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/desc2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_max"
+        android:layout_marginTop="@dimen/margin_min"
+        android:text="@string/auth_helper_text"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+    <com.google.android.material.loadingindicator.LoadingIndicator
+        android:id="@+id/loading"
+        style="@style/Widget.Material3.LoadingIndicator.Contained"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:containerHeight="250dp"
+        app:containerWidth="250dp"
+        app:indicatorSize="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/login"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider"
+        android:divider="@drawable/vertical_divider_micro"
         android:orientation="vertical"
         android:showDividers="middle"
         android:visibility="visible"
@@ -37,12 +83,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_hint"
-            app:boxBackgroundColor="?attr/colorSurfaceContainer"
+            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
             app:boxCornerRadiusBottomEnd="@dimen/radius"
             app:boxCornerRadiusBottomStart="@dimen/radius"
             app:boxCornerRadiusTopEnd="@dimen/radius"
             app:boxCornerRadiusTopStart="@dimen/radius"
-            app:boxStrokeColor="@android:color/transparent">
+            app:boxStrokeColor="@android:color/transparent"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -56,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
-            app:boxBackgroundColor="?attr/colorSurfaceContainer"
+            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
             app:boxCornerRadiusBottomEnd="@dimen/radius"
             app:boxCornerRadiusBottomStart="@dimen/radius"
             app:boxCornerRadiusTopEnd="@dimen/radius"
@@ -74,8 +122,11 @@
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="@dimen/margin_micro"
             android:enabled="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:text="@string/sign_in_button_text"
             app:cornerRadius="@dimen/radius" />
 

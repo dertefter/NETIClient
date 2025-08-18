@@ -2,7 +2,8 @@ package com.dertefter.neticlient.data.network
 
 import android.content.Context
 import android.util.Log
-import com.dertefter.neticlient.data.model.UserInfo
+import com.dertefter.neticlient.data.model.calendar.CalendarEvent
+import com.dertefter.neticlient.data.model.control_weeks.ControlResult
 import com.dertefter.neticlient.data.model.dispace.messages.Companion
 import com.dertefter.neticlient.data.model.dispace.messages.CompanionList
 import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
@@ -15,23 +16,21 @@ import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.model.person.Person
 import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
+import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.data.network.model.auth.AuthResponse
 import com.dertefter.neticlient.data.network.model.auth.ResponseFromAuthIdRequest
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.jsoup.Jsoup
 import retrofit2.Retrofit
 import java.io.File
 import java.io.FileOutputStream
 import java.net.CookieManager
 import java.net.CookiePolicy
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -71,14 +70,7 @@ class NetworkClient @Inject constructor(
         }
         client = OkHttpClient.Builder().cookieJar(JavaNetCookieJar(cookieManager)).build()
 
-        dispaceClient = OkHttpClient.Builder().cookieJar(cookieJar)
-            .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Cookie", "NstuSsoToken=$token")
-                    .build()
-                chain.proceed(request)
-            }
-            .build()
+        dispaceClient = client
 
 
 
@@ -86,7 +78,7 @@ class NetworkClient @Inject constructor(
         ciuRetrofit = ciuRetrofit.newBuilder().client(client).build()
         baseRetrofit = baseRetrofit.newBuilder().client(client).build()
         testAuthRetrofit = testAuthRetrofit.newBuilder().client(client).build()
-        dispaceRetrofit = dispaceRetrofit.newBuilder().client(dispaceClient).build()
+        dispaceRetrofit = dispaceRetrofit.newBuilder().client(client).build()
 
         authApiService = authRetrofit.create(ApiService::class.java)
         ciuApiService = ciuRetrofit.create(ApiService::class.java)
@@ -128,8 +120,7 @@ class NetworkClient @Inject constructor(
                     client_data = params.get("client_data")!!,
                     params = paramLoginPassword
                 )
-                val uI = getUserInfo()
-               if (uI.data as UserInfo? != null) return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
+               return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
 
            }
 
@@ -140,7 +131,7 @@ class NetworkClient @Inject constructor(
         }
     }
 
-    suspend fun authUserDispace(token: String): Boolean {
+    suspend fun authUserDispace(): Boolean {
         try {
             val response = dispaceApiService.authDispace()
             if (response.isSuccessful){
@@ -186,6 +177,28 @@ class NetworkClient @Inject constructor(
             }
         } catch (e: Exception) {
             ResponseResult(ResponseType.ERROR, "Ошибка: ${e.message}")
+        }
+    }
+
+    suspend fun getEvents(year: String, month: String): List<CalendarEvent>? {
+        return try {
+
+            val params = HashMap<String?, String?>()
+            params["period"] = "0"
+            params["year"] = year
+            params["month"] = (month.toInt()+1).toString()
+            params["day"] = "1"
+            params["act"] = "1"
+
+            val response = baseApiService.getEvents(params)
+            if (response.isSuccessful) {
+                val events = HtmlParser().parseEvents(response.body())
+                events
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 
@@ -385,6 +398,20 @@ class NetworkClient @Inject constructor(
         }
     }
 
+    suspend fun getPhotoList(): List<String>? {
+        try {
+            val response = baseApiService.getPhotoList()
+            if (response.isSuccessful) {
+                val photoList = HtmlParser().parsePhotoList(response.body())
+                return photoList
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
 
     suspend fun getNewsDetail(id: String): NewsDetail? {
         try {
@@ -414,12 +441,65 @@ class NetworkClient @Inject constructor(
         }
     }
 
-    suspend fun getSessiaResults(): List<SessiaResultSemestr>? {
+    suspend fun getSessiaResults():  SessiaResults? {
         try {
             val response = ciuApiService.getSessiaResults()
             if (response.isSuccessful) {
-                val messageDetail = HtmlParser().parseSessiaResults(response.body())
-                return messageDetail
+                val s = HtmlParser().parseSessiaResults(response.body())
+                return s
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getControlWeeks():  ControlResult? {
+        try {
+            val response = ciuApiService.getControlWeeks()
+            if (response.isSuccessful) {
+                val s = HtmlParser().parseControlWeeks(response.body())
+                return s
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getShareScoreReplaceLink() {
+        try {
+            val params: HashMap<String?, String?> = HashMap<String?, String?>()
+            params["generate_access_url"] = "true"
+            ciuApiService.getShareScoreReplaceLink(params)
+        } catch (e: Exception) {
+
+        }
+    }
+
+
+    suspend fun getGroupStudents(): List<String>? {
+        try {
+            val response = dispaceApiService.getGroupStudents()
+            if (response.isSuccessful) {
+                val s = HtmlParser().parseGroupStudents(response.body())
+                return s
+            } else {
+                return null
+            }
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    suspend fun getShareScore():  String? {
+        try {
+            val response = ciuApiService.getShareScore()
+            if (response.isSuccessful) {
+                val s = HtmlParser().parseShareScore(response.body())
+                return s
             } else {
                 return null
             }
@@ -636,3 +716,5 @@ class NetworkClient @Inject constructor(
 
 
 }
+
+

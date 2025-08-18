@@ -3,6 +3,7 @@ package com.dertefter.neticlient.ui.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +16,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(): ViewModel() {
+
+
+    var lastShownAuthState: AuthState? = null
+
 
     fun startUpdatingTime() {
         viewModelScope.launch {

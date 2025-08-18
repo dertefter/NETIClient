@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:id="@+id/time_container"
-        android:layout_width="50dp"
+        android:layout_width="64dp"
         android:layout_height="match_parent"
         android:divider="@drawable/vertical_divider_small"
         android:orientation="vertical"
@@ -26,36 +26,28 @@
             android:gravity="center_horizontal"
             android:includeFontPadding="false"
             android:text="12-00"
-            android:textSize="18sp"
+
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
             android:visibility="visible" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <com.dertefter.neticlient.common.VerticalProgressIndicator
+            android:id="@+id/verticalProgressIndicator"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <com.mobven.progress.MBVerticalProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:rotation="180"
-                app:bgColor="?attr/colorSurfaceContainer"
-                app:fgColor="@android:color/transparent"
-                app:max="100"
-                app:min="0"
-                app:progress="0" />
-
-            <com.mobven.progress.MBVerticalProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:rotation="180"
-                android:visibility="visible"
-                app:bgColor="?attr/colorSurfaceContainer"
-                app:fgColor="?attr/colorPrimary"
-                app:max="100"
-                app:min="0"
-                app:progress="50" />
-        </FrameLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="50"
+            android:rotation="180"
+            app:indicatorColor="?attr/colorSecondary"
+            app:trackColor="?attr/colorSurfaceContainer"
+            app:trackInnerCornerRadius="@dimen/radius_max"
+            app:trackStopIndicatorSize="0dp"
+            app:waveAmplitude="2dp"
+            app:waveSpeed="12dp"
+            app:wavelength="24dp"
+            app:wavelengthDeterminate="24dp"
+            app:wavelengthIndeterminate="24dp" />
 
         <TextView
             android:id="@+id/timeEnd"
@@ -64,19 +56,19 @@
             android:layout_weight="0"
             android:gravity="center_horizontal|top"
             android:includeFontPadding="false"
-            android:text="18sp"
-            android:textSize="18sp" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background_big"
         android:clipToPadding="false"
         android:isScrollContainer="false"
         android:nestedScrollingEnabled="false"
         android:orientation="vertical"
-        tools:itemCount="10"
+        tools:itemCount="3"
         tools:listitem="@layout/item_lesson" />
 
 </LinearLayout>

@@ -6,57 +6,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?attr/colorSurface"
+    android:background="@android:color/transparent"
     android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
-
-    <FrameLayout
-        android:id="@+id/alertContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:visibility="gone">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"
-            app:cardBackgroundColor="?attr/colorError"
-            app:cardUseCompatPadding="false"
-            app:contentPadding="@dimen/margin">
-
-            <TextView
-                android:id="@+id/alertTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="@string/login_failed"
-                android:textColor="?attr/colorOnError"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/retry_button"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical|end"
-                android:backgroundTint="?attr/colorErrorContainer"
-                app:icon="@drawable/cached_icon"
-                app:iconTint="?attr/colorOnErrorContainer" />
-        </com.google.android.material.card.MaterialCardView>
-
-    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_container"
 
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_new" />
+        app:navGraph="@navigation/nav_graph_root" />
 
+
+    <LinearLayout
+        android:id="@+id/horizontal_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="?attr/colorSurfaceContainerLow"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/margin_max">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="false"
+            android:minHeight="0dp"
+            android:paddingVertical="@dimen/margin"
+            app:itemGravity="center"
+            app:itemPaddingBottom="0dp"
+            app:itemPaddingTop="0dp"
+            app:menu="@menu/navigation_menu" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/radius_min">
+
+            <ImageView
+                android:id="@+id/auth_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainerHighest"
+                android:padding="@dimen/margin_min"
+                android:visibility="gone"
+                app:srcCompat="@drawable/person"
+                app:tint="?attr/colorOnSecondaryContainer"
+                tools:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/auth_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimaryContainer"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <com.google.android.material.loadingindicator.LoadingIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:indicatorColor="?attr/colorPrimary"
+                    app:indicatorSize="40dp"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/auth_avatar_shape_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
+
+                <com.dertefter.neticlient.common.AnotherShapeView
+                    android:id="@+id/avatar_shape"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:rippleForeground="?attr/selectableItemBackground" />
+            </FrameLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
 </LinearLayout>

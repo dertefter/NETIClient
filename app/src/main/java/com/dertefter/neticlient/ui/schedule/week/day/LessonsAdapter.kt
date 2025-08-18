@@ -137,10 +137,10 @@ class LessonsAdapter(
                 when {
                     type.text.contains("Лаб") -> {
                         type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
                         )
                         type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
                         )
                     }
                     type.text.contains("Практика") -> {
@@ -153,10 +153,10 @@ class LessonsAdapter(
                     }
                     else -> {
                         type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
                         )
                         type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
+                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
                         )
 
 
@@ -166,7 +166,7 @@ class LessonsAdapter(
                 type.visibility = View.GONE
             }
             if (futureOrPastOrNow == FutureOrPastOrNow.NOW){
-                (itemView as MaterialCardView).setStrokeColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimary))
+                (itemView as MaterialCardView).strokeColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimaryVariant)
                 (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainer))
                 title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurface))
             }

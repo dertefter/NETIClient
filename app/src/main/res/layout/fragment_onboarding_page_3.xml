@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_max"
+        app:liftOnScrollColor="@android:color/transparent">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/margin"
+            app:tint="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:srcCompat="@drawable/group_icon" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_min"
+            android:text="@string/ob_3_title"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/vertical_divider_small"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_max"
+            android:paddingVertical="@dimen/margin"
+            android:showDividers="middle">
+
+            <LinearLayout
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/vertical_divider_big"
+                android:orientation="vertical"
+                android:showDividers="middle|beginning|end"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/group_view"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_1"
+                    android:backgroundTint="?attr/colorSecondaryContainer"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="РТС9-11"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge.Emphasized"
+                    android:textColor="?attr/colorOnSecondaryContainer" />
+
+                <Button
+                    android:id="@+id/search_group_button2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/change_group" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/no_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/vertical_divider_small"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:visibility="visible">
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="?attr/colorSurfaceContainer">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@drawable/vertical_divider_small"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_max"
+                        android:showDividers="middle"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/horizontal_divider_small"
+                            android:orientation="horizontal"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0"
+                                app:tint="?attr/colorOnSurface"
+                                app:srcCompat="@drawable/info" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:textColor="?attr/colorOnErrorContainer" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="@string/add_group"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="?attr/colorOnSurface" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Button
+                    android:id="@+id/search_group_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/group_search" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

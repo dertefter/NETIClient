@@ -4,132 +4,172 @@
     xmlns:tools="http://schemas.android.com/tools"
 
 
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_background"
-    android:backgroundTint="?attr/colorSurface">
+    android:animateLayoutChanges="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
 
-        style="@style/Widget.App.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:divider="@drawable/vertical_divider_small"
+        android:fitsSystemWindows="true"
+        android:showDividers="none">
 
         <FrameLayout
-            android:id="@+id/topContainer"
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_micro"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:id="@+id/week_label2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="?attr/colorOnSurface" />
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center|start"
+                android:maxWidth="1000dp"
+                android:paddingVertical="@dimen/margin"
+                android:text="@string/sessia_results_title"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                android:textColor="?attr/colorTertiary"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
-            <FrameLayout
-                android:id="@+id/avatar"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/colorSurfaceContainer"
-                    app:contentPadding="4dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
-                    app:srcCompat="@drawable/person"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profilePic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
-                    app:strokeColor="?attr/colorSurfaceContainerLow"
-                    app:strokeWidth="0dp" />
-
-            </FrameLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/messagses_button"
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
+            <Button
+                android:id="@+id/menu_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/margin"
-                app:cardCornerRadius="21dp"
-                app:cardUseCompatPadding="false"
-                app:contentPaddingBottom="@dimen/margin_min"
-                app:contentPaddingLeft="@dimen/margin_min"
-                app:contentPaddingRight="@dimen/margin_min"
-                app:contentPaddingTop="@dimen/margin_min">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:showDividers="middle">
-
-                    <TextView
-                        android:id="@+id/messagse_count"
-                        android:layout_width="24dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        android:text="1"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="20sp"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0"
-                        android:padding="2dp"
-                        android:tint="?attr/colorOnSurfaceVariant"
-                        app:srcCompat="@drawable/mail_icon" />
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+                app:icon="@drawable/more_icon"
+                app:iconGravity="textStart" />
 
         </FrameLayout>
 
+        <com.dertefter.neticlient.common.ScrollableBarChartView
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingBottom="@dimen/margin_min"
+            android:visibility="gone"
+            app:barDrawable="@drawable/bar_bg"
+            app:barSpacing="@dimen/margin_min"
+            app:barWidth="56dp"
+            app:labelFontFamily="sans-serif-medium"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:maxIconDrawable="@drawable/bar_max_icon" />
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin" />
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="0"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
+    <com.dertefter.neticlient.common.ShimmerLayout
+        android:id="@+id/skeleton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:contentDescription="@string/news_list"
-            android:fadingEdge="none"
-            android:nestedScrollingEnabled="false"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/vertical_divider_small"
+            android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin"
-            android:requiresFadingEdge="none"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:itemCount="20" />
+            android:paddingVertical="@dimen/margin_min"
+            android:showDividers="middle">
 
-    </androidx.core.widget.NestedScrollView>
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/item_sessia_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </com.dertefter.neticlient.common.ShimmerLayout>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/margin"
+        android:text="Нет данных о результатах сессии"
+        android:textColor="?attr/colorOnSurfaceVariant"
+
+        android:visibility="gone"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <FrameLayout
+        android:id="@+id/login_helper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:elevation="10dp"
+        android:visibility="gone">
+
+    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

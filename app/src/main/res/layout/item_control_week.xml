@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Filled"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+    app:cardCornerRadius="@dimen/radius_max"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
+    app:contentPadding="@dimen/margin_max"
+    app:strokeColor="@android:color/transparent"
+    app:strokeWidth="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/vertical_divider_micro"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="\n\n"
+            android:textColor="?attr/colorOnSurface"
+             />
+
+        <FrameLayout
+            android:id="@+id/value_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="?attr/colorSurfaceContainerHigh"
+            android:padding="@dimen/margin_micro">
+
+            <TextView
+                android:id="@+id/week_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorTertiaryContainer"
+
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/margin_max"
+                android:paddingVertical="@dimen/margin_micro"
+                android:text="1"
+                android:textColor="?attr/colorOnTertiaryContainer"
+
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+
+                android:includeFontPadding="false"
+                android:paddingHorizontal="@dimen/margin_max"
+                android:paddingVertical="@dimen/margin_micro"
+                android:text="1"
+                android:textColor="?attr/colorOnPrimaryContainer"
+
+                android:visibility="invisible" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

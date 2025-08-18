@@ -7,6 +7,6 @@
         android:type="linear"
         android:startColor="?attr/colorPrimaryContainer"
         android:endColor="@android:color/transparent"
-        android:gradientRadius="2dp"
+        android:gradientRadius="1dp"
         android:angle="45" />
 </shape>

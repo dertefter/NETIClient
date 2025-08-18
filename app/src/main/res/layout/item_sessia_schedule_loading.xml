@@ -19,7 +19,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="              "
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="24sp" />
+             />
 
         <TextView
             android:id="@+id/date"
@@ -30,7 +30,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="              "
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:textSize="24sp" />
+             />
     </FrameLayout>
 
     <com.google.android.material.card.MaterialCardView
@@ -61,7 +61,7 @@
                 android:includeFontPadding="false"
                 android:letterSpacing="0.07"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="20sp"
+
                 android:textStyle="normal" />
 
             <LinearLayout
@@ -80,7 +80,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp"
+
                     android:visibility="invisible" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -106,7 +106,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp"
+
                     android:visibility="invisible" />
 
             </LinearLayout>

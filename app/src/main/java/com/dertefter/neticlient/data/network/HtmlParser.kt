@@ -19,11 +19,17 @@ import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.data.model.calendar.CalendarEvent
+import com.dertefter.neticlient.data.model.control_weeks.ControlItem
+import com.dertefter.neticlient.data.model.control_weeks.ControlResult
+import com.dertefter.neticlient.data.model.control_weeks.ControlSemestr
+import com.dertefter.neticlient.data.model.control_weeks.ControlWeek
 import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
 import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
 import com.dertefter.neticlient.data.model.documents.DocumentsItem
 import com.dertefter.neticlient.data.model.news.PromoItem
 import com.dertefter.neticlient.data.model.schedule.Week
+import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -74,9 +80,7 @@ class HtmlParser {
             val table = doc.select("div.schedule__session-body").first()
             val items = table!!.select("> *")
             for (i in items){
-                var date = i.select("div.schedule__session-day").first()?.text().toString()
-                val dayName = Utils.formatDayName(date)
-                date = Utils.formatDate(date)
+                val date = i.select("div.schedule__session-day").first()?.text().toString()
                 val time = i.select("div.schedule__session-time").first()?.text().toString()
                 val name = i.select("div.schedule__session-item").first()?.ownText().toString()
                 val aud = i.select("div.schedule__session-class").first()?.text().toString()
@@ -90,13 +94,63 @@ class HtmlParser {
                     }
                 }
 
-                    output.add(SessiaScheduleItem(name, time, date, type, aud, personIds, dayName))
+                    output.add(SessiaScheduleItem(name, time, date, type, aud, personIds))
             }
             return output
         }catch (e: Exception) {
             return null
         }
 
+    }
+
+
+    fun parseEvents(responseBody: ResponseBody?): List<CalendarEvent>? {
+        try {
+            val html = responseBody!!.string()
+            val doc = Jsoup.parse(html)
+            val events = mutableListOf<CalendarEvent>()
+            val content = doc.select("main.page-content").first()
+            val table = content?.select("table")?.first()
+            val tds = table?.select("td.td_all")
+            if (tds != null) {
+                for (td in tds){
+                    val a_list = td.select("a")
+                    var date: LocalDate? = null
+                    for (a in a_list){
+                        if (a != null){
+                            if (a.attr("href") == "#"){
+                                val dateStr = a.attr("onclick")
+                                if (!dateStr.isNullOrEmpty()){
+                                    val regex = Regex("""selectDay\((\d+),\s*(\d+),\s*(\d+)\)""")
+                                    val match = regex.find(dateStr)
+                                    date = match?.let {
+                                        val (day, month, year) = it.destructured
+                                        LocalDate.of(year.toInt(), month.toInt(), day.toInt())
+                                    }
+                                }
+                            }
+                            else{
+                                if (date != null){
+                                    val title = a.ownText()
+                                    val link = a.attr("href")
+                                    if (title.isNotEmpty()){
+                                        events.add(CalendarEvent(title, link, date.toString()))
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+            return events
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
     }
 
     fun parseUserInfo(input: ResponseBody?): UserInfo?{
@@ -227,7 +281,7 @@ class HtmlParser {
                 val yearSign = if (yearTitle.contains("весенний")) 1 else 0
                 yearPart[yearSign]
             } else {
-                yearTitle.split(" ")[3].replace(",", "")
+                LocalDate.now().year.toString()
             }
 
             val combinedDate = "$firstDayDate.$year"
@@ -279,6 +333,7 @@ class HtmlParser {
             return Schedule(weeks)
         }
         catch (e: Exception){
+            Log.e("parseSchedule", e.stackTraceToString())
             return null
         }
 
@@ -551,11 +606,14 @@ class HtmlParser {
         }
     }
 
-    fun parseSessiaResults(body: ResponseBody?): List<SessiaResultSemestr>? {
+    fun parseSessiaResults(body: ResponseBody?): SessiaResults? {
         return try {
+
             val html = body?.string() ?: return null
             val doc = Jsoup.parse(html)
             val semesters = mutableListOf<SessiaResultSemestr>()
+            var sum = 0f
+            var count = 0
 
             doc.select("h3:containsOwn(Семестр:)").forEach { header ->
                 val title = header.text().replace("Семестр:", "").trim()
@@ -571,6 +629,10 @@ class HtmlParser {
                 }
 
                 if (table != null) {
+
+                    var sumSem = 0f
+                    var countSem = 0
+
                     val items = table.select("tr.last_progress").mapNotNull { row ->
                         val cols = row.select("td")
                         if (cols.size >= 8) {
@@ -600,6 +662,11 @@ class HtmlParser {
                                 col.select("a").first()?.text()?.trim() ?: col.text().trim()
                             }.takeIf { it.isNotEmpty() }
 
+                            if (scoreFive.toFloatOrNull() != null){
+                                countSem += 1
+                                sumSem += scoreFive.toFloat()
+                            }
+
                             SessiaResultItem(
                                 title = disciplineText,
                                 date = date,
@@ -613,14 +680,124 @@ class HtmlParser {
                             null
                         }
                     }
+                    val srScoreSem = sumSem / countSem
 
-                    semesters.add(SessiaResultSemestr(title, items))
+                    sum += srScoreSem
+                    count += 1
+
+                    val sem = SessiaResultSemestr(title, items, srScoreSem)
+                    semesters.add(sem)
+
                 }
             }
 
-            semesters
+            var srScore: Float? = sum / count
+
+            if (srScore?.isNaN() == true){
+                srScore = null
+            }
+
+            SessiaResults(
+                srScore,
+                semesters
+            )
         } catch (e: Exception) {
-            
+            null
+        }
+    }
+
+    fun parseControlWeeks(body: ResponseBody?): ControlResult? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val rows = doc.select("table.tdall tbody tr:has(td)")
+
+            val grouped = LinkedHashMap<String, LinkedHashMap<String, MutableList<ControlItem>>>()
+
+            rows.forEach { row ->
+                val columns = row.select("td")
+                if (columns.size >= 5) {
+                    val semester = columns[2].text().trim()
+                    val week = columns[3].text().trim()
+                    val discipline = columns[1].text().trim()
+                    val grade = columns[4].text().trim().takeIf { it.isNotEmpty() && it != "&nbsp;" }
+
+                    val semesterMap = grouped.getOrPut(semester) { LinkedHashMap() }
+                    val weekList = semesterMap.getOrPut(week) { mutableListOf() }
+                    weekList.add(ControlItem(discipline, grade))
+                }
+            }
+
+            val semesters = grouped.map { (semesterKey, weeksMap) ->
+                val weeks = weeksMap.map { (weekKey, items) ->
+                    ControlWeek("Неделя $weekKey", items)
+                }
+                ControlSemestr("Семестр $semesterKey", weeks)
+            }
+
+            ControlResult(semesters.ifEmpty { null })
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun parseShareScore(body: ResponseBody?): String? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val textArea = doc.select("textarea#view_grades").first()?.text()
+
+            textArea
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
+    fun parsePhotoList(body: ResponseBody?): List<String>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val output = mutableListOf<String>()
+
+            val divs = doc.select("figure")
+            Log.e("divsss", divs.toString())
+            for (div in divs){
+                val img = div.select("img").first()
+                val src = img?.attr("src")
+                if (!src.isNullOrEmpty()){
+                    val url = "https://www.nstu.ru/$src"
+                    output.add(url)
+                }
+            }
+
+            output
+
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun parseGroupStudents(body: ResponseBody?): List<String>? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+            val students = mutableListOf<String>()
+            val studentItems = doc.select("li.collection-item.group-student")
+
+            for (item in studentItems) {
+                val titleElement = item.selectFirst("div.title")
+                val nameLink = titleElement?.selectFirst("a")
+                nameLink?.let {
+                    students.add(it.text().trim())
+                }
+            }
+
+            students
+        } catch (e: Exception) {
             null
         }
     }
@@ -735,7 +912,9 @@ class HtmlParser {
                 var imageUrl = extractImageUrl(style)
                 imageUrl = "https://nstu.ru/$imageUrl"
                 val title = element.selectFirst(".main-promo__slide-title")?.text()?.trim() ?: ""
-                output.add(PromoItem(title, imageUrl, link))
+                val subtitle = element.selectFirst(".main-promo__slide-subtitle")?.text()?.trim() ?: ""
+                val desc = element.selectFirst(".main-promo__slide-desc")?.text()?.trim() ?: ""
+                output.add(PromoItem(title, imageUrl, link, subtitle, desc))
             }
             output
         } catch (e: Exception) {

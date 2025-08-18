@@ -30,11 +30,11 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/f3"
+
                 android:includeFontPadding="false"
-                android:letterSpacing="0.07"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="24sp"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="normal"
                 tools:text="Физическое химио-био" />
 
@@ -43,38 +43,41 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="@drawable/rounded_background"
-                    android:backgroundTint="?attr/colorSurfaceVariant"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
-                    android:text="Лекция"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
-
-                <TextView
                     android:id="@+id/aud"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/rounded_background"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
-                    android:text="2-2222"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:text="1111111"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="18sp" />
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="?attr/colorSurfaceVariant"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:visibility="gone" />
+
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSurfaceContainer"
+                android:background="@drawable/rounded_background_small"
+                android:backgroundTint="?attr/colorSurfaceContainerHigh"
                 android:divider="@drawable/horizontal_divider_small"
                 android:padding="@dimen/margin"
                 android:showDividers="middle">
@@ -87,8 +90,8 @@
                     android:layout_weight="0"
                     android:includeFontPadding="false"
                     android:text="10:15"
-                    android:textColor="?attr/colorOnPrimaryContainer"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                    android:textColor="?attr/colorOnPrimaryContainer" />
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:id="@+id/progress"
@@ -98,9 +101,14 @@
                     android:layout_weight="1"
                     android:max="100"
                     android:progress="40"
-                    app:indicatorColor="?attr/colorOnPrimaryContainer"
+                    app:indicatorColor="?attr/colorSecondary"
                     app:trackColor="?attr/colorSurfaceVariant"
-                    app:trackStopIndicatorSize="0dp" />
+                    app:trackStopIndicatorSize="0dp"
+                    app:waveAmplitude="2dp"
+                    app:waveSpeed="12dp"
+                    app:wavelength="24dp"
+                    app:wavelengthDeterminate="24dp"
+                    app:wavelengthIndeterminate="24dp" />
 
                 <TextView
                     android:id="@+id/timeEnd"
@@ -110,8 +118,8 @@
                     android:layout_weight="0"
                     android:includeFontPadding="false"
                     android:text="10:15"
-                    android:textColor="?attr/colorOnPrimaryContainer"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                    android:textColor="?attr/colorOnPrimaryContainer" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

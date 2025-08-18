@@ -18,7 +18,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="start"
             android:text="77:77"
-            android:textSize="16sp" />
+             />
 
         <TextView
             android:id="@+id/timeEnd"
@@ -28,7 +28,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="start"
             android:text="77:77"
-            android:textSize="16sp" />
+             />
     </FrameLayout>
 
     <LinearLayout
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/app_widget_inner_view_background"
-        android:backgroundTint="?attr/colorSurface"
+        android:backgroundTint="?attr/colorSurfaceContainerLow"
         android:divider="@drawable/vertical_divider"
         android:orientation="vertical"
         android:padding="@dimen/margin"
@@ -46,8 +46,10 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:includeFontPadding="false"
-            android:textSize="18sp"
+            android:textColor="?attr/colorOnSurface"
+
             tools:text="Физическое химио-био" />
 
         <FrameLayout
@@ -62,9 +64,9 @@
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="?attr/colorSurfaceVariant"
                 android:gravity="center"
-                android:paddingHorizontal="6dp"
+                android:paddingHorizontal="@dimen/margin_min"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="14sp"
+
                 android:visibility="invisible" />
 
             <TextView
@@ -75,9 +77,9 @@
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="?attr/colorSurfaceVariant"
                 android:gravity="center"
-                android:paddingHorizontal="6dp"
+                android:paddingHorizontal="@dimen/margin_min"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="14sp"
+
                 android:visibility="invisible" />
 
         </FrameLayout>

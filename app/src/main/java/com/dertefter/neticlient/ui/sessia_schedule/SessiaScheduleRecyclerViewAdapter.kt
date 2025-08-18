@@ -16,6 +16,8 @@ import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
 import com.dertefter.neticlient.ui.person.PersonListStyle
 import com.google.android.material.color.MaterialColors
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class SessiaScheduleRecyclerViewAdapter(
     private var itemList: List<SessiaScheduleItem> = emptyList(),
@@ -89,11 +91,12 @@ class SessiaScheduleRecyclerViewAdapter(
                 listStyle = PersonListStyle.AVATARS_ONLY
             ) {}
 
+            val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("ru"))
             title.text = item.name
             type.text = item.type
             aud.text = item.aud
             time.text = item.time
-            date.text = item.date
+            date.text = item.getDate().format(formatter)
 
             personsRecyclerView.adapter = adapter
             personsRecyclerView.layoutManager =

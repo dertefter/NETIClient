@@ -10,87 +10,61 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        style="@style/Widget.App.AppBarLayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:showDividers="middle"
         app:liftOnScroll="false">
 
-        <LinearLayout
-            android:id="@+id/top_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
-            android:divider="@drawable/horizontal_divider"
-            android:orientation="horizontal"
-            android:showDividers="middle|beginning|end"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
-
-            <Button
-                android:id="@+id/back_button"
-                style="@style/Widget.Material3.Button.Icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/back_button_disc"
-                app:icon="@drawable/arrow_back"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                app:iconTint="?attr/colorOnSurface"
-                app:layout_scrollFlags="scroll|enterAlways|snap" />
-
-            <FrameLayout
-                android:id="@+id/person"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/colorSurfaceVariant"
-                    android:padding="4dp"
-                    app:contentPadding="4dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded"
-                    app:srcCompat="@drawable/person"
-                    app:tint="?attr/colorOnSurfaceVariant" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profilePic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="4dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Image.Rounded" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_background"
-                android:backgroundTint="?attr/colorSecondaryContainer"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="                       "
-                android:textColor="?attr/colorOnSecondaryContainer"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/back_button"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_min"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button_disc"
+            android:paddingVertical="@dimen/margin_min"
+            app:icon="@drawable/arrow_back"
+            app:iconPadding="0dp"
+            app:iconSize="24dp"
+            app:iconTint="?attr/colorOnSurface"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin"
-            android:fontFamily="@font/f3"
-            android:paddingVertical="@dimen/margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?attr/colorOnSurfaceVariant" />
+
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge.Emphasized"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin">
+
+            <TextView
+                android:id="@+id/person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="?attr/colorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="1"
+                android:textColor="?attr/colorOnSecondaryContainer" />
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -254,9 +228,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/f1"
+
             android:text="Не удалось загрузить данные"
-            android:textSize="16sp" />
+             />
 
         <Button
             android:id="@+id/retry_button"

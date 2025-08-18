@@ -14,5 +14,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="?attr/colorOnSurface"
-        android:textSize="14sp" />
+         />
 </com.google.android.material.card.MaterialCardView>

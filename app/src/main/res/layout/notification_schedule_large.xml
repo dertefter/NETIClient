@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:paddingBottom="8dp"
         android:text="Large notification, showing a title and a body."
-        android:textSize="16sp" />
+         />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_weight="0"
             android:paddingBottom="8dp"
             android:text="Аудитория:"
-            android:textSize="14sp" />
+             />
 
         <TextView
             android:id="@+id/aud"
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:paddingHorizontal="2dp"
             android:paddingBottom="8dp"
-            android:textSize="14sp" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +57,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
             android:text="TextView"
-            android:textSize="14sp" />
+             />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -79,7 +79,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
             android:text="TextView"
-            android:textSize="14sp" />
+             />
     </LinearLayout>
 
 </LinearLayout>

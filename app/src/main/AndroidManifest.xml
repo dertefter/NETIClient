@@ -17,12 +17,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/SplashScreenTheme"
+        android:theme="@style/NETIClient.SplashScreenTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="35">
+        tools:targetApi="36">
+
 
 
         <activity
+
             android:enableOnBackInvokedCallback="true"
             android:name=".ui.main.MainActivity"
             android:exported="true">
@@ -31,6 +33,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+
         </activity>
 
         <receiver

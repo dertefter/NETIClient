@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+
+    android:id="@+id/se"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/rounded_background"
+    android:backgroundTint="?attr/colorSurface">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/vertical_divider_big"
+            android:orientation="vertical"
+            android:showDividers="middle|beginning">
+
+            <LinearLayout
+                android:id="@+id/schedule_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:divider="@drawable/vertical_divider_small"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/margin"
+                android:showDividers="middle">
+
+
+                <FrameLayout
+                    android:id="@+id/date_group_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:maxWidth="240dp"
+                            android:text="Ближайшие занятия"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:id="@+id/date_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="?attr/colorOnSurface"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <include
+                    android:id="@+id/load_fail_schedule"
+                    layout="@layout/load_failed_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/no_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:paddingVertical="@dimen/margin"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/radius_max"
+                    app:contentPadding="@dimen/margin_max">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@drawable/vertical_divider_small"
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="@string/no_group"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:text="@string/add_group"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <Button
+                            android:id="@+id/search_group_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="@string/group_search" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.dertefter.neticlient.common.ShimmerLayout
+                    android:id="@+id/skeletonSchedule"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    tools:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/vertical_divider_small"
+                        android:orientation="vertical"
+                        android:showDividers="middle">
+
+                        <include
+                            layout="@layout/skeleton_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            layout="@layout/skeleton_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <include
+                            layout="@layout/skeleton_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </com.dertefter.neticlient.common.ShimmerLayout>
+
+                <LinearLayout
+                    android:id="@+id/schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/schedule_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/lessons_list"
+                        android:fadingEdge="none"
+                        android:isScrollContainer="false"
+                        android:nestedScrollingEnabled="false"
+                        android:requiresFadingEdge="none"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/item_time" />
+
+                    <TextView
+                        android:id="@+id/no_lessons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:paddingVertical="@dimen/margin_min"
+                        android:text="@string/no_lessons_for_all"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+
+                        android:visibility="gone"
+                        tools:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/button_schedule_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:text="@string/full_schedule"
+                        app:icon="@drawable/calendar_month_icon" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/news_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/newsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingHorizontal="@dimen/margin"
+                    android:text="@string/title_news"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:fitsSystemWindows="false"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:scrollbarThumbHorizontal="@null">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/filter_chips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/margin_min"
+                        app:chipSpacingVertical="0dp"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_all"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/filter_news_all"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_news"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_news"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_obj"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_obj"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_interview"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_interv"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/filter_photo"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/filter_news_photo"
+                            app:ensureMinTouchTargetSize="false" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/news_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:contentDescription="@string/lessons_list"
+                    android:fadingEdge="none"
+                    android:isScrollContainer="false"
+                    android:paddingHorizontal="@dimen/margin"
+                    android:paddingVertical="@dimen/margin_min"
+                    android:requiresFadingEdge="none"
+                    android:visibility="visible"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_news" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:fitsSystemWindows="true"
+        android:showDividers="beginning"
+        app:elevation="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin_max"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <TextView
+                android:id="@+id/week_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center|start"
+                android:maxWidth="1000dp"
+                android:paddingVertical="@dimen/margin"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                android:textColor="?attr/colorTertiary"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                tools:text="1 учебная нежеля" />
+
+            <Button
+                android:id="@+id/group_button"
+                style="@style/Widget.Material3Expressive.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:text="Button" />
+
+        </FrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/promoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:clipToPadding="false"
+            android:contentDescription="@string/news_list"
+            android:fadingEdge="none"
+            android:nestedScrollingEnabled="false"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_min"
+            android:requiresFadingEdge="none"
+            android:visibility="visible"
+            app:layout_scrollFlags="scroll"
+            tools:listitem="@layout/item_promo_carusel">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/margin">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorSurfaceContainer"
+                android:hint="Поиск чего угодно!"
+                app:backgroundTint="?attr/colorSurfaceContainer"
+                app:defaultMarginsEnabled="false"
+                app:hideNavigationIcon="false"
+                app:layout_scrollFlags="noScroll" />
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

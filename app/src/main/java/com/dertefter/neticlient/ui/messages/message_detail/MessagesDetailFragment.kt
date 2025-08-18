@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.data.model.messages.MessageDetail
 import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.person.Person
@@ -51,23 +53,7 @@ class MessagesDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-
-        binding.appBarLayout.setLiftable(true)
-        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val totalScrollRange = appBarLayout.totalScrollRange
-            val alpha = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            binding.topContainer.alpha = alpha
-            if (verticalOffset < 0) {
-                binding.appBarLayout.isLifted = true
-            } else {
-                binding.appBarLayout.isLifted = false
-            }
-        }
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
 
         val id = arguments?.getString("id")
@@ -83,7 +69,7 @@ class MessagesDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        messagesDetailViewModel.messageDetailLiveData.observe(viewLifecycleOwner){
+        messagesDetailViewModel.messageDetailLiveData.observe(viewLifecycleOwner){ it ->
 
             if (it.responseType == ResponseType.SUCCESS){
                 Utils.basicAnimationOn(binding.nestedScrollView).start()
@@ -96,24 +82,35 @@ class MessagesDetailFragment : Fragment() {
                     binding.content.visibility = View.GONE
                 }
                 binding.title.text = messageDetail.title
+                binding.title.isGone = false
                 binding.date.text = messageDetail.date
                 messageDetail.personId?.let { it1 ->
-                    personViewModel.getLiveDataForId(it1).observe(viewLifecycleOwner){
-                        if (it.responseType == ResponseType.SUCCESS){
-                            val person = it.data as Person
-                            Picasso.get().load(person.avatarUrl).into(binding.profilePic)
-                            binding.person.setOnClickListener {
-                                val bundle = Bundle()
-                                bundle.putString("personId", messageDetail.personId)
+                    personViewModel.getLiveDataForId(it1).observe(viewLifecycleOwner){ p ->
+                        if (p.responseType == ResponseType.SUCCESS){
+                            val person = p.data as Person?
 
-                                findNavController().navigate(
-                                    R.id.personViewFragment,
-                                    bundle,
-                                    Utils.getNavOptions(),
+                            if (person != null){
 
-                                )
+                                binding.person.text = person.name
+
+                                binding.person.setOnClickListener {
+                                    val bundle = Bundle()
+                                    bundle.putString("personId", messageDetail.personId)
+
+                                    findNavController().navigate(
+                                        R.id.personViewFragment,
+                                        bundle,
+                                        Utils.getNavOptions(),
+
+                                        )
+
+                                }
 
                             }
+
+
+
+
                         }
                     }
                 }

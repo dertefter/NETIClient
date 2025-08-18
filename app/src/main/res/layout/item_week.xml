@@ -16,11 +16,11 @@
         android:id="@+id/weekNumber"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fontFamily="@font/f3"
+
         android:gravity="center"
         android:includeFontPadding="false"
         android:text="13"
         android:textColor="?attr/colorOnTertiaryContainer"
-        android:textSize="16sp"
+
         android:textStyle="normal" />
 </com.google.android.material.card.MaterialCardView>
