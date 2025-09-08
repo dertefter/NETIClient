@@ -43,8 +43,7 @@ class OnboardingPage3 : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                scheduleViewModel.scheduleState.collect { state ->
-                    val group = state.group
+                scheduleViewModel.currentGroup.collect { group ->
                     binding.noGroup.isGone = !group.isNullOrEmpty()
                     binding.group.isGone = group.isNullOrEmpty()
                     binding.groupView.text = group

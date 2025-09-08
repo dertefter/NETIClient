@@ -83,7 +83,7 @@
     <string name="title_dashboard">Успеваемость</string>
     <string name="today">сегодня</string>
     <string name="tomorrow">завтра</string>
-    <string name="classses_for">Занятия на</string>
+    <string name="classses_for">"Занятия на "</string>
     <string name="title_nstu">НГТУ НЭТИ</string>
     <string name="other_variant">Свой вариант</string>
     <string name="edit">Изменить</string>
@@ -142,4 +142,13 @@
     <string name="on_board_fab_done">Приступим!</string>
     <string name="semester">Семестр</string>
     <string name="login_resason_1">Для доступа к этому разделу необходимо войти в аккаунт</string>
+    <string name="updating">Обновление...</string>
+    <string name="updated">Успешно обновлено!</string>
+    <string name="update_fail">Ошибка обновления</string>
+    <string name="at">" в "</string>
+    <string name="will_start">Начнётся</string>
+    <string name="now">Идёт сейчас</string>
+    <string name="lesson_over">Занятие прошло</string>
+    <string name="yesterday">вчера</string>
+    <string name="near_lessons">Ближайшие занятия</string>
 </resources>

@@ -11,9 +11,10 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.Day
-import com.dertefter.neticlient.data.model.schedule.LessonDetail
+import com.dertefter.neticore.features.schedule.model.Day
 import com.dertefter.neticlient.databinding.FragmentDayBinding
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
@@ -47,24 +48,37 @@ class DayFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
-        val adapter = TimesAdapter(fragment = this)
+        val adapter = TimesAdapter(
+            emptyList(), viewLifecycleOwner,
+            onLessonClick = { lesson ->
+                val bottomSheet = LessonViewBottomSheetFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("lesson", lesson)
+                    }
+                }
+                bottomSheet.show(parentFragmentManager, "LessonDetail")
+            },
+            onCurrentTimeSlotFound = {},
+            onLatestPastTimeSlotFound = { },
+            onFirstFutureTimeSlotFound = {},
+        )
         binding.recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
+        binding.recyclerView.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.margin_max,
+                R.dimen.margin_micro
+            )
+        )
+
         if (day != null){
-            adapter.setData(day)
+            adapter.updateData(day.times)
             if (day.times.isEmpty()){
                 binding.noLessons.visibility = View.VISIBLE
             }else {
                 binding.noLessons.visibility = View.GONE
-            }
-        }
-
-        CurrentTimeObject.currentTimeLiveData.observe(viewLifecycleOwner){  currentTime ->
-            val currentDate = CurrentTimeObject.currentDateLiveData.value
-            if (currentDate != null && currentTime != null){
-                adapter.updateTimeAndDate(currentTime, currentDate)
             }
         }
 

@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_min"
     android:clipToPadding="false"
     android:divider="@drawable/horizontal_divider_small"
     android:orientation="horizontal"
-    android:showDividers="middle|none">
+    android:showDividers="middle">
 
     <LinearLayout
         android:id="@+id/time_container"
@@ -25,10 +24,10 @@
             android:layout_weight="0"
             android:gravity="center_horizontal"
             android:includeFontPadding="false"
-            android:text="12-00"
-
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-            android:visibility="visible" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+            android:textSize="18sp"
+            android:visibility="visible"
+            tools:text="12:00" />
 
         <com.dertefter.neticlient.common.VerticalProgressIndicator
             android:id="@+id/verticalProgressIndicator"
@@ -56,19 +55,20 @@
             android:layout_weight="0"
             android:gravity="center_horizontal|top"
             android:includeFontPadding="false"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+            android:textSize="18sp"
+            tools:text="12:00" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background_big"
         android:clipToPadding="false"
         android:isScrollContainer="false"
         android:nestedScrollingEnabled="false"
         android:orientation="vertical"
-        tools:itemCount="3"
+        tools:itemCount="1"
         tools:listitem="@layout/item_lesson" />
 
 </LinearLayout>

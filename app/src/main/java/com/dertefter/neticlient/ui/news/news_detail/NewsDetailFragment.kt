@@ -70,7 +70,17 @@ class NewsDetailFragment : Fragment() {
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
 
+            binding.nestedScrollView.updatePadding(
+                bottom = bars.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
 
 
         if (isContainer){

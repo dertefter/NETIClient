@@ -2,147 +2,313 @@ package com.dertefter.neticlient.ui.schedule.week.day
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DiffUtil
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.WaveDrawable
-import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.Day
-import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
-import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.databinding.ItemTimeBinding
+import com.dertefter.neticore.features.schedule.model.Lesson
+import com.dertefter.neticore.features.schedule.model.Time
 import com.google.android.material.color.MaterialColors
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 
 class TimesAdapter(
-    private val fragment: Fragment,
-) : ListAdapter<UiTime, TimesAdapter.TimeViewHolder>(TimeDiffCallback()) {
+    private var items: List<Time>,
+    val lifecycleOwner: LifecycleOwner,
+    private val onLessonClick: (Lesson) -> Unit,
+    private val onCurrentTimeSlotFound: (y: Int) -> Unit,
+    private val onLatestPastTimeSlotFound: (y: Int) -> Unit,
+    private val onFirstFutureTimeSlotFound: (y: Int) -> Unit,
+) : RecyclerView.Adapter<TimesAdapter.TimeViewHolder>() {
 
-    private var currentTime: LocalTime? = null
-    private var currentDate: LocalDate? = null
+    private var recyclerView: RecyclerView? = null
 
-    private var date: LocalDate? = null
-    private var timesList: List<Time> = emptyList()
-
-    fun setData(day: Day) {
-        this.date = day.getDate()
-        this.timesList = day.times
+    init {
+        findBoundaryTimeSlots()
     }
 
-    fun clearData() {
-        val day = Day(
-            dayName = "",
-            times = emptyList(),
-            dayNumber = 1,
-            date = CurrentTimeObject.currentDateLiveData.value.toString()
-        )
-        this.date = day.getDate()
-        this.timesList = day.times
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+    }
 
-    fun updateTimeAndDate(currentTime: LocalTime, currentDate: LocalDate) {
-        val newList = timesList.map { t ->
-            val start = t.getTimeStart()!!
-            val end   = t.getTimeEnd()!!
-            val status: FutureOrPastOrNow
-            val progress: Int
+    private fun findBoundaryTimeSlots() {
+        lifecycleOwner.lifecycleScope.launch {
+            combine(
+                CurrentTimeObject.currentTimeFlow,
+                CurrentTimeObject.currentDateFlow
+            ) { currentTime, currentDate ->
+                Pair(currentTime, currentDate)
+            }.collect { (currentTime, currentDate) ->
+                if (currentTime != null && currentDate != null && items.isNotEmpty()) {
+                    var latestPastIndex = -1
+                    var firstFutureIndex = -1
+                    var nowIndex = -1
 
-            status = when {
-                date!! < currentDate         -> FutureOrPastOrNow.PAST
-                date!! > currentDate         -> FutureOrPastOrNow.FUTURE
-                start <= currentTime && end >= currentTime -> FutureOrPastOrNow.NOW
-                start > currentTime          -> FutureOrPastOrNow.FUTURE
-                else                         -> FutureOrPastOrNow.PAST
-            }
+                    fun setAsFutureIndex(index: Int) {
+                        if (firstFutureIndex == -1) {
+                            firstFutureIndex = index
+                        }
+                    }
 
-            progress = when(status) {
-                FutureOrPastOrNow.NOW -> {
-                    val total = end.toSecondOfDay() - start.toSecondOfDay()
-                    val passed = currentTime.toSecondOfDay() - start.toSecondOfDay()
-                    ((passed.toFloat() / total.toFloat()) * 100).toInt()
+                    fun setAsPastIndex(index: Int) {
+                        latestPastIndex = index
+                    }
+
+                    fun setAsNowIndex(index: Int) {
+                        nowIndex = index
+                    }
+
+
+                    for ((index, timeItem) in items.withIndex()) {
+                        try {
+                            val startTime = timeItem.getTimeStart()
+                            val endTime = timeItem.getTimeEnd()
+                            val itemDate = timeItem.getLocalDate()
+
+                            if (currentDate.isBefore(timeItem.getLocalDate())) {
+                                setAsFutureIndex(index)
+                            } else if (currentDate.isAfter(timeItem.getLocalDate())) {
+                                setAsPastIndex(index)
+                            } else {
+                                when {
+                                    currentTime.isBefore(startTime) -> {
+                                        setAsFutureIndex(index)
+                                    }
+
+                                    currentTime.isAfter(endTime) -> {
+                                        setAsPastIndex(index)
+                                    }
+
+                                    else -> setAsNowIndex(index)
+
+                                }
+                            }
+
+                        } catch (e: Exception) {
+                            // Ignore items that can't be parsed
+                        }
+                    }
+
+                    val latestPastTop = recyclerView
+                        ?.findViewHolderForAdapterPosition(latestPastIndex)
+                        ?.itemView
+                        ?.top ?: -1
+                    onLatestPastTimeSlotFound(latestPastTop)
+
+                    val firstFutureTop = recyclerView
+                        ?.findViewHolderForAdapterPosition(firstFutureIndex)
+                        ?.itemView
+                        ?.top ?: -1
+                    onFirstFutureTimeSlotFound(firstFutureTop)
+
+                    val nowTop = recyclerView
+                        ?.findViewHolderForAdapterPosition(nowIndex)
+                        ?.itemView
+                        ?.top ?: -1
+                    onCurrentTimeSlotFound(nowTop)
                 }
-                FutureOrPastOrNow.PAST   -> 100
-                FutureOrPastOrNow.FUTURE -> 0
+            }
+        }
+    }
+
+
+    inner class TimeViewHolder(val binding: ItemTimeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private var timeUpdateJob: Job? = null
+
+        fun bind(item: Time) {
+            binding.timeStart.text = item.timeStart
+            binding.timeEnd.text = item.timeEnd
+
+            val corners = when (bindingAdapterPosition) {
+                itemCount - 1 -> 2
+                0 -> 0
+                else -> 1
             }
 
-            UiTime(t, status, progress)
+            val adapter = LessonsAdapter(item.lessons, lifecycleOwner, corners, onLessonClick)
+            binding.recylerView.adapter = adapter
+            binding.recylerView.layoutManager = LinearLayoutManager(binding.root.context)
+
+            subscribeToTimeUpdates(item)
         }
-        submitList(newList)
+
+        private fun subscribeToTimeUpdates(timeItem: Time) {
+            timeUpdateJob?.cancel()
+
+            timeUpdateJob = lifecycleOwner.lifecycleScope.launch {
+                combine(
+                    CurrentTimeObject.currentTimeFlow,
+                    CurrentTimeObject.currentDateFlow
+                ) { currentTime, currentDate ->
+                    Pair(currentTime, currentDate)
+                }.collect { (currentTime, currentDate) ->
+                    if (currentTime != null && currentDate != null) {
+                        updateProgressBasedOnTime(timeItem, currentTime, currentDate)
+                    }
+                }
+            }
+        }
+
+
+        private fun updateProgressBasedOnTime(
+            timeItem: Time,
+            currentTime: LocalTime,
+            currentDate: LocalDate
+        ) {
+            try {
+                val startTime = timeItem.getTimeStart()
+                val endTime = timeItem.getTimeEnd()
+
+                if (currentDate.isBefore(timeItem.getLocalDate())) {
+                    onFuture()
+                } else if (currentDate.isAfter(timeItem.getLocalDate())) {
+                    onPast()
+                } else {
+                    when {
+                        currentTime.isBefore(startTime) -> {
+                            onFuture()
+                        }
+
+                        currentTime.isAfter(endTime) -> {
+                            onPast()
+                        }
+
+                        else -> {
+                            val progress = calculateProgress(startTime, endTime, currentTime)
+                            onNow(progress)
+                        }
+                    }
+                }
+
+            } catch (e: Exception) {
+                onFuture()
+                Log.e("updateProgressBasedOnTime", e.stackTraceToString())
+            }
+        }
+
+        private fun calculateProgress(
+            startTime: LocalTime,
+            endTime: LocalTime,
+            currentTime: LocalTime
+        ): Int {
+            val totalMinutes = startTime.until(endTime, java.time.temporal.ChronoUnit.MINUTES)
+            val elapsedMinutes =
+                startTime.until(currentTime, java.time.temporal.ChronoUnit.MINUTES)
+
+            return if (totalMinutes > 0) {
+                ((elapsedMinutes.toDouble() / totalMinutes.toDouble()) * 100).toInt()
+                    .coerceIn(0, 100)
+            } else {
+                0
+            }
+        }
+
+        fun onPast() {
+            binding.verticalProgressIndicator.setProgress(100, true)
+            binding.verticalProgressIndicator.setIndicatorColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSurfaceVariant
+                )
+            )
+            binding.timeStart.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSurfaceVariant
+                )
+            )
+            binding.timeEnd.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSurfaceVariant
+                )
+            )
+        }
+
+        fun onFuture() {
+            binding.timeStart.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorOnSurface
+                )
+            )
+            binding.timeEnd.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorOnSurface
+                )
+            )
+            binding.verticalProgressIndicator.setProgress(0, true)
+            binding.verticalProgressIndicator.setIndicatorColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSurfaceVariant
+                )
+            )
+        }
+
+        fun onNow(progress: Int) {
+            binding.timeStart.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSecondary
+                )
+            )
+            binding.timeEnd.setTextColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorOnSurface
+                )
+            )
+            binding.verticalProgressIndicator.setIndicatorColor(
+                MaterialColors.getColor(
+                    itemView,
+                    com.google.android.material.R.attr.colorSecondary
+                )
+            )
+            binding.verticalProgressIndicator.setProgress(progress, true)
+        }
+
+        fun unbind() {
+            timeUpdateJob?.cancel()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
-        val binding = ItemTimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTimeBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return TimeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
-        val uiTime = getItem(position)
-        holder.bind(uiTime, fragment)
+        holder.bind(items[position])
     }
 
-    class TimeViewHolder(private val binding: ItemTimeBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        lateinit var lessonsAdapter: LessonsAdapter
-
-        fun bind(uiTime: UiTime, fragment: Fragment) {
-
-            binding.timeStart.text = uiTime.time.timeStart
-            binding.timeEnd.text = uiTime.time.timeEnd
-            lessonsAdapter = LessonsAdapter(uiTime.time.lessons, fragment, uiTime.time)
-            binding.recylerView.adapter = lessonsAdapter
-            binding.recylerView.layoutManager = LinearLayoutManager(itemView.context)
-            when(uiTime.status) {
-                FutureOrPastOrNow.FUTURE -> futureTime()
-                FutureOrPastOrNow.PAST -> pastTime()
-                FutureOrPastOrNow.NOW -> onGoingTime(uiTime.progress)
-            }
-
-            lessonsAdapter.updateFutureOrPastOrNow(uiTime.status)
-        }
-
-        fun pastTime(){
-            itemView.alpha = 0.5f
-            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
-            binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
-            binding.verticalProgressIndicator.progress = 100
-            lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.PAST)
-        }
-
-        fun futureTime(){
-            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
-            binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
-            itemView.alpha = 1f
-            binding.verticalProgressIndicator.progress = 0
-            lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.FUTURE)
-        }
-
-        fun onGoingTime(progress: Int){
-            binding.timeStart.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSecondary))
-            binding.timeEnd.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
-            itemView.alpha = 1f
-
-            lessonsAdapter.updateFutureOrPastOrNow(FutureOrPastOrNow.NOW)
-        }
-
+    override fun onViewRecycled(holder: TimeViewHolder) {
+        super.onViewRecycled(holder)
+        holder.unbind()
     }
 
-    class TimeDiffCallback : DiffUtil.ItemCallback<UiTime>() {
-        override fun areItemsTheSame(oldItem: UiTime, newItem: UiTime): Boolean {
-            return oldItem.time.timeStart == newItem.time.timeStart
-                    && oldItem.time.timeEnd   == newItem.time.timeEnd
-        }
-        override fun areContentsTheSame(oldItem: UiTime, newItem: UiTime): Boolean {
-            return oldItem.status   == newItem.status
-                    && oldItem.progress == newItem.progress && oldItem.time == newItem.time
-        }
-    }
+    override fun getItemCount(): Int = items.size
 
+    fun updateData(newItems: List<Time>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
 }
+

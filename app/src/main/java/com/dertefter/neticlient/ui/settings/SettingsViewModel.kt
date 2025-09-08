@@ -25,15 +25,18 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     var scheduleServiceState: StateFlow<Boolean>  = settingsRepository.getScheduleService().stateIn(
-        scope = viewModelScope,           // или любой другой CoroutineScope
-        started = SharingStarted.Eagerly, // или WhileSubscribed(), Lazily()
-        initialValue = true       // значение по умолчанию
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false
     )
     var notifyFutureLessonsState = settingsRepository.getNotifyFutureLessons()
     var notifyFutureLessonsValueState = settingsRepository.getNotifyValue()
     var materialYouState = settingsRepository.getMaterialYou()
 
     var onBoardingState = settingsRepository.getOnBoarding()
+
+    var isTgShow = settingsRepository.getTgShow()
+
     val isGrantedPermission: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     fun updateNotificationPermissionState(context: Context) {
@@ -58,6 +61,12 @@ class SettingsViewModel @Inject constructor(
     fun setOnBoarding(v: Boolean = false){
         viewModelScope.launch {
             settingsRepository.setOnBoarding(v)
+        }
+    }
+
+    fun setTgShow(v: Boolean = false){
+        viewModelScope.launch {
+            settingsRepository.setTgShow(v)
         }
     }
 

@@ -2,8 +2,10 @@ package com.dertefter.neticlient.ui.main
 
 import android.app.ComponentCaller
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -43,6 +45,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.ui.on_boarding.OnBoardingFragment
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             keepSplashScreen = false
-        }, 2000)
+        }, 200)
 
         ThemeEngine.setup(this)
 
@@ -100,10 +104,6 @@ class MainActivity : AppCompatActivity() {
                 DynamicColors.applyToActivityIfAvailable(this)
             }
         }
-
-
-
-
 
         scheduleViewModel.observeScheduleAndUpdateWidget(this)
 
@@ -161,9 +161,43 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+
+
+
         mainActivityViewModel.startUpdatingTime()
 
         ViewGroupCompat.installCompatInsetsDispatch(binding.root)
+
+        if (binding.horizontalNav != null){
+            ViewCompat.setOnApplyWindowInsetsListener(binding.horizontalNav!!) { v, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            or WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updatePadding(
+                    left = bars.left,
+                    right = bars.right,
+                    bottom = bars.bottom,
+                )
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+
+        if (binding.verticalNav != null){
+            ViewCompat.setOnApplyWindowInsetsListener(binding.verticalNav!!) { v, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            or WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updatePadding(
+                    left = bars.left,
+                    bottom = bars.bottom,
+                    top = bars.top
+                )
+                WindowInsetsCompat.CONSUMED
+            }
+        }
 
 
         keepSplashScreen = false
@@ -182,12 +216,28 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
+                loginViewModel.authStatus.collect { authStatus ->
 
                     binding.authImageview.isGone =
-                        authState != AuthState.UNAUTHORIZED && authState != AuthState.AUTHORIZED_WITH_ERROR
-                    binding.authLoading.isGone = authState != AuthState.AUTHORIZING
-                    binding.authAvatarShapeContainer?.isGone = authState != AuthState.AUTHORIZED
+                        authStatus != AuthStatusType.UNAUTHORIZED && authStatus != AuthStatusType.AUTHORIZED_WITH_ERROR
+                    binding.authLoading.isGone = authStatus != AuthStatusType.LOADING
+                    binding.authAvatarShapeContainer.isGone = authStatus != AuthStatusType.AUTHORIZED
+
+                    if (authStatus != AuthStatusType.UNAUTHORIZED){
+                        binding.bottomNavigation?.menu?.clear()
+                        binding.navigationRail?.menu?.clear()
+                        binding.bottomNavigation?.inflateMenu(R.menu.navigation_menu)
+                        binding.navigationRail?.inflateMenu(R.menu.navigation_menu)
+                    } else {
+                        binding.bottomNavigation?.menu?.clear()
+                        binding.navigationRail?.menu?.clear()
+                        binding.bottomNavigation?.inflateMenu(R.menu.navigation_menu_guest)
+                        binding.navigationRail?.inflateMenu(R.menu.navigation_menu_guest)
+                    }
+
+                    binding.bottomNavigation?.setupWithNavController(navController)
+                    binding.navigationRail?.setupWithNavController(navController)
+
 
                 }
             }
@@ -196,21 +246,28 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userFlow.collect { user ->
+                loginViewModel.userDetailMobile.collect { userDetail ->
+                    Log.e("userMoble", userDetail.toString())
+                    if (!userDetail?.photoPath.isNullOrEmpty()){
 
+                        Picasso.get()
+                            .load(userDetail.photoPath)
+                            .into(object : com.squareup.picasso.Target {
+                                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                                    binding.avatarShape.setImageBitmap(bitmap)
+                                }
 
-                    if (!user?.name.isNullOrEmpty()){
-                        if (!user.profilePicPath.isNullOrEmpty()){
-                            val file = File(user.profilePicPath)
-                            if (file.exists()){
-                                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                                binding.avatarShape?.setImageBitmap(bitmap)
-                            }
-                        }
+                                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                                    // обработка ошибки
+                                }
+
+                                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                                    // можно показать плейсхолдер
+                                }
+                            })
 
 
                     }
-
                 }
             }
         }

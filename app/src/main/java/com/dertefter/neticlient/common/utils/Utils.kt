@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -15,16 +14,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.core.text.HtmlCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.palette.graphics.Palette
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.LessonTrigger
-import com.dertefter.neticlient.data.model.schedule.NextTimeInfo
-import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.model.schedule.Time
 import java.util.Locale
 import androidx.core.text.parseAsHtml
 

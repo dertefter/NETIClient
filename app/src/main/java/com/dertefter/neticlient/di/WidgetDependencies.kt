@@ -2,7 +2,6 @@ package com.dertefter.neticlient.di
 
 import com.dertefter.neticlient.data.repository.ScheduleRepository
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -12,5 +11,4 @@ import dagger.hilt.components.SingletonComponent
 interface WidgetDependencies {
     val scheduleRepository: ScheduleRepository
     val settingsRepository: SettingsRepository
-    val userRepository: UserRepository
 }

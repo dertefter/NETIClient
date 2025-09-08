@@ -1,58 +1,68 @@
 package com.dertefter.neticlient.ui.login
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.neticlient.data.model.AuthState
-import com.dertefter.neticlient.data.model.User
-import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.data.repository.UserRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.dertefter.neticore.NETICore
+import com.dertefter.neticore.features.authorization.model.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-): ViewModel() {
+class LoginViewModel : ViewModel() {
 
-    val userFlow = userRepository.getUserFlow()
-    val authStateFlow = MutableStateFlow<AuthState>(
-        value = AuthState.AUTHORIZING
-    )
+
+    val authorizationFeature = NETICore.authorizationFeature
+    val userDetailFeature = NETICore.userDetailFeature
+
+
+    val currentUser = authorizationFeature.currentUser
+    val authStatus = authorizationFeature.ciuStatus
+
+    val userDetail = userDetailFeature.userDetail
+
+    val userDetailMobile = userDetailFeature.userDetailMobile
+
+    val userDetailStatus = userDetailFeature.status
+
 
     init {
         tryAuthorize()
     }
 
+
     fun tryAuthorize(){
         viewModelScope.launch {
-            val user = userRepository.getUserFlow().first()
-            if (user != null){
-                auth(user.login, user.password)
+            val currentUser = currentUser.first()
+            if (currentUser != null){
+                authorizationFeature.login(currentUser)
             } else {
-                authStateFlow.value = AuthState.UNAUTHORIZED
+                authorizationFeature.logout()
             }
         }
     }
 
-
-    fun auth(login: String, password: String){
+    fun updateUserDetail(){
         viewModelScope.launch {
-            authStateFlow.value = AuthState.AUTHORIZING
-            authStateFlow.value = userRepository.fetchAuth(login, password)
+            userDetailFeature.updateUserDetail()
         }
     }
 
-    fun logout() {
+    fun login(login: String, password: String){
         viewModelScope.launch {
-            userRepository.setUser(null)
-            authStateFlow.value = AuthState.UNAUTHORIZED
+            authorizationFeature.login(
+                User(
+                    login,
+                    password
+                )
+            )
         }
+
     }
+
+
+
+
+
 
 
 }

@@ -1,29 +1,17 @@
 package com.dertefter.neticlient.widgets.schedule_widget
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.core.net.toUri
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.LessonTrigger
+import com.dertefter.neticore.features.schedule.model.Lesson
 import com.dertefter.neticlient.data.repository.ScheduleRepository
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import com.dertefter.neticlient.di.WidgetDependencies
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
-
 
 
 class LessonRemoteViewsFactory(
@@ -36,7 +24,6 @@ class LessonRemoteViewsFactory(
 
     lateinit var scheduleRepository: ScheduleRepository
     lateinit var settingsRepository: SettingsRepository
-    lateinit var userRepository: UserRepository
 
 
     private var lessons = mutableListOf<Lesson>()
@@ -48,7 +35,6 @@ class LessonRemoteViewsFactory(
         )
         scheduleRepository = entryPoint.scheduleRepository
         settingsRepository = entryPoint.settingsRepository
-        userRepository = entryPoint.userRepository
 
         loadLessons()
     }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -47,7 +48,7 @@ class SearchFragment : Fragment() {
     private fun updateCombinedSearchResults() {
         val combined = buildList {
             currentGroupList.take(12).forEach { add(SearchItem.GroupItem(it)) }
-            currentPersonList.forEach { add(SearchItem.PersonItem(it.second)) }
+            currentPersonList.forEach { add(SearchItem.PersonItem(it.second, it.first)) }
             currentNavResults.forEach { add(SearchItem.NavDestinationItem(it)) }
         }
         adapter.submitList(combined)
@@ -73,12 +74,16 @@ class SearchFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
 
         val navController = findNavController()
 
-
-
-        navSearchViewModel.navGraph = navController.graph
+        navSearchViewModel.navGraph = (
+            findNavController().navInflater.inflate(R.navigation.nav_graph_search)
+        )
 
         adapter = SearchAdapter()
 
@@ -95,7 +100,7 @@ class SearchFragment : Fragment() {
         }
 
         adapter.onGroupClick = {
-            scheduleViewModel.updateSelectedGroup(it.name)
+            scheduleViewModel.setCurrentGroup(it.name)
             navController.popBackStack()
         }
 
@@ -126,6 +131,8 @@ class SearchFragment : Fragment() {
         }
 
         binding.searchBar.editText?.addTextChangedListener {
+            binding.emptyView.isGone = !it.toString().isEmpty()
+            binding.recyclerView.isGone = it.toString().isEmpty()
             navSearchViewModel.search(it.toString())
             searchGroupViewModel.fetchGroupList(it.toString())
             personSearchViewModel.fetchPersonSearchResults(it.toString())

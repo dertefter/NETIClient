@@ -1,195 +1,293 @@
 package com.dertefter.neticlient.ui.schedule.week.day
 
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.LeadingMarginSpan
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
+import androidx.core.view.isGone
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.AvatarOverlapItemDecoration
-import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.LessonDetail
-import com.dertefter.neticlient.data.model.schedule.Time
-import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
-import com.dertefter.neticlient.ui.person.PersonListStyle
-import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
-import com.google.android.material.card.MaterialCardView
+import com.dertefter.neticlient.data.model.CurrentTimeObject
+import com.dertefter.neticlient.databinding.ItemLessonBinding
+import com.dertefter.neticlient.ui.person.AvatarListAdapter
+import com.dertefter.neticore.features.schedule.model.Lesson
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 class LessonsAdapter(
-    private var lessonList: List<Lesson> = emptyList(),
-    val fragment: Fragment,
-    val timeItem: Time
+    private var lessons: List<Lesson>,
+    val lifecycleOwner: LifecycleOwner,
+    val corners: Int = 1, //0 - только верх, 1 - оба, 2 - низочек
+    private val onLessonClick: (Lesson) -> Unit
+) : RecyclerView.Adapter<LessonsAdapter.LessonViewHolder>() {
 
-    ) : RecyclerView.Adapter<LessonsAdapter.TimeViewHolder>() {
-    var futureOrPastOrNow: FutureOrPastOrNow = FutureOrPastOrNow.FUTURE
-
-    fun setData(lessonList: List<Lesson>, futureOrPastOrNow: FutureOrPastOrNow = FutureOrPastOrNow.FUTURE) {
-        if (this.lessonList != lessonList || this.futureOrPastOrNow != futureOrPastOrNow){
-            this.lessonList = lessonList
-            this.futureOrPastOrNow = futureOrPastOrNow
-            
-            notifyDataSetChanged()
-        }
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
-        val layoutRes = R.layout.item_lesson
-        val view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
-        return TimeViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
-        val lessonItem = lessonList[position]
-        holder.bind(lessonItem, futureOrPastOrNow, fragment, timeItem)
-    }
-
-    override fun getItemCount(): Int = lessonList.size
-
-    fun updateFutureOrPastOrNow(b: FutureOrPastOrNow) {
-        if (futureOrPastOrNow != b){
-            this.futureOrPastOrNow = b
-            notifyDataSetChanged()
-        }
-
-    }
-
-    class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val title: TextView = itemView.findViewById(R.id.title)
-        private val type: TextView = itemView.findViewById(R.id.type)
-        private val type_exp: TextView = itemView.findViewById(R.id.type_exp)
-        private val aud: TextView = itemView.findViewById(R.id.aud)
+    inner class LessonViewHolder(val binding: ItemLessonBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
-        val personsRecyclerView: RecyclerView = itemView.findViewById(R.id.personsRecyclerView)
+        val cardColorFuture = MaterialColors.getColor(
+            itemView,
+            com.google.android.material.R.attr.colorSurfaceContainer
+        )
+
+        val cardColorNow = MaterialColors.getColor(
+            itemView,
+            com.google.android.material.R.attr.colorSurfaceContainerHigh
+        )
+
+        val cardColorPast = MaterialColors.getColor(
+            itemView,
+            com.google.android.material.R.attr.colorSurfaceContainer
+        )
+
+        val alphaNow = 1f
+        val alphaPast = 0.5f
+        val alphaFuture = 1f
 
 
-        fun bind(lessonItem: Lesson, futureOrPastOrNow: FutureOrPastOrNow, fragment: Fragment, timeItem: Time) {
-            val adapter = PersonListRecyclerViewAdapter(fragment = fragment, listStyle = PersonListStyle.AVATARS_ONLY){}
-
-            itemView.setOnClickListener {
-                val lessonDetail = LessonDetail(
-                    lessonItem,
-                    timeItem,
-                    futureOrPastOrNow
-
-                )
-                val bottomSheet = LessonViewBottomSheetFragment().apply {
-                    arguments = Bundle().apply {
-                        putParcelable("lessonDetail", lessonDetail)
-                    }
-                }
-                bottomSheet.show(fragment.parentFragmentManager, "LessonDetail")
-            }
-
-
-            title.text = lessonItem.title
-            type.text = lessonItem.type
-            type_exp.text = lessonItem.type
-            aud.text = lessonItem.aud
-
-            (itemView as MaterialCardView).setStrokeColor(Color.TRANSPARENT)
-
-            personsRecyclerView.adapter = adapter
-
-            personsRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            personsRecyclerView.addItemDecoration(AvatarOverlapItemDecoration(itemView.context, R.dimen.margin))
-
-
-            if (lessonItem.personIds.isNotEmpty()){
-                adapter.setData(lessonItem.personIds)
-
-                personsRecyclerView.doOnPreDraw {
-                    val spannable = SpannableString(title.text)
-                    spannable.setSpan(
-                        LeadingMarginSpan.Standard(personsRecyclerView.width, 0),
-                        0, title.text.length,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        fun getTypeColors(type: String = ""): Pair<Int, Int> {
+            val bgColor: Int = when {
+                type.contains("лекц", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorTertiaryContainer
                     )
-
-                    title.text = spannable
-
                 }
+                type.contains("прак", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorPrimaryContainer
+                    )
+                }
+                type.contains("лаб", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorSecondaryContainer
+                    )
+                }
+                else -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorSurfaceContainerHigh
+                    )
+                }
+            }
 
+            val textColor: Int = when {
+                type.contains("лекц", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorOnTertiaryContainer
+                    )
+                }
+                type.contains("прак", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorOnPrimaryContainer
+                    )
+                }
+                type.contains("лаб", ignoreCase = true) -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorOnSecondaryContainer
+                    )
+                }
+                else -> {
+                    MaterialColors.getColor(
+                        itemView,
+                        com.google.android.material.R.attr.colorOnSurface
+                    )
+                }
+            }
+
+            return bgColor to textColor
+        }
+
+
+        private var timeUpdateJob: Job? = null
+
+        fun bind(lesson: Lesson) {
+
+            val radiusMax = binding.root.resources.getDimension(R.dimen.radius_max)
+            val radiusMin = binding.root.resources.getDimension(R.dimen.radius_micro)
+
+            val shapeModel = when (corners) {
+                0 -> ShapeAppearanceModel()
+                    .toBuilder()
+                    .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
+                    .build()
+
+                2 -> ShapeAppearanceModel()
+                    .toBuilder()
+                    .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setTopRightCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setBottomRightCorner(CornerFamily.ROUNDED, radiusMax)
+                    .build()
+
+                else -> ShapeAppearanceModel()
+                    .toBuilder()
+                    .setAllCorners(CornerFamily.ROUNDED, radiusMin)
+                    .build()
+            }
+
+            binding.root.shapeAppearanceModel = shapeModel
+
+
+            binding.title.text = lesson.title
+            binding.type.text = lesson.type
+            binding.aud.text = lesson.aud
+
+            binding.type.isGone = lesson.type.isEmpty()
+            binding.aud.isGone = lesson.aud.isEmpty()
+
+            binding.personsRecyclerView.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+            val avatarListAdapter = AvatarListAdapter(lesson.personIds, lifecycleOwner)
+            binding.personsRecyclerView.adapter = avatarListAdapter
+
+            binding.personsRecyclerView.doOnPreDraw {
+                val spannable = SpannableString(binding.title.text)
+                spannable.setSpan(
+                    LeadingMarginSpan.Standard( binding.personsRecyclerView.width, 0),
+                    0, binding.title.text.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                binding.title.text = spannable
+                binding.titleNow.text = spannable
 
             }
 
-
-            if (aud.text.isEmpty()){
-                aud.visibility = View.GONE
-            } else {
-                aud.visibility = View.VISIBLE
+            if (binding.personsRecyclerView.itemDecorationCount == 0){
+                binding.personsRecyclerView.addItemDecoration(
+                    AvatarOverlapItemDecoration(
+                        itemView.context, R.dimen.margin
+                    )
+                )
             }
-            if (type.text.isNotEmpty()) {
-                type.visibility = View.VISIBLE
-                when {
-                    type.text.contains("Лаб") -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
-                        )
-                    }
-                    type.text.contains("Практика") -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
-                    }
-                    else -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
-                        )
 
+            binding.root.setOnClickListener {
+                onLessonClick(lesson)
+            }
 
+            subscribeToTimeUpdates(lesson)
+        }
+
+        private fun subscribeToTimeUpdates(lesson: Lesson) {
+            timeUpdateJob?.cancel()
+
+            timeUpdateJob = lifecycleOwner.lifecycleScope.launch {
+                combine(
+                    CurrentTimeObject.currentTimeFlow,
+                    CurrentTimeObject.currentDateFlow
+                ) { currentTime, currentDate ->
+                    Pair(currentTime, currentDate)
+                }.collect { (currentTime, currentDate) ->
+                    if (currentTime != null && currentDate != null) {
+                        updateProgressBasedOnTime(lesson, currentTime, currentDate)
                     }
                 }
-            } else {
-                type.visibility = View.GONE
-            }
-            if (futureOrPastOrNow == FutureOrPastOrNow.NOW){
-                (itemView as MaterialCardView).strokeColor = MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorPrimaryVariant)
-                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainer))
-                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurface))
-            }
-
-            if (futureOrPastOrNow == FutureOrPastOrNow.PAST){
-                (itemView as MaterialCardView).alpha = 0.6f
-                (itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorSurfaceContainerHighest))
-                title.setTextColor(MaterialColors.getColor(itemView, com.google.android.material.R.attr.colorOnSurfaceVariant))
-                type.backgroundTintList = ColorStateList.valueOf(
-                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorSurfaceContainerHigh)
-                )
-                type.setTextColor(
-                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSurfaceVariant)
-                )
-                aud.backgroundTintList = ColorStateList.valueOf(
-                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorSurfaceContainerHigh)
-                )
-                aud.setTextColor(
-                    MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSurfaceVariant)
-                )
-
-
             }
         }
+
+        private fun updateProgressBasedOnTime(
+            lesson: Lesson,
+            currentTime: LocalTime,
+            currentDate: LocalDate
+        ) {
+            try {
+                val startTime = LocalTime.parse(lesson.timeStart)
+                val endTime = LocalTime.parse(lesson.timeEnd)
+
+                when {
+                    currentDate.isBefore(lesson.getLocalDate()) -> onFuture()
+                    currentDate.isAfter(lesson.getLocalDate()) -> onPast()
+                    currentTime.isBefore(startTime) -> onFuture()
+                    currentTime.isAfter(endTime) -> onPast()
+                    else -> onNow()
+                }
+            } catch (e: Exception) {
+                onFuture()
+                Log.e("LessonsAdapter", e.stackTraceToString())
+            }
+        }
+
+        private fun onPast() {
+            binding.nowIndicator.isGone = true
+            binding.titleNow.isGone = true
+            binding.title.isGone = false
+            binding.root.setCardBackgroundColor(cardColorPast)
+            binding.root.alpha = alphaPast
+            val typeColors = getTypeColors()
+            binding.type.backgroundTintList = ColorStateList.valueOf(typeColors.first)
+            binding.type.setTextColor(typeColors.second)
+        }
+
+        private fun onFuture() {
+            binding.nowIndicator.isGone = true
+            binding.titleNow.isGone = true
+            binding.title.isGone = false
+            binding.root.setCardBackgroundColor(cardColorFuture)
+            binding.root.alpha = alphaFuture
+            val typeColors = getTypeColors(binding.type.text.toString())
+            binding.type.backgroundTintList = ColorStateList.valueOf(typeColors.first)
+            binding.type.setTextColor(typeColors.second)
+
+        }
+
+        private fun onNow() {
+            binding.nowIndicator.isGone = false
+            binding.titleNow.isGone = false
+            binding.title.isGone = true
+            binding.root.setCardBackgroundColor(cardColorNow)
+            binding.root.alpha = alphaNow
+            val typeColors = getTypeColors(binding.type.text.toString())
+            binding.type.backgroundTintList = ColorStateList.valueOf(typeColors.first)
+            binding.type.setTextColor(typeColors.second)
+        }
+
+        fun unbind() {
+            timeUpdateJob?.cancel()
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonViewHolder {
+        val binding = ItemLessonBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return LessonViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
+        holder.bind(lessons[position])
+    }
+
+    override fun onViewRecycled(holder: LessonViewHolder) {
+        super.onViewRecycled(holder)
+        holder.unbind()
+    }
+
+    override fun getItemCount(): Int = lessons.size
+
+    fun updateData(newLessons: List<Lesson>) {
+        lessons = newLessons
+        notifyDataSetChanged()
     }
 }

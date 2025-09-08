@@ -9,7 +9,6 @@ import android.widget.RemoteViews
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.repository.ScheduleRepository
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import com.dertefter.neticlient.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -27,9 +26,6 @@ class CurrentWeekLabelWidget : AppWidgetProvider() {
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
-
-    @Inject
-    lateinit var userRepository: UserRepository
 
     override fun onUpdate(
         context: Context,

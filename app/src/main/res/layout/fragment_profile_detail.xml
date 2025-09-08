@@ -7,201 +7,310 @@
     android:animateLayoutChanges="true"
     android:background="?attr/colorSurface">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <com.dertefter.neticlient.common.CustomPullToRefreshLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:showDividers="middle">
+            android:layout_height="match_parent"
+        >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/vertical_divider_small"
+                android:divider="@drawable/vertical_divider"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:showDividers="middle"
-                android:visibility="visible">
+                android:showDividers="middle">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/mail"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/vertical_divider_small"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    android:visibility="visible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/profile_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:cardCornerRadius="@dimen/radius_max"
+                        app:contentPadding="@dimen/margin_max"
+                        app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/vertical_divider"
+                            android:orientation="vertical"
+                            android:showDividers="middle">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:divider="@drawable/horizontal_divider_small"
+                                android:orientation="horizontal"
+                                android:showDividers="middle">
+
+                                <FrameLayout
+                                    android:layout_width="56dp"
+                                    android:layout_height="56dp"
+                                    android:layout_gravity="center_vertical">
+
+                                    <com.google.android.material.imageview.ShapeableImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0.8"
+                                        android:background="?attr/colorSurfaceContainerHigh"
+                                        app:contentPadding="4dp"
+                                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
+                                        app:srcCompat="@drawable/person"
+                                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                                    <com.google.android.material.imageview.ShapeableImageView
+                                        android:id="@+id/profilePic"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:scaleType="centerCrop"
+                                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
+                                        app:strokeColor="@android:color/transparent"
+                                        app:strokeWidth="0dp" />
+
+                                </FrameLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/name_Tv"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="TextView"
+                                        android:textColor="?attr/colorOnSurface"
+                                        />
+
+                                    <TextView
+                                        android:id="@+id/login_tv"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+
+                                        android:textColor="?attr/colorOnSurface"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/log_out_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_gravity="end"
+                                android:backgroundTint="?attr/colorError"
+                                android:insetLeft="0dp"
+                                android:insetTop="0dp"
+                                android:insetRight="0dp"
+                                android:insetBottom="0dp"
+                                android:text="Выйти из аккаунта"
+                                android:textColor="?attr/colorOnError"
+                                app:cornerRadius="@dimen/radius" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="?attr/actionBarSize"
+
+
+                        app:layout_scrollFlags="snap"
+                        app:title="Контактная информация" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Электронная почта" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/adress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Адрес" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.edittextpicker.aliazaz.EditTextPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Телефон"
+                            android:inputType="phone"
+                            app:mask="+7 (###) ###-####" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/snils"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.edittextpicker.aliazaz.EditTextPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="СНИЛС"
+                            android:inputType="number"
+                            app:mask="###-###-### ##" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/polis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.edittextpicker.aliazaz.EditTextPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="№ полиса ОМС"
+                            android:inputType="number"
+                            app:mask="################" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/materialToolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+
+                        android:minHeight="?attr/actionBarSize"
+                        app:layout_scrollFlags="snap"
+                        app:title="Ссылки на профили в соцсетях" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/vk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="VK" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Telegram" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/leader_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
+                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
+                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
+                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Leader-ID"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/agree_checkbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
+                    android:gravity="top"
+                    android:paddingHorizontal="@dimen/margin_min"
+                    android:text="даю согласие на использование контактных данных и профилей в соцсетях для информирования меня сотрудниками НГТУ, данных СНИЛС - для передачи в Федеральный реестр сведений о документах об образовании, полис ОМС- поликлинике НГТУ."
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Электронная почта" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/adress"
+                <Button
+                    android:id="@+id/save_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
+                    android:layout_marginBottom="@dimen/margin"
+                    android:enabled="false"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Сохранить"
+                    app:cornerRadius="@dimen/radius" />
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Адрес" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.edittextpicker.aliazaz.EditTextPicker
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Телефон"
-                        android:inputType="phone"
-                        app:mask="+7 (###) ###-####" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/snils"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.edittextpicker.aliazaz.EditTextPicker
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="СНИЛС"
-                        android:inputType="number"
-                        app:mask="###-###-### ##" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/polis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.edittextpicker.aliazaz.EditTextPicker
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="№ полиса ОМС"
-                        android:inputType="number"
-                        app:mask="################" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/materialToolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-
-                    android:minHeight="?attr/actionBarSize"
-                    app:layout_scrollFlags="snap"
-                    app:title="Ссылки на профили в соцсетях" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/vk"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="VK" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Telegram" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/leader_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                    app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                    app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                    app:boxCornerRadiusTopStart="@dimen/radius_min">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Leader-ID"
-                        android:inputType="number" />
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
 
-            <CheckBox
-                android:id="@+id/agree_checkbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:gravity="top"
-                android:paddingHorizontal="@dimen/margin_min"
-                android:text="даю согласие на использование контактных данных и профилей в соцсетях для информирования меня сотрудниками НГТУ, данных СНИЛС - для передачи в Федеральный реестр сведений о документах об образовании, полис ОМС- поликлинике НГТУ."
-                android:textColor="?attr/colorOnSurfaceVariant"
-                 />
 
-            <Button
-                android:id="@+id/save_button"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="@dimen/margin"
-                android:layout_marginBottom="@dimen/margin"
-                android:enabled="false"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                android:text="Сохранить"
-                app:cornerRadius="@dimen/radius" />
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -219,106 +328,7 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:navigationIcon="@drawable/arrow_back" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profile_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
-            app:cardCornerRadius="@dimen/radius_max"
-            app:contentPadding="@dimen/margin_max"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@drawable/vertical_divider"
-                android:orientation="vertical"
-                android:showDividers="middle">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@drawable/horizontal_divider_small"
-                    android:orientation="horizontal"
-                    android:showDividers="middle">
-
-                    <FrameLayout
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_gravity="center_vertical">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.8"
-                            android:background="?attr/colorSurfaceContainerHigh"
-                            app:contentPadding="4dp"
-                            app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
-                            app:srcCompat="@drawable/person"
-                            app:tint="?attr/colorOnSurfaceVariant" />
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/profilePic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
-                            app:strokeColor="@android:color/transparent"
-                            app:strokeWidth="0dp" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/name_Tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textColor="?attr/colorOnSurface"
-                             />
-
-                        <TextView
-                            android:id="@+id/login_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:textColor="?attr/colorOnSurface"
-                             />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/log_out_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end"
-                    android:backgroundTint="?attr/colorError"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Выйти из аккаунта"
-                    android:textColor="?attr/colorOnError"
-                    app:cornerRadius="@dimen/radius" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-
-
-            app:layout_scrollFlags="snap"
-            app:title="Контактная информация" />
 
 
     </com.google.android.material.appbar.AppBarLayout>

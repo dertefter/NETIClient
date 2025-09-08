@@ -4,10 +4,14 @@ import android.content.res.Configuration
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.os.postDelayed
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -17,8 +21,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
+import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.databinding.FragmentMessagesBinding
 import com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
@@ -27,6 +34,9 @@ import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.ui.login.LoginFragment
 import com.dertefter.neticlient.ui.login.LoginReasonType
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.dertefter.neticore.features.inbox.model.Message
+import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,9 +45,10 @@ import kotlinx.coroutines.launch
 class MessagesFragment : Fragment() {
 
     lateinit var binding: FragmentMessagesBinding
-    private val messagesViewModel: MessagesViewModel by activityViewModels()
-    private val loginViewModel: LoginViewModel by activityViewModels()
 
+    lateinit var adapter: MessagesAdapter
+
+    private val messagesViewModel: MessagesViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,84 +58,85 @@ class MessagesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupUI()
-        setupObservers()
+
+    fun setupRecyclerView(){
+        adapter = MessagesAdapter(
+            onItemClick = {message ->
+                navigateToDetail(message = message)
+            },
+        )
+        binding.messagesRv.adapter = adapter
+        binding.messagesRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.messagesRv.addItemDecoration(VerticalSpaceItemDecoration(
+            R.dimen.radius_max,
+            R.dimen.radius_micro
+        ))
 
     }
 
-    private fun setupUI() {
-
-        val tabs = listOf("Преподаватели и службы", "Прочее")
-        val adapter = MessagesPagerAdapter(this)
-        adapter.setData(tabs)
-
-        binding.pager.adapter = adapter
-
-        binding.filterP1.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) return@setOnCheckedChangeListener
-            binding.pager.currentItem = 0
-        }
-
-        binding.filterP2.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) return@setOnCheckedChangeListener
-            binding.pager.currentItem = 1
-        }
-
-
-    }
-
-    private fun setupObservers() {
-
+    fun collectMessages(){
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
-
-
-                    val unauthorized = authState == AuthState.UNAUTHORIZED
-                    binding.pager.isGone = unauthorized
-
-                    if (unauthorized){
-                        binding.loginHelper.isGone = false
-                        childFragmentManager.beginTransaction().replace(binding.loginHelper.id, LoginFragment(
-                            LoginReasonType.UNAUTHORIZED)
-                        ).commit()
-                    }else{
-                        binding.loginHelper.isGone = true
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                messagesViewModel.messagesList.collect { messages ->
+                    if (messages != null){
+                        (binding.messagesRv.adapter as MessagesAdapter).updateData(messages)
                     }
                 }
             }
-        }
-
-        messagesViewModel.newCountTab1.observe(viewLifecycleOwner){ count ->
-            //TODO
-        }
-
-        messagesViewModel.newCountTab2.observe(viewLifecycleOwner){ count ->
-            //TODO
-        }
-
-        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
+            }
     }
 
-    fun openMessageDetail(messageId: String) {
-        if (binding.detail != null) {
-            showDetailInContainer(messageId)
-        } else {
-            navigateToDetail(messageId)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.appbar.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appbar))
+
+        setupRecyclerView()
+        collectMessages()
+        messagesViewModel.updateMessages()
+
+        binding.filterChips?.setOnCheckedStateChangeListener { group, checkedIds ->
+            val checked = checkedIds.first()
+            when (checked){
+                R.id.filter_all -> {
+                    adapter.setFilter(MessageFilter.ALL)
+                }
+                R.id.filter_unread -> {
+                    adapter.setFilter(MessageFilter.UNREAD)
+                }
+                R.id.filter_teacher -> {
+                    adapter.setFilter(MessageFilter.TEACHER)
+                }
+                R.id.filter_tutor -> {
+                    adapter.setFilter(MessageFilter.TUTOR)
+                }
+                R.id.filter_decan -> {
+                    adapter.setFilter(MessageFilter.DECAN)
+                }
+                R.id.filter_sluzb -> {
+                    adapter.setFilter(MessageFilter.SLUZHB)
+                }
+                R.id.filter_other -> {
+                    adapter.setFilter(MessageFilter.OTHER)
+                }
+            }
+            binding.messagesRv.doOnNextLayout {
+                (binding.messagesRv.layoutManager as? LinearLayoutManager)
+                    ?.scrollToPositionWithOffset(0, 0)
+            }
         }
+
+
+
+
     }
 
-    private fun showDetailInContainer(messageId: String) {
-        childFragmentManager.commit {
-            replace(R.id.detail, MessagesDetailFragment::class.java, bundleOf("id" to messageId, "isContainer" to true))
-            setReorderingAllowed(true)
-        }
-    }
 
-    private fun navigateToDetail(messageId: String) {
-        val args = bundleOf("id" to messageId)
+
+
+
+    private fun navigateToDetail(message: Message) {
+        val args = bundleOf("message" to message)
         findNavController().navigate(
             R.id.messagesDetailFragment,
             args,

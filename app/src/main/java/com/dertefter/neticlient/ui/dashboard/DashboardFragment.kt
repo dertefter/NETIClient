@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -26,6 +29,7 @@ import com.dertefter.neticlient.ui.dashboard.share_score_bottom_sheet.ShareScore
 import com.dertefter.neticlient.ui.login.LoginFragment
 import com.dertefter.neticlient.ui.login.LoginReasonType
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -100,7 +104,20 @@ class DashboardFragment : Fragment() {
             binding.pager.currentItem = position
         }
 
-        collectAuthState()
+        if (binding.pager.orientation == ViewPager2.ORIENTATION_VERTICAL){
+            binding.pager.isUserInputEnabled = false
+            ViewCompat.setOnApplyWindowInsetsListener(binding.pager) { v, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            or WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updatePadding(
+                    right = bars.right,
+                )
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+        
         collectSessiaResults()
         sessiaResultsViewModel.updateSessiaResults()
     }
@@ -109,61 +126,29 @@ class DashboardFragment : Fragment() {
         findNavController().navigate(destination, null, Utils.getNavOptions())
     }
 
-    private fun collectAuthState() = viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            loginViewModel.authStateFlow.collect { authState ->
-                binding.apply {
-                    val unauthorized = authState == AuthState.UNAUTHORIZED
-                    buttons.isGone = unauthorized
-                    pager.isGone = unauthorized
-
-                    if (unauthorized){
-                        loginHelper.isGone = false
-                        childFragmentManager.beginTransaction().replace(loginHelper.id, LoginFragment(
-                            LoginReasonType.UNAUTHORIZED)
-                        ).commit()
-                    }else{
-                        loginHelper.isGone = true
-                    }
-                }
-            }
-        }
-    }
 
     private fun collectSessiaResults() = viewLifecycleOwner.lifecycleScope.launch {
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            sessiaResultsViewModel.uiStateFlow.collect { uiState ->
-                val results = uiState.data as SessiaResults?
-                when (uiState.responseType) {
-                    ResponseType.LOADING -> {
-                        if (results == null) {
-                            binding.skeleton.isGone = false
-                            binding.emptyView.isGone = true
-                            binding.chart?.isGone = true
-                            binding.horizChart?.isGone = true
-                        }
+            sessiaResultsViewModel.sessiaResults.collect { sessiaResults ->
+
+                if (sessiaResults == null) {
+                    binding.skeleton.isGone = false
+                    binding.emptyView.isGone = true
+                    binding.chart?.isGone = true
+                    binding.horizChart?.isGone = true
+                } else {
+                    binding.skeleton.isGone = true
+                    val hasData = !sessiaResults.semestrs.isNullOrEmpty()
+                    binding.emptyView.isGone = hasData
+                    if (hasData) {
+                        binding.chart?.isGone = false
+                        binding.horizChart?.isGone = false
+                        pagerAdapter.setData(sessiaResults.semestrs!!)
+                        binding.chart?.data = sessiaResults.semestrs!!
+                        binding.horizChart?.data = sessiaResults.semestrs!!
                     }
-                    ResponseType.SUCCESS -> {
-                        binding.skeleton.isGone = true
-                        val hasData = !results?.semestrs.isNullOrEmpty()
-                        binding.emptyView.isGone = hasData
-
-
-
-                        if (hasData) {
-                            binding.chart?.isGone = false
-                            binding.horizChart?.isGone = false
-                            pagerAdapter.setData(results!!.semestrs)
-                            binding.chart?.data = results!!.semestrs
-                            binding.horizChart?.data = results!!.semestrs
-                        }
-
-
-
-
-                    }
-                    else -> {}
                 }
+
             }
         }
     }

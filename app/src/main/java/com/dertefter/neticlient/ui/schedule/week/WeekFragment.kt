@@ -7,27 +7,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.PathInterpolator
 import android.widget.TextView
-import androidx.core.view.indices
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.Week
 import com.dertefter.neticlient.databinding.FragmentWeekBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleFragment
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
+import com.dertefter.neticore.features.schedule.model.Week
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -76,6 +67,7 @@ class WeekFragment : Fragment() {
         }
 
         if (week != null){
+            Log.e("sdshjdsjhkcds", week.toString())
             adapter.updateData(week)
             val inflater = LayoutInflater.from(requireContext())
             mediator?.detach()
@@ -159,28 +151,6 @@ class WeekFragment : Fragment() {
                 }
             }
             binding.pager.registerOnPageChangeCallback(pagerCallback as ViewPager2.OnPageChangeCallback)
-
-
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    val currentWeekNumber = scheduleViewModel.weekNumberFlow.first()
-                    if (currentWeekNumber == week.weekNumber){
-                        val dayNumber = CurrentTimeObject.currentDayLiveData.value
-                        if (dayNumber!= null && dayNumber < 7){
-
-                            daysTabLayout.selectTab(
-                                daysTabLayout.getTabAt(CurrentTimeObject.currentDayLiveData.value!! - 1), false
-                            )
-                            daysTabLayout.selectTab(
-                                daysTabLayout.getTabAt(CurrentTimeObject.currentDayLiveData.value!! - 1),
-                            )
-                        }
-                    }
-                }
-            }
-
-
 
         }
 

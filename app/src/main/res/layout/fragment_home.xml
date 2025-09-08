@@ -11,6 +11,74 @@
     android:background="@drawable/rounded_background"
     android:backgroundTint="?attr/colorSurface">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:fitsSystemWindows="true"
+        android:showDividers="beginning"
+        app:elevation="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/margin_max"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <TextView
+                android:id="@+id/week_label"
+                style="@style/NETIClient.TextStyle.SexyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center|start"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                tools:text="1 учебная нежеля" />
+
+        </FrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/promoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:clipToPadding="false"
+            android:contentDescription="@string/news_list"
+            android:fadingEdge="none"
+            android:nestedScrollingEnabled="false"
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_min"
+            android:requiresFadingEdge="none"
+            android:visibility="visible"
+            app:layout_scrollFlags="scroll"
+            tools:listitem="@layout/item_promo_carusel">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/margin">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorSurfaceContainer"
+                android:hint="Поиск чего угодно!"
+                app:backgroundTint="?attr/colorSurfaceContainer"
+                app:defaultMarginsEnabled="false"
+                app:elevation="0dp"
+                app:hideNavigationIcon="false"
+                app:layout_scrollFlags="noScroll" />
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -26,6 +94,73 @@
             android:orientation="vertical"
             android:showDividers="middle|beginning">
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tg_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardCornerRadius="@dimen/radius_max">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    app:srcCompat="@drawable/gradient_background"
+                    app:tint="?attr/colorTertiaryContainer" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/horizontal_divider"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/margin"
+                    android:showDividers="middle">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/margin_micro"
+                        app:srcCompat="@drawable/telegram_logo"
+                        app:tint="?attr/colorTertiary" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:divider="@drawable/vertical_divider_micro"
+                        android:orientation="vertical"
+                        android:showDividers="middle">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="24dp"
+                            android:text="Дневничок разработки NETI Client"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                            android:textColor="?attr/colorTertiary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Подпишитесь, чтобы следить за обновлениями!"
+                            android:textColor="?attr/colorOnSurface" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/close_tg"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end"
+                    app:icon="@drawable/close_icon"
+                    app:iconTint="?attr/colorOnSurfaceVariant" />
+
+            </com.google.android.material.card.MaterialCardView>
+
             <LinearLayout
                 android:id="@+id/schedule_block"
                 android:layout_width="match_parent"
@@ -37,38 +172,52 @@
                 android:showDividers="middle">
 
 
-                <FrameLayout
-                    android:id="@+id/date_group_container"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:maxWidth="240dp"
-                            android:text="Ближайшие занятия"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <TextView
-                            android:id="@+id/date_text_view"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textColor="?attr/colorOnSurface"
-                            android:visibility="gone" />
+                            <TextView
 
-                    </LinearLayout>
+                                android:id="@+id/date_tv1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/near_lessons"
+                                android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
-                </FrameLayout>
+                            <TextView
+                                android:id="@+id/date_tv2"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Ближайшие занятия"
+                                android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                                android:textColor="?attr/colorPrimary"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/group_button"
+                            style="@style/Widget.Material3Expressive.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:visibility="gone"
+                            app:icon="@drawable/edit_icon" />
+                    </FrameLayout>
+
+                </LinearLayout>
 
                 <include
                     android:id="@+id/load_fail_schedule"
@@ -158,7 +307,9 @@
                     android:id="@+id/schedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:divider="@drawable/vertical_divider_small"
                     android:orientation="vertical"
+                    android:showDividers="middle"
                     android:visibility="visible">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -171,7 +322,8 @@
                         android:isScrollContainer="false"
                         android:nestedScrollingEnabled="false"
                         android:requiresFadingEdge="none"
-                        tools:itemCount="1"
+                        android:visibility="visible"
+                        tools:itemCount="2"
                         tools:listitem="@layout/item_time" />
 
                     <TextView
@@ -183,8 +335,7 @@
                         android:text="@string/no_lessons_for_all"
                         android:textColor="?attr/colorOnSurfaceVariant"
 
-                        android:visibility="gone"
-                        tools:visibility="gone" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/button_schedule_all"
@@ -230,7 +381,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:paddingHorizontal="@dimen/radius_max"
                         android:paddingTop="@dimen/margin_min"
+                        app:chipSpacingHorizontal="@dimen/margin_micro"
                         app:chipSpacingVertical="0dp"
                         app:selectionRequired="true"
                         app:singleSelection="true">
@@ -242,6 +395,7 @@
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="@string/filter_news_all"
+                            app:chipCornerRadius="@dimen/radius_micro"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -251,6 +405,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_news"
+                            app:chipCornerRadius="@dimen/radius_micro"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -260,6 +415,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_obj"
+                            app:chipCornerRadius="@dimen/radius_micro"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -269,6 +425,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_interv"
+                            app:chipCornerRadius="@dimen/radius_micro"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -278,6 +435,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_photo"
+                            app:chipCornerRadius="@dimen/radius_micro"
                             app:ensureMinTouchTargetSize="false" />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -303,82 +461,16 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
 
-
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/up_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:fitsSystemWindows="true"
-        android:showDividers="beginning"
-        app:elevation="0dp">
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_max"
+        android:contentDescription="top"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/arrow_upward" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin_max"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
-            <TextView
-                android:id="@+id/week_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:gravity="center|start"
-                android:maxWidth="1000dp"
-                android:paddingVertical="@dimen/margin"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
-                android:textColor="?attr/colorTertiary"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                tools:text="1 учебная нежеля" />
-
-            <Button
-                android:id="@+id/group_button"
-                style="@style/Widget.Material3Expressive.Button.TonalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:text="Button" />
-
-        </FrameLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/promoRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:clipToPadding="false"
-            android:contentDescription="@string/news_list"
-            android:fadingEdge="none"
-            android:nestedScrollingEnabled="false"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
-            android:requiresFadingEdge="none"
-            android:visibility="visible"
-            app:layout_scrollFlags="scroll"
-            tools:listitem="@layout/item_promo_carusel">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingHorizontal="@dimen/margin">
-
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSurfaceContainer"
-                android:hint="Поиск чего угодно!"
-                app:backgroundTint="?attr/colorSurfaceContainer"
-                app:defaultMarginsEnabled="false"
-                app:hideNavigationIcon="false"
-                app:layout_scrollFlags="noScroll" />
-        </FrameLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

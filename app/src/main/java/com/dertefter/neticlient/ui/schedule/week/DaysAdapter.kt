@@ -3,8 +3,8 @@ package com.dertefter.neticlient.ui.schedule.week
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dertefter.neticlient.data.model.schedule.Day
-import com.dertefter.neticlient.data.model.schedule.Week
+import com.dertefter.neticore.features.schedule.model.Day
+import com.dertefter.neticore.features.schedule.model.Week
 import com.dertefter.neticlient.ui.schedule.week.day.DayFragment
 
 class DaysAdapter(val fragment: WeekFragment) : FragmentStateAdapter(fragment) {

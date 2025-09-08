@@ -78,6 +78,18 @@ class SettingsRepository @Inject constructor(
         }
     }
 
+    fun getTgShow(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[booleanPreferencesKey("TgShow")] ?: true
+        }
+    }
+
+    suspend fun setTgShow(enable: Boolean) {
+        dataStore.edit { pref ->
+            pref[booleanPreferencesKey("TgShow")] = enable
+        }
+    }
+
     suspend fun setCurrentLessonNotification(enable: Boolean) {
         dataStore.edit { pref ->
             pref[booleanPreferencesKey("currentLessonNotification")] = enable

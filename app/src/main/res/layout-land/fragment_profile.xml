@@ -58,6 +58,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
+                    style="@style/NETIClient.TextStyle.SexyTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
@@ -67,8 +68,6 @@
                     android:paddingHorizontal="@dimen/margin"
                     android:paddingVertical="@dimen/margin"
                     android:text="@string/profile_title"
-                    android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
-                    android:textColor="?attr/colorTertiary"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
             </com.google.android.material.appbar.AppBarLayout>

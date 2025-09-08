@@ -14,7 +14,7 @@ import com.dertefter.neticlient.data.model.money.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.news.PromoItem
-import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticore.features.person_detail.model.Person
 import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
 import com.dertefter.neticlient.data.network.model.ResponseResult
@@ -39,12 +39,12 @@ import javax.inject.Singleton
 class NetworkClient @Inject constructor(
     private val context: Context,
     private var client: OkHttpClient,
-    private var dispaceClient: OkHttpClient,
     @Named("auth") private var authRetrofit: Retrofit,
     @Named("ciu") private var ciuRetrofit: Retrofit,
     @Named("base") private var baseRetrofit: Retrofit,
     @Named("testAuth") private var testAuthRetrofit: Retrofit,
-    @Named("dispace") private var dispaceRetrofit: Retrofit
+    @Named("dispace") private var dispaceRetrofit: Retrofit,
+    @Named("mobile") private var mobileRetrofit: Retrofit
 ) {
     var authApiService: ApiService = authRetrofit.create(ApiService::class.java)
     var ciuApiService: ApiService = ciuRetrofit.create(ApiService::class.java)
@@ -52,10 +52,13 @@ class NetworkClient @Inject constructor(
     var testAuthApiService: ApiService = testAuthRetrofit.create(ApiService::class.java)
     var dispaceApiService: ApiService = dispaceRetrofit.create(ApiService::class.java)
 
-    fun rebuildClientWithToken(token: String?) {
+    var mobileApiService: ApiService = mobileRetrofit.create(ApiService::class.java)
+
+    fun rebuildClient() {
 
         val cookieManager = CookieManager()
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
+
 
         val cookieJar = object : CookieJar {
             val cookieStore: HashMap<String, List<Cookie>> = HashMap()
@@ -70,10 +73,6 @@ class NetworkClient @Inject constructor(
         }
         client = OkHttpClient.Builder().cookieJar(JavaNetCookieJar(cookieManager)).build()
 
-        dispaceClient = client
-
-
-
         authRetrofit = authRetrofit.newBuilder().client(client).build()
         ciuRetrofit = ciuRetrofit.newBuilder().client(client).build()
         baseRetrofit = baseRetrofit.newBuilder().client(client).build()
@@ -87,47 +86,42 @@ class NetworkClient @Inject constructor(
         testAuthApiService = testAuthRetrofit.create(ApiService::class.java)
     }
 
-    suspend fun getResponseFromAuthIdRequest(): ResponseFromAuthIdRequest? {
-        return try {
-            val response = authApiService.requestAuthId()
-            if (response.isSuccessful) {
-                Gson().fromJson(response.body()?.string(), ResponseFromAuthIdRequest::class.java)
-            } else null
-        } catch (e: Exception) {
-            null
-        }
-    }
 
     suspend fun authUser(login: String, password: String): ResponseResult {
        try {
-           rebuildClientWithToken(null)
+           rebuildClient()
            val response1 = testAuthApiService.tst1()
            val respBody1 = response1.body()?.string().toString()
-           if (respBody1 != null){
-                val params = HtmlParser().extractFormParams(respBody1)
-                val paramLoginPassword = HashMap<String?, String?>()
-               paramLoginPassword["username"] = login
-               paramLoginPassword["selected_subset"] = ""
-               paramLoginPassword["username-visible"] = login
-               paramLoginPassword["password"] = password
-               paramLoginPassword["credentialId"] = ""
+           val params = HtmlParser().extractFormParams(respBody1)
+           val paramLoginPassword = HashMap<String?, String?>()
+           paramLoginPassword["username"] = login
+           paramLoginPassword["selected_subset"] = ""
+           paramLoginPassword["username-visible"] = login
+           paramLoginPassword["password"] = password
+           paramLoginPassword["credentialId"] = ""
 
-                val resp2 = testAuthApiService.tst2(
-                    session_code = params.get("session_code")!!,
-                    execution = params.get("execution")!!,
-                    client_id = params.get("client_id")!!,
-                    tab_id = params.get("tab_id")!!,
-                    client_data = params.get("client_data")!!,
-                    params = paramLoginPassword
-                )
-               return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
+           val resp2 = testAuthApiService.tst2(
+               session_code = params["session_code"]!!,
+               execution = params["execution"]!!,
+               client_id = params["client_id"]!!,
+               tab_id = params["tab_id"]!!,
+               client_data = params["client_data"]!!,
+               params = paramLoginPassword
+           )
 
-           }
+           val paramsForMobileAuth = HashMap<String?, String?>()
+           paramsForMobileAuth["X-Username"] = login
+           paramsForMobileAuth["X-Password"] = password
 
-           return ResponseResult(ResponseType.ERROR, "Ошибка сети:")
+           val mobile_resp = mobileApiService.newAuth(true, paramsForMobileAuth)
+
+           Log.e("mobile_auth_stats", mobile_resp.body()?.string().toString())
+
+           return ResponseResult(ResponseType.SUCCESS, "Успешный вход")
+
         } catch (e: Exception) {
             Log.e("eeee", e.stackTraceToString())
-            return ResponseResult(ResponseType.ERROR, "Ошибка сети: ${e.message}")
+            return ResponseResult(ResponseType.ERROR, "Ошибка авторизации: ${e.message}")
         }
     }
 

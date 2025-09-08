@@ -13,9 +13,6 @@ import retrofit2.http.Query
 import retrofit2.http.Streaming
 
 interface ApiService {
-
-    //авторизация
-
     @POST("ssoservice/json/authenticate")
     suspend fun auth(@Body requestBody: RequestBody): Response<ResponseBody>
 
@@ -167,5 +164,11 @@ interface ApiService {
     @GET("campus")
     suspend fun getPhotoList(
     ): Response<ResponseBody>
+
+
+    @POST("token/new-auth")
+    suspend fun newAuth(@Query("disableNotification") disableNotification: Boolean = true,
+                        @Body params: HashMap<String?, String?>): Response<ResponseBody>
+
 
 }

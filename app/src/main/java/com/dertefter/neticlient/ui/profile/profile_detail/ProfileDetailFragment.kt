@@ -2,6 +2,7 @@ package com.dertefter.neticlient.ui.profile.profile_detail
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,9 @@ import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.ui.fullscreen_image_dialog.FullscreenImageDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -36,8 +40,6 @@ class ProfileDetailFragment : Fragment() {
     lateinit var binding: FragmentProfileDetailBinding
 
     private val loginViewModel: LoginViewModel by activityViewModels()
-    private val profileViewModel: ProfileViewModel by viewModels()
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val profileDetailViewModel: ProfileDetailViewModel by viewModels()
 
     override fun onCreateView(
@@ -53,6 +55,28 @@ class ProfileDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+
+            binding.nestedScrollView.updatePadding(
+                bottom = bars.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            if (profileDetailViewModel.userDetail.first() == null){
+                profileDetailViewModel.updateUserDetail()
+            }
+        }
+
+
+
 
         binding.agreeCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.saveButton.isEnabled = isChecked
@@ -84,8 +108,9 @@ class ProfileDetailFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                profileDetailViewModel.uiStateFlow.collect { uiState ->
-                    val enabledInput = uiState.responseType != ResponseType.LOADING
+                profileDetailViewModel.userDetail.collect { userDetail ->
+                    Log.e("userDetail", userDetail.toString())
+                    val enabledInput = userDetail != null
                     binding.saveButton.isGone = !enabledInput
                     binding.mail.isEnabled = enabledInput
                     binding.adress.isEnabled = enabledInput
@@ -96,47 +121,37 @@ class ProfileDetailFragment : Fragment() {
                     binding.tg.isEnabled = enabledInput
                     binding.leaderId.isEnabled = enabledInput
 
-                    val details = uiState.data as ProfileDetail?
-                    if (details != null){
-                        binding.mail.editText?.setText(details.email)
-                        binding.adress.editText?.setText(details.address)
-                        binding.phone.editText?.setText(details.phone)
-                        binding.snils.editText?.setText(details.snils)
-                        binding.polis.editText?.setText(details.polis)
-                        binding.vk.editText?.setText(details.vk)
-                        binding.tg.editText?.setText(details.telegram)
-                        binding.leaderId.editText?.setText(details.leaderId)
+                    if (userDetail != null){
+                        binding.mail.editText?.setText(userDetail.email)
+                        binding.adress.editText?.setText(userDetail.address)
+                        binding.phone.editText?.setText(userDetail.mobilePhoneNumber)
+                        binding.snils.editText?.setText(userDetail.snils)
+                        binding.polis.editText?.setText(userDetail.polis)
+                        binding.vk.editText?.setText(userDetail.vk)
+                        binding.tg.editText?.setText(userDetail.tg)
+                        binding.leaderId.editText?.setText(userDetail.leaderId)
                     }
                 }
             }
         }
-
-        profileDetailViewModel.updateProfileDetails()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userFlow.collect { it ->
-                    if (it != null){
-                        binding.nameTv.text = it.name
-                        binding.loginTv.text = it.login
-                        if (!it.profilePicPath.isNullOrEmpty()){
-                            val file = File(it.profilePicPath)
-                            if (file.exists()){
-                                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                                binding.profilePic.setImageBitmap(bitmap)
-                                binding.profilePic.setOnClickListener {
-                                    val dialog = FullscreenImageDialog().apply {arguments = Bundle().apply { putParcelable("bitmap", bitmap) } }
-                                    dialog.show(childFragmentManager, "FullscreenImageDialog")
-                                }
-                            }
-                        }
-                    }
+                profileDetailViewModel.status.collect { status ->
+
+                    binding.refreshLayout.setStatus(status)
+
                 }
             }
         }
 
+        binding.refreshLayout.setOnRefreshListener {
+            profileDetailViewModel.updateUserDetail()
+        }
+
+
+
         binding.logOutButton.setOnClickListener {
-            loginViewModel.logout()
             findNavController().popBackStack()
         }
 

@@ -78,36 +78,6 @@ class NewsAdapter(
         if (holder is NewsViewHolder && position < currentList.size) {
             holder.bind(currentList[position])
 
-            val context = holder.itemView.context
-            val cardView = holder.itemView as com.google.android.material.card.MaterialCardView
-            val radiusMax = context.resources.getDimension(R.dimen.radius_max)
-            val radiusMin = context.resources.getDimension(R.dimen.radius_micro)
-
-            val shapeModel = when (position) {
-                0 -> ShapeAppearanceModel()
-                    .toBuilder()
-                    .setTopLeftCorner(CornerFamily.ROUNDED, radiusMax)
-                    .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
-                    .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
-                    .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
-                    .build()
-
-                itemCount - 1 -> ShapeAppearanceModel()
-                    .toBuilder()
-                    .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
-                    .setTopRightCorner(CornerFamily.ROUNDED, radiusMin)
-                    .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMax)
-                    .setBottomRightCorner(CornerFamily.ROUNDED, radiusMax)
-                    .build()
-
-                else -> ShapeAppearanceModel()
-                    .toBuilder()
-                    .setAllCorners(CornerFamily.ROUNDED, radiusMin)
-                    .build()
-            }
-
-            cardView.shapeAppearanceModel = shapeModel
-
         }
 
 
@@ -136,6 +106,32 @@ class NewsAdapter(
         }
 
         fun bind(item: NewsItem) {
+
+            val context = itemView.context
+            val cardView = binding.newsCard
+            val marginMin = context.resources.getDimension(R.dimen.margin_micro).toFloat()
+
+            val radiusMin = context.resources.getDimension(R.dimen.radius_micro).toFloat() - marginMin
+            val radiusMax = context.resources.getDimension(R.dimen.radius_max).toFloat() - marginMin
+
+            val shapeModel = when (bindingAdapterPosition) {
+                0 -> ShapeAppearanceModel()
+                    .toBuilder()
+                    .setTopLeftCorner(CornerFamily.ROUNDED, radiusMax)
+                    .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
+                    .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
+                    .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
+                    .build()
+
+                else -> ShapeAppearanceModel()
+                    .toBuilder()
+                    .setAllCorners(CornerFamily.ROUNDED, radiusMin)
+                    .build()
+            }
+
+            cardView?.shapeAppearanceModel = shapeModel
+
+
             binding.title.text = item.title
             binding.tags.text = item.tags
             binding.type.text = item.type
@@ -157,7 +153,8 @@ class NewsAdapter(
                 .into(binding.newsBackground, object : Callback {
                     override fun onSuccess() {
                         CoroutineScope(Dispatchers.IO).launch {
-                            val bitmap = binding.newsBackground.drawable.toBitmap().scale(10, 10, false)
+                            val bitmap: Bitmap = binding.newsBackground.drawable?.toBitmap()?.scale(10, 10, false)?: return@launch
+
                             val newContext: Context = DynamicColors.wrapContextIfAvailable(
                                 binding.root.context,
                                 DynamicColorsOptions.Builder()
@@ -166,7 +163,7 @@ class NewsAdapter(
                             )
 
                             var cardBg = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorSurfaceContainerHigh, Color.GRAY)
-                            var titleColor = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorOnSurface, Color.GRAY)
+                            var titleColor = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorSecondary, Color.GRAY)
                             var typeBg = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorPrimaryContainer, Color.GRAY)
                             var typeColor = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorOnPrimaryContainer, Color.GRAY)
                             var tagsColor = MaterialColors.getColor(newContext, com.google.android.material.R.attr.colorOnSurfaceVariant, Color.GRAY)

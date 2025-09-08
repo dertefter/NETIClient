@@ -1,15 +1,10 @@
 package com.dertefter.neticlient.ui.dashboard.share_score_bottom_sheet
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.profile_menu.ProfileMenuItem
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.SessiaResultsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

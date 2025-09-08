@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.schedule.Week
+import com.dertefter.neticore.features.schedule.model.Week
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 

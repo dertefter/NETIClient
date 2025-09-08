@@ -1,10 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
+    <style name="NETIClient.DialogTheme" parent="Theme.Material3.DayNight.Dialog">
+        <item name="android:windowBackground">@drawable/rounded_background</item>
+    </style>
+
+
     <style name="NETIClient.SplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/md_theme_surface</item>
+        <item name="windowSplashScreenBackground">@color/md_theme_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
-        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="windowSplashScreenAnimationDuration">1800</item>
         <item name="postSplashScreenTheme">@style/NETIClient.StaticTheme</item>
     </style>
 
@@ -14,7 +19,6 @@
 
         <item name="appBarLayoutStyle">@style/NETIClient.Widget.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/NETIClient.Widget.CardView</item>
-        <item name="bottomSheetDialogTheme">@style/NETIClient.ThemeOverlay.BottomSheetDialog</item>
 
     </style>
 

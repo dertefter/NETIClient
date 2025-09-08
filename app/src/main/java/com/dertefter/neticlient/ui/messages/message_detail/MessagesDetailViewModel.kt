@@ -8,23 +8,22 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.CourcesRepository
 import com.dertefter.neticlient.data.repository.MessagesRepository
 import com.dertefter.neticlient.data.repository.NewsRepository
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class MessagesDetailViewModel @Inject constructor(
-    private val messagesRepository: MessagesRepository
-): ViewModel() {
+class MessagesDetailViewModel: ViewModel() {
 
-    val messageDetailLiveData = MutableLiveData<ResponseResult>()
+    val inboxFeature = NETICore.inboxFeature
 
-    fun fetchMessageDetail(id: String){
+    fun readMessage(idStudent: Int, idMessage: Int, isRead: Int){
         viewModelScope.launch {
-            messageDetailLiveData.postValue(ResponseResult(ResponseType.LOADING))
-            val responseResult = messagesRepository.fetchMessageDetail(id)
-            messageDetailLiveData.postValue(responseResult)
+            inboxFeature.updateMessageReadStatus(idStudent, idMessage, isRead)
         }
+
     }
+
+
 
 }

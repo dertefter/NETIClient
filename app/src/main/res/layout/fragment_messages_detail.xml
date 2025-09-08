@@ -6,196 +6,134 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@drawable/rounded_background"
-    android:backgroundTint="?attr/colorSurface">
+    android:backgroundTint="?attr/colorSurfaceContainerHigh">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:showDividers="middle"
-        app:liftOnScroll="false">
-
-        <Button
-            android:id="@+id/back_button"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginTop="@dimen/margin_min"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/back_button_disc"
-            android:paddingVertical="@dimen/margin_min"
-            app:icon="@drawable/arrow_back"
-            app:iconPadding="0dp"
-            app:iconSize="24dp"
-            app:iconTint="?attr/colorOnSurface"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
-
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge.Emphasized"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:visibility="gone"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+        android:showDividers="none"
+        app:liftOnScroll="true"
+        app:liftOnScrollColor="?attr/colorSurfaceContainerHigh">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/radius_max"
+            android:paddingVertical="@dimen/margin_min"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-            <TextView
-                android:id="@+id/person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/back_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold" />
+                android:backgroundTint="?attr/colorSurfaceContainerLow"
+                app:icon="@drawable/arrow_back"
+                app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/date"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_weight="1"
-                android:textColor="?attr/colorOnSecondaryContainer" />
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:divider="@drawable/horizontal_divider_micro"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profile_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    app:cardBackgroundColor="@android:color/transparent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceVariant"
+                        app:contentPadding="4dp"
+                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
+                        app:srcCompat="@drawable/person"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profilePic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <Button
+                    android:id="@+id/delete_button"
+                    style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_weight="1"
+                    android:insetLeft="4dp"
+                    android:insetTop="4dp"
+                    android:insetRight="4dp"
+                    android:insetBottom="4dp"
+                    app:icon="@drawable/delete_icon"
+                    app:iconGravity="textStart"
+                    app:iconSize="24dp" />
+            </LinearLayout>
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:paddingHorizontal="@dimen/radius_max"
+            android:paddingVertical="@dimen/margin_min"
+            android:text="17.96.46"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+            android:textColor="?attr/colorSecondary" />
+
     </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginBottom="24dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginEnd="200dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginEnd="140dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:cardMaxElevation="0dp" />
-    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:alpha="1"
-        android:visibility="gone"
+        android:background="@drawable/rounded_background_big"
+        android:backgroundTint="?attr/colorSurface"
+        android:clipToPadding="false"
+        android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingStart="@dimen/margin"
-            android:paddingTop="@dimen/margin"
-            android:paddingEnd="@dimen/margin"
-            android:paddingBottom="24dp">
+            android:paddingStart="@dimen/margin_max"
+            android:paddingTop="@dimen/margin_max"
+            android:paddingEnd="@dimen/margin_max"
+            android:paddingBottom="24dp"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                android:textColor="?attr/colorOnSurface"
+                android:visibility="visible"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
             <TextView
                 android:id="@+id/content"
@@ -209,35 +147,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:id="@+id/error_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:divider="@drawable/vertical_divider"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:showDividers="middle"
-        android:visibility="gone"
-        tools:showIn="@layout/fragment_news">
-
-        <TextView
-            android:id="@+id/error_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-
-            android:text="Не удалось загрузить данные"
-             />
-
-        <Button
-            android:id="@+id/retry_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Повторить попытку" />
-    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

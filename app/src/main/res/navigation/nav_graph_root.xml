@@ -8,4 +8,25 @@
     <include app:graph="@navigation/nav_graph_dashboard"/>
     <include app:graph="@navigation/nav_graph_inbox" />
     <include app:graph="@navigation/nav_graph_profile" />
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.dertefter.neticlient.ui.on_boarding.OnBoardingFragment"
+        android:label="OnBoardingFragment"
+        tools:layout="@layout/fragment_on_boarding" />
+    <include app:graph="@navigation/nav_graph_search" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:name="com.dertefter.neticlient.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_themeCreatorFragment"
+            app:destination="@id/themeCreatorFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_theme_creator"
+        android:id="@+id/themeCreatorFragment"
+        android:name="com.dertefter.neticlient.ui.settings.theme_creator.ThemeCreatorFragment"
+        android:label="ThemeCreatorFragment" />
 </navigation>

@@ -6,22 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
-import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
-import com.dertefter.neticlient.databinding.FragmentLessonViewBinding
 import com.dertefter.neticlient.databinding.FragmentWebViewBottomSheetBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
-import com.dertefter.neticlient.ui.person.PersonListStyle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 
 

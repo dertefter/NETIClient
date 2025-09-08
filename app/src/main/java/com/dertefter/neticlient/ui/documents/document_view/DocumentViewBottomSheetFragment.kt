@@ -1,26 +1,15 @@
 package com.dertefter.neticlient.ui.documents.document_view
 
 import android.app.Dialog
-import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
-import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.data.model.documents.DocumentsItem
-import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
 import com.dertefter.neticlient.databinding.FragmentDocumentViewBinding
-import com.dertefter.neticlient.databinding.FragmentLessonViewBinding
 import com.dertefter.neticlient.ui.documents.DocumentsViewModel
-import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
-import com.dertefter.neticlient.ui.person.PersonListStyle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

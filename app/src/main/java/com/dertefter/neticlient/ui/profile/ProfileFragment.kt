@@ -1,12 +1,15 @@
 package com.dertefter.neticlient.ui.profile
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isGone
@@ -22,12 +25,15 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
+import com.dertefter.neticlient.common.item_decoration.HorizontalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.FragmentProfileBinding
 import com.dertefter.neticlient.ui.login.LoginFragment
 import com.dertefter.neticlient.ui.login.LoginReasonType
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -56,6 +62,35 @@ class ProfileFragment : Fragment() {
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
+        profileViewModel.updateLks()
+        profileViewModel.updateUserDetail()
+        val lksAdapter = LksAdapter(
+            onItemClick = { lks ->
+                if (lks.id != null){
+                    profileViewModel.setLksById(lks.id!!)
+                }else{
+                    Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+
+        binding.lksRecyclerView?.adapter = lksAdapter
+        binding.lksRecyclerView?.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.lksRecyclerView?.addItemDecoration(
+            HorizontalSpaceItemDecoration(R.dimen.margin_min)
+        )
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                profileViewModel.lksList.collect { lksList ->
+                    Log.e("lksList", lksList.toString())
+                    lksAdapter.updateItems(lksList)
+                    binding.lksRecyclerView?.isGone = lksList.isEmpty()
+                }
+            }
+        }
+
 
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
@@ -74,40 +109,7 @@ class ProfileFragment : Fragment() {
         binding.studentsRv.layoutManager = LinearLayoutManager(requireContext())
 
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                profileViewModel.studentsFlow.collect { students ->
-                    if (!students.isNullOrEmpty()) {
-                        studentsAdapter.updateStudents(students)
-                        binding.expandGroup.visibility = View.VISIBLE
 
-                        binding.expandGroup.setOnClickListener {
-                            binding.studentsRv.isGone = false
-                            binding.expandGroup.visibility = View.GONE
-                            binding.shrinkGroup.visibility = View.VISIBLE
-                            val transition = AutoTransition().apply {
-                                duration = 200
-                            }
-                            TransitionManager.beginDelayedTransition(binding.list, transition)
-                        }
-
-                        binding.shrinkGroup.setOnClickListener {
-                            binding.studentsRv.isGone = true
-                            binding.expandGroup.visibility = View.VISIBLE
-                            binding.shrinkGroup.visibility = View.GONE
-                            val transition = AutoTransition().apply {
-                                duration = 200
-                            }
-                            TransitionManager.beginDelayedTransition(binding.list, transition)
-                        }
-
-                    } else {
-                        binding.shrinkGroup.visibility = View.GONE
-                        binding.expandGroup.visibility = View.GONE
-                    }
-                }
-            }
-        }
 
         binding.statusError.setOnClickListener {
             loginViewModel.tryAuthorize()
@@ -115,10 +117,10 @@ class ProfileFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
+                loginViewModel.authStatus.collect { authStatus ->
 
 
-                    val unauthorized = authState == AuthState.UNAUTHORIZED
+                    val unauthorized = authStatus == AuthStatusType.UNAUTHORIZED
 
                     if (unauthorized){
                         binding.loginHelper.isGone = false
@@ -135,13 +137,12 @@ class ProfileFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
+                loginViewModel.authStatus.collect { authStatus ->
 
 
-                    binding.statusError.isGone = authState != AuthState.AUTHORIZED_WITH_ERROR
-                    binding.statusLoading.isGone = authState != AuthState.AUTHORIZING
-                    binding.statusAuth.isGone = authState != AuthState.AUTHORIZED
-                    binding.statusAuth.setOnClickListener {
+                    binding.statusError.isGone = authStatus != AuthStatusType.AUTHORIZED_WITH_ERROR
+                    binding.statusLoading.isGone = authStatus != AuthStatusType.LOADING
+                    binding.editButton?.setOnClickListener {
                         findNavController().navigate(
                             R.id.profileDetailFragment,
                             null,
@@ -149,7 +150,7 @@ class ProfileFragment : Fragment() {
                         )
                     }
 
-                    if (authState == AuthState.UNAUTHORIZED){
+                    if (authStatus == AuthStatusType.UNAUTHORIZED){
                         binding.moneyButton.setOnClickListener {
                             findNavController().navigate(
                                 R.id.loginFragment,
@@ -166,7 +167,6 @@ class ProfileFragment : Fragment() {
                             )
                         }
                     }else{
-                        profileViewModel.updateStudents()
 
                         binding.moneyButton.setOnClickListener {
                             findNavController().navigate(
@@ -190,35 +190,43 @@ class ProfileFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userFlow.collect { user ->
-                    binding.groupCart.isVisible = !user?.group.isNullOrEmpty()
+                loginViewModel.userDetail.collect { user ->
+                    binding.groupCart.isVisible = !user?.symGroup.isNullOrEmpty()
 
                     if (!user?.name.isNullOrEmpty()){
-                        if (user.name.split(" ").size >= 2){
-                            binding.name.text = user.name.split(" ")[1]
-                        }else{
-                            binding.name.text = user.name
-                        }
-
-                        binding.groupName.text = user.group
-
-
-
+                        binding.name.text = user.name
+                        binding.groupName.text = user.symGroup
                         binding.email.text = user.login
+                    }
 
-                        if (!user.profilePicPath.isNullOrEmpty()){
-                            val file = File(user.profilePicPath)
-                            if (file.exists()){
-                                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                                binding.avatarShape.setImageBitmap(bitmap)
-                            }
-                        } else{
-                            binding.avatarShape.isGone = true
-                        }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.userDetailMobile.collect { userDetail ->
+                    Log.e("userMoble", userDetail.toString())
+                    if (!userDetail?.photoPath.isNullOrEmpty()){
+
+                        Picasso.get()
+                            .load(userDetail.photoPath)
+                            .into(object : com.squareup.picasso.Target {
+                                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                                    binding.avatarShape.setImageBitmap(bitmap)
+                                }
+
+                                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                                    // обработка ошибки
+                                }
+
+                                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                                    // можно показать плейсхолдер
+                                }
+                            })
 
 
                     }
-
                 }
             }
         }

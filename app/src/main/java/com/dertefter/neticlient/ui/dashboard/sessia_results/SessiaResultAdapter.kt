@@ -4,18 +4,13 @@ import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.PathInterpolator
-import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.dertefter.neticlient.databinding.ItemSessiaResultBinding
+import com.dertefter.neticore.features.sessia_results.model.SessiaResultItem
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -129,7 +124,7 @@ class SessiaResultAdapter(private var items: List<SessiaResultItemUi>) :
 
 
             if (item.score_five == "Зач") {
-                if (item.score.isNullOrEmpty() || item.score.toInt() == 0) {
+                if (item.score.isNullOrEmpty() || item.score!!.toInt() == 0) {
                     binding.value.text = "100"
                     intScore = 100
                     binding.ects.text = "A"
@@ -174,36 +169,6 @@ class SessiaResultAdapter(private var items: List<SessiaResultItemUi>) :
             items[position].isChecked = !newIsChecked
             notifyItemChanged(position)
         }
-
-        val context = holder.itemView.context
-        val cardView = holder.itemView as com.google.android.material.card.MaterialCardView
-        val radiusMax = context.resources.getDimension(R.dimen.radius_max)
-        val radiusMin = context.resources.getDimension(R.dimen.radius_micro)
-
-        val shapeModel = when (position) {
-            0 -> ShapeAppearanceModel()
-                .toBuilder()
-                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMax)
-                .setTopRightCorner(CornerFamily.ROUNDED, radiusMax)
-                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMin)
-                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMin)
-                .build()
-
-            itemCount - 1 -> ShapeAppearanceModel()
-                .toBuilder()
-                .setTopLeftCorner(CornerFamily.ROUNDED, radiusMin)
-                .setTopRightCorner(CornerFamily.ROUNDED, radiusMin)
-                .setBottomLeftCorner(CornerFamily.ROUNDED, radiusMax)
-                .setBottomRightCorner(CornerFamily.ROUNDED, radiusMax)
-                .build()
-
-            else -> ShapeAppearanceModel()
-                .toBuilder()
-                .setAllCorners(CornerFamily.ROUNDED, radiusMin)
-                .build()
-        }
-
-        cardView.shapeAppearanceModel = shapeModel
     }
 
     override fun getItemCount(): Int = items.size

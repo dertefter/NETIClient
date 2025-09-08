@@ -16,7 +16,7 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.data.model.calendar.CalendarEvent
-import com.dertefter.neticlient.data.model.schedule.Schedule
+import com.dertefter.neticore.features.schedule.model.Schedule
 import com.dertefter.neticlient.databinding.ItemCalendarDayItemBinding
 import com.dertefter.neticlient.ui.schedule.week.day.TimesAdapter
 import com.google.android.material.color.MaterialColors
@@ -159,7 +159,6 @@ class CalendarDayListAdapter(
                 binding.dayShortName.setTextColor(titleColor)
             }
 
-            val timesAdapter = TimesAdapter(fragment)
 
             val eventsAdapter = EventListAdapter{ it ->
                 val link = it.link
@@ -184,24 +183,15 @@ class CalendarDayListAdapter(
 
             if (binding.events.itemDecorationCount == 0){
                 binding.events.addItemDecoration(
-                    VerticalSpaceItemDecoration( R.dimen.margin_micro)
+                    VerticalSpaceItemDecoration( R.dimen.margin_max, R.dimen.margin_micro)
                 )
             }
 
-
-            binding.scheduleTimes.adapter = timesAdapter
             binding.scheduleTimes.layoutManager = LinearLayoutManager(fragment.requireContext())
 
             val day = it.scheduleDay
             val events = it.events
 
-            if (day != null) {
-                timesAdapter.setData(day)
-                if (CurrentTimeObject.currentDateLiveData.value != null &&
-                    CurrentTimeObject.currentTimeLiveData.value  != null) {
-                    timesAdapter.updateTimeAndDate( CurrentTimeObject.currentTimeLiveData.value!!, CurrentTimeObject.currentDateLiveData.value!!)
-                }
-            }
 
             if (events != null){
                 eventsAdapter.submitList(events)

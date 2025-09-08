@@ -16,7 +16,6 @@ import com.dertefter.neticlient.data.repository.CourcesRepository
 import com.dertefter.neticlient.data.repository.DocumentsRepository
 import com.dertefter.neticlient.data.repository.NewsRepository
 import com.dertefter.neticlient.ui.documents.DocumentsUiState
-import com.dertefter.neticlient.ui.schedule.ScheduleUiState
 import com.dertefter.neticlient.ui.sessia_schedule.ScheduleSessiaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

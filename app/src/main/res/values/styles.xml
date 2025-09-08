@@ -7,8 +7,12 @@
         <item name="android:showDividers">none</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="liftOnScroll">true</item>
-        <item name="liftOnScrollColor">?attr/colorSurfaceContainerLow</item>
+        <item name="liftOnScrollColor">?attr/colorSurfaceContainer</item>
         <item name="elevation">0dp</item>
+    </style>
+
+    <style name="NETIClient.BottomSheetDialog" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">?attr/colorSurface</item>
     </style>
 
 
@@ -23,9 +27,6 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="NETIClient.ThemeOverlay.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="android:navigationBarColor">?attr/colorSurfaceContainerLow</item>
-    </style>
 
     <style name="NETIClient.Widget.LoginTextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxStrokeWidthFocused">0dp</item>
@@ -35,6 +36,12 @@
         <item name="boxCornerRadiusBottomStart">@dimen/radius</item>
         <item name="boxCornerRadiusTopEnd">@dimen/radius</item>
         <item name="boxCornerRadiusTopStart">@dimen/radius</item>
+    </style>
+
+
+    <style name="NETIClient.TextStyle.SexyTitle" parent="TextAppearance.Material3.HeadlineMedium.Emphasized">
+        <item name="android:textColor">?attr/colorTertiary</item>
+        <item name="android:paddingVertical">@dimen/margin_min</item>
     </style>
 
 

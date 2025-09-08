@@ -132,7 +132,7 @@
             android:layout_marginTop="@dimen/margin_min"
             android:layout_weight="1"
             android:background="@drawable/rounded_background_top"
-            android:backgroundTint="?attr/colorSurfaceContainerLow"
+            android:backgroundTint="?attr/colorSurfaceContainer"
             android:paddingHorizontal="@dimen/margin_max"
             android:paddingTop="@dimen/margin_max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
@@ -170,7 +170,7 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/margin"
             android:background="@drawable/rounded_background_bottom"
-            android:backgroundTint="?attr/colorSurfaceContainerLow"
+            android:backgroundTint="?attr/colorSurfaceContainer"
             android:paddingHorizontal="@dimen/margin"
             android:paddingBottom="@dimen/margin">
 
@@ -180,7 +180,7 @@
                 android:layout_height="68dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_background_bottom"
-                android:backgroundTint="?attr/colorSurfaceContainerLow"
+                android:backgroundTint="?attr/colorSurfaceContainer"
                 android:clipToPadding="false"
                 android:contentDescription="@string/tabs"
                 android:fitsSystemWindows="false"

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +20,7 @@ import com.dertefter.neticlient.data.model.documents.DocumentsItem
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentDocumentsBinding
 import com.dertefter.neticlient.ui.documents.document_view.DocumentViewBottomSheetFragment
-import com.dertefter.neticlient.ui.documents.new_document_dialog.NewDocumentDialogFragment
+import com.dertefter.neticlient.ui.documents.new_document.NewDocumentFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,9 +49,25 @@ class DocumentsFragment : Fragment() {
             dialog.show(parentFragmentManager, DocumentViewBottomSheetFragment.TAG)
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.addFab) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val defaultMargin = resources.getDimensionPixelSize(R.dimen.margin)
+            val layoutParams = v.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.bottomMargin = (defaultMargin + insets.bottom).toInt()
+            layoutParams.rightMargin = (defaultMargin).toInt()
+            v.layoutParams = layoutParams
+
+            WindowInsetsCompat.CONSUMED
+        }
+
+
         binding.recyclerView.adapter = adapter
-        val spacingInPixels = R.dimen.margin_micro
-        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
+        binding.recyclerView.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.margin_max,
+                R.dimen.margin_micro
+            )
+        )
         adapter.setLoading(true)
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
@@ -84,7 +102,7 @@ class DocumentsFragment : Fragment() {
         documentsViewModel.updateDocumentList()
 
         binding.addFab.setOnClickListener {
-            NewDocumentDialogFragment.newInstance().show(parentFragmentManager, "CreateDoc")
+            NewDocumentFragment.newInstance().show(parentFragmentManager, "CreateDoc")
         }
 
     }

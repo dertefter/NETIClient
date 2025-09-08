@@ -1,0 +1,59 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/carousel_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceContainerHigh"
+    app:cardCornerRadius="@dimen/radius_max">
+
+    <ImageView
+        android:id="@+id/bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="?attr/colorPrimaryContainer" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="-100dp"
+        android:layout_marginEnd="-100dp"
+        android:alpha="0.1"
+        android:tint="?attr/colorPrimary"
+        app:srcCompat="@drawable/app_icon" />
+
+    <ImageView
+        android:id="@+id/bg_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:scaleType="centerCrop"
+        app:srcCompat="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/promo_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/margin_micro"
+        android:background="@drawable/rounded_background_for_promo_title"
+        android:backgroundTint="?attr/colorPrimary"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:padding="@dimen/margin"
+        android:text="Дневничок разработки NETI Клиент"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        android:textColor="?attr/colorOnPrimary" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="@dimen/margin_max"
+        android:tint="?attr/colorOnPrimaryContainer"
+        app:srcCompat="@drawable/telegram_logo" />
+
+</com.google.android.material.card.MaterialCardView>

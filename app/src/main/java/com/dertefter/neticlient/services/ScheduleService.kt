@@ -5,21 +5,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.dertefter.neticlient.R
+import com.dertefter.neticore.features.schedule.model.Lesson
+import com.dertefter.neticore.features.schedule.model.Time
 import com.dertefter.neticlient.data.repository.ScheduleRepository
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.Time
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
-import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,8 +36,6 @@ class ScheduleService : Service() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
-    @Inject
-    lateinit var userRepository: UserRepository
 
     lateinit var job: Job
 
@@ -49,22 +43,23 @@ class ScheduleService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-        job = CoroutineScope(Dispatchers.IO).launch {
-            while (true) {
-                checkCurrentLesson()
-                checkFutureLesson()
-                delay(20_000)
-            }
-        }
-
-        createNotificationChannels()
-        startForeground(NOTIFICATION_SERVICE_ID, buildServiceNotification())
     }
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        job.start()
+        createNotificationChannels()
+        startForeground(NOTIFICATION_SERVICE_ID, buildServiceNotification())
+
+        if (!this::job.isInitialized || job.isCancelled) {
+            job = CoroutineScope(Dispatchers.IO).launch {
+                while (true) {
+                    checkCurrentLesson()
+                    checkFutureLesson()
+                    delay(20_000)
+                }
+            }
+        }
+
         return START_STICKY
     }
 
@@ -223,7 +218,7 @@ class ScheduleService : Service() {
     }
 
     private suspend fun getCurrentGroup(): String? {
-        return userRepository.getSelectedGroupFlow().first()
+        return NETICore.userDetailFeature.currentGroup.first()
     }
 
     companion object {

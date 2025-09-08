@@ -36,6 +36,72 @@
                     android:orientation="vertical"
                     android:showDividers="middle|beginning">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/tg_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                        app:cardCornerRadius="@dimen/radius_max">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.3"
+                            app:srcCompat="@drawable/gradient_background"
+                            app:tint="?attr/colorTertiaryContainer" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/horizontal_divider"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/margin"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="center_vertical"
+                                android:padding="@dimen/margin_micro"
+                                app:srcCompat="@drawable/telegram_logo"
+                                app:tint="?attr/colorTertiary" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:divider="@drawable/vertical_divider_micro"
+                                android:orientation="vertical"
+                                android:showDividers="middle">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingEnd="24dp"
+                                    android:text="Дневничок разработки NETI Client"
+                                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                                    android:textColor="?attr/colorTertiary" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Подпишитесь, чтобы следить за обновлениями!"
+                                    android:textColor="?attr/colorOnSurface" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/close_tg"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="end"
+                            app:icon="@drawable/close_icon"
+                            app:iconTint="?attr/colorOnSurfaceVariant" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
                     <LinearLayout
                         android:id="@+id/schedule_block"
                         android:layout_width="match_parent"
@@ -63,7 +129,7 @@
                                     android:layout_height="wrap_content"
 
                                     android:text="Ближайшие занятия"
-                                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                                     android:textColor="?attr/colorOnSurface" />
 
                                 <TextView
@@ -230,14 +296,13 @@
 
                     <TextView
                         android:id="@+id/week_label"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"
                         android:gravity="center|start"
-                        android:maxWidth="1000dp"
+                        android:maxWidth="900dp"
                         android:paddingVertical="@dimen/margin"
-                        android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
-                        android:textColor="?attr/colorTertiary"
+                        style="@style/NETIClient.TextStyle.SexyTitle"
                         app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                         tools:text="1 учебная нежеля" />
 
@@ -266,6 +331,7 @@
                         android:hint="Поиск чего угодно!"
                         app:backgroundTint="?attr/colorSurfaceContainer"
                         app:defaultMarginsEnabled="false"
+                        app:elevation="0dp"
                         app:hideNavigationIcon="false"
                         app:layout_scrollFlags="noScroll" />
                 </FrameLayout>
@@ -284,9 +350,10 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:fillViewport="true"
-                android:paddingVertical="@dimen/margin">
+                android:paddingVertical="@dimen/margin_max">
 
                 <LinearLayout
+                    android:id="@+id/xxxContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -294,7 +361,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/promoRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="160dp"
                         android:clipToPadding="true"
                         android:contentDescription="@string/news_list"
                         android:fadingEdge="horizontal"
@@ -323,7 +390,7 @@
 
                             android:paddingHorizontal="@dimen/margin"
                             android:text="@string/title_news"
-                            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                             android:textColor="?attr/colorOnSurface" />
 
                         <HorizontalScrollView

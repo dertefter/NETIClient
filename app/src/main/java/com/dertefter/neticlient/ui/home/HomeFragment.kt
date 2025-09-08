@@ -1,18 +1,17 @@
 package com.dertefter.neticlient.ui.home
 
-import android.animation.ObjectAnimator
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,36 +22,29 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.HorizontalSpaceItemDecoration
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.news.PromoItem
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentHomeBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.dertefter.neticlient.ui.messages.MessagesViewModel
 import com.dertefter.neticlient.ui.news.NewsAdapter
 import com.dertefter.neticlient.ui.news.NewsViewModel
 import com.dertefter.neticlient.ui.news.PromoAdapter
-import com.dertefter.neticlient.ui.schedule.ScheduleUiState
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
+import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
 import com.dertefter.neticlient.ui.schedule.week.day.TimesAdapter
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
-import com.google.android.material.carousel.CarouselLayoutManager
-import com.google.android.material.carousel.HeroCarouselStrategy
+import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.io.File
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -63,8 +55,7 @@ class HomeFragment : Fragment() {
 
     val scheduleViewModel: ScheduleViewModel by activityViewModels()
     private val newsViewModel: NewsViewModel by activityViewModels()
-    private val messagesViewModel: MessagesViewModel by activityViewModels()
-    private val loginViewModel: LoginViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -73,14 +64,6 @@ class HomeFragment : Fragment() {
     var promoAdapter: PromoAdapter? = null
 
     private var isInitialFilterSetup = true
-
-    fun navigateTo(routeId: Int, args: Bundle? = null){
-        findNavController().navigate(
-            routeId,
-            args,
-            Utils.getNavOptions(),
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,13 +74,13 @@ class HomeFragment : Fragment() {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun setupPromo(){
+        val promoLayoutManager = LinearLayoutManager(requireContext(),
+            LinearLayoutManager.HORIZONTAL, false)
 
-
-
+        binding.promoRecyclerView.setLayoutManager(promoLayoutManager)
         if (promoAdapter == null){
-            promoAdapter = PromoAdapter(){
+            promoAdapter = PromoAdapter {
                     promoItem ->
                 val intent = Intent(
                     Intent.ACTION_VIEW,
@@ -107,11 +90,6 @@ class HomeFragment : Fragment() {
         }
         binding.promoRecyclerView.adapter = promoAdapter
 
-        val promoLayoutManager = LinearLayoutManager(requireContext(),
-            LinearLayoutManager.HORIZONTAL, false)
-
-        binding.promoRecyclerView.setLayoutManager(promoLayoutManager)
-
         binding.promoRecyclerView.addItemDecoration(
             HorizontalSpaceItemDecoration(R.dimen.margin_min)
         )
@@ -120,137 +98,92 @@ class HomeFragment : Fragment() {
         snapHelper.attachToRecyclerView( binding.promoRecyclerView)
 
 
-        binding.searchBar.setOnClickListener {
+    }
+
+    fun setupButtons(){
+        binding.tgButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/nstumobile_dev".toUri())
+            requireContext().startActivity(intent)
+            settingsViewModel.setTgShow(false)
+        }
+
+        binding.closeTg.setOnClickListener {
+            settingsViewModel.setTgShow(false)
+        }
+
+        binding.groupButton.setOnClickListener {
+            openGroupSearchDialog()
+        }
+
+        binding.searchGroupButton.setOnClickListener {
+            openGroupSearchDialog()
+        }
+
+        binding.buttonScheduleAll.setOnClickListener {
             findNavController().navigate(
-                R.id.searchFragment,
+                R.id.scheduleFragment,
                 null,
                 Utils.getNavOptions(),
             )
         }
 
-        newsViewModel.updatePromoList()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                newsViewModel.promoListFlow.collect { promoList ->
-                    if (promoList.isNullOrEmpty()){
-                        binding.promoRecyclerView.isGone = true
-                    }else{
-                        promoAdapter?.submitList(promoList)
-                        binding.promoRecyclerView.isGone = false
-                    }
-
-                }
-            }
+        binding.searchBar.setOnClickListener {
+            findNavController().navigate(
+                R.id.nav_graph_search,
+                null,
+                Utils.getNavOptions(),
+            )
         }
+    }
 
-        if (scheduleTimesAdapter == null) scheduleTimesAdapter = TimesAdapter(this)
+    fun setupSchedule(){
+        scheduleTimesAdapter = TimesAdapter(
+            emptyList(),
+            viewLifecycleOwner,
+            onLessonClick = { lesson ->
+                val bottomSheet = LessonViewBottomSheetFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("lesson", lesson)
+                    }
+                }
+                bottomSheet.show(parentFragmentManager, "LessonDetail")
+            },
+            onCurrentTimeSlotFound = { y ->
+                homeViewModel.setNowY(y)
+            },
+            onLatestPastTimeSlotFound = { y ->
+                homeViewModel.setPastY(y)
+            },
+            onFirstFutureTimeSlotFound = { y ->
+                homeViewModel.setFutureY(y)
+            }
+        )
         binding.scheduleRv.adapter = scheduleTimesAdapter
         binding.scheduleRv.layoutManager  = LinearLayoutManager(requireContext())
+        binding.scheduleRv.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.radius_max,
+                R.dimen.radius_micro
+            )
+        )
+    }
 
+    fun setupNews(){
         if (newsAdapter == null){
             newsAdapter = NewsAdapter(
                 { newsItem, color ->
-                openNewsDetail(newsItem.id, newsItem.imageUrl, color)
-            }
+                    openNewsDetail(newsItem.id, newsItem.imageUrl, color)
+                }
             )
         }
         binding.newsRv.adapter = newsAdapter
         binding.newsRv.layoutManager  = LinearLayoutManager(requireContext())
-
-        binding.appbar.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appbar))
-
-        binding.appbar.setExpanded(!homeViewModel.appVarIsLifted)
-
-        binding.appbar.addOnOffsetChangedListener { appbar, p ->
-            homeViewModel.appVarIsLifted = appbar.isLifted
-        }
-
-        CurrentTimeObject.currentTimeLiveData.observe(viewLifecycleOwner){ time ->
-            val date = CurrentTimeObject.currentDateLiveData.value
-            if (date != null) {
-                scheduleTimesAdapter?.updateTimeAndDate(time, date)
-            }
-        }
-
-        binding.scrollview.setOnScrollChangeListener { v: View, _, scrollY, _, _ ->
-            val view = v as NestedScrollView
-            if (view.getChildAt(0).bottom * 0.5 <= view.height + scrollY) {
-                newsViewModel.fetchNews()
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                scheduleViewModel.scheduleState.collect { state ->
-                    binding.buttonScheduleAll.setOnClickListener {
-                        navigateTo(R.id.scheduleFragment)
-                    }
-
-                    binding.groupButton.setOnClickListener {
-                        openGroupSearchDialog()
-                    }
-
-                    binding.searchGroupButton.setOnClickListener {
-                        openGroupSearchDialog()
-                    }
-
-                    if (state.group.isNullOrEmpty()){
-                        onSuccessSchedule(state)
-                    }else{
-                        when(state.responseType){
-                            ResponseType.SUCCESS -> onSuccessSchedule(state)
-                            ResponseType.LOADING -> onLoadingSchedule(state)
-                            ResponseType.ERROR -> onErrorSchedule(state)
-                        }
-                    }
-
-                }
-            }
-        }
-
-        scheduleViewModel.updateWeekNumber()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                scheduleViewModel.weekLabelFlow.collectLatest { weekLabel ->
-                    val locale = Locale.getDefault()
-                    val dateFormat = SimpleDateFormat("d MMMM", locale)
-                    val currentDate = dateFormat.format(Date())
-                    if (weekLabel != null){
-                        updateHeader(weekLabel, currentDate)
-                    } else {
-                        updateHeader("", currentDate)
-                    }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
-                    messagesViewModel.updateCount()
-                }
-
-            }
-        }
-
-
-        binding.newsRv.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.margin_micro))
-
-        newsViewModel.fetchNews(true)
-        scheduleViewModel.updateWeekLabel()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                newsViewModel.newsListFlow.collect { newsList ->
-                    if (newsList != null){
-                        newsAdapter?.updateItems(newsList)
-                    }
-
-                }
-            }
-        }
+        binding.newsRv.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.radius_max,
+                R.dimen.radius_micro
+            )
+        )
 
         binding.filterChips.setOnCheckedStateChangeListener { group, checkedIds ->
             if (isInitialFilterSetup) {
@@ -277,6 +210,264 @@ class HomeFragment : Fragment() {
 
     }
 
+
+    fun collectingNews(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                newsViewModel.newsListFlow.collect { newsList ->
+                    if (newsList != null){
+                        newsAdapter?.updateItems(newsList)
+                    }
+
+                }
+            }
+        }
+    }
+
+    fun collectingGroup(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scheduleViewModel.currentGroup.collect { currentGroup ->
+                    binding.noGroup.isGone = !currentGroup.isNullOrEmpty()
+                    binding.groupButton.isGone = currentGroup.isNullOrEmpty()
+                    if (currentGroup != null){
+                        binding.groupButton.text = currentGroup
+                        scheduleViewModel.updateScheduleForGroup(currentGroup)
+                    }
+                }
+            }
+        }
+    }
+
+    fun collectingNextDayWithLessons(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scheduleViewModel.nextDayWithLessons.collect { nextDayWithLessons ->
+                    if (nextDayWithLessons != null) {
+                        scheduleTimesAdapter?.updateData(nextDayWithLessons.times)
+                        binding.scheduleRv.isGone = false
+                        val date = nextDayWithLessons.getDate()
+                        when (date) {
+                            LocalDate.now() -> {
+                                binding.dateTv1?.text = getString(R.string.classses_for)
+                                binding.dateTv2?.text = getString(R.string.today)
+                            }
+
+                            LocalDate.now().plusDays(1) -> {
+                                binding.dateTv1?.text = getString(R.string.classses_for)
+                                binding.dateTv2?.text = getString(R.string.tomorrow)
+                            }
+
+                            else -> {
+                                binding.dateTv1?.text = getString(R.string.classses_for)
+                                val formatter = DateTimeFormatter.ofPattern("d MMMM")
+                                val dateString = date?.format(formatter)
+                                binding.dateTv2?.text = dateString
+                            }
+                        }
+                    }
+                    else {
+                        scheduleTimesAdapter?.updateData(emptyList())
+                        binding.dateTv1?.text = getString(R.string.near_lessons)
+                        binding.dateTv2?.text = ""
+                    }
+                    binding.dateTv1?.isGone = binding.dateTv1?.text.isNullOrEmpty()
+                    binding.dateTv2?.isGone = binding.dateTv2?.text.isNullOrEmpty()
+
+                }
+            }
+        }
+    }
+
+    fun collectingStatus(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scheduleViewModel.status.collect { status ->
+                    Log.e("scheduleViewModel.status", status.toString())
+                    when (status) {
+
+                        com.dertefter.neticore.network.ResponseType.LOADING -> {
+                            binding.loadFailSchedule!!.root.isGone = true
+                            binding.skeletonSchedule.isGone = false
+                            binding.scheduleRv.isGone = true
+                        }
+                        com.dertefter.neticore.network.ResponseType.SUCCESS -> {
+                            binding.loadFailSchedule!!.root.isGone = true
+                            binding.skeletonSchedule.isGone = true
+                            binding.scheduleRv.isGone = false
+                        }
+                        com.dertefter.neticore.network.ResponseType.ERROR -> {
+                            binding.loadFailSchedule!!.root.isGone = false
+                            binding.skeletonSchedule.isGone = true
+                            binding.scheduleRv.isGone = false
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    fun collectingWeekLabel(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                scheduleViewModel.weekLabel.collect { weekLabel ->
+                    binding.weekLabel.text = weekLabel
+                }
+            }
+        }
+    }
+
+
+    fun collectingAppbarAndOther() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    homeViewModel.appVarIsLifted.collect { isLifted ->
+                        if (isLifted){
+                            binding.appbar.isLifted = true
+                            binding.appbar.setExpanded(false)
+                        }
+
+                    }
+                }
+
+                launch {
+                    combine(
+                        homeViewModel.nowY,
+                        homeViewModel.pastY,
+                        homeViewModel.futureY
+                    ) { now, past, future ->
+                        Triple(now, past, future)
+                    }.collect { (now, past, future) ->
+                        Log.e("zzz combine", "now: $now, past: $past, future: $future")
+
+                        if (now != -1){
+                            binding.scrollview.smoothScrollTo(0, now)
+                        } else if (future != -1){
+                            binding.scrollview.smoothScrollTo(0, future)
+                        } else {
+                            binding.scrollview.smoothScrollTo(0, past)
+                        }
+
+
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.appbar.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appbar))
+
+        if (binding.xxxContainer != null){
+            ViewCompat.setOnApplyWindowInsetsListener(binding.xxxContainer!!) { v, insets ->
+                val bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            or WindowInsetsCompat.Type.displayCutout()
+                )
+                v.updatePadding(
+                    right = bars.right,
+                )
+                WindowInsetsCompat.CONSUMED
+            }
+        }
+
+        collectingAppbarAndOther()
+        setupPromo()
+
+        setupButtons()
+
+        setupSchedule()
+
+        setupNews()
+
+        collectingNews()
+
+        collectingGroup()
+
+        collectingNextDayWithLessons()
+
+        collectingWeekLabel()
+
+        collectingStatus()
+
+        newsViewModel.updatePromoList()
+        scheduleViewModel.updateWeekLabel()
+        scheduleViewModel.updateWeekNumber()
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                newsViewModel.promoListFlow.collect { promoList ->
+                    if (promoList.isNullOrEmpty()){
+                        binding.promoRecyclerView.isGone = true
+                    }else{
+                        promoAdapter?.submitList(promoList)
+                        binding.promoRecyclerView.isGone = false
+                    }
+
+                }
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                settingsViewModel.isTgShow.collect { isShow ->
+                    binding.tgButton.isGone = !isShow
+                }
+            }
+        }
+
+
+
+        binding.scrollview.setOnScrollChangeListener { v: View, _, scrollY, _, _ ->
+            val view = v as NestedScrollView
+
+            if (scrollY > resources.displayMetrics.heightPixels * 2.5){
+                binding.upFab?.isInvisible = false
+                binding.upFab?.setOnClickListener {
+                    binding.scrollview.smoothScrollTo(0, 0)
+                    homeViewModel.setAppVarIsLifted(false)
+
+                }
+            }else{
+                binding.upFab?.isInvisible = true
+                binding.upFab?.setOnClickListener {
+
+                }
+            }
+
+            homeViewModel.setScrollY(scrollY)
+
+            if (view.getChildAt(0).bottom * 0.5 <= view.height + scrollY) {
+                newsViewModel.fetchNews()
+            }
+
+        }
+
+
+
+        scheduleViewModel.updateWeekNumber()
+
+
+
+
+        newsViewModel.fetchNews(true)
+        scheduleViewModel.updateWeekLabel()
+
+
+
+
+
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -291,95 +482,12 @@ class HomeFragment : Fragment() {
     }
 
     fun openNewsDetail(id: String, imageUrl: String?, color: Int) {
-        val bundle = Bundle()
-        bundle.putString("newsId", id)
-        bundle.putString("imageUrl", imageUrl)
-        bundle.putInt("color", color)
-        findNavController().navigate(
-            R.id.newsDetailFragment,
-            bundle,
-            Utils.getNavOptions(),
-        )
+        val action = HomeFragmentDirections
+            .actionHomeFragmentToNewsDetailFragment(id, imageUrl, color)
+
+        findNavController().navigate(action, Utils.getNavOptions())
     }
 
-    fun updateHeader(weekLabel: String, currentDate: String) {
-        binding.weekLabel.text = weekLabel
-    }
-
-    fun onSuccessSchedule(state: ScheduleUiState) {
-
-        binding.skeletonSchedule.visibility = View.GONE
-        binding.schedule.visibility = View.VISIBLE
-        binding.loadFailSchedule.root.visibility = View.GONE
-        val schedule = state.schedule
-
-        if (schedule == null && !state.group.isNullOrEmpty()){
-            onErrorSchedule(state)
-            return
-        }
-
-        val currentDate = CurrentTimeObject.currentDateLiveData.value
-        val currentTime = CurrentTimeObject.currentTimeLiveData.value
-
-        val nexDayWithLessons = schedule?.findNextDayWithLessonsAfter(currentDate, currentTime)
-        val group = state.group
-        if (group.isNullOrEmpty()){
-            binding.noGroup.visibility = View.VISIBLE
-            binding.schedule.visibility = View.GONE
-        } else {
-            binding.noGroup.visibility = View.GONE
-            binding.schedule.visibility = View.VISIBLE
-            binding.groupButton.text = group
-            binding.groupButton.isGone = group.isEmpty()
-            binding.noLessons.isGone = nexDayWithLessons != null
-
-            if (nexDayWithLessons != null){
-                scheduleTimesAdapter?.setData(nexDayWithLessons)
-                val todayDate = LocalDate.now()
-                val date = nexDayWithLessons.getDate()
-                when (date) {
-                    todayDate ->  {
-                        binding.dateTextView.text = getString(R.string.classses_for) + " " + getString(R.string.today)
-                    }
-                    todayDate.plusDays(1) -> {
-                        binding.dateTextView.text = getString(R.string.classses_for) + " " + getString(R.string.tomorrow)
-                    }
-                    else -> {
-                        val formatter = DateTimeFormatter.ofPattern("d MMMM")
-                        val dateString = date?.format(formatter)
-                        binding.dateTextView.text = getString(R.string.classses_for) + " " + dateString
-                    }
-                }
-            } else {
-                binding.dateTextView.text = ""
-            }
-            binding.dateTextView.isGone = binding.dateTextView.text == ""
-        }
-    }
-
-    fun onLoadingSchedule(state: ScheduleUiState) {
-        val group = state.group
-        scheduleTimesAdapter?.clearData()
-        binding.loadFailSchedule.root.visibility = View.GONE
-        if (group.isNullOrEmpty()){
-            binding.noGroup.visibility = View.VISIBLE
-            binding.skeletonSchedule.visibility = View.GONE
-        } else {
-            binding.noGroup.visibility = View.GONE
-            binding.skeletonSchedule.visibility = View.VISIBLE
-            binding.groupButton.text = group
-        }
-    }
-
-    fun onErrorSchedule(state: ScheduleUiState) {
-        scheduleTimesAdapter?.clearData()
-        binding.loadFailSchedule.root.visibility = View.VISIBLE
-        binding.skeletonSchedule.visibility = View.GONE
-        binding.schedule.visibility = View.GONE
-        binding.loadFailSchedule.buttonRetry.setOnClickListener {
-            scheduleViewModel.updateSchedule(group = state.group.orEmpty())
-        }
-    }
 
     fun openGroupSearchDialog(){
         SearchGroupBottomSheet().show(

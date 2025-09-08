@@ -7,6 +7,7 @@
     android:background="?attr/colorSurface">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -139,8 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:contentDescription="@string/icon"
-                         />
+                        android:contentDescription="@string/icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -174,8 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                         />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -209,8 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                         />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -236,16 +234,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="@string/person_profiles"
-                         />
+                        android:text="@string/person_profiles" />
 
                     <TextView
                         android:id="@+id/profiles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                         />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -271,16 +267,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="@string/disciplines"
-                         />
+                        android:text="@string/disciplines" />
 
                     <TextView
                         android:id="@+id/disceplines"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                         />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -304,10 +298,11 @@
             <Button
                 android:id="@+id/back_button"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorSurfaceContainer"
-                app:icon="@drawable/arrow_back" />
+                app:icon="@drawable/arrow_back"
+                app:iconGravity="textEnd" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -318,18 +313,20 @@
                 <Button
                     android:id="@+id/schedule_button"
                     style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:icon="@drawable/calendar_month_icon" />
+                    app:icon="@drawable/calendar_month_icon"
+                    app:iconGravity="textEnd" />
 
                 <Button
                     android:id="@+id/website_button"
                     style="@style/Widget.Material3.Button.IconButton.Filled"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:icon="@drawable/language_icon" />
+                    app:icon="@drawable/language_icon"
+                    app:iconGravity="textEnd" />
             </LinearLayout>
 
         </FrameLayout>

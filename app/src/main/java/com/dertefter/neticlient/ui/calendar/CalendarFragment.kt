@@ -21,6 +21,7 @@ import com.dertefter.neticlient.databinding.FragmentCalendarBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -77,7 +78,7 @@ class CalendarFragment : Fragment() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        val decoration = VerticalSpaceItemDecoration(R.dimen.margin_min)
+        val decoration = VerticalSpaceItemDecoration(R.dimen.margin_max, R.dimen.margin_micro)
         binding.recyclerview.addItemDecoration(decoration)
 
         binding.calendarView.onDateSelected = { date ->
@@ -125,24 +126,6 @@ class CalendarFragment : Fragment() {
                 }
             }
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    scheduleViewModel.scheduleState.collect { state ->
-
-                        if (state.group.isNullOrEmpty()){
-                            binding.filterSchedule.text = getString(R.string.schedule_title)
-                        }else{
-                            binding.filterSchedule.text = getString(R.string.schedule_title) + ": ${state.group}"
-                        }
-
-                        if (state.responseType == ResponseType.SUCCESS){
-                            val schedule = state.schedule
-                            Log.e("setting schedule", schedule.toString())
-                            adapter.updateSchedule(schedule)
-                        }
-                    }
-                }
-            }
 
         }
 

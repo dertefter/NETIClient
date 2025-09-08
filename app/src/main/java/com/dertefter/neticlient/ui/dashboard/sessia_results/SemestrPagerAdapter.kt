@@ -3,7 +3,7 @@ package com.dertefter.neticlient.ui.dashboard.sessia_results
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
+import com.dertefter.neticore.features.sessia_results.model.SessiaResultSemestr
 
 class SemestrPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) {
 

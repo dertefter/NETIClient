@@ -1,14 +1,10 @@
 package com.dertefter.neticlient.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.dertefter.neticlient.common.Constants
 import com.dertefter.neticlient.data.model.messages.Message
-import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.data.network.NetworkClient
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType

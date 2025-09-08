@@ -14,7 +14,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:showDividers="middle">
+        android:showDividers="none">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -34,39 +34,126 @@
                 app:iconSize="24dp"
                 app:iconTint="?attr/colorOnSurface" />
 
-            <Button
-                android:id="@+id/settings_button"
-                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
-                android:layout_width="48dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:layout_gravity="center_vertical|end"
+                android:layout_gravity="end"
                 android:layout_marginHorizontal="@dimen/margin"
-                app:icon="@drawable/settings_icon"
-                app:iconSize="24dp" />
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/edit_button"
+                    style="@style/Widget.Material3Expressive.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginHorizontal="@dimen/margin_micro"
+                    android:layout_weight="1"
+                    android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                    app:icon="@drawable/person_edit"
+                    app:iconSize="24dp"
+                    app:iconTint="?attr/colorOnSurface" />
+
+                <Button
+                    android:id="@+id/settings_button"
+                    style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical|end"
+                    app:icon="@drawable/settings_icon"
+                    app:iconSize="24dp" />
+            </LinearLayout>
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/textView6"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_button"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/radius_min"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <ImageView
+                android:id="@+id/auth_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainerHighest"
+                android:padding="@dimen/margin_min"
+                android:visibility="gone"
+                app:srcCompat="@drawable/person"
+                app:tint="?attr/colorOnSecondaryContainer"
+                tools:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimaryContainer"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <com.google.android.material.loadingindicator.LoadingIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:indicatorColor="?attr/colorPrimary"
+                    app:indicatorSize="40dp"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/auth_avatar_shape_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
+
+                <com.dertefter.neticlient.common.AnotherShapeView
+                    android:id="@+id/avatar_shape"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+            </FrameLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_weight="1"
-            android:gravity="center|start"
-            android:maxWidth="1000dp"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin"
-            android:text="@string/profile_title"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
-            android:textColor="?attr/colorTertiary"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+            android:layout_height="match_parent"
+            android:divider="@drawable/vertical_divider_small"
+            android:gravity="top|center_vertical"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/margin_micro"
+            android:showDividers="none">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge.Emphasized"
+                android:textColor="?attr/colorOnSurface" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall.Emphasized" />
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/list"
@@ -82,99 +169,7 @@
                 android:id="@+id/status_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/radius_max" >
-
-                <LinearLayout
-                    android:id="@+id/status_auth"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0"
-                    android:divider="@drawable/horizontal_divider_small"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/margin_min"
-                    android:showDividers="middle"
-                    android:visibility="gone">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/profile_button"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRadius="@dimen/radius_min">
-
-                        <ImageView
-                            android:id="@+id/auth_imageview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:background="?attr/colorSurfaceContainerHighest"
-                            android:padding="@dimen/margin_min"
-                            android:visibility="gone"
-                            app:srcCompat="@drawable/person"
-                            app:tint="?attr/colorOnSecondaryContainer"
-                            tools:visibility="gone" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="?attr/colorPrimaryContainer"
-                            android:visibility="gone"
-                            tools:visibility="gone">
-
-                            <com.google.android.material.loadingindicator.LoadingIndicator
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:visibility="visible"
-                                app:indicatorColor="?attr/colorPrimary"
-                                app:indicatorSize="40dp"
-                                tools:visibility="visible" />
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:id="@+id/auth_avatar_shape_container"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@android:color/transparent">
-
-                            <com.dertefter.neticlient.common.AnotherShapeView
-                                android:id="@+id/avatar_shape"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:visibility="visible" />
-                        </FrameLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:divider="@drawable/vertical_divider_micro"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:showDividers="middle">
-
-                        <TextView
-                            android:id="@+id/name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
-
-                        <TextView
-                            android:id="@+id/email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="TextView"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall.Emphasized" />
-                    </LinearLayout>
-
-                </LinearLayout>
+                app:cardCornerRadius="@dimen/radius_max">
 
                 <LinearLayout
                     android:id="@+id/status_loading"
@@ -228,8 +223,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/authing"
-                            android:textColor="?attr/colorOnPrimaryContainer"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+                            android:textColor="?attr/colorOnPrimaryContainer" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -286,6 +281,12 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:id="@+id/auth_items"
                 android:layout_width="match_parent"
@@ -462,6 +463,7 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 
     <FrameLayout
         android:id="@+id/login_helper"

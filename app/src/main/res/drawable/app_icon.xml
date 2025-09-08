@@ -14,17 +14,17 @@
       >
 
     <path
-        android:fillColor="@color/material_dynamic_primary80"
+        android:fillColor="@color/md_theme_primary"
         android:pathData="M46.5,21A25.53,25.53 0,0 1,72 46.5v181a25.5,25.5 0,0 1,-51 0V46.5A25.53,25.53 0,0 1,46.5 21m0,-21h0A46.5,46.5 0,0 0,0 46.5v181A46.5,46.5 0,0 0,46.5 274h0A46.5,46.5 0,0 0,93 227.5V46.5A46.5,46.5 0,0 0,46.5 0Z"/>
 
     <path
-        android:fillColor="@color/material_dynamic_primary80"
+        android:fillColor="@color/md_theme_primary"
         android:pathData="M227.5,202a25.5,25.5 0,0 1,0 51H46.5a25.5,25.5 0,0 1,0 -51h181m0,-21H46.5A46.5,46.5 0,0 0,0 227.5H0A46.5,46.5 0,0 0,46.5 274h181A46.5,46.5 0,0 0,274 227.5h0A46.5,46.5 0,0 0,227.5 181Z"/>
     <path
-        android:fillColor="@color/material_dynamic_primary80"
+        android:fillColor="@color/md_theme_primary"
         android:pathData="M227.5,21a25.5,25.5 0,0 1,0 51H46.5a25.5,25.5 0,0 1,0 -51h181m0,-21H46.5A46.5,46.5 0,0 0,0 46.5H0A46.5,46.5 0,0 0,46.5 93h181A46.5,46.5 0,0 0,274 46.5h0A46.5,46.5 0,0 0,227.5 0Z"/>
     <path
-        android:fillColor="@color/material_dynamic_primary80"
+        android:fillColor="@color/md_theme_primary"
         android:pathData="M227.5,21A25.53,25.53 0,0 1,253 46.5v181a25.5,25.5 0,0 1,-51 0V46.5A25.53,25.53 0,0 1,227.5 21m0,-21h0A46.5,46.5 0,0 0,181 46.5v181A46.5,46.5 0,0 0,227.5 274h0A46.5,46.5 0,0 0,274 227.5V46.5A46.5,46.5 0,0 0,227.5 0Z"/>
 
 

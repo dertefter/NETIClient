@@ -9,32 +9,26 @@ import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.data.repository.MessagesRepository
 import com.dertefter.neticlient.data.repository.PersonRepository
+import com.dertefter.neticore.NETICore
+import com.dertefter.neticore.features.person_detail.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class PersonViewModel @Inject constructor(
-    private val personRepository: PersonRepository,
-) : ViewModel() {
-    private val personsLiveDataMap = mutableMapOf<String, MutableLiveData<ResponseResult>>()
 
-    fun getLiveDataForId(id: String): MutableLiveData<ResponseResult> {
-        if (personsLiveDataMap.containsKey(id)){
-            return personsLiveDataMap[id]!!
-        } else {
-            personsLiveDataMap[id] = MutableLiveData<ResponseResult>()
-            return personsLiveDataMap[id]!!
-        }
+class PersonViewModel() : ViewModel() {
+
+    val personDetailFeature = NETICore.personDetailFeature
+
+    fun personById(personId: String): Flow<Person?> {
+        return personDetailFeature.personById(personId)
     }
 
-    fun fetchPerson(id: String, forceOffline: Boolean = true) {
-        val liveData = getLiveDataForId(id)
+    fun updatePersonById(personId: String) {
         viewModelScope.launch {
-            liveData.postValue(ResponseResult(ResponseType.LOADING))
-            val person = personRepository.fetchPersonById(id, forceOffline)
-            liveData.postValue(person)
+            personDetailFeature.updatePersonById(personId)
         }
     }
 

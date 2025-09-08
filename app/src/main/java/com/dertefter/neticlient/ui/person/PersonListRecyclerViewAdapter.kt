@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticore.features.person_detail.model.Person
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
@@ -50,20 +50,6 @@ class PersonListRecyclerViewAdapter(
 
         fun bind(personId: String, fragment: Fragment) {
             val personViewModel: PersonViewModel by fragment.activityViewModels()
-            personViewModel.getLiveDataForId(personId).observeForever {
-                if (it.responseType == ResponseType.SUCCESS) {
-                    val person = it.data as Person
-                    name?.text = person.getShortName()
-                    if (!person.avatarUrl.isNullOrEmpty() && profilePic != null) {
-                        Picasso.get()
-                            .load(person.avatarUrl)
-                            .resize(200, 200)
-                            .centerCrop()
-                            .into(profilePic)
-                    }
-                }
-            }
-            personViewModel.fetchPerson(personId)
 
             itemView.setOnClickListener {
                 onClick(personId)

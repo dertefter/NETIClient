@@ -42,8 +42,12 @@ class SessiaScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = SessiaScheduleRecyclerViewAdapter(emptyList(), this)
-        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.margin)
-        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
+        binding.recyclerView.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.margin_max,
+                R.dimen.margin_micro
+            )
+        )
         adapter.setLoading(true)
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.recyclerView.adapter = adapter
@@ -54,23 +58,6 @@ class SessiaScheduleFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                scheduleViewModel.scheduleSessiaState.collect { state ->
-                    Log.e("schs", state.toString())
-                    when (state.responseType) {
-                        ResponseType.LOADING -> {
-                            adapter.setLoading(true)
-                        }
-                        ResponseType.SUCCESS -> {
-                            adapter.setLoading(false)
-                            adapter.updateList(state.schedule.orEmpty())
-                        }
-                        ResponseType.ERROR -> {}
-                    }
-                }
-            }
-        }
 
     }
 }

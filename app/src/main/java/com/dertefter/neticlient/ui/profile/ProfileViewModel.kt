@@ -1,26 +1,32 @@
 package com.dertefter.neticlient.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.profile_menu.ProfileMenuItem
-import com.dertefter.neticlient.data.repository.UserRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.dertefter.neticore.NETICore
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val userRepository: UserRepository
-): ViewModel() {
 
-    val studentsFlow = userRepository.getGroupStudentsFlow()
+class ProfileViewModel (): ViewModel() {
 
-    fun updateStudents(){
+    val lksList = NETICore.userDetailFeature.lksList
+
+    fun updateLks(){
         viewModelScope.launch {
-            userRepository.updateGroupStudents()
+            NETICore.userDetailFeature.updateLksList()
+        }
+    }
+
+    fun updateUserDetail(){
+        viewModelScope.launch {
+            NETICore.userDetailFeature.updateUserDetail()
+        }
+    }
+
+
+
+    fun setLksById(id: Int){
+        viewModelScope.launch {
+            NETICore.userDetailFeature.setLksById(id)
         }
     }
 

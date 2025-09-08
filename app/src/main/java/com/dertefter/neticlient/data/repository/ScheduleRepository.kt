@@ -1,25 +1,18 @@
 package com.dertefter.neticlient.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.Lesson
-import com.dertefter.neticlient.data.model.schedule.LessonTrigger
-import com.dertefter.neticlient.data.model.schedule.Schedule
-import com.dertefter.neticlient.data.model.schedule.Time
+import com.dertefter.neticore.features.schedule.model.Schedule
 import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.data.network.NetworkClient
-import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

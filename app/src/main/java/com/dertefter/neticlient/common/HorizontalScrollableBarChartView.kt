@@ -11,7 +11,7 @@ import android.view.*
 import android.widget.OverScroller
 import androidx.core.content.res.ResourcesCompat
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
+import com.dertefter.neticore.features.sessia_results.model.SessiaResultSemestr
 import com.google.android.material.color.MaterialColors
 import kotlin.math.max
 

@@ -1,15 +1,10 @@
 package com.dertefter.neticlient.common
 
-import android.animation.ValueAnimator
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
 import androidx.core.view.updatePadding
 import com.dertefter.neticlient.R
 import com.google.android.material.appbar.AppBarLayout
@@ -17,22 +12,32 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class AppBarEdgeToEdge(
     private val appBar: AppBarLayout
-) : AppBarLayout.OnOffsetChangedListener {
+) : AppBarLayout.OnOffsetChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private val childInfo = mutableListOf<ChildInfo>()
     private var statusBarInset = 0
-    private var targetBottomPadding = 0 // Добавляем переменную для целевого отступа
+    private var targetBottomPadding = 0
 
     init {
         appBar.setLiftable(false)
         setupInsets()
         appBar.addOnOffsetChangedListener(this)
-
-        // Получаем значение из ресурсов
+        // Добавляем слушатель изменения макета
+        appBar.viewTreeObserver.addOnGlobalLayoutListener(this)
         targetBottomPadding = appBar.context.resources
             .getDimensionPixelSize(R.dimen.margin_min)
     }
 
+    // ✅ Метод для очистки слушателей, чтобы избежать утечек памяти
+    fun destroy() {
+        appBar.removeOnOffsetChangedListener(this)
+        appBar.viewTreeObserver.removeOnGlobalLayoutListener(this)
+    }
+
+    // ✅ Этот метод будет вызываться каждый раз, когда макет будет перерисован
+    override fun onGlobalLayout() {
+        updateChildInfo()
+    }
 
     private fun setupInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(appBar) { view, insets ->
@@ -43,16 +48,30 @@ class AppBarEdgeToEdge(
                 top = systemBars.top,
             )
 
-            appBar.post { updateChildInfo() }
+            // Первоначальный вызов остается на всякий случай
+            updateChildInfo()
             WindowInsetsCompat.CONSUMED
         }
     }
 
     private fun updateChildInfo() {
+        // Проверяем, изменилось ли что-то, чтобы не создавать объекты без надобности
+        if (childInfo.size == appBar.childCount && childInfo.all { it.height > 0 }) {
+            // Если количество дочерних элементов совпадает и у всех уже есть высота,
+            // можно предположить, что ничего не изменилось. Для более строгой проверки можно сравнивать высоты.
+            var hasChanged = false
+            for (i in 0 until appBar.childCount){
+                if (childInfo[i].height != appBar.getChildAt(i).height || childInfo[i].top != appBar.getChildAt(i).top - statusBarInset){
+                    hasChanged = true
+                    break
+                }
+            }
+            if (!hasChanged) return
+        }
+
         childInfo.clear()
         for (i in 0 until appBar.childCount) {
             val child = appBar.getChildAt(i)
-            // Корректируем позицию с учетом статус-бара
             childInfo.add(ChildInfo(child.top - statusBarInset, child.height))
         }
     }
@@ -62,20 +81,24 @@ class AppBarEdgeToEdge(
         if (totalRange == 0) return
 
         val scroll = -verticalOffset
-        val progress = scroll.toFloat() / totalRange // 0f..1f
+        val progress = scroll.toFloat() / totalRange
 
-        if (appBar.getChildAt(appBar.childCount - 1) !is MaterialToolbar){
-            val lastChild = appBar.getChildAt(appBar.childCount - 1)
-            if (lastChild is FrameLayout){
-                if (lastChild.getChildAt(0) !is MaterialToolbar){
-                    val newBottomPadding = (targetBottomPadding * progress).toInt()
-                    appBar.updatePadding(bottom = newBottomPadding)
-                }
-                }
-
+        // 💡 Эту логику можно упростить. Она очень хрупкая.
+        // Лучше дать контейнеру для заголовка ID и искать его по ID,
+        // а не полагаться на иерархию и типы View.
+        val lastChild = appBar.getChildAt(appBar.childCount - 1)
+        if (lastChild !is MaterialToolbar) {
+            val isToolbarContainer = lastChild is FrameLayout && lastChild.getChildAt(0) is MaterialToolbar
+            if (!isToolbarContainer) {
+                val newBottomPadding = (targetBottomPadding * progress).toInt()
+                appBar.updatePadding(bottom = newBottomPadding)
+            }
         }
 
-
+        if (childInfo.size != appBar.childCount) {
+            // Если информация устарела, принудительно обновляем
+            updateChildInfo()
+        }
 
         for (i in 0 until appBar.childCount) {
             val view = appBar.getChildAt(i)
@@ -83,8 +106,8 @@ class AppBarEdgeToEdge(
             if (height == 0) continue
 
             val hidden = (scroll - top).coerceIn(0, height)
-            val alpha = 1f - (hidden.toFloat() / height)
-            val scale =  1f - (hidden.toFloat() / height) / 10
+            val alpha = 1f - (hidden.toFloat() / height * 1.5f)
+            val scale = 1f - (hidden.toFloat() / height) / 10
 
             view.alpha = alpha.coerceIn(0f, 1f)
             view.scaleX = scale.coerceIn(0f, 1f)

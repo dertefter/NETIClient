@@ -21,6 +21,7 @@ import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.FragmentLoginBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -58,7 +59,7 @@ class LoginFragment(val type: LoginReasonType? = null) : Fragment() {
             if (isInputValid()) {
                 val login = loginEditText?.text.toString()
                 val password = passwordEditText?.text.toString()
-                loginViewModel.auth(login, password)
+                loginViewModel.login(login, password)
                 hideKeyboard()
             }
         }
@@ -92,25 +93,25 @@ class LoginFragment(val type: LoginReasonType? = null) : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
-                    when (authState) {
-                        AuthState.UNAUTHORIZED -> {
+                loginViewModel.authStatus.collect { authStatus ->
+                    when (authStatus) {
+                        AuthStatusType.UNAUTHORIZED -> {
                             binding.loading.visibility = View.GONE
                             binding.login.visibility = View.VISIBLE
                         }
-                        AuthState.AUTHORIZED -> {
+                        AuthStatusType.AUTHORIZED -> {
                             binding.loading.visibility = View.GONE
                             binding.login.visibility = View.GONE
                             findNavController().popBackStack()
                         }
-                        AuthState.AUTHORIZED_WITH_ERROR -> {
+                        AuthStatusType.AUTHORIZED_WITH_ERROR -> {
                             binding.loading.visibility = View.GONE
                             binding.login.visibility = View.VISIBLE
                             Utils.showToast(requireContext(), "Ошибка авторизации")
                             loginEditText?.setText("")
                             passwordEditText?.setText("")
                         }
-                        AuthState.AUTHORIZING -> {
+                        AuthStatusType.LOADING -> {
                             binding.login.visibility = View.GONE
                             binding.loading.visibility = View.VISIBLE
                         }

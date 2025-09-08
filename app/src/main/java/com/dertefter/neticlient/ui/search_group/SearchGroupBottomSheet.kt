@@ -2,12 +2,16 @@ package com.dertefter.neticlient.ui.search_group
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
@@ -15,10 +19,12 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.SearchGroupBottomSheetConentBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
+import com.dertefter.neticlient.common.item_decoration.HorizontalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.launch
 
 class SearchGroupBottomSheet : BottomSheetDialogFragment() {
 
@@ -60,6 +66,12 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
         binding.groupsRecyclerView.adapter = adapter
         binding.groupsRecyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
 
+        binding.groupsHistoryRecyclerView.adapter = adapterHistory
+        binding.groupsHistoryRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.groupsHistoryRecyclerView.addItemDecoration(
+            HorizontalSpaceItemDecoration(R.dimen.margin_min)
+        )
+
         ViewCompat.setNestedScrollingEnabled(binding.groupsHistoryRecyclerView, false)
 
         binding.groupsRecyclerView.addItemDecoration(
@@ -97,27 +109,16 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
             }
         }
 
-        searchGroupViewModel.groupHistoryLiveData.observe(viewLifecycleOwner){
-            adapterHistory.setData(it)
 
-            for (i in 0..<binding.groupsHistoryRecyclerView.itemDecorationCount){
-                binding.groupsHistoryRecyclerView.removeItemDecorationAt(i)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchGroupViewModel.groupHistory.collect { groupHistory ->
+                    Log.e("groupHistory", groupHistory.toString())
+                    adapterHistory.setData(groupHistory)
+                }
             }
-
-            binding.groupsHistoryRecyclerView.addItemDecoration(
-                GridSpacingItemDecoration(
-                    requireContext(),
-                    it.size,
-                    R.dimen.margin_min,
-                    R.dimen.zero
-                )
-            )
-
-
         }
-
-        searchGroupViewModel.getGroupsHistory()
-
 
         binding.searchGroupField.editText?.doOnTextChanged { text, start, before, count ->
             searchGroupViewModel.fetchGroupList(text.toString())
@@ -132,7 +133,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
     }
 
     fun selectGroup(group: String) {
-        scheduleViewModel.updateSelectedGroup(group)
+        searchGroupViewModel.setCurrentGroup(group)
         dismiss()
     }
 

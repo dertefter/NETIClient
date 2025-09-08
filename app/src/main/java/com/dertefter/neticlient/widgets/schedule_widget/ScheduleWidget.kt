@@ -5,16 +5,13 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.icu.text.SimpleDateFormat
-import android.net.Uri
-import android.view.View
 import android.widget.RemoteViews
+import androidx.core.net.toUri
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.repository.ScheduleRepository
 import com.dertefter.neticlient.data.repository.SettingsRepository
-import com.dertefter.neticlient.data.repository.UserRepository
 import com.dertefter.neticlient.ui.main.MainActivity
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,9 +19,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
-import androidx.core.net.toUri
-import com.google.android.material.color.MaterialColors
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -36,8 +30,6 @@ class ScheduleWidget : AppWidgetProvider() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
-    @Inject
-    lateinit var userRepository: UserRepository
 
     companion object {
         const val ACTION_SELECT_DAY = "com.dertefter.neticlient.widgets.schedule_widget.SELECT_DAY"
@@ -118,7 +110,7 @@ class ScheduleWidget : AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, views)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val selectedGroup = userRepository.getSelectedGroupFlow().first()
+            val selectedGroup = NETICore.userDetailFeature.currentGroup.first()
             if (selectedGroup.isNullOrEmpty()) {
                 views.setTextViewText(R.id.week_label_text_view, context.getString(R.string.add_group))
                 appWidgetManager.updateAppWidget(appWidgetId, views)

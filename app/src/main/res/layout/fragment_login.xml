@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_max"
-        android:layout_marginTop="@dimen/margin_max"
+        android:layout_marginTop="48dp"
         android:paddingTop="@dimen/margin_max"
         android:text="@string/auth_title"
         android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"

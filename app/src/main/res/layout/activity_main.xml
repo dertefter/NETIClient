@@ -27,18 +27,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:background="?attr/colorSurfaceContainerLow"
-        android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/margin_max">
+        android:orientation="horizontal">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_max"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:fitsSystemWindows="false"
             android:minHeight="0dp"
             android:paddingVertical="@dimen/margin"
+            app:elevation="0dp"
             app:itemGravity="center"
             app:itemPaddingBottom="0dp"
             app:itemPaddingTop="0dp"
@@ -49,6 +50,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/margin_max"
             android:layout_weight="0"
             app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="@dimen/radius_min">

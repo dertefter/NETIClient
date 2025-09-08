@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.person.Person
+import com.dertefter.neticore.features.person_detail.model.Person
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.ui.person.PersonListStyle
@@ -77,8 +77,7 @@ class PersonSearchRecyclerViewAdapter(
             name?.text = personId.first
             profilePic?.visibility = View.GONE
             @Suppress("UNCHECKED_CAST")
-            val liveData = personViewModel.getLiveDataForId(personId.second) as LiveData<Any>
-            currentLiveData = liveData
+
 
             val observer = Observer<Any> { response ->
                 val resp = response as? ResponseResult
@@ -98,10 +97,6 @@ class PersonSearchRecyclerViewAdapter(
                 }
             } as Observer<Any>
             currentObserver = observer
-
-            liveData.observeForever(observer)
-
-            personViewModel.fetchPerson(personId.second)
 
             itemView.setOnClickListener {
                 onClick(personId.second)

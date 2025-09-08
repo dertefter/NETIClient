@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
 
                 android:includeFontPadding="false"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
 
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="normal"
@@ -74,59 +74,163 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/now"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_background_small"
-                android:backgroundTint="?attr/colorSurfaceContainerHigh"
-                android:divider="@drawable/horizontal_divider_small"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSurfaceContainerHighest"
+                android:divider="@drawable/vertical_divider_micro"
+                android:orientation="vertical"
                 android:padding="@dimen/margin"
                 android:showDividers="middle">
 
                 <TextView
-                    android:id="@+id/timeStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0"
-                    android:includeFontPadding="false"
-                    android:text="10:15"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="40"
-                    app:indicatorColor="?attr/colorSecondary"
-                    app:trackColor="?attr/colorSurfaceVariant"
-                    app:trackStopIndicatorSize="0dp"
-                    app:waveAmplitude="2dp"
-                    app:waveSpeed="12dp"
-                    app:wavelength="24dp"
-                    app:wavelengthDeterminate="24dp"
-                    app:wavelengthIndeterminate="24dp" />
 
-                <TextView
-                    android:id="@+id/timeEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0"
                     android:includeFontPadding="false"
-                    android:text="10:15"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
+                    android:text="@string/now"
+
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/horizontal_divider_small"
+
+                    android:showDividers="middle">
+
+                    <TextView
+                        android:id="@+id/timeStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:includeFontPadding="false"
+                        android:text="10:15"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progress="40"
+                        app:indicatorColor="?attr/colorOnSurface"
+                        app:trackColor="?attr/colorSurfaceVariant"
+                        app:trackStopIndicatorSize="0dp"
+                        app:waveAmplitude="2dp"
+                        app:waveSpeed="12dp"
+                        app:wavelength="24dp"
+                        app:wavelengthDeterminate="24dp"
+                        app:wavelengthIndeterminate="24dp" />
+
+                    <TextView
+                        android:id="@+id/timeEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:includeFontPadding="false"
+                        android:text="10:15"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/personsRecyclerView"
+            <LinearLayout
+                android:id="@+id/future_past"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                android:divider="@drawable/vertical_divider_micro"
+                android:orientation="vertical"
+                android:padding="@dimen/margin"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/future_past_tv"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:includeFontPadding="false"
+                    android:text="@string/will_start"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="normal|bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:showDividers="middle">
+
+                    <TextView
+                        android:id="@+id/date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:includeFontPadding="false"
+                        android:text="5 сентября"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="20sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:includeFontPadding="false"
+                        android:text="@string/at"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="20sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/timeStartFuture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:includeFontPadding="false"
+                        android:text="10:15"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/margin_min" />
+                android:layout_marginBottom="@dimen/margin_max"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="@dimen/radius">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/personsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_person" />
+            </com.google.android.material.card.MaterialCardView>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

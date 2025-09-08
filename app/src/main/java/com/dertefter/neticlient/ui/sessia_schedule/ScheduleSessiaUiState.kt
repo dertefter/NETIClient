@@ -1,6 +1,5 @@
 package com.dertefter.neticlient.ui.sessia_schedule
 
-import com.dertefter.neticlient.data.model.schedule.Schedule
 import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.data.network.model.ResponseType
 

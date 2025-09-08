@@ -30,8 +30,8 @@
 
                 android:paddingHorizontal="@dimen/radius_max"
                 android:text="@string/notify"
-                android:textColor="?attr/colorPrimary"
-                 />
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                android:textColor="?attr/colorPrimary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -65,8 +65,8 @@
                             android:layout_height="wrap_content"
                             android:includeFontPadding="false"
                             android:text="@string/need_permissions_notify"
-                            android:textColor="?attr/colorOnSurface"
-                             />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                            android:textColor="?attr/colorOnSurface" />
 
                         <Button
                             android:id="@+id/permission_button"
@@ -101,8 +101,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/class_notify"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
                         </LinearLayout>
 
                         <com.google.android.material.materialswitch.MaterialSwitch
@@ -134,8 +134,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/notify_lessons_future"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                         </LinearLayout>
 
@@ -168,8 +168,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/when_notify"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                             <TextView
                                 android:id="@+id/slider_notify_text"
@@ -203,8 +203,8 @@
                 android:paddingHorizontal="@dimen/radius_max"
                 android:paddingTop="12dp"
                 android:text="@string/customization"
-                android:textColor="?attr/colorPrimary"
-                 />
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                android:textColor="?attr/colorPrimary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -239,8 +239,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/use_system_color"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                         </LinearLayout>
 
@@ -266,8 +266,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/color_scheme"
-                            android:textColor="?attr/colorOnSurface"
-                             />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                            android:textColor="?attr/colorOnSurface" />
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
@@ -312,8 +312,8 @@
                 android:paddingHorizontal="@dimen/radius_max"
                 android:paddingTop="12dp"
                 android:text="@string/about"
-                android:textColor="?attr/colorPrimary"
-                 />
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                android:textColor="?attr/colorPrimary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -354,8 +354,8 @@
                             android:gravity="center"
                             android:includeFontPadding="false"
                             android:text="TextView"
-                            android:textColor="?attr/colorOnPrimaryContainer"
-                             />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                            android:textColor="?attr/colorOnPrimaryContainer" />
 
                         <TextView
                             android:id="@+id/app_verion"
@@ -389,8 +389,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/policy_button_text"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                         </LinearLayout>
 
@@ -424,8 +424,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/contact_dev"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -465,8 +465,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/source_code"
-                                android:textColor="?attr/colorOnSurface"
-                                 />
+                                android:textAppearance="@style/TextAppearance.Material3.TitleSmall.Emphasized"
+                                android:textColor="?attr/colorOnSurface" />
 
                             <TextView
                                 android:layout_width="match_parent"

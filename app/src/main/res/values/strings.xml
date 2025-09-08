@@ -85,7 +85,7 @@
     <string name="title_dashboard">Grades</string>
     <string name="today">today</string>
     <string name="tomorrow">tomorrow</string>
-    <string name="classses_for">Classes for</string>
+    <string name="classses_for">"Classes for "</string>
     <string name="title_nstu">NSTU NETI</string>
     <string name="other_variant">Other</string>
     <string name="edit">Edit</string>
@@ -145,5 +145,14 @@
     <string name="on_board_fab_done">Let\'s get started!</string>
     <string name="semester">Semester</string>
     <string name="login_resason_1">To access this section you need to log in to your account</string>
+    <string name="updating">Loading...</string>
+    <string name="updated">Updated!</string>
+    <string name="update_fail">Update error</string>
+    <string name="at">" at "</string>
+    <string name="will_start">Will start</string>
+    <string name="now">Now</string>
+    <string name="lesson_over">The lesson is over</string>
+    <string name="yesterday">yesterday</string>
+    <string name="near_lessons">Upcoming classes</string>
 
 </resources>

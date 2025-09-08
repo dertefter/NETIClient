@@ -61,7 +61,7 @@ class SearchAdapter : ListAdapter<SearchItem, RecyclerView.ViewHolder>(SearchDif
 
     inner class PersonViewHolder(private val binding: ItemSearchPersonBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SearchItem.PersonItem) {
-            binding.title.text = item.id
+            binding.title.text = item.name
             binding.root.setOnClickListener { onPersonClick?.invoke(item) }
         }
     }

@@ -4,27 +4,35 @@ import android.app.Dialog
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.core.view.isGone
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticlient.data.model.schedule.FutureOrPastOrNow
-import com.dertefter.neticlient.data.model.schedule.LessonDetail
-import com.dertefter.neticlient.data.model.schedule.Week
+import com.dertefter.neticore.features.schedule.model.FutureOrPastOrNow
+import com.dertefter.neticore.features.schedule.model.LessonDetail
 import com.dertefter.neticlient.databinding.FragmentLessonViewBinding
+import com.dertefter.neticlient.ui.person.PersonListAdapter
 import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
 import com.dertefter.neticlient.ui.person.PersonListStyle
+import com.dertefter.neticore.features.schedule.model.Lesson
+import com.dertefter.neticore.features.schedule.model.Time
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -40,6 +48,7 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
     lateinit var _dialog: BottomSheetDialog
 
+    lateinit var lesson: Lesson
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -64,107 +73,198 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PersonListRecyclerViewAdapter(fragment = this, listStyle = PersonListStyle.LIST){
+
+
+        lesson = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("lesson", Lesson::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("lesson") as? Lesson
+        })!!
+
+        binding.aud.text = lesson.aud
+        binding.title.text = lesson.title
+        binding.type.text = lesson.type
+        binding.timeEnd.text = lesson.timeEnd.toString()
+        binding.timeStart.text = lesson.timeStart.toString()
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            combine(
+                CurrentTimeObject.currentTimeFlow,
+                CurrentTimeObject.currentDateFlow
+            ) { currentTime, currentDate ->
+                Pair(currentTime, currentDate)
+            }.collect { (currentTime, currentDate) ->
+                if (currentTime != null && currentDate != null) {
+                    updateProgressBasedOnTime(currentTime, currentDate)
+                }
+            }
+        }
+
+
+        val adapter = PersonListAdapter(lesson.personIds, viewLifecycleOwner){
             val bundle = Bundle()
             bundle.putString("personId", it)
             requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.personViewFragment, bundle)
             dismiss()
         }
 
-        val lessonDetail = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable("lessonDetail", LessonDetail::class.java)
+
+        binding.personsRecyclerView.adapter = adapter
+        binding.personsRecyclerView.addItemDecoration(
+            VerticalSpaceItemDecoration(
+                R.dimen.margin_max,
+                R.dimen.margin_micro
+            ))
+        binding.personsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+
+        if (binding.aud.text.isEmpty()){
+            binding.aud.visibility = View.GONE
         } else {
-            @Suppress("DEPRECATION")
-            arguments?.getParcelable("lessonDetail") as? LessonDetail
+            binding.aud.visibility = View.VISIBLE
         }
 
-        if (lessonDetail != null){
-            val lesson = lessonDetail.lesson
-            val time = lessonDetail.time
-            binding.aud.text = lesson.aud
-            binding.title.text = lesson.title
-            binding.type.text = lesson.type
-            binding.timeEnd.text = time?.timeEnd.toString()
-            binding.timeStart.text = time?.timeStart.toString()
+        val type = binding.type
 
-            binding.personsRecyclerView.adapter = adapter
-            binding.personsRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.margin_min))
-
-            binding.personsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter.setData(lesson.personIds)
-            when (lessonDetail.futureOrPastOrNow){
-                FutureOrPastOrNow.NOW -> {
-                    if (time != null){
-                        binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorSecondary))
-                        binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorOnSurfaceVariant))
-
-                        val currentTime = CurrentTimeObject.currentTimeLiveData.value
-                        val totalDuration = time.getTimeEnd().toSecondOfDay() - time.getTimeStart().toSecondOfDay()
-                        val currentProgress = currentTime!!.toSecondOfDay() - time.getTimeStart().toSecondOfDay()
-                        val progressPercentage = (currentProgress.toFloat() / totalDuration.toFloat()) * 100
-                        binding.progress.progress = progressPercentage.toInt()
-                    }
+        if (type.text.isNotEmpty()) {
+            type.visibility = View.VISIBLE
+            when {
+                type.text.contains("Лаб") -> {
+                    type.backgroundTintList = ColorStateList.valueOf(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
+                    )
+                    type.setTextColor(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
+                    )
                 }
-                FutureOrPastOrNow.FUTURE -> {
-                    binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorOnSurfaceVariant))
-                    binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorOnSurfaceVariant))
-                    binding.progress.progress = 0
+                type.text.contains("Практика") -> {
+                    type.backgroundTintList = ColorStateList.valueOf(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimaryContainer)
+                    )
+                    type.setTextColor(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnPrimaryContainer)
+                    )
                 }
-                FutureOrPastOrNow.PAST -> {
-                    binding.timeStart.setTextColor(MaterialColors.getColor(binding.timeStart, com.google.android.material.R.attr.colorSecondary))
-                    binding.timeEnd.setTextColor(MaterialColors.getColor(binding.timeEnd, com.google.android.material.R.attr.colorSecondary))
-                    binding.progress.progress = 100
-                    (binding.progress.parent as View).alpha = 0.5f
+                else -> {
+                    type.backgroundTintList = ColorStateList.valueOf(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
+                    )
+                    type.setTextColor(
+                        MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                    )
+
+
                 }
             }
+        } else {
+            type.visibility = View.GONE
+        }
 
-            if (binding.aud.text.isEmpty()){
-                binding.aud.visibility = View.GONE
-            } else {
-                binding.aud.visibility = View.VISIBLE
-            }
 
-            val type = binding.type
+    }
 
-            if (type.text.isNotEmpty()) {
-                type.visibility = View.VISIBLE
+
+    private fun updateProgressBasedOnTime(
+        currentTime: LocalTime,
+        currentDate: LocalDate
+    ) {
+        try {
+            val startTime = lesson.getTimeStart()
+            val endTime =  lesson.getTimeEnd()
+
+            if (currentDate.isBefore(lesson.getLocalDate())){
+                onFuture()
+            } else if (currentDate.isAfter(lesson.getLocalDate())){
+                onPast()
+            }else{
                 when {
-                    type.text.contains("Лаб") -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorSecondaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnSecondaryContainer)
-                        )
+                    currentTime.isBefore(startTime) -> {
+                        onFuture()
                     }
-                    type.text.contains("Практика") -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorPrimaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                        )
+                    currentTime.isAfter(endTime) -> {
+                        onPast()
                     }
                     else -> {
-                        type.backgroundTintList = ColorStateList.valueOf(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorTertiaryContainer)
-                        )
-                        type.setTextColor(
-                            MaterialColors.getColor(type, com.google.android.material.R.attr.colorOnTertiaryContainer)
-                        )
-
-
+                        val progress = calculateProgress(startTime, endTime, currentTime)
+                        onNow(progress)
                     }
                 }
-            } else {
-                type.visibility = View.GONE
             }
 
 
+        } catch (e: Exception) {
+            onFuture()
+            Log.e("updateProgressBasedOnTime", e.stackTraceToString())
 
+        }
+    }
+
+
+    fun getDateString(date: LocalDate): String{
+         when (date) {
+            LocalDate.now() -> {
+                return getString(R.string.today)
+            }
+
+            LocalDate.now().plusDays(1) -> {
+                return getString(R.string.tomorrow)
+            }
+
+             LocalDate.now().minusDays(1) -> {
+                 return getString(R.string.yesterday)
+             }
+
+            else -> {
+                val formatter = DateTimeFormatter.ofPattern("d MMMM")
+                val dateString = date.format(formatter)
+                return dateString
+            }
         }
 
     }
+
+    fun onFuture(){
+        binding.futurePast.isGone = false
+        binding.now.isGone = true
+        binding.timeStartFuture.text = lesson.timeStart
+        binding.dateTv.text = getDateString(date = lesson.getLocalDate()).replaceFirstChar { it.uppercase() }
+        binding.futurePastTv.text = getString(R.string.will_start)
+    }
+
+    fun onPast(){
+        binding.futurePast.isGone = false
+        binding.now.isGone = true
+        binding.timeStartFuture.text = lesson.timeEnd
+        binding.dateTv.text = getDateString(date = lesson.getLocalDate()).replaceFirstChar { it.uppercase() }
+        binding.futurePastTv.text = getString(R.string.lesson_over)
+    }
+
+    fun onNow(progress: Int){
+        binding.futurePast.isGone = true
+        binding.now.isGone = false
+        binding.progress.progress = progress
+    }
+
+    private fun calculateProgress(
+        startTime: LocalTime?,
+        endTime: LocalTime?,
+        currentTime: LocalTime?
+    ): Int {
+
+        if (startTime == null || endTime == null || currentTime == null) {return 0}
+
+        val totalMinutes = startTime.until(endTime, java.time.temporal.ChronoUnit.MINUTES)
+        val elapsedMinutes = startTime.until(currentTime, java.time.temporal.ChronoUnit.MINUTES)
+
+        return if (totalMinutes > 0) {
+            ((elapsedMinutes.toDouble() / totalMinutes.toDouble()) * 100).toInt().coerceIn(0, 100)
+        } else {
+            0
+        }
+    }
+
 
 }
 

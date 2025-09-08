@@ -2,8 +2,11 @@ package com.dertefter.neticlient.ui.on_boarding.pages
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +28,8 @@ import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticlient.databinding.FragmentOnboardingPage2Binding
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -58,7 +63,7 @@ class OnboardingPage2 : Fragment() {
             if (isInputValid()) {
                 val login = loginEditText?.text.toString()
                 val password = passwordEditText?.text.toString()
-                loginViewModel.auth(login, password)
+                loginViewModel.login(login, password)
                 hideKeyboard()
             }
         }
@@ -101,31 +106,42 @@ class OnboardingPage2 : Fragment() {
             startActivity(intent)
         }
 
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userFlow.collect { user ->
+                loginViewModel.userDetailMobile.collect { userDetail ->
+                    Log.e("userMoble", userDetail.toString())
+                    if (!userDetail?.photoPath.isNullOrEmpty()){
+
+                        Picasso.get()
+                            .load(userDetail.photoPath)
+                            .into(object : com.squareup.picasso.Target {
+                                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                                    binding.profilePic.setImageBitmap(bitmap)
+                                }
+
+                                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                                    // обработка ошибки
+                                }
+
+                                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                                    // можно показать плейсхолдер
+                                }
+                            })
+
+
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.userDetail.collect { user ->
                     binding.profileCard.isVisible = user != null
 
                     if (!user?.name.isNullOrEmpty()){
-                        if (user.name.split(" ").size >= 2){
-                            binding.nameTv.text = user.name.split(" ")[1]
-                        }else{
-                            binding.nameTv.text = user.name
-                        }
-
-                        binding.loginTv.text = user.login
-
-                        if (!user.profilePicPath.isNullOrEmpty()){
-                            val file = File(user.profilePicPath)
-                            if (file.exists()){
-                                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                                binding.profilePic.setImageBitmap(bitmap)
-                            }
-                        } else{
-                            binding.profilePic.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.transparent))
-                        }
-
-
+                        binding.nameTv.text = user.name
                     }
 
                 }
@@ -134,27 +150,30 @@ class OnboardingPage2 : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStateFlow.collect { authState ->
+                loginViewModel.authStatus.collect { authStatus ->
 
-                    binding.loading.isVisible = authState == AuthState.AUTHORIZING
-                    binding.authed.isVisible = authState == AuthState.AUTHORIZED
-                    binding.login.isVisible = authState == AuthState.UNAUTHORIZED || authState == AuthState.AUTHORIZED_WITH_ERROR
+                    binding.loading.isVisible = authStatus == AuthStatusType.LOADING
+                    binding.authed.isVisible = authStatus == AuthStatusType.AUTHORIZED
+                    binding.login.isVisible = authStatus == AuthStatusType.UNAUTHORIZED || authStatus == AuthStatusType.AUTHORIZED_WITH_ERROR
 
 
-                    when (authState){
-                        AuthState.AUTHORIZED -> binding.title.text = getString(R.string.ob_2_title_auhorized)
-                        AuthState.UNAUTHORIZED -> binding.title.text = getString(R.string.ob_2_title_1)
-                        AuthState.AUTHORIZED_WITH_ERROR -> binding.title.text = getString(R.string.auth_error)
-                        AuthState.AUTHORIZING -> binding.title.text = getString(R.string.authing)
+                    when (authStatus){
+                        AuthStatusType.AUTHORIZED -> {
+                            binding.title.text = getString(R.string.ob_2_title_auhorized)
+                            loginViewModel.updateUserDetail()
+                        }
+                        AuthStatusType.UNAUTHORIZED -> binding.title.text = getString(R.string.ob_2_title_1)
+                        AuthStatusType.AUTHORIZED_WITH_ERROR -> binding.title.text = getString(R.string.auth_error)
+                        AuthStatusType.LOADING -> binding.title.text = getString(R.string.authing)
                     }
 
-                    if ( authState == AuthState.AUTHORIZED_WITH_ERROR){
+                    if ( authStatus == AuthStatusType.AUTHORIZED_WITH_ERROR){
                         Utils.showToast(requireContext(),getString(R.string.auth_error))
                         loginEditText?.setText("")
                         passwordEditText?.setText("")
                     }
 
-                    if ( authState == AuthState.AUTHORIZED || authState == AuthState.AUTHORIZING){
+                    if ( authStatus == AuthStatusType.AUTHORIZED || authStatus == AuthStatusType.LOADING){
                         binding.info.isGone = true
                         binding.action.isVisible = true
                     }

@@ -1,117 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@drawable/rounded_background"
-    android:backgroundTint="?attr/colorSurface"
-    android:divider="@drawable/horizontal_divider"
-    android:showDividers="middle"
-    tools:context=".ui.schedule.ScheduleFragment">
+    android:backgroundTint="?attr/colorSurface">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:divider="@drawable/vertical_divider_small"
+        android:fitsSystemWindows="true"
+        android:showDividers="none">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/pane1"
+        <FrameLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:clickable="false"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="0dp">
+            android:paddingHorizontal="@dimen/margin"
+            android:paddingVertical="@dimen/margin_micro"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+            <TextView
+                style="@style/NETIClient.TextStyle.SexyTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center|start"
+                android:maxWidth="1000dp"
+                android:paddingVertical="@dimen/margin"
+                android:text="@string/messages_title"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/appBarLayout"
+            <Button
+                android:id="@+id/menu_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                app:icon="@drawable/more_icon"
+                app:iconGravity="textStart" />
 
-                    android:layout_width="match_parent"
+        </FrameLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="false"
+            android:paddingHorizontal="@dimen/margin"
+            android:scrollbarThumbHorizontal="@null">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/filter_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/radius_max"
+                android:paddingVertical="@dimen/margin_micro"
+                app:chipSpacingHorizontal="@dimen/margin_micro"
+                app:chipSpacingVertical="0dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_all"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:fitsSystemWindows="true"
-                    app:liftOnScroll="true"
-                    app:liftOnScrollTargetViewId="@id/pager">
+                    android:checked="true"
+                    android:text="@string/filter_news_all"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="center|start"
-                        android:maxWidth="1000dp"
-                        android:paddingHorizontal="@dimen/margin"
-                        android:paddingVertical="@dimen/margin"
-                        android:text="@string/messages_title"
-                        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium.Emphasized"
-                        android:textColor="?attr/colorTertiary"
-                        app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_unread"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Непрочитано"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/filter_chips"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:clipToPadding="false"
-                        android:paddingHorizontal="@dimen/margin"
-                        android:paddingVertical="@dimen/margin_min"
-                        app:chipSpacingVertical="0dp"
-                        app:selectionRequired="true"
-                        app:singleSelection="true">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_teacher"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Преподаватели"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/filter_p_1"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="Преподаватели и службы"
-                            app:ensureMinTouchTargetSize="false" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_decan"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Деканат"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/filter_p_2"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:text="Прочее"
-                            app:ensureMinTouchTargetSize="false" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_tutor"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Тьютор"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                    </com.google.android.material.chip.ChipGroup>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_sluzb"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Службы"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                </com.google.android.material.appbar.AppBarLayout>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_other"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Прочее"
+                    app:chipCornerRadius="@dimen/radius_micro"
+                    app:ensureMinTouchTargetSize="false" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
-                </androidx.viewpager2.widget.ViewPager2>
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/login_helper"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:background="?attr/colorSurface"
-        android:elevation="10dp"
-        android:visibility="gone">
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/margin"
+        android:paddingVertical="@dimen/margin_micro"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:listitem="@layout/item_message" />
 
-    </FrameLayout>
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/margin"
+        android:text="Нет данных о результатах сессии"
+        android:textColor="?attr/colorOnSurfaceVariant"
+
+        android:visibility="gone"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

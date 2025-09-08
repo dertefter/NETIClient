@@ -1,22 +1,15 @@
 package com.dertefter.neticlient.ui.dashboard.sessia_results
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
-import com.dertefter.neticlient.databinding.FragmentSemestrBinding
-import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
+import com.dertefter.neticlient.databinding.FragmentSemestrBinding
+import com.dertefter.neticore.features.sessia_results.model.SessiaResultSemestr
 
 class SemestrFragment : Fragment() {
 
@@ -43,11 +36,10 @@ class SemestrFragment : Fragment() {
         if (items != null){
             adapter.updateData(items)
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-
             binding.recyclerView.addItemDecoration(
                 VerticalSpaceItemDecoration(
-                    R.dimen.margin_micro
+                    R.dimen.radius_max,
+                    R.dimen.radius_micro
                 )
             )
         }else{

@@ -13,8 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -64,6 +66,22 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+                        or WindowInsetsCompat.Type.displayCutout()
+            )
+            binding.appBarLayout.updatePadding(
+                top = bars.top
+            )
+
+            binding.nestedScrollView.updatePadding(
+                bottom = bars.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
 
 
 
@@ -158,7 +176,7 @@ class SettingsFragment : Fragment() {
                 settingsViewModel.materialYouState.collect { state ->
                     binding.switchDynamicColor.setOnCheckedChangeListener(null)
 
-                    binding.editColor.isGone = state
+                    binding.editColor.isGone = state || !DynamicColors.isDynamicColorAvailable()
                     binding.switchDynamicColor.isChecked = state
 
                     binding.switchDynamicColor.setOnCheckedChangeListener { _, v ->

@@ -17,7 +17,8 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="?attr/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,15 +35,13 @@
 
                     <TextView
                         android:id="@+id/week_label2"
+                        style="@style/NETIClient.TextStyle.SexyTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"
                         android:gravity="center|start"
-                        android:maxWidth="1000dp"
                         android:paddingVertical="@dimen/margin"
                         android:text="@string/sessia_results_title"
-                        android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
-                        android:textColor="?attr/colorTertiary"
                         app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
                     <Button
@@ -191,7 +190,6 @@
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
-
 
 
     <FrameLayout

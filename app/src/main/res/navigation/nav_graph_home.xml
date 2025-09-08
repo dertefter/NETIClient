@@ -6,75 +6,60 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
+        tools:layout="@layout/fragment_home"
         android:id="@+id/homeFragment"
         android:name="com.dertefter.neticlient.ui.home.HomeFragment"
-        android:label="@string/title_home" />
+        android:label="@string/title_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+            <action
+            android:id="@+id/action_homeFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_personViewFragment"
+            app:destination="@id/personViewFragment" />
+    </fragment>
 
     <fragment
+        tools:layout="@layout/fragment_schedule"
         android:id="@+id/scheduleFragment"
         android:name="com.dertefter.neticlient.ui.schedule.ScheduleFragment"
-        android:label="@string/schedule_title" />
+        android:label="@string/schedule_title" >
+        <action
+            android:id="@+id/action_scheduleFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_personViewFragment2"
+            app:destination="@id/personViewFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/personViewFragment"
-        android:name="com.dertefter.neticlient.ui.person.PersonViewFragment" />
-    <fragment
-        android:id="@+id/personSearchFragment"
-        android:name="com.dertefter.neticlient.ui.person_search.PersonSearchFragment" />
-    <fragment
-        android:id="@+id/messagesFragment"
-        android:name="com.dertefter.neticlient.ui.messages.MessagesFragment"
-        android:label="@string/messages_title" />
-    <fragment
-        android:id="@+id/messagesDetailFragment"
-        android:name="com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.dertefter.neticlient.ui.login.LoginFragment"
-        tools:layout="@layout/fragment_login" />
-    <fragment
-        android:id="@+id/newsDetailFragment"
-        android:name="com.dertefter.neticlient.ui.news.news_detail.NewsDetailFragment" />
-    <fragment
-        android:id="@+id/profileDetailFragment"
-        android:name="com.dertefter.neticlient.ui.profile.profile_detail.ProfileDetailFragment"
-        android:label="@string/contact_info" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.dertefter.neticlient.ui.settings.SettingsFragment"
-        android:label="@string/title_settings" />
-    <fragment
-        android:id="@+id/moneyFragment"
-        android:name="com.dertefter.neticlient.ui.money.MoneyFragment"
-        android:label="@string/money_title" />
-    <fragment
-        android:id="@+id/newsFragment"
-        android:name="com.dertefter.neticlient.ui.news.NewsFragment"
-        android:label="@string/title_news" />
-    <fragment
-        android:id="@+id/sessiaScheduleFragment"
-        android:name="com.dertefter.neticlient.ui.sessia_schedule.SessiaScheduleFragment"
-        android:label="@string/sessia_schedule_title"
-        tools:layout="@layout/fragment_sessia_schedule" />
-    <fragment
-        android:id="@+id/documentsFragment"
-        android:name="com.dertefter.neticlient.ui.documents.DocumentsFragment"
-        android:label="@string/docs_title" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.dertefter.neticlient.ui.profile.ProfileFragment"
-        android:label="@string/profile_title"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
+        tools:layout="@layout/fragment_calendar"
         android:id="@+id/calendarFragment"
-        android:name="com.dertefter.neticlient.ui.calendar.CalendarFragment" />
+        android:name="com.dertefter.neticlient.ui.calendar.CalendarFragment"
+        android:label="CalendarFragment" />
     <fragment
-        android:id="@+id/onBoardingFragment"
-        android:name="com.dertefter.neticlient.ui.on_boarding.OnBoardingFragment" />
+        tools:layout="@layout/fragment_person_view"
+        android:id="@+id/personViewFragment"
+        android:name="com.dertefter.neticlient.ui.person.PersonViewFragment"
+        android:label="PersonViewFragment" />
     <fragment
-        android:id="@+id/smartHubFragment"
-        android:name="com.dertefter.neticlient.ui.smart_hub.SmartHubFragment"
-        tools:layout="@layout/fragment_smart_hub" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.dertefter.neticlient.ui.search.SearchFragment" />
+        tools:layout="@layout/fragment_news_detail"
+        android:id="@+id/newsDetailFragment"
+        android:name="com.dertefter.neticlient.ui.news.news_detail.NewsDetailFragment"
+        android:label="NewsDetailFragment">
+
+        <argument
+            android:name="newsId"
+            app:argType="string" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="color"
+            app:argType="integer" />
+
+    </fragment>
+
 </navigation>
