@@ -4,6 +4,7 @@ build/
 **/build/
 local.properties
 
+
 # IntelliJ / Android Studio
 .idea/
 *.iml
