@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="@dimen/radius"
+    app:cardCornerRadius="@dimen/maximorum"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/margin">
+    app:contentPadding="@dimen/max">
 
     <TextView
         android:id="@+id/name"

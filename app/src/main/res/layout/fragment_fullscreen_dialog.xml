@@ -12,10 +12,10 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
-        android:layout_margin="@dimen/margin"
+        android:layout_margin="@dimen/max"
         android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/close_photo_dialog"
-        app:cornerRadius="@dimen/radius_min"
+        app:cornerRadius="@dimen/min"
         app:icon="@drawable/close_icon"
         app:iconTint="?attr/colorOnSecondary" />
 

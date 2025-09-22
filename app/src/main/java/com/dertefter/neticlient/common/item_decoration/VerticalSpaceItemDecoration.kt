@@ -13,6 +13,7 @@ import com.google.android.material.shape.CornerSize
 class VerticalSpaceItemDecoration(
     private val radiusMaxDimen: Int,
     private val radiusMinDimen: Int,
+    private val verticalSpaceDimen: Int,
     private val skipLeft: Boolean = false
 ) : RecyclerView.ItemDecoration() {
 
@@ -24,17 +25,17 @@ class VerticalSpaceItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) {
-        val radiusMin = view.context.resources.getDimension(radiusMinDimen) / 4
+        val verticalSpace = view.context.resources.getDimension(verticalSpaceDimen)
         val position = parent.getChildAdapterPosition(view)
         val maxIndexPosition = state.itemCount - 1
         if (position == RecyclerView.NO_POSITION) return
 
         when (position) {
-            0 -> outRect.bottom = radiusMin.toInt()
-            maxIndexPosition -> outRect.top = radiusMin.toInt()
+            0 -> outRect.bottom = verticalSpace.toInt() / 2
+            maxIndexPosition -> outRect.top = verticalSpace.toInt() / 2
             else -> {
-                outRect.top = radiusMin.toInt()
-                outRect.bottom = radiusMin.toInt()
+                outRect.top = verticalSpace.toInt() / 2
+                outRect.bottom = verticalSpace.toInt() / 2
             }
         }
     }

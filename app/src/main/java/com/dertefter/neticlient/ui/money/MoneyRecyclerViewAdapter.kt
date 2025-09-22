@@ -1,34 +1,43 @@
 package com.dertefter.neticlient.ui.money
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.data.model.money.MoneyItem
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
-import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.dertefter.neticlient.databinding.ItemMoneyBinding
+import com.dertefter.neticore.features.money.model.MoneyItem
 
-class MoneyRecyclerViewAdapter(private val items: List<MoneyItem>) :
-    RecyclerView.Adapter<MoneyRecyclerViewAdapter.ViewHolder>() {
+class MoneyRecyclerViewAdapter :
+    ListAdapter<MoneyItem, MoneyRecyclerViewAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.title)
-        val text: TextView = view.findViewById(R.id.text)
+    class ViewHolder(private val binding: ItemMoneyBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: MoneyItem) {
+            binding.title.text = item.title
+            binding.text.text = item.text
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_money, parent, false)
-        return ViewHolder(view)
+        val binding = ItemMoneyBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.title.text = item.title
-        holder.text.text = item.text
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = items.size
+    object DiffCallback : DiffUtil.ItemCallback<MoneyItem>() {
+        override fun areItemsTheSame(oldItem: MoneyItem, newItem: MoneyItem): Boolean {
+            return oldItem.title+oldItem.text == newItem.title+newItem.text
+        }
+
+        override fun areContentsTheSame(oldItem: MoneyItem, newItem: MoneyItem): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

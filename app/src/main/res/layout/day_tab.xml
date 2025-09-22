@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:clickable="false"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="@dimen/radius">
+    app:cardCornerRadius="@dimen/maximorum">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"

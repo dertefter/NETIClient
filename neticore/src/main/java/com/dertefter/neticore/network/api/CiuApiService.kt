@@ -13,6 +13,17 @@ import retrofit2.http.Query
 
 interface CiuApiService {
 
+
+    @GET("student_study/personal/money")
+    suspend fun getMoneyYearsList(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/personal/money")
+    suspend fun getMoneyItems(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET("student_study/student_info/task")
+    suspend fun fetchControlWeeks(): Response<ResponseBody>
+
     @GET("student_study/personal/contact_info/")
     suspend fun fetchUserDetail(): Response<ResponseBody>
 
@@ -31,5 +42,30 @@ interface CiuApiService {
 
     @GET("student_study/timetable/timetable_lessons")
     suspend fun fetchSchedule(@Query("print") print: String = "true"): Response<ResponseBody>
+
+
+
+
+    @GET("student_study/docs/claims")
+    suspend fun fetchDocuments(): Response<ResponseBody>
+    @FormUrlEncoded
+    @POST("student_study/docs/claims/ajax_claims")
+    suspend fun getDocumentRequestItem(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+    @FormUrlEncoded
+    @POST("student_study/docs/claims")
+    suspend fun claimNewDocument(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+    @GET("student_study/docs/claims/edit_claim")
+    suspend fun checkDocCancelable(@Query("id") id: String?): Response<ResponseBody>
+    @FormUrlEncoded
+    @POST("student_study/docs/claims/edit_claim")
+    suspend fun cancelDocument(@Query("id") id: String?, @FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
+    @GET("student_study/student_info/link_progress")
+    suspend fun getShareScore(): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("student_study/student_info/link_progress")
+    suspend fun fetchRequestNewLink(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
 
 }

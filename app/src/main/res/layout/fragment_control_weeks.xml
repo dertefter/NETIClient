@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingVertical="@dimen/mini"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.dertefter.neticlient.common.ShimmerLayout
@@ -28,15 +28,15 @@
             android:layout_height="match_parent"
             android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/mini"
             android:showDividers="middle"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorSurfaceContainer"
                 android:text="                            "
                  />
@@ -78,7 +78,7 @@
         layout="@layout/load_failed_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/margin_max"
+        android:layout_marginVertical="@dimen/max"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

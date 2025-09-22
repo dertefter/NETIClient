@@ -11,13 +11,13 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin_max"
+        android:paddingHorizontal="@dimen/max"
         app:liftOnScrollColor="@android:color/transparent">
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginTop="@dimen/max"
             app:tint="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:srcCompat="@drawable/app_icon" />
@@ -26,7 +26,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingVertical="@dimen/mini"
             android:text="@string/ob_1_title"
             android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
             android:textColor="?attr/colorOnSurface"
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_max"
-            android:paddingVertical="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/max"
             android:showDividers="middle">
 
             <TextView
@@ -61,7 +61,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="@dimen/margin_max"
+                android:layout_marginVertical="@dimen/max"
                 app:cardBackgroundColor="?attr/colorErrorContainer">
 
                 <LinearLayout
@@ -69,7 +69,7 @@
                     android:layout_height="match_parent"
                     android:divider="@drawable/vertical_divider_small"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_max"
+                    android:padding="@dimen/max"
                     android:showDividers="middle"
                     android:visibility="visible">
 

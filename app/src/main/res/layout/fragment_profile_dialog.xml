@@ -7,10 +7,10 @@
     android:clickable="false"
     android:elevation="0dp"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius_max"
+    app:cardCornerRadius="@dimen/maxi"
     app:cardElevation="0dp"
     app:cardMaxElevation="0dp"
-    app:contentPadding="@dimen/margin">
+    app:contentPadding="@dimen/max">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="@dimen/radius"
-            app:contentPadding="@dimen/margin_min">
+            app:cardCornerRadius="@dimen/maximorum"
+            app:contentPadding="@dimen/mini">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,11 +94,11 @@
             android:id="@+id/dispace_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/margin"
+            android:paddingVertical="@dimen/max"
             android:text="DiSpace"
 
             android:visibility="gone"
-            app:cornerRadius="@dimen/radius" />
+            app:cornerRadius="@dimen/maximorum" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/error_card"
@@ -106,9 +106,9 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorError"
-            app:cardCornerRadius="@dimen/radius"
+            app:cardCornerRadius="@dimen/maximorum"
             app:cardUseCompatPadding="false"
-            app:contentPadding="@dimen/margin_min">
+            app:contentPadding="@dimen/mini">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +131,7 @@
                     android:backgroundTint="?attr/colorErrorContainer"
                     android:text="@string/load_retry"
                     android:textColor="?attr/colorOnErrorContainer"
-                    app:cornerRadius="@dimen/radius" />
+                    app:cornerRadius="@dimen/maximorum" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -143,7 +143,7 @@
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardUseCompatPadding="false"
-            app:contentPadding="@dimen/margin">
+            app:contentPadding="@dimen/max">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/auth_button_text"
-                    app:cornerRadius="@dimen/radius" />
+                    app:cornerRadius="@dimen/maximorum" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -198,7 +198,7 @@
             android:textColor="?attr/colorOnSurfaceVariant"
 
             app:icon="@drawable/settings_icon"
-            app:iconPadding="@dimen/margin_min"
+            app:iconPadding="@dimen/mini"
             app:iconSize="20dp"
             app:iconTint="?attr/colorOnSurfaceVariant" />
 

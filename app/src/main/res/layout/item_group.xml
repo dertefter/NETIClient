@@ -4,9 +4,9 @@
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/radius"
+    app:cardCornerRadius="@dimen/maximorum"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/margin">
+    app:contentPadding="@dimen/max">
 
     <TextView
         android:id="@+id/group_title"

@@ -1,6 +1,5 @@
 package com.dertefter.neticlient.ui.profile.profile_detail
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,20 +17,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
-import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
-import com.dertefter.neticlient.data.network.model.ResponseType
+import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.databinding.FragmentProfileDetailBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticlient.ui.profile.ProfileViewModel
-import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.ui.fullscreen_image_dialog.FullscreenImageDialog
+import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.io.File
 
 @AndroidEntryPoint
 class ProfileDetailFragment : Fragment() {
@@ -69,14 +62,7 @@ class ProfileDetailFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            if (profileDetailViewModel.userDetail.first() == null){
-                profileDetailViewModel.updateUserDetail()
-            }
-        }
-
-
-
+        profileDetailViewModel.updateUserDetail()
 
         binding.agreeCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.saveButton.isEnabled = isChecked
@@ -138,9 +124,17 @@ class ProfileDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 profileDetailViewModel.status.collect { status ->
-
-                    binding.refreshLayout.setStatus(status)
-
+                    when(status) {
+                        ResponseType.LOADING -> {
+                            binding.refreshLayout.startRefreshing()
+                        }
+                        ResponseType.SUCCESS -> {
+                            binding.refreshLayout.stopRefreshing()
+                        }
+                        ResponseType.ERROR -> {
+                            binding.refreshLayout.showError()
+                        }
+                    }
                 }
             }
         }

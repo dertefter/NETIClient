@@ -154,5 +154,20 @@
     <string name="lesson_over">The lesson is over</string>
     <string name="yesterday">yesterday</string>
     <string name="near_lessons">Upcoming classes</string>
+    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_subtitle">Notifications about classes</string>
+    <string name="settings_personaliztion_title">Personalization</string>
+    <string name="settings_personaliztion_subtitle">Customize the application for yourself</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_subtitle">Privacy policy, source code, contact developer</string>
+    <string name="settings_labs_title">Experiments</string>
+    <string name="settings_labs_subtitle">For advanced users only</string>
+    <string name="auth_login_to">Login to NSTU NETI account</string>
+    <string name="n_loading_schedule">Loading class schedule</string>
+    <string name="please_wait">It won\'t take long...</string>
+    <string name="n_open_app_find_group">Select a group in the app</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="app_widget_description" translatable="false">This is an app widget description</string>
+    <string name="connected">Подключено к НГТУ НЭТИ</string>
 
 </resources>

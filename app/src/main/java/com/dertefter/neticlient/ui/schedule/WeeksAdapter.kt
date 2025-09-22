@@ -42,12 +42,12 @@ class WeeksAdapter(
         holder.textView.text = week.weekNumber.toString()
         holder.itemView.setOnClickListener { onItemClick(week) }
         if (week.weekNumber == currentWeekNumber){
-            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.radius_max)
+            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.maxi)
             (holder.itemView as MaterialCardView).setRadius(radius.toFloat())
             holder.textView.setTextColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorOnTertiary))
             (holder.itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorTertiary))
         } else {
-            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.radius_min)
+            val radius = holder.itemView.context.resources.getDimensionPixelSize(R.dimen.min)
             (holder.itemView as MaterialCardView).setRadius(radius.toFloat())
             holder.textView.setTextColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorOnTertiaryContainer))
             (holder.itemView as MaterialCardView).setCardBackgroundColor(MaterialColors.getColor(holder.itemView, com.google.android.material.R.attr.colorTertiaryContainer))

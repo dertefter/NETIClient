@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/rounded_maximorum"
     android:backgroundTint="?attr/colorSurface">
 
     <LinearLayout
@@ -40,9 +40,9 @@
                         android:id="@+id/tg_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
+                        android:layout_marginHorizontal="@dimen/max"
                         app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                        app:cardCornerRadius="@dimen/radius_max">
+                        app:cardCornerRadius="@dimen/maxi">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -56,14 +56,14 @@
                             android:layout_height="wrap_content"
                             android:divider="@drawable/horizontal_divider"
                             android:orientation="horizontal"
-                            android:padding="@dimen/margin"
+                            android:padding="@dimen/max"
                             android:showDividers="middle">
 
                             <ImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center_vertical"
-                                android:padding="@dimen/margin_micro"
+                                android:padding="@dimen/mini"
                                 app:srcCompat="@drawable/telegram_logo"
                                 app:tint="?attr/colorTertiary" />
 
@@ -109,7 +109,7 @@
                         android:animateLayoutChanges="true"
                         android:divider="@drawable/vertical_divider_small"
                         android:orientation="vertical"
-                        android:paddingHorizontal="@dimen/margin"
+                        android:paddingHorizontal="@dimen/max"
                         android:showDividers="middle">
 
 
@@ -158,10 +158,10 @@
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
                             android:clickable="true"
-                            android:paddingVertical="@dimen/margin"
+                            android:paddingVertical="@dimen/max"
                             android:visibility="gone"
-                            app:cardCornerRadius="@dimen/radius_max"
-                            app:contentPadding="@dimen/margin_max">
+                            app:cardCornerRadius="@dimen/maxi"
+                            app:contentPadding="@dimen/max">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -254,7 +254,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
 
-                                android:paddingVertical="@dimen/margin_min"
+                                android:paddingVertical="@dimen/mini"
                                 android:text="@string/no_lessons_for_all"
                                 android:textColor="?attr/colorOnSurfaceVariant"
 
@@ -291,7 +291,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="@dimen/margin_max"
+                    android:paddingHorizontal="@dimen/max"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
                     <TextView
@@ -301,7 +301,7 @@
                         android:layout_gravity="start|center_vertical"
                         android:gravity="center|start"
                         android:maxWidth="900dp"
-                        android:paddingVertical="@dimen/margin"
+                        android:paddingVertical="@dimen/max"
                         style="@style/NETIClient.TextStyle.SexyTitle"
                         app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                         tools:text="1 учебная нежеля" />
@@ -321,7 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/margin">
+                    android:paddingHorizontal="@dimen/max">
 
                     <com.google.android.material.search.SearchBar
                         android:id="@+id/searchBar"
@@ -350,7 +350,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:fillViewport="true"
-                android:paddingVertical="@dimen/margin_max">
+                android:paddingVertical="@dimen/max">
 
                 <LinearLayout
                     android:id="@+id/xxxContainer"
@@ -365,10 +365,10 @@
                         android:clipToPadding="true"
                         android:contentDescription="@string/news_list"
                         android:fadingEdge="horizontal"
-                        android:fadingEdgeLength="@dimen/margin_min"
+                        android:fadingEdgeLength="@dimen/mini"
                         android:nestedScrollingEnabled="false"
-                        android:paddingHorizontal="@dimen/margin"
-                        android:paddingVertical="@dimen/margin_min"
+                        android:paddingHorizontal="@dimen/max"
+                        android:paddingVertical="@dimen/mini"
                         android:requiresFadingEdge="horizontal"
                         android:visibility="visible"
                         app:layout_scrollFlags="scroll"
@@ -388,7 +388,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:paddingHorizontal="@dimen/margin"
+                            android:paddingHorizontal="@dimen/max"
                             android:text="@string/title_news"
                             android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                             android:textColor="?attr/colorOnSurface" />
@@ -399,7 +399,7 @@
                             android:layout_weight="1"
                             android:clipToPadding="false"
                             android:fitsSystemWindows="false"
-                            android:paddingHorizontal="@dimen/margin"
+                            android:paddingHorizontal="@dimen/max"
                             android:scrollbarThumbHorizontal="@null">
 
                             <com.google.android.material.chip.ChipGroup
@@ -407,7 +407,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:paddingTop="@dimen/margin_min"
+                                android:paddingTop="@dimen/mini"
                                 app:chipSpacingVertical="0dp"
                                 app:selectionRequired="true"
                                 app:singleSelection="true">
@@ -468,8 +468,8 @@
                             android:contentDescription="@string/lessons_list"
                             android:fadingEdge="none"
                             android:isScrollContainer="false"
-                            android:paddingHorizontal="@dimen/margin"
-                            android:paddingVertical="@dimen/margin_min"
+                            android:paddingHorizontal="@dimen/max"
+                            android:paddingVertical="@dimen/mini"
                             android:requiresFadingEdge="none"
                             android:visibility="visible"
                             tools:itemCount="2"

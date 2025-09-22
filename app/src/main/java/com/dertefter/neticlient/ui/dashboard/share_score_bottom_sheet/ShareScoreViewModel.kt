@@ -2,44 +2,39 @@ package com.dertefter.neticlient.ui.dashboard.share_score_bottom_sheet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.data.network.model.ResponseResult
-import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.data.repository.SessiaResultsRepository
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ShareScoreViewModel @Inject constructor(
-    private val sessiaResultsRepository: SessiaResultsRepository
+    val netiCore: NETICore
 ): ViewModel() {
 
 
-    private val shareScoreFlow = sessiaResultsRepository.getShareScoreFlow()
+    val shareSessiaResultsFeature = netiCore.shareSessiaResultsFeature
 
-    val uiStateFlow = MutableStateFlow<ResponseResult>(ResponseResult(ResponseType.LOADING))
+    val status = shareSessiaResultsFeature.status
+
+    val link = shareSessiaResultsFeature.shareScoreLink.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = null
+    )
+
 
     fun updateShareScore(){
         viewModelScope.launch {
-            uiStateFlow.value = ResponseResult(ResponseType.LOADING, data = shareScoreFlow.first())
-            sessiaResultsRepository.updateShareScore()
-            val shareScore = shareScoreFlow.first()
-            if (!shareScore.isNullOrEmpty()){
-                uiStateFlow.value = ResponseResult(ResponseType.SUCCESS, data = shareScoreFlow.first())
-            }else{
-                uiStateFlow.value = ResponseResult(ResponseType.ERROR, data = shareScoreFlow.first())
-            }
+            shareSessiaResultsFeature.updateLink()
         }
     }
 
     fun replaceLink(){
         viewModelScope.launch {
-            uiStateFlow.value = ResponseResult(ResponseType.LOADING, data = shareScoreFlow.first())
-            sessiaResultsRepository.replaceLink()
-            updateShareScore()
-
+            shareSessiaResultsFeature.requestNewLink()
         }
     }
 

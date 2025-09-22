@@ -5,20 +5,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.repository.MoneyRepository
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MoneyYearsViewModel @Inject constructor(
-    private val moneyRepository: MoneyRepository
+    val netiCore: NETICore
 ): ViewModel() {
 
-    val yearListLiveData = MutableLiveData<ResponseResult>()
 
-    fun fetchYearList(){
+    val moneyFeature = netiCore.moneyFeature
+
+    val years = moneyFeature.yearList
+    val status = moneyFeature.status
+
+    fun updateYearList(){
         viewModelScope.launch {
-            yearListLiveData.postValue(moneyRepository.fetchYears())
+            moneyFeature.updateYearList()
         }
     }
 

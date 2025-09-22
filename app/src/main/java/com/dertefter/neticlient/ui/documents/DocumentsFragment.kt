@@ -16,11 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.documents.DocumentsItem
-import com.dertefter.neticlient.data.network.model.ResponseType
+import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.databinding.FragmentDocumentsBinding
-import com.dertefter.neticlient.ui.documents.document_view.DocumentViewBottomSheetFragment
-import com.dertefter.neticlient.ui.documents.new_document.NewDocumentFragment
+import com.dertefter.neticlient.ui.documents.document_detail.DocumentDetailBottomSheet
+import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,17 +40,38 @@ class DocumentsFragment : Fragment() {
     }
 
 
+    fun collectStatus(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                documentsViewModel.status.collect { status ->
+                    when (status) {
+                        ResponseType.LOADING -> {
+                            binding.refreshLayout.startRefreshing()
+                        }
+                        ResponseType.SUCCESS -> {
+                            binding.refreshLayout.stopRefreshing()
+                        }
+                        ResponseType.ERROR -> {
+                            binding.refreshLayout.showError()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = DocumentsAdapter(){ it ->
-            val dialog = DocumentViewBottomSheetFragment.newInstance(it)
-            dialog.show(parentFragmentManager, DocumentViewBottomSheetFragment.TAG)
+            val dialog = DocumentDetailBottomSheet.newInstance(it)
+            dialog.show(parentFragmentManager, DocumentDetailBottomSheet.TAG)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.addFab) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val defaultMargin = resources.getDimensionPixelSize(R.dimen.margin)
+            val defaultMargin = resources.getDimensionPixelSize(R.dimen.maximorum)
             val layoutParams = v.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.bottomMargin = (defaultMargin + insets.bottom).toInt()
             layoutParams.rightMargin = (defaultMargin).toInt()
@@ -62,17 +82,11 @@ class DocumentsFragment : Fragment() {
 
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration(
-                R.dimen.margin_max,
-                R.dimen.margin_micro
-            )
-        )
-        adapter.setLoading(true)
+        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.max, R.dimen.min, R.dimen.micro))
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -82,47 +96,32 @@ class DocumentsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                documentsViewModel.documentsState.collect { state ->
-
-                    if (state.documentList != null){
-                        onSuccess(state.documentList)
-                    } else {
-                        when (state.responseType) {
-                            ResponseType.SUCCESS -> onError()
-                            ResponseType.ERROR -> onError()
-                            ResponseType.LOADING -> onLoading()
-                        }
+                documentsViewModel.documentList.collect { documents ->
+                    if (documents != null){
+                        adapter.updateList(documents)
                     }
-
-
+                    binding.emptyView.isGone = !documents.isNullOrEmpty()
                 }
             }
         }
 
-        documentsViewModel.updateDocumentList()
 
-        binding.addFab.setOnClickListener {
-            NewDocumentFragment.newInstance().show(parentFragmentManager, "CreateDoc")
+        collectStatus()
+
+        binding.refreshLayout.setOnRefreshListener {
+            documentsViewModel.updateDocumentList()
         }
 
-    }
 
 
-    fun onSuccess(messages: List<DocumentsItem>){
-        adapter.updateList(messages)
-        adapter.setLoading(false)
-        binding.loadFail.root.isGone = true
-    }
+        binding.addFab.setOnClickListener {
+            findNavController().navigate(
+                R.id.newDocumentFragment,
+                null,
+                Utils.getNavOptions(),
+            )
+        }
 
-    fun onError(){
-        adapter.updateList(emptyList())
-        adapter.setLoading(false)
-        binding.loadFail.root.isGone = false
-    }
-    fun onLoading(){
-        adapter.setLoading(true)
-        adapter.updateList(emptyList())
-        binding.loadFail.root.isGone = true
     }
 
 

@@ -129,7 +129,7 @@
     <string name="ob_2_info">Вы также можете пользоваться приложением без авторизации</string>
     <string name="ob_2_authed_info">Теперь приложение синхронизировано с личным кабинетом студента</string>
     <string name="ob_2_title_auhorized">Вы вошли</string>
-    <string name="authing">Авторизация...</string>
+    <string name="authing">Авторизация</string>
     <string name="ob_3_title">Давайте выберем учебную группу</string>
     <string name="change_group">Изменить группу</string>
     <string name="ob_4_title">Всё готово!</string>
@@ -151,4 +151,17 @@
     <string name="lesson_over">Занятие прошло</string>
     <string name="yesterday">вчера</string>
     <string name="near_lessons">Ближайшие занятия</string>
+    <string name="settings_notifications_title">Уведомления</string>
+    <string name="settings_notifications_subtitle">Уведомления о занятиях</string>
+    <string name="settings_personaliztion_title">Персонализация</string>
+    <string name="settings_personaliztion_subtitle">Настройте приложение под себя</string>
+    <string name="settings_about_title">О приложении</string>
+    <string name="settings_about_subtitle">Политика конфиденциальности, исходный код, связь с разработчиком</string>
+    <string name="settings_labs_title">Эксперименты</string>
+    <string name="settings_labs_subtitle">Только для опытных пользователей</string>
+    <string name="auth_login_to">Войти в аккаунт НГТУ НЭТИ</string>
+    <string name="n_loading_schedule">Загрузка расписания занятий</string>
+    <string name="please_wait">Это не займёт много времени...</string>
+    <string name="n_open_app_find_group">Выберите группу в приложении</string>
+    <string name="connected">Connected to NSTU NETI</string>
 </resources>

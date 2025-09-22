@@ -17,6 +17,7 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.data.model.news.NewsItem
 import com.dertefter.neticlient.databinding.ItemNewsBinding
 import com.dertefter.neticlient.databinding.ItemNewsLoadingBinding
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.color.MaterialColors
@@ -109,10 +110,10 @@ class NewsAdapter(
 
             val context = itemView.context
             val cardView = binding.newsCard
-            val marginMin = context.resources.getDimension(R.dimen.margin_micro).toFloat()
+            val marginMin = context.resources.getDimension(R.dimen.mini).toFloat()
 
-            val radiusMin = context.resources.getDimension(R.dimen.radius_micro).toFloat() - marginMin
-            val radiusMax = context.resources.getDimension(R.dimen.radius_max).toFloat() - marginMin
+            val radiusMin = context.resources.getDimension(R.dimen.min).toFloat() - marginMin
+            val radiusMax = context.resources.getDimension(R.dimen.maximorum).toFloat() - marginMin
 
             val shapeModel = when (bindingAdapterPosition) {
                 0 -> ShapeAppearanceModel()
@@ -136,6 +137,8 @@ class NewsAdapter(
             binding.tags.text = item.tags
             binding.type.text = item.type
             binding.type.visibility = View.VISIBLE
+
+
 
             binding.root.setOnClickListener {
                 onItemClick(item, color)
@@ -171,7 +174,7 @@ class NewsAdapter(
                             color = typeBg
 
                             withContext(Dispatchers.Main) {
-                                binding.root.setCardBackgroundColor(cardBg)
+                                (binding.root as MaterialCardView).setCardBackgroundColor(cardBg)
                                 binding.title.setTextColor(titleColor)
                                 binding.tags.setTextColor(tagsColor)
                                 binding.type.setTextColor(typeColor)

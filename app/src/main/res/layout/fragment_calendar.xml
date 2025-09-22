@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:clipToPadding="false"
             android:fitsSystemWindows="false"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
             android:scrollbarThumbHorizontal="@null">
 
             <com.google.android.material.chip.ChipGroup
@@ -80,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:paddingVertical="@dimen/margin"
+        android:paddingVertical="@dimen/max"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 

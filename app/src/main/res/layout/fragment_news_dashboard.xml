@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:paddingBottom="@dimen/margin_min"
+        android:paddingBottom="@dimen/mini"
         android:text="@string/title_news"
         android:textColor="?attr/colorOnSurfaceVariant"
          />
@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:fitsSystemWindows="false"
-        android:paddingHorizontal="@dimen/margin"
+        android:paddingHorizontal="@dimen/max"
         android:scrollbarThumbHorizontal="@null">
 
         <com.google.android.material.chip.ChipGroup
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingTop="@dimen/margin_min"
+            android:paddingTop="@dimen/mini"
             app:chipSpacingVertical="0dp"
             app:selectionRequired="true"
             app:singleSelection="true">

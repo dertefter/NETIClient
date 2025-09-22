@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurfaceContainer"
+    android:fitsSystemWindows="false">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:liftOnScroll="false">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/maxi"
+            android:paddingVertical="@dimen/mini"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:divider="@drawable/horizontal_divider"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/back_button"
+                    style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_vertical"
+                    android:backgroundTint="?attr/colorSurfaceContainerLow"
+                    app:icon="@drawable/arrow_back"
+                    app:iconGravity="textStart"
+                    app:iconTint="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/NETIClient.TextStyle.SexyTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_notifications_title" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_background_big"
+        android:backgroundTint="?attr/colorSurface"
+        android:clipToPadding="false"
+        android:paddingVertical="@dimen/max"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/max"
+                android:clickable="false"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="@dimen/maxi">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/vertical_divider_micro"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/permission_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                        app:cardCornerRadius="@dimen/micro"
+                        app:contentPadding="@dimen/max">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/horizontal_divider"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingVertical="@dimen/mini"
+                                android:text="@string/need_permissions_notify"
+                                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                                android:textColor="?attr/colorOnPrimaryContainer" />
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="34dp"
+                                android:layout_weight="0"
+                                android:tint="?attr/colorOnPrimaryContainer"
+                                app:srcCompat="@drawable/settings_icon" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/notify_now_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                        app:cardCornerRadius="@dimen/micro"
+                        app:contentPadding="@dimen/max">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/horizontal_divider"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Уведомления о текущих занятиях"
+                                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized" />
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/notify_now_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_weight="0"
+                                android:checked="true" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="630dp"
+                android:clickable="false"
+                android:outlineAmbientShadowColor="?attr/colorSurfaceVariant"
+                android:outlineSpotShadowColor="?attr/colorSurfaceVariant"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                app:cardCornerRadius="28dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rounded_background_big"
+                    android:backgroundTint="#000000"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/max">
+
+                        <ImageView
+                            android:id="@+id/imageView10"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/network_wifi" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/network_cell" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/battery_bar" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/horizontal_divider_small"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/mini"
+                        android:showDividers="middle|beginning|end">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_background_big"
+                            android:backgroundTint="?attr/colorPrimaryFixed">
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_background_big"
+                            android:backgroundTint="?attr/colorPrimaryFixed">
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/horizontal_divider_small"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/mini"
+                        android:showDividers="middle|beginning|end">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_background_big"
+                            android:backgroundTint="?attr/colorPrimaryFixed">
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_background_big"
+                            android:backgroundTint="?attr/colorPrimaryFixed">
+
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/mini"
+                        android:background="@drawable/rounded_background_big"
+                        android:backgroundTint="?attr/colorSurface"
+                        android:padding="@dimen/max">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_background_big"
+                            android:backgroundTint="?attr/colorSurfaceContainer"
+                            android:divider="@drawable/horizontal_divider_small"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/max"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView13"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_weight="0"
+                                android:background="@drawable/rounded_maximorum"
+                                android:backgroundTint="?attr/colorPrimary"
+                                android:tint="?attr/colorOnPrimary"
+                                app:srcCompat="@drawable/app_icon" />
+
+                            <include
+                                layout="@layout/notification_lesson_large"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/max"
+                    android:background="@drawable/rounded_background_big"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/max"
+                    android:text="Пример"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                    android:textColor="?attr/colorOnSecondary" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

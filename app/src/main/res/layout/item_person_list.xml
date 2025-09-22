@@ -4,7 +4,7 @@
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_min"
+    android:layout_marginBottom="@dimen/mini"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="0dp"
     app:cardUseCompatPadding="false">
@@ -45,7 +45,7 @@
             android:ellipsize="end"
             android:gravity="center|start"
             android:lines="1"
-            android:paddingHorizontal="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/mini"
             android:textColor="?attr/colorOnSurface"
              />
     </LinearLayout>

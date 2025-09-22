@@ -55,9 +55,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
+                android:layout_marginHorizontal="@dimen/max"
                 android:elevation="0dp"
-                app:cardCornerRadius="@dimen/radius"
+                app:cardCornerRadius="@dimen/maximorum"
                 app:cardElevation="0dp"
                 app:cardMaxElevation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
@@ -79,9 +79,9 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_marginHorizontal="@dimen/max"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingVertical="@dimen/mini"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/margin"
+        android:padding="@dimen/max"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.cardview.widget.CardView
@@ -211,9 +211,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/margin"
-            android:paddingTop="@dimen/margin"
-            android:paddingEnd="@dimen/margin"
+            android:paddingStart="@dimen/max"
+            android:paddingTop="@dimen/max"
+            android:paddingEnd="@dimen/max"
             android:paddingBottom="24dp">
 
             <TextView

@@ -839,9 +839,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-45" />
-                            <option name="y" value="-58" />
+                            <option name="x" value="442" />
+                            <option name="y" value="724" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_documentsFragment_to_newDocumentFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -851,8 +860,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-474" />
-                            <option name="y" value="-270" />
+                            <option name="x" value="442" />
+                            <option name="y" value="1080" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -863,8 +872,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-240" />
-                            <option name="y" value="-205" />
+                            <option name="x" value="442" />
+                            <option name="y" value="368" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="newDocumentFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="657" />
+                            <option name="y" value="724" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -875,8 +896,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-463" />
-                            <option name="y" value="475" />
+                            <option name="x" value="442" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -887,8 +908,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-535" />
-                            <option name="y" value="93" />
+                            <option name="x" value="227" />
+                            <option name="y" value="97" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -923,13 +944,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="settingsAboutFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="settingsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-202" />
-                            <option name="y" value="274" />
+                            <option name="x" value="442" />
+                            <option name="y" value="1436" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -944,13 +977,49 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="settingsLabsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-168" />
+                            <option name="y" value="6" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsNotificationsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-344" />
+                            <option name="y" value="-12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsPersonaliztionFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-211" />
+                            <option name="y" value="282" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="themeCreatorFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="219" />
-                            <option name="y" value="358" />
+                            <option name="x" value="657" />
+                            <option name="y" value="1436" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -966,6 +1035,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="loginFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="227" />
+                            <option name="y" value="426" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="nav_graph_dashboard">
                     <value>
                       <LayoutPositions>
@@ -1026,7 +1107,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="onBoardingFragment">
+                  <entry key="nav_graph_settings">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -1038,34 +1119,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="settingsFragment">
+                  <entry key="onBoardingFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="12" />
-                            <option name="y" value="644" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_settingsFragment_to_themeCreatorFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="themeCreatorFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="226" />
-                            <option name="y" value="644" />
+                            <option name="y" value="426" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -1185,28 +1245,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="messagesDetailFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="226" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_messagesDetailFragment_to_personViewFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="messagesFragment">
+                  <entry key="settingsAboutFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -1215,25 +1254,52 @@
                             <option name="y" value="12" />
                           </Point>
                         </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_messagesFragment_to_messagesDetailFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="personViewFragment">
+                  <entry key="settingsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="440" />
+                            <option name="x" value="227" />
+                            <option name="y" value="368" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsLabsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="227" />
                             <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsNotificationsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="442" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsPersonaliztionFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="368" />
                           </Point>
                         </option>
                       </LayoutPositions>

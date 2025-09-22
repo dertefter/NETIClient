@@ -1,15 +1,12 @@
 <resources>
-    <dimen name="radius_max">20dp</dimen>
-    <dimen name="radius">16dp</dimen>
-    <dimen name="radius_min">12dp</dimen>
-    <dimen name="radius_micro">8dp</dimen>
 
-    <dimen name="margin_max">16dp</dimen>
-    <dimen name="margin">12dp</dimen>
-    <dimen name="margin_min">8dp</dimen>
-    <dimen name="margin_micro">4dp</dimen>
-
-
+    <dimen name="micro">8dp</dimen>
+    <dimen name="mini">10dp</dimen>
+    <dimen name="min">12dp</dimen>
+    <dimen name="mid">14dp</dimen>
+    <dimen name="max">16dp</dimen>
+    <dimen name="maxi">18dp</dimen>
+    <dimen name="maximorum">20dp</dimen>
 
 
     <dimen name="insets_min">4dp</dimen>
@@ -17,7 +14,6 @@
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="zero">0dp</dimen>
     <dimen name="day_cell_height">48dp</dimen>
-
 
 
 </resources>

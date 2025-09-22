@@ -12,8 +12,8 @@
         android:clipToPadding="false"
         android:contentDescription="@string/list"
         android:isScrollContainer="false"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingVertical="@dimen/mini"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.schedule.week.day.DayFragment"
         tools:listitem="@layout/item_time" />

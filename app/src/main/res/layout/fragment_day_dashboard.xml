@@ -20,10 +20,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:clickable="true"
-        android:paddingVertical="@dimen/margin"
+        android:paddingVertical="@dimen/max"
         android:visibility="gone"
-        app:cardCornerRadius="@dimen/radius"
-        app:contentPadding="@dimen/margin">
+        app:cardCornerRadius="@dimen/maximorum"
+        app:contentPadding="@dimen/max">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
 
-                android:paddingBottom="@dimen/margin_min"
+                android:paddingBottom="@dimen/mini"
                 android:text="Занятия сегодня • "
                 android:textColor="?attr/colorOnSurfaceVariant"
                  />
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
 
-                android:paddingBottom="@dimen/margin_min"
+                android:paddingBottom="@dimen/mini"
                 android:textColor="?attr/colorPrimary"
                  />
 
@@ -165,7 +165,7 @@
                     android:insetBottom="0dp"
                     android:text="Показать всё расписание"
                     android:textColor="?attr/colorOnSecondaryContainer"
-                    app:cornerRadius="@dimen/radius"
+                    app:cornerRadius="@dimen/maximorum"
                     app:icon="@drawable/calendar_month_icon"
                     app:iconPadding="0dp"
                     app:iconSize="20dp"
@@ -191,7 +191,7 @@
                         android:text="Расписание сессии"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:visibility="visible"
-                        app:cornerRadius="@dimen/radius"
+                        app:cornerRadius="@dimen/maximorum"
                         app:icon="@drawable/school_icon"
                         app:iconPadding="12dp"
                         app:iconSize="20dp"
@@ -208,7 +208,7 @@
                         android:insetBottom="0dp"
                         android:text="Поиск сотрудников"
                         android:textColor="?attr/colorOnSurfaceVariant"
-                        app:cornerRadius="@dimen/radius"
+                        app:cornerRadius="@dimen/maximorum"
                         app:icon="@drawable/person_search_icon"
                         app:iconPadding="12dp"
                         app:iconSize="20dp"
@@ -224,9 +224,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_margin="@dimen/margin"
+            android:layout_margin="@dimen/max"
             android:gravity="center"
-            android:paddingVertical="@dimen/margin"
+            android:paddingVertical="@dimen/max"
             android:text="@string/no_lessons"
             android:textColor="?attr/colorOnSurfaceVariant"
 

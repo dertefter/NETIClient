@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.databinding.ItemPersonAvatarBinding
 import com.dertefter.neticore.NETICore
+import com.dertefter.neticore.features.person_detail.PersonDetailFeature
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterNotNull
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class AvatarListAdapter(
     private val personIds: List<String>,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val personDetailFeature: PersonDetailFeature
 ) : RecyclerView.Adapter<AvatarListAdapter.PersonAvatarViewHolder>() {
 
     inner class PersonAvatarViewHolder(
@@ -26,13 +28,13 @@ class AvatarListAdapter(
 
         fun bind(personId: String) {
             lifecycleOwner.lifecycleScope.launch {
-                NETICore.personDetailFeature.updatePersonById(personId)
+                personDetailFeature.updatePersonById(personId)
             }
 
             dataLoadJob?.cancel()
 
             dataLoadJob = lifecycleOwner.lifecycleScope.launch {
-                NETICore.personDetailFeature.personById(personId)
+                personDetailFeature.personById(personId)
                     .filterNotNull()
                     .collect { person ->
                         if (!person.avatarUrl.isNullOrEmpty()) {

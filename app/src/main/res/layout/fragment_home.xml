@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/rounded_maximorum"
     android:backgroundTint="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -25,7 +25,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin_max"
+            android:paddingHorizontal="@dimen/max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
@@ -49,8 +49,8 @@
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
             android:nestedScrollingEnabled="false"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/max"
             android:requiresFadingEdge="none"
             android:visibility="visible"
             app:layout_scrollFlags="scroll"
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/margin">
+            android:paddingHorizontal="@dimen/max">
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/searchBar"
@@ -98,10 +98,10 @@
                 android:id="@+id/tg_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin"
+                android:layout_marginHorizontal="@dimen/max"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max">
+                app:cardCornerRadius="@dimen/max">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -115,14 +115,14 @@
                     android:layout_height="wrap_content"
                     android:divider="@drawable/horizontal_divider"
                     android:orientation="horizontal"
-                    android:padding="@dimen/margin"
+                    android:padding="@dimen/max"
                     android:showDividers="middle">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="@dimen/margin_micro"
+                        android:padding="@dimen/max"
                         app:srcCompat="@drawable/telegram_logo"
                         app:tint="?attr/colorTertiary" />
 
@@ -168,7 +168,7 @@
                 android:animateLayoutChanges="true"
                 android:divider="@drawable/vertical_divider_small"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/margin"
+                android:paddingHorizontal="@dimen/max"
                 android:showDividers="middle">
 
 
@@ -185,7 +185,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:paddingVertical="@dimen/mid">
 
                             <TextView
 
@@ -213,6 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|end"
+                            android:textSize="16sp"
                             android:visibility="gone"
                             app:icon="@drawable/edit_icon" />
                     </FrameLayout>
@@ -232,10 +234,10 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:clickable="true"
-                    android:paddingVertical="@dimen/margin"
+                    android:paddingVertical="@dimen/max"
                     android:visibility="gone"
-                    app:cardCornerRadius="@dimen/radius_max"
-                    app:contentPadding="@dimen/margin_max">
+                    app:cardCornerRadius="@dimen/max"
+                    app:contentPadding="@dimen/max">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -331,7 +333,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
-                        android:paddingVertical="@dimen/margin_min"
+                        android:paddingVertical="@dimen/mini"
                         android:text="@string/no_lessons_for_all"
                         android:textColor="?attr/colorOnSurfaceVariant"
 
@@ -362,7 +364,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:paddingHorizontal="@dimen/margin"
+                    android:paddingHorizontal="@dimen/max"
+                    android:paddingVertical="@dimen/mid"
                     android:text="@string/title_news"
                     android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                     android:textColor="?attr/colorOnSurface" />
@@ -373,7 +376,7 @@
                     android:layout_weight="1"
                     android:clipToPadding="false"
                     android:fitsSystemWindows="false"
-                    android:paddingHorizontal="@dimen/margin"
+                    android:paddingHorizontal="@dimen/max"
                     android:scrollbarThumbHorizontal="@null">
 
                     <com.google.android.material.chip.ChipGroup
@@ -381,9 +384,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingHorizontal="@dimen/radius_max"
-                        android:paddingTop="@dimen/margin_min"
-                        app:chipSpacingHorizontal="@dimen/margin_micro"
+                        android:paddingHorizontal="@dimen/maxi"
+                        android:paddingVertical="@dimen/mini"
+                        android:paddingTop="@dimen/mini"
+                        app:chipSpacingHorizontal="@dimen/mini"
                         app:chipSpacingVertical="0dp"
                         app:selectionRequired="true"
                         app:singleSelection="true">
@@ -395,7 +399,7 @@
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="@string/filter_news_all"
-                            app:chipCornerRadius="@dimen/radius_micro"
+                            app:chipCornerRadius="@dimen/mid"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -405,7 +409,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_news"
-                            app:chipCornerRadius="@dimen/radius_micro"
+                            app:chipCornerRadius="@dimen/mid"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -415,7 +419,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_obj"
-                            app:chipCornerRadius="@dimen/radius_micro"
+                            app:chipCornerRadius="@dimen/mid"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -425,7 +429,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_interv"
-                            app:chipCornerRadius="@dimen/radius_micro"
+                            app:chipCornerRadius="@dimen/mid"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -435,7 +439,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_photo"
-                            app:chipCornerRadius="@dimen/radius_micro"
+                            app:chipCornerRadius="@dimen/mid"
                             app:ensureMinTouchTargetSize="false" />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -449,8 +453,8 @@
                     android:contentDescription="@string/lessons_list"
                     android:fadingEdge="none"
                     android:isScrollContainer="false"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/margin_min"
+                    android:paddingHorizontal="@dimen/max"
+                    android:paddingVertical="@dimen/mini"
                     android:requiresFadingEdge="none"
                     android:visibility="visible"
                     tools:itemCount="2"
@@ -467,7 +471,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/margin_max"
+        android:layout_margin="@dimen/max"
         android:contentDescription="top"
         android:visibility="invisible"
         app:srcCompat="@drawable/arrow_upward" />

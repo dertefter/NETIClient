@@ -7,7 +7,6 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dertefter.neticlient.R
 import com.dertefter.neticlient.databinding.ItemMessageBinding
 import com.dertefter.neticore.features.inbox.model.Message
 import com.google.android.material.color.MaterialColors

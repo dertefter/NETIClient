@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius_max"
+    app:cardCornerRadius="@dimen/maxi"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
     app:strokeColor="@android:color/transparent"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:divider="@drawable/vertical_divider_big"
         android:orientation="vertical"
-        android:padding="@dimen/margin_max"
+        android:padding="@dimen/max"
         android:showDividers="middle"
         android:visibility="gone">
 
@@ -98,7 +98,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="bottom|end"
-                    android:background="@drawable/rounded_background"
+                    android:background="@drawable/rounded_maximorum"
                     android:backgroundTint="?attr/colorSecondaryContainer"
                     android:paddingHorizontal="1dp"
                     app:srcCompat="@drawable/plus_icon"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="@dimen/margin_max"
+            android:layout_marginHorizontal="@dimen/max"
             android:layout_weight="1"
 
             android:ellipsize="end"
@@ -143,9 +143,9 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_max"
-                android:layout_marginEnd="@dimen/margin_max"
-                android:layout_marginBottom="@dimen/margin_max"
+                android:layout_marginTop="@dimen/max"
+                android:layout_marginEnd="@dimen/max"
+                android:layout_marginBottom="@dimen/max"
                 android:layout_weight="0">
 
                 <ImageView
@@ -173,9 +173,9 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="@dimen/margin"
-                android:layout_marginBottom="@dimen/margin"
-                android:background="@drawable/rounded_background"
+                android:layout_marginEnd="@dimen/max"
+                android:layout_marginBottom="@dimen/max"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:paddingHorizontal="1dp"
                 app:tint="?attr/colorOnSecondaryContainer"

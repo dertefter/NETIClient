@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -49,7 +46,7 @@ class OnBoardingFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.next) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val defaultMargin = resources.getDimensionPixelSize(R.dimen.margin)
+            val defaultMargin = resources.getDimensionPixelSize(R.dimen.mid)
             val layoutParams = v.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.bottomMargin = (defaultMargin + insets.bottom).toInt()
             layoutParams.rightMargin = (defaultMargin).toInt()

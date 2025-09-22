@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 data class Time(
     val timeStart: String,
     val timeEnd: String,
-    val date: String, //2025-09-02
+    val date: String,
     var lessons: List<Lesson>
 ) : Parcelable {
     fun getTimeStart(): LocalTime = LocalTime.parse(timeStart)

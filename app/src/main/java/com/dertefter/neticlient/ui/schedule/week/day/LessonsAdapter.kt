@@ -18,6 +18,7 @@ import com.dertefter.neticlient.common.item_decoration.AvatarOverlapItemDecorati
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.databinding.ItemLessonBinding
 import com.dertefter.neticlient.ui.person.AvatarListAdapter
+import com.dertefter.neticore.features.person_detail.PersonDetailFeature
 import com.dertefter.neticore.features.schedule.model.Lesson
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.shape.CornerFamily
@@ -32,6 +33,7 @@ class LessonsAdapter(
     private var lessons: List<Lesson>,
     val lifecycleOwner: LifecycleOwner,
     val corners: Int = 1, //0 - только верх, 1 - оба, 2 - низочек
+    private val personDetailFeature: PersonDetailFeature,
     private val onLessonClick: (Lesson) -> Unit
 ) : RecyclerView.Adapter<LessonsAdapter.LessonViewHolder>() {
 
@@ -122,8 +124,8 @@ class LessonsAdapter(
 
         fun bind(lesson: Lesson) {
 
-            val radiusMax = binding.root.resources.getDimension(R.dimen.radius_max)
-            val radiusMin = binding.root.resources.getDimension(R.dimen.radius_micro)
+            val radiusMax = binding.root.resources.getDimension(R.dimen.maximorum)
+            val radiusMin = binding.root.resources.getDimension(R.dimen.min)
 
             val shapeModel = when (corners) {
                 0 -> ShapeAppearanceModel()
@@ -159,7 +161,7 @@ class LessonsAdapter(
             binding.aud.isGone = lesson.aud.isEmpty()
 
             binding.personsRecyclerView.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            val avatarListAdapter = AvatarListAdapter(lesson.personIds, lifecycleOwner)
+            val avatarListAdapter = AvatarListAdapter(lesson.personIds, lifecycleOwner, personDetailFeature)
             binding.personsRecyclerView.adapter = avatarListAdapter
 
             binding.personsRecyclerView.doOnPreDraw {
@@ -178,7 +180,7 @@ class LessonsAdapter(
             if (binding.personsRecyclerView.itemDecorationCount == 0){
                 binding.personsRecyclerView.addItemDecoration(
                     AvatarOverlapItemDecoration(
-                        itemView.context, R.dimen.margin
+                        itemView.context, R.dimen.mid
                     )
                 )
             }

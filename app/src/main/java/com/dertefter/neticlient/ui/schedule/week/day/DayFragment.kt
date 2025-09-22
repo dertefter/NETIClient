@@ -13,16 +13,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticore.features.schedule.model.Day
 import com.dertefter.neticlient.databinding.FragmentDayBinding
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
+import com.dertefter.neticore.NETICore
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DayFragment : Fragment() {
 
     lateinit var binding: FragmentDayBinding
     private val settingsViewModel: SettingsViewModel by activityViewModels()
+    @Inject
+    lateinit var netiCore: NETICore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,16 +66,14 @@ class DayFragment : Fragment() {
             onCurrentTimeSlotFound = {},
             onLatestPastTimeSlotFound = { },
             onFirstFutureTimeSlotFound = {},
+            personDetailFeature = netiCore.personDetailFeature
         )
         binding.recyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
         binding.recyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration(
-                R.dimen.margin_max,
-                R.dimen.margin_micro
-            )
+            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
         )
 
         if (day != null){

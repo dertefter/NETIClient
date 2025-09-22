@@ -7,7 +7,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -22,8 +23,8 @@
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_micro"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
@@ -34,7 +35,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center|start"
                 android:maxWidth="1000dp"
-                android:paddingVertical="@dimen/margin"
+                android:paddingVertical="@dimen/max"
                 android:text="@string/sessia_results_title"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
@@ -53,11 +54,11 @@
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingBottom="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingBottom="@dimen/max"
             android:visibility="gone"
             app:barDrawable="@drawable/bar_bg"
-            app:barSpacing="@dimen/margin_min"
+            app:barSpacing="@dimen/max"
             app:barWidth="56dp"
             app:labelFontFamily="sans-serif-medium"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
@@ -73,92 +74,56 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
+    <com.dertefter.neticlient.common.CustomPullToRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_height="match_parent">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+             />
+    </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
 
-    <com.dertefter.neticlient.common.ShimmerLayout
-        android:id="@+id/skeleton"
-        android:layout_width="match_parent"
+
+    <FrameLayout
+        android:id="@+id/empty_view"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="300dp"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
             android:showDividers="middle">
 
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_1"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                android:padding="20dp"
+                app:srcCompat="@drawable/school"
+                app:tint="?attr/colorOnPrimaryContainer" />
 
-            <include
-                layout="@layout/item_sessia_result"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                layout="@layout/item_sessia_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Нет данных о результатах сессии"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized" />
         </LinearLayout>
-    </com.dertefter.neticlient.common.ShimmerLayout>
 
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/margin"
-        android:text="Нет данных о результатах сессии"
-        android:textColor="?attr/colorOnSurfaceVariant"
-
-        android:visibility="gone"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/login_helper"

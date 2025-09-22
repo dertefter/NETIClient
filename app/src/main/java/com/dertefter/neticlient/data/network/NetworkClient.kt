@@ -3,14 +3,14 @@ package com.dertefter.neticlient.data.network
 import android.content.Context
 import android.util.Log
 import com.dertefter.neticlient.data.model.calendar.CalendarEvent
-import com.dertefter.neticlient.data.model.control_weeks.ControlResult
+import com.dertefter.neticore.features.control_weeks.model.ControlResult
 import com.dertefter.neticlient.data.model.dispace.messages.Companion
 import com.dertefter.neticlient.data.model.dispace.messages.CompanionList
-import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
-import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
-import com.dertefter.neticlient.data.model.documents.DocumentsItem
+import com.dertefter.neticore.features.documents.model.DocumentOptionItem
+import com.dertefter.neticore.features.documents.model.DocumentRequestItem
+import com.dertefter.neticore.features.documents.model.DocumentsItem
 import com.dertefter.neticlient.data.model.messages.MessageDetail
-import com.dertefter.neticlient.data.model.money.MoneyItem
+import com.dertefter.neticore.features.money.model.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsResponse
 import com.dertefter.neticlient.data.model.news.PromoItem
@@ -19,7 +19,6 @@ import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.data.network.model.auth.ResponseFromAuthIdRequest
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,7 +29,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.CookieManager
 import java.net.CookiePolicy
-import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton

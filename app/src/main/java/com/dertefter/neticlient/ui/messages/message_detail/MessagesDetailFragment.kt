@@ -84,6 +84,14 @@ class MessagesDetailFragment : Fragment() {
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
+        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = (-verticalOffset.toFloat() / totalScrollRange)
+            binding.name.alpha = alpha
+        }
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.nestedScrollView) { v, insets ->
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
@@ -109,18 +117,24 @@ class MessagesDetailFragment : Fragment() {
             binding.title.text = message.title
             binding.content.text = HtmlCompat.fromHtml(message.text, HtmlCompat.FROM_HTML_MODE_LEGACY)
             binding.content.movementMethod = LinkMovementMethod.getInstance()
-
+            binding.name.text = message.fioAuthor
             if (!message.portraitUrl.isNullOrEmpty()) {
                 binding.profilePic.isGone = false
                 Picasso.get().load(message.portraitUrl).into(binding.profilePic)
             } else {
                 binding.profilePic.isGone = true
             }
-            binding.profileButton.setOnClickListener {
+            binding.profilePic.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("personId", message.idAuthor.toString())
                 requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.personViewFragment, bundle)
+            }
 
+            binding.name.setOnClickListener {
+                if (binding.name.alpha == 0f) {return@setOnClickListener}
+                val bundle = Bundle()
+                bundle.putString("personId", message.idAuthor.toString())
+                requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.personViewFragment, bundle)
             }
 
             binding.date.text = formatMessageDate(message.getLocalDateTime())

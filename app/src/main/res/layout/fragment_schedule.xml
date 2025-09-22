@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/rounded_maximorum"
     android:backgroundTint="?attr/colorSurface"
     tools:context=".ui.schedule.ScheduleFragment">
 
@@ -22,9 +22,9 @@
             android:id="@+id/week_group_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_min"
+            android:layout_marginTop="@dimen/mini"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <com.google.android.material.card.MaterialCardView
@@ -74,7 +74,7 @@
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/margin_min"
+                        android:layout_marginTop="@dimen/mini"
                         android:alpha="0.2"
                         android:src="@drawable/group_icon"
                         app:tint="?attr/colorPrimary" />
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
 
-                        android:paddingHorizontal="@dimen/margin_max"
+                        android:paddingHorizontal="@dimen/max"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
                         android:textColor="?attr/colorOnPrimaryContainer" />
                 </com.google.android.material.card.MaterialCardView>
@@ -97,11 +97,11 @@
             android:id="@+id/weeks_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginTop="@dimen/margin_min"
+            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginTop="@dimen/mini"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorTertiaryContainer"
-            app:cardCornerRadius="@dimen/radius"
+            app:cardCornerRadius="@dimen/maximorum"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <ImageView
@@ -116,8 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:clipToPadding="false"
-                android:paddingHorizontal="@dimen/margin_min"
-                android:paddingVertical="@dimen/margin_min"
+                android:paddingHorizontal="@dimen/mini"
+                android:paddingVertical="@dimen/mini"
                 android:visibility="visible"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                 tools:itemCount="1"
@@ -128,13 +128,13 @@
             android:id="@+id/c1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/margin"
-            android:layout_marginTop="@dimen/margin_min"
+            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginTop="@dimen/mini"
             android:layout_weight="1"
             android:background="@drawable/rounded_background_top"
             android:backgroundTint="?attr/colorSurfaceContainer"
-            android:paddingHorizontal="@dimen/margin_max"
-            android:paddingTop="@dimen/margin_max"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingTop="@dimen/max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <Button
@@ -168,11 +168,11 @@
             android:id="@+id/days_tabs_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_marginHorizontal="@dimen/max"
             android:background="@drawable/rounded_background_bottom"
             android:backgroundTint="?attr/colorSurfaceContainer"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingBottom="@dimen/margin">
+            android:paddingHorizontal="@dimen/max"
+            android:paddingBottom="@dimen/max">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/days_tab_layout"
@@ -185,7 +185,7 @@
                 android:contentDescription="@string/tabs"
                 android:fitsSystemWindows="false"
                 app:tabGravity="fill"
-                app:tabIndicator="@drawable/rounded_background"
+                app:tabIndicator="@drawable/rounded_maximorum"
                 app:tabIndicatorAnimationMode="elastic"
                 app:tabIndicatorColor="?attr/colorPrimaryContainer"
                 app:tabIndicatorFullWidth="true"
@@ -211,8 +211,8 @@
         android:id="@+id/skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingVertical="@dimen/mini"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

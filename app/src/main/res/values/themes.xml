@@ -2,17 +2,16 @@
 
 
     <style name="NETIClient.DialogTheme" parent="Theme.Material3.DayNight.Dialog">
-        <item name="android:windowBackground">@drawable/rounded_background</item>
+        <item name="android:windowBackground">@drawable/rounded_maximorum</item>
     </style>
 
 
     <style name="NETIClient.SplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/md_theme_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="windowSplashScreenAnimationDuration">1800</item>
         <item name="postSplashScreenTheme">@style/NETIClient.StaticTheme</item>
+        <item name="windowSplashScreenBackground">@color/md_theme_background</item>
     </style>
-
 
 
     <style name="NETIClient.DynamicTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
@@ -79,6 +78,21 @@
     </style>
 
     <style name="NETIClient.AppWidgetContainer" parent="NETIClient.AppWidgetContainerParent">
+        <item name="appWidgetPadding">16dp</item>
+    </style>
+
+    <style name="NETIClient.SplashScreenTheme.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="NETIClient.SplashScreenTheme.AppWidgetContainer" parent="NETIClient.SplashScreenTheme.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
         <item name="appWidgetPadding">16dp</item>
     </style>
 </resources>

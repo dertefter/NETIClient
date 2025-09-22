@@ -1,6 +1,5 @@
 package com.dertefter.neticore.features.authorization
 
-import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.dertefter.neticore.features.authorization.model.AuthStatusType
@@ -9,17 +8,13 @@ import com.dertefter.neticore.local.CoreDataStoreManager
 import com.dertefter.neticore.local.UserDataStoreManager
 import com.dertefter.neticore.network.NetworkClient
 import com.dertefter.neticore.network.methods.CiuMethods
-import com.dertefter.neticore.network.methods.DispaceMethods
 import com.dertefter.neticore.network.methods.Login2Methods
 import com.dertefter.neticore.network.methods.MobileMethods
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 
 class AuthorizationFeature(
@@ -60,17 +55,14 @@ class AuthorizationFeature(
     private val login2Methods = Login2Methods(client.login2ApiService)
     private val mobileMethods = MobileMethods(client.mobileApiService)
     val ciuMethods = CiuMethods(client.ciuApiService)
-    private val dispaceMethods = DispaceMethods(client.dispaceApiService)
 
     suspend fun login(user: User) {
-        client.rebuildClient()
+        client.clearSession()
         userDataStoreManager.switchToUser(user.login)
         setCurrentUser(user)
         ciuStatus.value = AuthStatusType.LOADING
         mobileStatus.value = AuthStatusType.LOADING
         val authStatus = login2Methods.authUser(user.login, user.password)
-
-        //dispaceMethods.authUserDispace()
         if (authStatus == true || authStatus == false) {
             val userDetail = ciuMethods.fetchUserDetail()
             if (userDetail != null && !userDetail.name.isNullOrEmpty()){
@@ -98,7 +90,7 @@ class AuthorizationFeature(
     }
 
     suspend fun logout() {
-        client.rebuildClient()
+        client.clearSession()
         userDataStoreManager.resetToGuest()
         setCurrentUser(null)
         ciuStatus.value = AuthStatusType.UNAUTHORIZED

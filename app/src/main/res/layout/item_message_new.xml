@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:divider="@drawable/vertical_divider_small"
         android:orientation="vertical"
-        android:padding="@dimen/margin_max"
+        android:padding="@dimen/max"
         android:showDividers="middle">
 
         <TextView

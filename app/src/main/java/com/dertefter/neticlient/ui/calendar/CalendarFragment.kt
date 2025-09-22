@@ -1,7 +1,6 @@
 package com.dertefter.neticlient.ui.calendar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +15,10 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentCalendarBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -78,7 +75,7 @@ class CalendarFragment : Fragment() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        val decoration = VerticalSpaceItemDecoration(R.dimen.margin_max, R.dimen.margin_micro)
+        val decoration = VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
         binding.recyclerview.addItemDecoration(decoration)
 
         binding.calendarView.onDateSelected = { date ->

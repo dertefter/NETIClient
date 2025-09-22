@@ -34,7 +34,6 @@ data class Schedule (
         }
 
         return futureDays.sortedBy { it.getDate() }.firstOrNull()
-
     }
 
     fun getDayForDate(date: LocalDate): Day? {

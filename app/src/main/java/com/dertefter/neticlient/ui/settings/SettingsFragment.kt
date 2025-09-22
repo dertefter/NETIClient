@@ -1,21 +1,14 @@
 package com.dertefter.neticlient.ui.settings
 
-import android.Manifest
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,19 +16,24 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
+import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.databinding.FragmentSettingsBinding
-import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
-import com.google.android.material.color.DynamicColors
+import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -46,185 +44,142 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                binding.notificationPermissionCard.isVisible = false
+    fun collectLoginState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    loginViewModel.authStatus,
+                    loginViewModel.userDetailMobile
+                ) { authStatus, userDetail ->
+                    authStatus to userDetail
+                }.collect { (authStatus, userDetail) ->
+
+                    binding.statusDone.isGone = authStatus != AuthStatusType.AUTHORIZED
+                    binding.statusError.isGone = authStatus != AuthStatusType.AUTHORIZED_WITH_ERROR
+                    binding.statusLoading.isGone = authStatus != AuthStatusType.LOADING
+                    binding.statusGuest.isGone = authStatus != AuthStatusType.UNAUTHORIZED
+                    binding.logout.isGone = authStatus == AuthStatusType.UNAUTHORIZED
+
+                    if (authStatus == AuthStatusType.AUTHORIZED && userDetail == null) {
+                        binding.statusError.isGone = false
+                        binding.statusDone.isGone = true
+                    }
+
+                    if (userDetail != null) {
+                        binding.login.text = userDetail.login
+                        binding.name.text = userDetail.name
+                        Picasso.get()
+                            .load(userDetail.photoPath)
+                            .into(object : com.squareup.picasso.Target {
+                                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                                    binding.avatarShape.setImageBitmap(bitmap)
+                                }
+
+                                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+
+                                }
+
+                                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+                                }
+                            })
+                    }
+                }
             }
         }
-
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        settingsViewModel.updateNotificationPermissionState(requireContext())
+
+
+    fun setupRecyclerView(){
+        collectLoginState()
+        val settings = listOf<SettingsListItem>(
+            SettingsListItem(
+                titleRes = R.string.settings_notifications_title,
+                subtitleRes = R.string.settings_notifications_subtitle,
+                iconRes = R.drawable.notifications,
+                navId = R.id.settingsNotificationsFragment
+            ),
+            SettingsListItem(
+                titleRes = R.string.settings_personaliztion_title,
+                subtitleRes = R.string.settings_personaliztion_subtitle,
+                iconRes = R.drawable.palette_icon,
+                navId = R.id.settingsPersonaliztionFragment
+            ),
+            SettingsListItem(
+                titleRes = R.string.settings_labs_title,
+                subtitleRes = R.string.settings_labs_subtitle,
+                iconRes = R.drawable.experiment,
+                navId = R.id.settingsLabsFragment
+            ),
+            SettingsListItem(
+                titleRes = R.string.settings_about_title,
+                subtitleRes = R.string.settings_about_subtitle,
+                iconRes = R.drawable.info,
+                navId = R.id.settingsAboutFragment
+            )
+        )
+
+        val adapter = SettingsListAdapter(
+            onItemClick = {navId ->
+                findNavController().navigate(
+                    navId,
+                    null,
+                    Utils.getNavOptions(),
+                )
+            },
+            items = settings
+        )
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.addItemDecoration(
+            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+        )
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge(binding.appBarLayout))
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, insets ->
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
                         or WindowInsetsCompat.Type.displayCutout()
             )
-            binding.appBarLayout.updatePadding(
-                top = bars.top
-            )
 
-            binding.nestedScrollView.updatePadding(
+            binding.recyclerView.updatePadding(
                 bottom = bars.bottom
             )
             WindowInsetsCompat.CONSUMED
         }
 
+        setupRecyclerView()
 
 
-        binding.appName.text = getString(R.string.app_name)
-        val versionName = requireContext().packageManager
-            .getPackageInfo(requireContext().packageName, 0).versionName
-        val versionCode = requireContext().packageManager
-            .getPackageInfo(requireContext().packageName, 0).versionCode
-        binding.appVerion.text = "$versionName ($versionCode)"
+        binding.logout.setOnClickListener {
+            loginViewModel.logout()
+        }
 
+        binding.statusError.setOnClickListener {
+            loginViewModel.tryAuthorize()
+        }
 
-        binding.editColor.setOnClickListener {
+        binding.statusGuest.setOnClickListener {
             findNavController().navigate(
-                R.id.themeCreatorFragment,
+                R.id.loginFragment,
                 null,
                 Utils.getNavOptions(),
             )
         }
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
 
-        binding.githubButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://github.com/dertefter/NETIClient".toUri())
-            startActivity(intent)
-        }
-
-        binding.policyButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW,
-                "https://docs.google.com/document/d/1D0f0Fp51h_Jj6MZro8nLKvSY2plH1CLZVD4js3ZFSYY/edit?usp=sharing".toUri())
-            startActivity(intent)
-        }
-
-        binding.tgButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, "https://t.me/nstumobile_dev".toUri())
-            startActivity(intent)
-        }
-
-        binding.permissionButton.setOnClickListener {
-            requestPermission()
-        }
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                settingsViewModel.isGrantedPermission.collect { state ->
-                    binding.notificationPermissionCard.isGone = state
-                    binding.switchNotifyLessons.isEnabled = state
-                    binding.switchNotifyFutureLessons.isEnabled = state
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.scheduleServiceState.collect { state ->
-                    binding.notifyFutureLessonsCard.isGone = !state
-                    binding.switchNotifyLessons.isChecked = state
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.notifyFutureLessonsState.collect { state ->
-                    binding.notifyFutureLessonsValueCard.isGone = !state
-                    binding.switchNotifyFutureLessons.isChecked = state
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.notifyFutureLessonsValueState.collect { state ->
-                    if (state % 15 != 0){
-                        settingsViewModel.setNotifyValue(15)
-                    } else {
-                        binding.sliderNotify.value = state.toFloat()
-                        binding.sliderNotifyText.text = "За $state минут"
-                    }
-                }
-            }
-        }
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.materialYouState.collect { state ->
-                    binding.switchDynamicColor.setOnCheckedChangeListener(null)
-
-                    binding.editColor.isGone = state || !DynamicColors.isDynamicColorAvailable()
-                    binding.switchDynamicColor.isChecked = state
-
-                    binding.switchDynamicColor.setOnCheckedChangeListener { _, v ->
-                        settingsViewModel.setMaterialYou(v)
-
-                        val selectedThemeType = ThemeEngine.getThemeType()
-
-                        val newThemeType = if (v){
-                            2
-                        } else {
-                            0
-                        }
-                        ThemeEngine.setThemeType(newThemeType)
-
-                        if (selectedThemeType != newThemeType){
-                            requireActivity().recreate()
-                        }
-
-                    }
-
-
-                }
-            }
-        }
-
-        if (!DynamicColors.isDynamicColorAvailable()){
-            settingsViewModel.setMaterialYou(false)
-            binding.switchDynamicColor.isEnabled = false
-        }else{
-            binding.switchDynamicColor.isEnabled = true
-        }
-
-
-        binding.switchNotifyLessons.setOnCheckedChangeListener { _, v ->
-            settingsViewModel.setScheduleService(v)
-        }
-
-        binding.switchNotifyFutureLessons.setOnCheckedChangeListener { _, v ->
-            settingsViewModel.setNotifyFutureLessons(v)
-        }
-
-
-
-        binding.sliderNotify.addOnChangeListener { _, value, fromUser ->
-            if (fromUser) {
-                settingsViewModel.setNotifyValue(value.toInt())
-            }
-        }
 
 
 

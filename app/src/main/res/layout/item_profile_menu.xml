@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     app:cardBackgroundColor="?attr/colorSurface"
-    app:cardCornerRadius="@dimen/radius_min"
-    app:contentPadding="@dimen/margin">
+    app:cardCornerRadius="@dimen/min"
+    app:contentPadding="@dimen/max">
 
     <LinearLayout
         android:layout_width="match_parent"

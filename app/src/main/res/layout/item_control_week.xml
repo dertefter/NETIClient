@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius_max"
+    app:cardCornerRadius="@dimen/maxi"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/margin_max"
+    app:contentPadding="@dimen/max"
     app:strokeColor="@android:color/transparent"
     app:strokeWidth="3dp">
 
@@ -33,21 +33,21 @@
             android:id="@+id/value_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
+            android:background="@drawable/rounded_maximorum"
             android:backgroundTint="?attr/colorSurfaceContainerHigh"
-            android:padding="@dimen/margin_micro">
+            android:padding="@dimen/mini">
 
             <TextView
                 android:id="@+id/week_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorTertiaryContainer"
 
                 android:includeFontPadding="false"
-                android:paddingHorizontal="@dimen/margin_max"
-                android:paddingVertical="@dimen/margin_micro"
+                android:paddingHorizontal="@dimen/max"
+                android:paddingVertical="@dimen/mini"
                 android:text="1"
                 android:textColor="?attr/colorOnTertiaryContainer"
 
@@ -58,12 +58,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorPrimaryContainer"
 
                 android:includeFontPadding="false"
-                android:paddingHorizontal="@dimen/margin_max"
-                android:paddingVertical="@dimen/margin_micro"
+                android:paddingHorizontal="@dimen/max"
+                android:paddingVertical="@dimen/mini"
                 android:text="1"
                 android:textColor="?attr/colorOnPrimaryContainer"
 

@@ -2,21 +2,28 @@ package com.dertefter.neticlient.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.data.model.AuthState
 import com.dertefter.neticore.NETICore
 import com.dertefter.neticore.features.authorization.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    val netiCore: NETICore
+) : ViewModel(){
 
-
-    val authorizationFeature = NETICore.authorizationFeature
-    val userDetailFeature = NETICore.userDetailFeature
+    val authorizationFeature = netiCore.authorizationFeature
+    val userDetailFeature = netiCore.userDetailFeature
 
 
     val currentUser = authorizationFeature.currentUser
     val authStatus = authorizationFeature.ciuStatus
+
+    val mobileAuthStatus = authorizationFeature.mobileStatus
 
     val userDetail = userDetailFeature.userDetail
 
@@ -55,6 +62,12 @@ class LoginViewModel : ViewModel() {
                     password
                 )
             )
+        }
+    }
+
+    fun logout(){
+        viewModelScope.launch {
+            authorizationFeature.logout()
         }
 
     }

@@ -17,24 +17,23 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/vertical_divider"
             android:orientation="vertical"
-            android:padding="@dimen/margin_max"
+            android:padding="@dimen/max"
             android:showDividers="middle">
 
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/margin_max"
-                android:paddingBottom="@dimen/margin_min" />
+                android:minHeight="@dimen/max"
+                android:paddingBottom="@dimen/mini" />
 
             <TextView
                 android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="?attr/colorOnSurface"
-                 />
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                android:textColor="?attr/colorOnSurface" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -46,11 +45,11 @@
                     android:layout_gravity="end"
                     android:elevation="0dp"
                     app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:cardElevation="0dp"
                     app:cardMaxElevation="0dp"
-                    app:contentPaddingLeft="@dimen/margin_min"
-                    app:contentPaddingRight="@dimen/margin_min">
+                    app:contentPaddingLeft="@dimen/mini"
+                    app:contentPaddingRight="@dimen/mini">
 
                     <TextView
                         android:id="@+id/status"
@@ -73,11 +72,11 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:cardElevation="0dp"
                     app:cardMaxElevation="0dp"
-                    app:contentPaddingLeft="@dimen/margin_min"
-                    app:contentPaddingRight="@dimen/margin_min">
+                    app:contentPaddingLeft="@dimen/mini"
+                    app:contentPaddingRight="@dimen/mini">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,37 +130,9 @@
                     android:layout_weight="1"
                     android:includeFontPadding="false"
                     android:lineSpacingExtra="3sp"
-                    android:paddingEnd="@dimen/margin"
+                    android:paddingEnd="@dimen/max"
                     android:text="TextView"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                     />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/horizontal_divider_small"
-                android:orientation="horizontal"
-                android:showDividers="middle">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_weight="0"
-                    app:tint="?attr/colorOnSurfaceVariant"
-                    app:srcCompat="@drawable/calendar_month_icon" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:includeFontPadding="false"
-                    android:lineSpacingExtra="3sp"
-                    android:paddingEnd="@dimen/margin"
-                    android:text="Дегтярева Е. А., старший инспектор-специалист, деканат РЭФ"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                     />
+                    android:textColor="?attr/colorOnSurfaceVariant" />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -169,10 +140,10 @@
                 android:layout_height="match_parent"
                 android:elevation="0dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardCornerRadius="@dimen/radius"
+                app:cardCornerRadius="@dimen/maximorum"
                 app:cardElevation="0dp"
                 app:cardMaxElevation="0dp"
-                app:contentPadding="@dimen/margin">
+                app:contentPadding="@dimen/max">
 
                 <TextView
                     android:id="@+id/comment"
@@ -187,12 +158,13 @@
 
             <Button
                 android:id="@+id/cancel_claim"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:backgroundTint="?attr/colorError"
                 android:text="Отменить заявку"
                 android:textColor="?attr/colorOnError"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -8,6 +8,8 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,17 +21,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.AuthState
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentDashboardBinding
 import com.dertefter.neticlient.ui.dashboard.sessia_results.SemestrPagerAdapter
 import com.dertefter.neticlient.ui.dashboard.sessia_results.SessiaResultsViewModel
 import com.dertefter.neticlient.ui.dashboard.share_score_bottom_sheet.ShareScoreSheetFragment
-import com.dertefter.neticlient.ui.login.LoginFragment
-import com.dertefter.neticlient.ui.login.LoginReasonType
 import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -81,8 +78,7 @@ class DashboardFragment : Fragment() {
         binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.chart?.setSelectedPosition(position)
-                binding.horizChart?.setSelectedPosition(position)
+                binding.chart.setSelectedPosition(position)
                 val item = pagerAdapter.getItem(position)
                 binding.toolbar.title = getString(R.string.semester) + " " + item.title
 
@@ -95,11 +91,7 @@ class DashboardFragment : Fragment() {
         })
 
 
-        binding.chart?.onBarSelectedListener = { it, position ->
-
-            binding.pager.currentItem = position
-        }
-        binding.horizChart?.onBarSelectedListener = { it, position ->
+        binding.chart.onBarSelectedListener = { it, position ->
 
             binding.pager.currentItem = position
         }
@@ -117,7 +109,10 @@ class DashboardFragment : Fragment() {
                 WindowInsetsCompat.CONSUMED
             }
         }
-        
+        collectStatus()
+        binding.refreshLayout.setOnRefreshListener {
+            sessiaResultsViewModel.updateSessiaResults()
+        }
         collectSessiaResults()
         sessiaResultsViewModel.updateSessiaResults()
     }
@@ -131,24 +126,37 @@ class DashboardFragment : Fragment() {
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             sessiaResultsViewModel.sessiaResults.collect { sessiaResults ->
 
-                if (sessiaResults == null) {
-                    binding.skeleton.isGone = false
-                    binding.emptyView.isGone = true
-                    binding.chart?.isGone = true
-                    binding.horizChart?.isGone = true
+                val hasData = !sessiaResults?.semestrs.isNullOrEmpty()
+                binding.emptyView.isGone = hasData
+                binding.chart.isGone = !hasData
+
+                binding.toolbar.isGone = !hasData
+                if (hasData) {
+                    binding.pager.isVisible = true
+                    pagerAdapter.setData(sessiaResults.semestrs!!)
+                    binding.chart.data = sessiaResults.semestrs!!
                 } else {
-                    binding.skeleton.isGone = true
-                    val hasData = !sessiaResults.semestrs.isNullOrEmpty()
-                    binding.emptyView.isGone = hasData
-                    if (hasData) {
-                        binding.chart?.isGone = false
-                        binding.horizChart?.isGone = false
-                        pagerAdapter.setData(sessiaResults.semestrs!!)
-                        binding.chart?.data = sessiaResults.semestrs!!
-                        binding.horizChart?.data = sessiaResults.semestrs!!
-                    }
+                    binding.pager.isInvisible = true
                 }
 
+            }
+        }
+    }
+
+    private fun collectStatus() = viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            sessiaResultsViewModel.status.collect { status ->
+                when (status) {
+                    ResponseType.LOADING -> {
+                        binding.refreshLayout.startRefreshing()
+                    }
+                    ResponseType.SUCCESS -> {
+                        binding.refreshLayout.stopRefreshing()
+                    }
+                    ResponseType.ERROR -> {
+                        binding.refreshLayout.showError()
+                    }
+                }
             }
         }
     }

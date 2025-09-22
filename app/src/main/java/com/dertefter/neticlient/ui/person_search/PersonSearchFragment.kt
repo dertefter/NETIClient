@@ -1,7 +1,6 @@
 package com.dertefter.neticlient.ui.person_search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticlient.databinding.FragmentPersonSearchBinding
-import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
 import com.dertefter.neticlient.ui.person.PersonListStyle
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +65,7 @@ class PersonSearchFragment : Fragment() {
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        val decoration = GridSpacingItemDecoration(requireContext(), 1, R.dimen.margin_min)
+        val decoration = GridSpacingItemDecoration(requireContext(), 1, R.dimen.mini)
         binding.recyclerView.addItemDecoration(decoration)
 
         val adapter = PersonSearchRecyclerViewAdapter(

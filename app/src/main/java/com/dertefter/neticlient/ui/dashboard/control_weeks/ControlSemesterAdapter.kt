@@ -2,10 +2,9 @@ package com.dertefter.neticlient.ui.dashboard.control_weeks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.dertefter.neticlient.data.model.control_weeks.ControlSemestr
+import com.dertefter.neticore.features.control_weeks.model.ControlSemestr
 import com.dertefter.neticlient.databinding.ItemControlSemestrBinding
 import com.dertefter.neticlient.databinding.ItemControlWeekBinding
 

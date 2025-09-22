@@ -3,22 +3,28 @@ package com.dertefter.neticlient.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.neticore.NETICore
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class ProfileViewModel (): ViewModel() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    val netiCore: NETICore
+) : ViewModel() {
 
-    val lksList = NETICore.userDetailFeature.lksList
+
+    val lksList = netiCore.userDetailFeature.lksList
 
     fun updateLks(){
         viewModelScope.launch {
-            NETICore.userDetailFeature.updateLksList()
+            netiCore.userDetailFeature.updateLksList()
         }
     }
 
     fun updateUserDetail(){
         viewModelScope.launch {
-            NETICore.userDetailFeature.updateUserDetail()
+            netiCore.userDetailFeature.updateUserDetail()
         }
     }
 
@@ -26,7 +32,7 @@ class ProfileViewModel (): ViewModel() {
 
     fun setLksById(id: Int){
         viewModelScope.launch {
-            NETICore.userDetailFeature.setLksById(id)
+            netiCore.userDetailFeature.setLksById(id)
         }
     }
 

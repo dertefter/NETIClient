@@ -13,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchGroupViewModel @Inject constructor(
     private val searchGroupRepository: SearchGroupRepository,
+    private val netiCore: NETICore
 ): ViewModel() {
-
-    val userDetailFeature = NETICore.userDetailFeature
+    val userDetailFeature = netiCore.userDetailFeature
     val groupListLiveData = MutableLiveData<ResponseResult>()
     val groupHistory =  userDetailFeature.groupHistory
 
@@ -28,19 +28,19 @@ class SearchGroupViewModel @Inject constructor(
 
     fun removeGroupFromHistory(group: String){
         viewModelScope.launch {
-            NETICore.userDetailFeature.removeGroupFromHistory(group)
+            netiCore.userDetailFeature.removeGroupFromHistory(group)
         }
     }
 
     fun addGroupToHistory(group: String){
         viewModelScope.launch {
-            NETICore.userDetailFeature.addGroupToHistory(group)
+            netiCore.userDetailFeature.addGroupToHistory(group)
         }
     }
 
     fun setCurrentGroup(group: String){
         viewModelScope.launch {
-            NETICore.userDetailFeature.setCurrentGroup(group)
+            netiCore.userDetailFeature.setCurrentGroup(group)
         }
     }
 

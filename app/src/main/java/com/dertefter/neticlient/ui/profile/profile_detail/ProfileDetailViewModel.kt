@@ -2,27 +2,32 @@ package com.dertefter.neticlient.ui.profile.profile_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dertefter.neticlient.data.network.model.ResponseResult
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticore.NETICore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class ProfileDetailViewModel(): ViewModel() {
+@HiltViewModel
+class ProfileDetailViewModel @Inject constructor(
+    val netiCore: NETICore
+) : ViewModel() {
 
 
-   val userDetail = NETICore.userDetailFeature.userDetail
+   val userDetail = netiCore.userDetailFeature.userDetail.stateIn(
+       viewModelScope,
+       initialValue = null,
+       started = SharingStarted.Eagerly
+   )
 
-    val status = NETICore.userDetailFeature.status
+    val status = netiCore.userDetailFeature.status
 
 
     fun updateUserDetail() {
         viewModelScope.launch {
-            NETICore.userDetailFeature.updateUserDetail()
+            netiCore.userDetailFeature.updateUserDetail()
         }
     }
 

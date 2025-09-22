@@ -38,9 +38,9 @@
                         android:id="@+id/profile_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:cardCornerRadius="@dimen/radius_max"
-                        app:contentPadding="@dimen/margin_max"
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:cardCornerRadius="@dimen/maxi"
+                        app:contentPadding="@dimen/max"
                         app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
                         <LinearLayout
@@ -120,7 +120,7 @@
                                 android:insetBottom="0dp"
                                 android:text="Выйти из аккаунта"
                                 android:textColor="?attr/colorOnError"
-                                app:cornerRadius="@dimen/radius" />
+                                app:cornerRadius="@dimen/maximorum" />
 
                         </LinearLayout>
 
@@ -139,11 +139,11 @@
                         android:id="@+id/mail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -155,11 +155,11 @@
                         android:id="@+id/adress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <EditText
                             android:layout_width="match_parent"
@@ -171,11 +171,11 @@
                         android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.edittextpicker.aliazaz.EditTextPicker
                             android:layout_width="match_parent"
@@ -189,11 +189,11 @@
                         android:id="@+id/snils"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.edittextpicker.aliazaz.EditTextPicker
                             android:layout_width="match_parent"
@@ -207,11 +207,11 @@
                         android:id="@+id/polis"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.edittextpicker.aliazaz.EditTextPicker
                             android:layout_width="match_parent"
@@ -235,11 +235,11 @@
                         android:id="@+id/vk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -251,11 +251,11 @@
                         android:id="@+id/tg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -267,11 +267,11 @@
                         android:id="@+id/leader_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin"
-                        app:boxCornerRadiusBottomEnd="@dimen/radius_min"
-                        app:boxCornerRadiusBottomStart="@dimen/radius_min"
-                        app:boxCornerRadiusTopEnd="@dimen/radius_min"
-                        app:boxCornerRadiusTopStart="@dimen/radius_min">
+                        android:layout_marginHorizontal="@dimen/max"
+                        app:boxCornerRadiusBottomEnd="@dimen/min"
+                        app:boxCornerRadiusBottomStart="@dimen/min"
+                        app:boxCornerRadiusTopEnd="@dimen/min"
+                        app:boxCornerRadiusTopStart="@dimen/min">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -285,9 +285,9 @@
                     android:id="@+id/agree_checkbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin"
+                    android:layout_marginHorizontal="@dimen/max"
                     android:gravity="top"
-                    android:paddingHorizontal="@dimen/margin_min"
+                    android:paddingHorizontal="@dimen/mini"
                     android:text="даю согласие на использование контактных данных и профилей в соцсетях для информирования меня сотрудниками НГТУ, данных СНИЛС - для передачи в Федеральный реестр сведений о документах об образовании, полис ОМС- поликлинике НГТУ."
                     android:textColor="?attr/colorOnSurfaceVariant"
                     />
@@ -296,15 +296,15 @@
                     android:id="@+id/save_button"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginHorizontal="@dimen/margin"
-                    android:layout_marginBottom="@dimen/margin"
+                    android:layout_marginHorizontal="@dimen/max"
+                    android:layout_marginBottom="@dimen/max"
                     android:enabled="false"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
                     android:text="Сохранить"
-                    app:cornerRadius="@dimen/radius" />
+                    app:cornerRadius="@dimen/maximorum" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

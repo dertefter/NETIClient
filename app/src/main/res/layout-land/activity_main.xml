@@ -17,49 +17,58 @@
         android:layout_weight="0"
         android:background="?attr/colorSurfaceContainerLow"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/margin">
+        android:paddingVertical="@dimen/max">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/profile_button"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
+            android:layout_marginEnd="@dimen/max"
             app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="@dimen/radius_min">
+            app:cardCornerRadius="@dimen/maxi">
 
             <ImageView
-                android:id="@+id/auth_imageview"
+                android:id="@+id/status_error"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="?attr/colorSurfaceContainerHighest"
-                android:padding="@dimen/margin_min"
-                android:visibility="gone"
+                android:background="?attr/colorErrorContainer"
+                android:padding="@dimen/min"
+                android:visibility="visible"
+                app:srcCompat="@drawable/person"
+                app:tint="?attr/colorOnErrorContainer"
+                tools:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/status_guest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?attr/colorSecondaryContainer"
+                android:padding="@dimen/min"
+                android:visibility="visible"
                 app:srcCompat="@drawable/person"
                 app:tint="?attr/colorOnSecondaryContainer"
                 tools:visibility="gone" />
 
             <FrameLayout
-                android:id="@+id/auth_loading"
+                android:id="@+id/status_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimaryContainer"
-                android:visibility="gone"
-                tools:visibility="gone">
+                android:background="?attr/colorPrimaryContainer">
 
                 <com.google.android.material.loadingindicator.LoadingIndicator
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="visible"
-                    app:indicatorColor="?attr/colorPrimary"
-                    app:indicatorSize="40dp"
-                    tools:visibility="visible" />
+                    app:indicatorColor="?attr/colorOnPrimaryContainer"
+                    app:indicatorSize="40dp" />
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/auth_avatar_shape_container"
+                android:id="@+id/status_success"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent">
@@ -83,7 +92,7 @@
             android:background="@android:color/transparent"
             android:fitsSystemWindows="false"
             android:minHeight="0dp"
-            android:paddingVertical="@dimen/margin"
+            android:paddingVertical="@dimen/max"
             app:itemGravity="center"
             app:itemPaddingBottom="0dp"
             app:itemPaddingTop="0dp"

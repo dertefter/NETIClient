@@ -18,7 +18,7 @@
             android:animateLayoutChanges="true"
             android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
             android:showDividers="middle|beginning|end">
 
             <LinearLayout
@@ -37,7 +37,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -50,7 +50,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -63,7 +63,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -76,7 +76,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -89,7 +89,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -102,7 +102,7 @@
                     android:clickable="false"
                     android:visibility="visible"
                     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                    app:cardCornerRadius="@dimen/radius_max"
+                    app:cardCornerRadius="@dimen/maxi"
                     app:contentPaddingBottom="12dp"
                     app:contentPaddingLeft="12dp"
                     app:contentPaddingRight="12dp"
@@ -116,8 +116,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                app:cardCornerRadius="@dimen/maxi"
+                app:contentPadding="@dimen/max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,8 +151,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                app:cardCornerRadius="@dimen/maxi"
+                app:contentPadding="@dimen/max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -185,8 +185,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                app:cardCornerRadius="@dimen/maxi"
+                app:contentPadding="@dimen/max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,8 +219,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                app:cardCornerRadius="@dimen/maxi"
+                app:contentPadding="@dimen/max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -252,8 +252,8 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/radius_max"
-                app:contentPadding="@dimen/margin_max">
+                app:cardCornerRadius="@dimen/maxi"
+                app:contentPadding="@dimen/max">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -291,8 +291,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingTop="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingTop="@dimen/max"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <Button
@@ -366,7 +366,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical"
-                android:paddingVertical="@dimen/margin_min">
+                android:paddingVertical="@dimen/mini">
 
                 <TextView
                     android:id="@+id/name"
@@ -374,7 +374,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/margin"
+                    android:paddingHorizontal="@dimen/max"
                     android:textColor="?attr/colorOnSurface"
                      />
 
@@ -384,7 +384,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/margin"
+                    android:paddingHorizontal="@dimen/max"
                     android:textColor="?attr/colorOnSurfaceVariant"
                      />
             </LinearLayout>

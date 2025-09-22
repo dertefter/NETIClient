@@ -40,7 +40,7 @@
             android:rotation="180"
             app:indicatorColor="?attr/colorSecondary"
             app:trackColor="?attr/colorSurfaceContainer"
-            app:trackInnerCornerRadius="@dimen/radius_max"
+            app:trackInnerCornerRadius="@dimen/maxi"
             app:trackStopIndicatorSize="0dp"
             app:waveAmplitude="2dp"
             app:waveSpeed="12dp"

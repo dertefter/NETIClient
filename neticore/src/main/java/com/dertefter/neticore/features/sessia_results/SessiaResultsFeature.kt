@@ -74,8 +74,6 @@ class SessiaResultsFeature(
 
         val sessiaResults = ciuMethods.fetchSessiaResults()
 
-        Log.e("sess", sessiaResults.toString())
-
         if (sessiaResults != null) {
             userDataStoreManager.currentStore.value.edit { prefs ->
                 prefs[SESSIA_RESILTS_KEY] = gson.toJson(sessiaResults)

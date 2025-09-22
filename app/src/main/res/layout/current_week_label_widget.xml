@@ -6,7 +6,7 @@
     android:background="@drawable/app_widget_background"
     android:backgroundTint="?attr/colorPrimaryContainer"
     android:orientation="vertical"
-    android:padding="@dimen/margin"
+    android:padding="@dimen/max"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <FrameLayout
@@ -39,8 +39,8 @@
         android:layout_gravity="center"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingTop="@dimen/margin_max"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingTop="@dimen/max"
         android:text="@string/loading"
         android:textColor="?attr/colorOnPrimaryContainer"
          />

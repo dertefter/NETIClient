@@ -9,7 +9,7 @@
     android:elevation="0dp"
     android:theme="@style/NETIClient.DialogTheme"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius_max"
+    app:cardCornerRadius="@dimen/maxi"
     app:cardElevation="0dp"
     app:cardMaxElevation="0dp">
 
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/vertical_divider"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_max"
-            android:paddingVertical="@dimen/margin_max"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/max"
             android:showDividers="middle">
 
             <TextView
@@ -40,10 +40,10 @@
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="?attr/colorSurfaceVariant"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="@dimen/radius"
-                app:boxCornerRadiusBottomStart="@dimen/radius"
-                app:boxCornerRadiusTopEnd="@dimen/radius"
-                app:boxCornerRadiusTopStart="@dimen/radius"
+                app:boxCornerRadiusBottomEnd="@dimen/maximorum"
+                app:boxCornerRadiusBottomStart="@dimen/maximorum"
+                app:boxCornerRadiusTopEnd="@dimen/maximorum"
+                app:boxCornerRadiusTopStart="@dimen/maximorum"
                 app:boxStrokeColor="?attr/colorSurfaceVariant"
                 tools:ignore="HardcodedText">
 
@@ -62,10 +62,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:boxCornerRadiusBottomEnd="@dimen/radius"
-                app:boxCornerRadiusBottomStart="@dimen/radius"
-                app:boxCornerRadiusTopEnd="@dimen/radius"
-                app:boxCornerRadiusTopStart="@dimen/radius">
+                app:boxCornerRadiusBottomEnd="@dimen/maximorum"
+                app:boxCornerRadiusBottomStart="@dimen/maximorum"
+                app:boxCornerRadiusTopEnd="@dimen/maximorum"
+                app:boxCornerRadiusTopStart="@dimen/maximorum">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -102,9 +102,9 @@
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorSurfaceVariant"
-                android:padding="@dimen/margin"
+                android:padding="@dimen/max"
                 android:text="Новая заявка"
                 android:textColor="?attr/colorOnSurfaceVariant"
 

@@ -18,7 +18,7 @@
 
     <style name="NETIClient.Widget.CardView" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
-        <item name="cardCornerRadius">@dimen/radius</item>
+        <item name="cardCornerRadius">@dimen/maximorum</item>
         <item name="android:clickable">true</item>
     </style>
 
@@ -32,16 +32,56 @@
         <item name="boxStrokeWidthFocused">0dp</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxBackgroundColor">?attr/colorSurfaceContainer</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/radius</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/radius</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/radius</item>
-        <item name="boxCornerRadiusTopStart">@dimen/radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/maximorum</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/maximorum</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/maximorum</item>
+        <item name="boxCornerRadiusTopStart">@dimen/maximorum</item>
     </style>
 
 
     <style name="NETIClient.TextStyle.SexyTitle" parent="TextAppearance.Material3.HeadlineMedium.Emphasized">
         <item name="android:textColor">?attr/colorTertiary</item>
-        <item name="android:paddingVertical">@dimen/margin_min</item>
+        <item name="android:paddingVertical">@dimen/mini</item>
+    </style>
+
+    <style name="Widget.NETIClient.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.NETIClient.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMicro" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/micro</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMini" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/mini</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMin" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/min</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMid" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/mid</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMax" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/max</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMaxi" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/maxi</item>
+    </style>
+    <style name="NETIClient.ShapeAppearanceOverlay.RoundedMaximorum" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/maximorum</item>
     </style>
 
 

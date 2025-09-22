@@ -35,7 +35,11 @@
         tools:layout="@layout/fragment_documents"
         android:id="@+id/documentsFragment"
         android:name="com.dertefter.neticlient.ui.documents.DocumentsFragment"
-        android:label="DocumentsFragment" />
+        android:label="DocumentsFragment" >
+        <action
+            android:id="@+id/action_documentsFragment_to_newDocumentFragment"
+            app:destination="@id/newDocumentFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_profile_detail"
         android:id="@+id/profileDetailFragment"
@@ -60,4 +64,24 @@
         android:id="@+id/themeCreatorFragment"
         android:name="com.dertefter.neticlient.ui.settings.theme_creator.ThemeCreatorFragment"
         android:label="ThemeCreatorFragment" />
+    <fragment
+        android:id="@+id/newDocumentFragment"
+        android:name="com.dertefter.neticlient.ui.documents.new_document.NewDocumentFragment"
+        android:label="NewDocumentFragment" />
+    <fragment
+        android:id="@+id/settingsAboutFragment"
+        android:name="com.dertefter.neticlient.ui.settings.settings_pages.SettingsAboutFragment"
+        android:label="SettingsAboutFragment" />
+    <fragment
+        android:id="@+id/settingsLabsFragment"
+        android:name="com.dertefter.neticlient.ui.settings.settings_pages.SettingsLabsFragment"
+        android:label="SettingsLabsFragment" />
+    <fragment
+        android:id="@+id/settingsNotificationsFragment"
+        android:name="com.dertefter.neticlient.ui.settings.settings_pages.SettingsNotificationsFragment"
+        android:label="SettingsNotificationsFragment" />
+    <fragment
+        android:id="@+id/settingsPersonaliztionFragment"
+        android:name="com.dertefter.neticlient.ui.settings.settings_pages.SettingsPersonaliztionFragment"
+        android:label="SettingsPersonaliztionFragment" />
 </navigation>

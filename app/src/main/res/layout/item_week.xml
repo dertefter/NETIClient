@@ -6,7 +6,7 @@
     android:layout_width="44dp"
     android:layout_height="44dp"
     app:cardBackgroundColor="?attr/colorTertiaryContainer"
-    app:cardCornerRadius="@dimen/radius_min"
+    app:cardCornerRadius="@dimen/min"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
     app:strokeColor="@android:color/transparent"

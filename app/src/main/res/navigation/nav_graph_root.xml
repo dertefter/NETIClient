@@ -16,17 +16,9 @@
     <include app:graph="@navigation/nav_graph_search" />
 
     <fragment
-        android:id="@+id/settingsFragment"
-        tools:layout="@layout/fragment_settings"
-        android:name="com.dertefter.neticlient.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" >
-        <action
-            android:id="@+id/action_settingsFragment_to_themeCreatorFragment"
-            app:destination="@id/themeCreatorFragment" />
-    </fragment>
-    <fragment
-        tools:layout="@layout/fragment_theme_creator"
-        android:id="@+id/themeCreatorFragment"
-        android:name="com.dertefter.neticlient.ui.settings.theme_creator.ThemeCreatorFragment"
-        android:label="ThemeCreatorFragment" />
+        android:id="@+id/loginFragment"
+        android:name="com.dertefter.neticlient.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <include app:graph="@navigation/nav_graph_settings" />
 </navigation>

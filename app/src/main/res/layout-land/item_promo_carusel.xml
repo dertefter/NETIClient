@@ -5,7 +5,7 @@
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:background="?attr/colorSurfaceContainerHigh"
-    app:cardCornerRadius="@dimen/radius_max">
+    app:cardCornerRadius="@dimen/maxi">
 
     <ImageView
         android:id="@+id/bg_image"
@@ -26,12 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/margin_micro"
+        android:layout_margin="@dimen/mini"
         android:background="@drawable/rounded_background_for_promo_title"
         android:backgroundTint="?attr/colorSurfaceContainerLow"
         android:ellipsize="end"
         android:maxLines="3"
-        android:padding="@dimen/margin"
+        android:padding="@dimen/max"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         android:textColor="?attr/colorOnSurface"
         tools:text="ddddddd" />

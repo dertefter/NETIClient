@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
-import com.dertefter.neticlient.data.model.documents.DocumentsItem
+import com.dertefter.neticore.features.documents.model.DocumentRequestItem
+import com.dertefter.neticore.features.documents.model.DocumentsItem
 import com.dertefter.neticlient.data.network.NetworkClient
 import com.dertefter.neticlient.data.network.model.ResponseResult
 import com.dertefter.neticlient.data.network.model.ResponseType

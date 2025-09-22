@@ -1,6 +1,5 @@
 package com.dertefter.neticlient.common
 
-import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
@@ -25,7 +24,7 @@ class AppBarEdgeToEdge(
         // Добавляем слушатель изменения макета
         appBar.viewTreeObserver.addOnGlobalLayoutListener(this)
         targetBottomPadding = appBar.context.resources
-            .getDimensionPixelSize(R.dimen.margin_min)
+            .getDimensionPixelSize(R.dimen.mini)
     }
 
     // ✅ Метод для очистки слушателей, чтобы избежать утечек памяти

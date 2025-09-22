@@ -13,8 +13,8 @@
         android:clipToPadding="false"
         android:contentDescription="@string/messages_list_disc"
         android:fadingEdge="none"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingVertical="@dimen/mini"
         android:requiresFadingEdge="none"
         android:visibility="visible" />
 

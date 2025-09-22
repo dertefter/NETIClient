@@ -1,7 +1,6 @@
 package com.dertefter.neticlient.ui.sessia_schedule
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +9,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentSessiaScheduleBinding
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
-import kotlinx.coroutines.launch
 
 class SessiaScheduleFragment : Fragment() {
 
@@ -43,10 +35,7 @@ class SessiaScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = SessiaScheduleRecyclerViewAdapter(emptyList(), this)
         binding.recyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration(
-                R.dimen.margin_max,
-                R.dimen.margin_micro
-            )
+            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
         )
         adapter.setLoading(true)
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }

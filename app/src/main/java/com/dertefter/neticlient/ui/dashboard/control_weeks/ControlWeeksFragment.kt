@@ -1,14 +1,11 @@
 package com.dertefter.neticlient.ui.dashboard.control_weeks
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,18 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
-import com.dertefter.neticlient.data.network.model.ResponseType
-import com.dertefter.neticlient.databinding.FragmentMoneyBinding
-import com.dertefter.neticlient.ui.dashboard.sessia_results.SemestrPagerAdapter
-import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.control_weeks.ControlResult
+import com.dertefter.neticore.features.control_weeks.model.ControlResult
 import com.dertefter.neticlient.databinding.FragmentControlWeeksBinding
-import com.dertefter.neticlient.ui.dashboard.sessia_results.SessiaResultsViewModel
-import com.dertefter.neticlient.ui.money.MoneyPagerAdapter
-import com.dertefter.neticlient.ui.money.MoneyYearsViewModel
-import com.google.android.material.tabs.TabLayoutMediator
+import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,8 +25,35 @@ class ControlWeeksFragment : Fragment() {
 
     private var _binding: FragmentControlWeeksBinding? = null
     private val binding get() = _binding!!
-
     private val controlWeeksViewModel: ControlWeeksViewModel by viewModels()
+
+    lateinit var adapter: ControlSemesterAdapter
+
+    fun collectStatus(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                controlWeeksViewModel.status.collect { status ->
+                    binding.skeleton.isGone = status != ResponseType.LOADING
+                    binding.loadFail.root.isGone = status != ResponseType.ERROR
+                    binding.recyclerview.isGone = status != ResponseType.SUCCESS
+                }
+            }
+        }
+    }
+
+
+    fun collectControlWeeks(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                controlWeeksViewModel.controlWeeks.collect { controlWeeks ->
+                    val semesters = controlWeeks?.items
+                    if (semesters != null){
+                        adapter.updateSemestrs(semesters)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,31 +72,12 @@ class ControlWeeksFragment : Fragment() {
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
-        val adapter = ControlSemesterAdapter(emptyList())
+        adapter = ControlSemesterAdapter(emptyList())
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                controlWeeksViewModel.uiStateFlow.collect { uiState ->
-                    val semestrs = (uiState.data as ControlResult?)?.items
-                    if (!semestrs.isNullOrEmpty()){
-                        adapter.updateSemestrs(semestrs)
-                        binding.skeleton.isGone = true
-                        binding.loadFail.root.isGone = true
-                    }
-                    if (uiState.responseType == ResponseType.LOADING && semestrs.isNullOrEmpty()){
-                        binding.skeleton.isGone = false
-                        binding.loadFail.root.isGone = true
-                    }
-
-                    if (uiState.responseType == ResponseType.ERROR && semestrs.isNullOrEmpty()){
-                        binding.skeleton.isGone = true
-                        binding.loadFail.root.isGone = false
-                    }
-                }
-            }
-        }
+        collectStatus()
+        collectControlWeeks()
 
         controlWeeksViewModel.updateControlWeeks()
 

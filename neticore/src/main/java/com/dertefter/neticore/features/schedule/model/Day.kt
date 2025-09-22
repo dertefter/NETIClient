@@ -3,6 +3,7 @@ package com.dertefter.neticore.features.schedule.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
+import java.time.LocalTime
 
 @Parcelize
 data class Day (
@@ -12,10 +13,10 @@ data class Day (
     var date: String? = null
 ) : Parcelable {
     fun getDate(): LocalDate? {
-        try{
-            return LocalDate.parse(date)
+        return try{
+            LocalDate.parse(date)
         } catch (e: Exception){
-            return null
+            null
         }
     }
 
@@ -26,5 +27,18 @@ data class Day (
         }
         return lessons.toList()
     }
+
+
+    fun findNextLesson(date: LocalDate?, localTime: LocalTime?): Lesson? {
+        if (localTime == null || date == null) return null
+        for (time in times){
+            if (time.getLocalDate().isAfter(date)) return time.lessons.first()
+            else if (time.getTimeStart().isBefore(localTime) && time.getTimeEnd().isAfter(localTime)) return  time.lessons.first()
+            else if (time.getTimeStart().isAfter(localTime)) return time.lessons.first()
+        }
+        return null
+    }
+
+
 
 }

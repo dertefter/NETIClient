@@ -7,7 +7,9 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="@drawable/rounded_maximorum"
+    android:backgroundTint="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -22,8 +24,8 @@
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_micro"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/mini"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
@@ -33,7 +35,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center|start"
                 android:maxWidth="1000dp"
-                android:paddingVertical="@dimen/margin"
+                android:paddingVertical="@dimen/max"
                 android:text="@string/messages_title"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
@@ -48,23 +50,126 @@
 
         </FrameLayout>
 
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="false"
+            android:paddingHorizontal="@dimen/max"
+            android:scrollbarThumbHorizontal="@null">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/filter_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/maxi"
+                android:paddingVertical="@dimen/mini"
+                app:chipSpacingHorizontal="@dimen/mini"
+                app:chipSpacingVertical="0dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_all"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/filter_news_all"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_unread"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Непрочитано"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_teacher"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Преподаватели"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_decan"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Деканат"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_tutor"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Тьютор"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_sluzb"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Службы"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filter_other"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Прочее"
+                    app:chipCornerRadius="@dimen/micro"
+                    app:ensureMinTouchTargetSize="false" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messages_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/margin"
+    <com.dertefter.neticlient.common.CustomPullToRefreshLayout
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:listitem="@layout/item_message" />
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/mini"
+            tools:listitem="@layout/item_message" />
+    </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
+
 
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:padding="@dimen/margin"
+        android:padding="@dimen/max"
         android:text="Нет данных о результатах сессии"
         android:textColor="?attr/colorOnSurfaceVariant"
 

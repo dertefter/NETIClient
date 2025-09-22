@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
-    android:backgroundTint="?attr/colorSurface">
+    android:background="?attr/colorSurfaceContainerHigh">
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/margin_max"
+        android:layout_margin="@dimen/max"
         android:clickable="true"
         android:text="Создать заявку"
         app:icon="@drawable/edit_icon" />
@@ -25,34 +24,54 @@
         android:layout_height="wrap_content"
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
+        app:liftOnScrollColor="@android:color/transparent"
         app:liftOnScrollTargetViewId="@id/recyclerView">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-            app:navigationIcon="@drawable/arrow_back"
-            app:title="Заявки на документы" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/maxi"
+            android:paddingVertical="@dimen/mini"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
+            <Button
+                android:id="@+id/back_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="?attr/colorSurfaceContainerLow"
+                app:icon="@drawable/arrow_back"
+                app:iconGravity="textStart" />
+
+        </FrameLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.dertefter.neticlient.common.CustomPullToRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:contentDescription="@string/news_list"
-        android:fadingEdge="none"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
-        android:requiresFadingEdge="none"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:itemCount="20"
-        tools:listitem="@layout/item_news" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_background_big"
+            android:backgroundTint="?attr/colorSurface"
+            android:clipToPadding="false"
+            android:contentDescription="@string/news_list"
+            android:fadingEdge="none"
+            android:paddingHorizontal="@dimen/mini"
+            android:paddingVertical="@dimen/mini"
+            android:requiresFadingEdge="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
+            tools:itemCount="20"
+            tools:listitem="@layout/item_news" />
+    </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
+
+
 
     <include
         android:id="@+id/load_fail"
@@ -61,6 +80,42 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/empty_view"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/vertical_divider_small"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_1"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                android:padding="20dp"
+                app:tint="?attr/colorOnPrimaryContainer"
+                app:srcCompat="@drawable/document_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Список заявок пуст"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

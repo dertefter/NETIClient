@@ -7,190 +7,123 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:divider="@drawable/vertical_divider_small"
+        android:fitsSystemWindows="true"
+        android:showDividers="none">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <FrameLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/colorSurface">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:id="@+id/buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/margin_micro"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
-                    <TextView
-                        android:id="@+id/week_label2"
-                        style="@style/NETIClient.TextStyle.SexyTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:gravity="center|start"
-                        android:paddingVertical="@dimen/margin"
-                        android:text="@string/sessia_results_title"
-                        app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
-
-                    <Button
-                        android:id="@+id/menu_button"
-                        style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center_vertical|end"
-                        app:icon="@drawable/more_icon"
-                        app:iconGravity="textStart" />
-
-                </FrameLayout>
-
-                <com.dertefter.neticlient.common.HorizontalScrollableBarChartView
-                    android:id="@+id/horiz_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/margin"
-                    android:visibility="visible"
-                    app:barDrawable="@drawable/bar_bg"
-                    app:barSpacing="@dimen/margin_min"
-                    app:barWidth="56dp"
-                    app:labelFontFamily="sans-serif-medium"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                    app:maxIconDrawable="@drawable/bar_max_icon" />
-
-            </LinearLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/colorSurfaceContainerLow">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbar"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@drawable/vertical_divider_small"
-                android:fitsSystemWindows="true"
-                android:showDividers="none">
-
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="enterAlways" />
-
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:nestedScrollingEnabled="true"
-                android:orientation="vertical"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-            <com.dertefter.neticlient.common.ShimmerLayout
-                android:id="@+id/skeleton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/vertical_divider_small"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/margin"
-                    android:paddingVertical="@dimen/margin_min"
-                    android:showDividers="middle">
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <include
-                        layout="@layout/item_sessia_result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </com.dertefter.neticlient.common.ShimmerLayout>
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/max"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
-                android:id="@+id/empty_view"
+                android:id="@+id/week_label2"
+                style="@style/NETIClient.TextStyle.SexyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/margin"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center|start"
+                android:maxWidth="1000dp"
+                android:paddingVertical="@dimen/max"
+                android:text="@string/sessia_results_title"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+
+            <Button
+                android:id="@+id/menu_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                app:icon="@drawable/more_icon"
+                app:iconGravity="textStart" />
+
+        </FrameLayout>
+
+        <com.dertefter.neticlient.common.ScrollableBarChartView
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingBottom="@dimen/max"
+            android:visibility="gone"
+            app:barDrawable="@drawable/bar_bg"
+            app:barSpacing="@dimen/max"
+            app:barWidth="56dp"
+            app:labelFontFamily="sans-serif-medium"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:maxIconDrawable="@drawable/bar_max_icon" />
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.dertefter.neticlient.common.CustomPullToRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_height="match_parent">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            />
+    </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
+
+
+    <FrameLayout
+        android:id="@+id/empty_view"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="300dp"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/vertical_divider_small"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_1"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                android:padding="20dp"
+                app:srcCompat="@drawable/school"
+                app:tint="?attr/colorOnPrimaryContainer" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Нет данных о результатах сессии"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized" />
+        </LinearLayout>
 
-                android:visibility="gone"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </LinearLayout>
-
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/login_helper"

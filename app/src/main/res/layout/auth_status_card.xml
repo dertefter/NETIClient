@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/status_card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="0dp">
 
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:divider="@drawable/vertical_divider_small"
         android:orientation="vertical"
-        android:padding="@dimen/margin_max"
+        android:padding="@dimen/max"
         android:showDividers="middle"
         android:visibility="visible">
 
@@ -45,7 +45,7 @@
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/auth_button_text"
-                app:cornerRadius="@dimen/radius" />
+                app:cornerRadius="@dimen/maximorum" />
         </FrameLayout>
 
     </LinearLayout>
@@ -56,7 +56,7 @@
         android:layout_height="match_parent"
         android:divider="@drawable/vertical_divider_small"
         android:orientation="vertical"
-        android:padding="@dimen/margin_max"
+        android:padding="@dimen/max"
         android:showDividers="middle"
         android:visibility="gone">
 
@@ -101,7 +101,7 @@
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/load_retry"
-                app:cornerRadius="@dimen/radius" />
+                app:cornerRadius="@dimen/maximorum" />
         </FrameLayout>
 
     </LinearLayout>

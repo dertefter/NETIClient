@@ -1,5 +1,9 @@
 package com.dertefter.neticore.network.parser
 
+import com.dertefter.neticore.features.control_weeks.model.ControlItem
+import com.dertefter.neticore.features.control_weeks.model.ControlResult
+import com.dertefter.neticore.features.control_weeks.model.ControlSemestr
+import com.dertefter.neticore.features.control_weeks.model.ControlWeek
 import com.dertefter.neticore.features.sessia_results.model.SessiaResultItem
 import com.dertefter.neticore.features.sessia_results.model.SessiaResultSemestr
 import com.dertefter.neticore.features.sessia_results.model.SessiaResults
@@ -9,6 +13,41 @@ import org.jsoup.nodes.Element
 
 class HtmlParserSessiaResults {
 
+    fun parseControlWeeks(body: ResponseBody?): ControlResult? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val rows = doc.select("table.tdall tbody tr:has(td)")
+
+            val grouped = LinkedHashMap<String, LinkedHashMap<String, MutableList<ControlItem>>>()
+
+            rows.forEach { row ->
+                val columns = row.select("td")
+                if (columns.size >= 5) {
+                    val semester = columns[2].text().trim()
+                    val week = columns[3].text().trim()
+                    val discipline = columns[1].text().trim()
+                    val grade = columns[4].text().trim().takeIf { it.isNotEmpty() && it != "&nbsp;" }
+
+                    val semesterMap = grouped.getOrPut(semester) { LinkedHashMap() }
+                    val weekList = semesterMap.getOrPut(week) { mutableListOf() }
+                    weekList.add(ControlItem(discipline, grade))
+                }
+            }
+
+            val semesters = grouped.map { (semesterKey, weeksMap) ->
+                val weeks = weeksMap.map { (weekKey, items) ->
+                    ControlWeek("Неделя $weekKey", items)
+                }
+                ControlSemestr("Семестр $semesterKey", weeks)
+            }
+
+            ControlResult(semesters.ifEmpty { null })
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     fun parseSessiaResults(body: ResponseBody?): SessiaResults? {
         return try {
@@ -109,5 +148,20 @@ class HtmlParserSessiaResults {
             null
         }
     }
+
+
+    fun parseShareScore(body: ResponseBody?): String? {
+        return try {
+            val html = body?.string() ?: return null
+            val doc = Jsoup.parse(html)
+
+            val textArea = doc.select("textarea#view_grades").first()?.text()
+
+            textArea
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
 }

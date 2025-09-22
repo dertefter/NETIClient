@@ -1,32 +1,16 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="200dp"
-    android:height="200dp"
-    android:viewportWidth="274"
-    android:viewportHeight="274">
-
+    android:width="300dp"
+    android:height="300dp"
+    android:viewportWidth="300"
+    android:viewportHeight="300">
   <group
-      android:name="base"
-      android:pivotX="137"
-      android:pivotY="137"
-      android:scaleX="0.8"
-      android:scaleY="0.8"
-
-      >
+      android:pivotX="150"
+      android:pivotY="150"
+    android:name="base">
 
     <path
-        android:fillColor="@color/md_theme_primary"
-        android:pathData="M46.5,21A25.53,25.53 0,0 1,72 46.5v181a25.5,25.5 0,0 1,-51 0V46.5A25.53,25.53 0,0 1,46.5 21m0,-21h0A46.5,46.5 0,0 0,0 46.5v181A46.5,46.5 0,0 0,46.5 274h0A46.5,46.5 0,0 0,93 227.5V46.5A46.5,46.5 0,0 0,46.5 0Z"/>
-
-    <path
-        android:fillColor="@color/md_theme_primary"
-        android:pathData="M227.5,202a25.5,25.5 0,0 1,0 51H46.5a25.5,25.5 0,0 1,0 -51h181m0,-21H46.5A46.5,46.5 0,0 0,0 227.5H0A46.5,46.5 0,0 0,46.5 274h181A46.5,46.5 0,0 0,274 227.5h0A46.5,46.5 0,0 0,227.5 181Z"/>
-    <path
-        android:fillColor="@color/md_theme_primary"
-        android:pathData="M227.5,21a25.5,25.5 0,0 1,0 51H46.5a25.5,25.5 0,0 1,0 -51h181m0,-21H46.5A46.5,46.5 0,0 0,0 46.5H0A46.5,46.5 0,0 0,46.5 93h181A46.5,46.5 0,0 0,274 46.5h0A46.5,46.5 0,0 0,227.5 0Z"/>
-    <path
-        android:fillColor="@color/md_theme_primary"
-        android:pathData="M227.5,21A25.53,25.53 0,0 1,253 46.5v181a25.5,25.5 0,0 1,-51 0V46.5A25.53,25.53 0,0 1,227.5 21m0,-21h0A46.5,46.5 0,0 0,181 46.5v181A46.5,46.5 0,0 0,227.5 274h0A46.5,46.5 0,0 0,274 227.5V46.5A46.5,46.5 0,0 0,227.5 0Z"/>
-
-
+        android:pathData="M162.29,66.66l16.94,45.79c1.41,3.8 4.4,6.79 8.19,8.19l45.79,16.94c11.55,4.27 11.55,20.61 0,24.89l-45.79,16.94c-3.8,1.41 -6.79,4.4 -8.19,8.19l-16.94,45.79c-4.27,11.55 -20.61,11.55 -24.89,0l-16.94,-45.79c-1.41,-3.8 -4.4,-6.79 -8.19,-8.19l-45.79,-16.94c-11.55,-4.27 -11.55,-20.61 0,-24.89l45.79,-16.94c3.8,-1.41 6.79,-4.4 8.19,-8.19l16.94,-45.79c4.27,-11.55 20.61,-11.55 24.89,0h0Z"
+        android:fillColor="@color/md_theme_primary"/>
   </group>
-  </vector>
+
+</vector>

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dertefter.neticlient.data.repository.SettingsRepository
+import com.dertefter.neticore.NETICore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,8 +22,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
-) : ViewModel() {
+    private val settingsRepository: SettingsRepository,
+    val netiCore: NETICore
+): ViewModel() {
+
+    val authorizationFeature = netiCore.authorizationFeature
+
+    val authStatusMobile = authorizationFeature.mobileStatus
+    val authStatusCiu = authorizationFeature.ciuStatus
+
+
 
     var scheduleServiceState: StateFlow<Boolean>  = settingsRepository.getScheduleService().stateIn(
         scope = viewModelScope,

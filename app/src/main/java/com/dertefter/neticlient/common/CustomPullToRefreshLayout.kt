@@ -2,207 +2,262 @@ package com.dertefter.neticlient.common
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.widget.FrameLayout
-import androidx.core.animation.doOnEnd
+import android.view.animation.PathInterpolator
+import android.widget.LinearLayout
 import com.dertefter.neticlient.R
-import com.dertefter.neticlient.databinding.LoadingViewBinding
-import com.dertefter.neticore.network.ResponseType
-import kotlin.math.max
+import kotlin.math.abs
 
 class CustomPullToRefreshLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private enum class GestureState {
-        IDLE, PULLING, RETURNING
+    private enum class State {
+        IDLE,
+        PULLING,
+        REFRESHING,
+        ERROR
     }
 
-    private var currentGestureState = GestureState.IDLE
-    private var currentResponseType: ResponseType? = null
+    private var currentState = State.IDLE
 
-    val binding: LoadingViewBinding =
-        LoadingViewBinding.inflate(LayoutInflater.from(context), this, false)
+    private var headerView: View
+    private var loadingContainer: View
 
-    private val statusContainer: View = binding.root
-    private val statusLoadingView: View = binding.statusLoading
-    private val statusSuccessView: View = binding.statusDone
-    private val statusErrorView: View = binding.statusFail
-
+    private var loadingIndicator: View
+    private var preLoadingIndicator: View
+    private var errorContainer: View
     private var contentView: View? = null
 
+    private var headerHeight = 0
+    private var initialY = 0f
     private val touchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
-    private var initialMotionY = 0f
-    private var isBeingDragged = false
-    private var refreshTriggerDistance = 0f
-    private val DRAG_RESISTANCE = 0.5f
 
+    private val alphaInterpolator = PathInterpolator(0.3f, 0f, 0.8f, 0.15f)
     private var onRefreshListener: (() -> Unit)? = null
-    private val hideHandler = Handler(Looper.getMainLooper())
-    private var hideRunnable: Runnable? = null
+    private var onCancelListener: (() -> Unit)? = null
+
+    private val vibrator: Vibrator? = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+    private var isManualRefresh = false
 
     init {
-        val lp = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        lp.gravity = Gravity.TOP
-        addView(statusContainer, lp)
+        orientation = VERTICAL
+        gravity = Gravity.TOP
 
-        statusContainer.visibility = View.GONE
-        statusContainer.post {
-            refreshTriggerDistance = statusContainer.height.toFloat()
-            statusContainer.translationY = -refreshTriggerDistance
-        }
+        headerView = LayoutInflater.from(context)
+            .inflate(R.layout.loading_view, this, false)
+        headerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 0)
+        addView(headerView, 0)
 
-        statusErrorView.setOnClickListener {
-            setStatus(ResponseType.LOADING)
+        loadingContainer = headerView.findViewById(R.id.status_loading)
+        errorContainer = headerView.findViewById(R.id.status_error)
+        loadingIndicator = headerView.findViewById(R.id.loading_indicator)
+        preLoadingIndicator = headerView.findViewById(R.id.pre_loading_indicator)
+
+        errorContainer.setOnClickListener {
+            isManualRefresh = false
+            startRefreshing()
         }
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        if (childCount > 2) {
-            throw IllegalStateException("CustomPullToRefreshLayout может содержать только один дочерний View для контента.")
+        if (childCount > 1) {
+            contentView = getChildAt(1)
         }
-        contentView = getChildAt(0).takeIf { it != statusContainer } ?: getChildAt(1)
-        if (contentView == null) {
-            throw IllegalStateException("Добавьте контент (например, RecyclerView) внутрь CustomPullToRefreshLayout.")
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (headerHeight == 0) {
+            headerView.measure(
+                MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+            )
+            headerHeight = headerView.measuredHeight
         }
-        statusContainer.bringToFront()
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (contentView?.canScrollVertically(-1) == true) {
+        if (!isEnabled) {
             return false
         }
 
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
-                initialMotionY = ev.y
-                isBeingDragged = false
+                initialY = ev.y
             }
             MotionEvent.ACTION_MOVE -> {
-                val dy = ev.y - initialMotionY
-                if (dy > touchSlop && !isBeingDragged) {
-                    isBeingDragged = true
-                    currentGestureState = GestureState.PULLING
-                    statusContainer.visibility = View.VISIBLE
-                    showOnlyView(statusLoadingView)
+                val deltaY = ev.y - initialY
+
+                val isPullingDown = deltaY > touchSlop && !canChildScrollUp() && currentState == State.IDLE
+                val isSwipingError = currentState == State.ERROR && abs(deltaY) > touchSlop
+                val isSwipingToCancel = currentState == State.REFRESHING && abs(deltaY) > touchSlop
+
+                if (isPullingDown) {
+                    currentState = State.PULLING
+                    return true
+                }
+
+                if (isSwipingError || isSwipingToCancel) {
+                    return true
                 }
             }
         }
-        return isBeingDragged
+        return super.onInterceptTouchEvent(ev)
     }
 
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        when (ev.action) {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) {
+            return false
+        }
+
+        when (event.action) {
             MotionEvent.ACTION_MOVE -> {
-                if (isBeingDragged) {
-                    val pullDistance = (ev.y - initialMotionY) * DRAG_RESISTANCE
-                    moveViews(max(0f, pullDistance))
+                if (currentState == State.PULLING) {
+                    val deltaY = event.y - initialY
+                    val pullDistance = deltaY / 2.0f
+                    setHeaderHeight(pullDistance.toInt())
+
+                    val rotation = (pullDistance / headerHeight) * 180f
+                    preLoadingIndicator.rotation = rotation.coerceAtMost(360f)
+
+                    preLoadingIndicator.visibility = View.VISIBLE
+                    loadingIndicator.visibility = View.INVISIBLE
+
+                    return true
+                }
+                if (currentState == State.ERROR || currentState == State.REFRESHING) {
+                    val deltaY = event.y - initialY
+                    val newHeight = headerHeight + deltaY
+                    setHeaderHeight(newHeight.toInt())
                     return true
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                if (isBeingDragged) {
-                    isBeingDragged = false
-                    if ((contentView?.translationY ?: 0f) >= refreshTriggerDistance) {
-                        setStatus(ResponseType.LOADING)
+                if (currentState == State.PULLING) {
+                    if (headerView.height >= headerHeight) {
+                        smoothSetHeaderHeight(headerView.height, headerHeight)
+                        isManualRefresh = true
+                        startRefreshing()
                     } else {
-                        animateToInitialPosition()
+                        smoothSetHeaderHeight(headerView.height, 0)
+                        currentState = State.IDLE
+                    }
+                    return true
+                }
+                if (currentState == State.ERROR || currentState == State.REFRESHING) {
+                    if (headerView.height < headerHeight / 2) {
+                        if (currentState == State.REFRESHING) {
+                            onCancelListener?.invoke()
+                        }
+                        stopRefreshing()
+                    } else {
+                        smoothSetHeaderHeight(headerView.height, headerHeight)
                     }
                     return true
                 }
             }
         }
-        return super.onTouchEvent(ev)
-    }
-
-    private fun moveViews(offset: Float) {
-        contentView?.translationY = offset
-        statusContainer.translationY = offset - refreshTriggerDistance
-    }
-
-    private fun animateToInitialPosition() {
-        currentGestureState = GestureState.RETURNING
-        val currentTranslation = contentView?.translationY ?: 0f
-        ValueAnimator.ofFloat(currentTranslation, 0f).apply {
-            duration = 300
-            addUpdateListener {
-                val value = it.animatedValue as Float
-                moveViews(value)
-            }
-            doOnEnd {
-                currentGestureState = GestureState.IDLE
-                statusContainer.visibility = View.GONE
-                currentResponseType = null
-            }
-            start()
-        }
-    }
-
-    private fun animateToVisiblePosition() {
-        currentGestureState = GestureState.RETURNING
-        val currentTranslation = contentView?.translationY ?: 0f
-        ValueAnimator.ofFloat(currentTranslation, refreshTriggerDistance).apply {
-            duration = 300
-            addUpdateListener {
-                val value = it.animatedValue as Float
-                moveViews(value)
-            }
-            doOnEnd {
-                currentGestureState = GestureState.IDLE
-            }
-            start()
-        }
-    }
-
-    private fun showOnlyView(viewToShow: View) {
-        binding.statusLoading.visibility =
-            if (viewToShow == binding.statusLoading) View.VISIBLE else View.GONE
-        binding.statusDone.visibility =
-            if (viewToShow == binding.statusDone) View.VISIBLE else View.GONE
-        binding.statusFail.visibility =
-            if (viewToShow == binding.statusFail) View.VISIBLE else View.GONE
+        return super.onTouchEvent(event)
     }
 
     fun setOnRefreshListener(listener: () -> Unit) {
         this.onRefreshListener = listener
     }
 
-    fun setStatus(type: ResponseType) {
-        if (type == ResponseType.SUCCESS && currentResponseType == ResponseType.SUCCESS) {
-            return
+    fun setOnCancelListener(listener: () -> Unit) {
+        this.onCancelListener = listener
+    }
+
+    fun startRefreshing() {
+        if (currentState != State.REFRESHING) {
+            currentState = State.REFRESHING
+
+            loadingContainer.visibility = View.VISIBLE
+            errorContainer.visibility = View.GONE
+            preLoadingIndicator.visibility = View.INVISIBLE
+            loadingIndicator.visibility = View.VISIBLE
+
+            if (headerHeight == 0) {
+                headerView.measure(
+                    MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
+                headerHeight = headerView.measuredHeight
+            }
+
+            if (headerView.height < headerHeight) {
+                smoothSetHeaderHeight(headerView.height, headerHeight)
+            } else {
+                setHeaderHeight(headerHeight)
+            }
+
+            if (isManualRefresh) {
+                vibrator?.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            onRefreshListener?.invoke()
         }
+    }
 
-        hideRunnable?.let { hideHandler.removeCallbacks(it) }
+    fun stopRefreshing() {
+        currentState = State.IDLE
+        smoothSetHeaderHeight(headerView.height, 0)
+        preLoadingIndicator.rotation = 0f
+    }
 
-        currentResponseType = type
-        statusContainer.visibility = View.VISIBLE
+    fun showError() {
+        currentState = State.ERROR
+        loadingContainer.visibility = View.GONE
+        errorContainer.visibility = View.VISIBLE
 
-        when (type) {
-            ResponseType.LOADING -> {
-                animateToVisiblePosition()
-                showOnlyView(binding.statusLoading)
-                onRefreshListener?.invoke()
-            }
-            ResponseType.SUCCESS -> {
-                showOnlyView(binding.statusDone)
-                hideRunnable = Runnable { animateToInitialPosition() }
-                hideHandler.postDelayed(hideRunnable!!, 1200)
-            }
-            ResponseType.ERROR -> {
-                showOnlyView(binding.statusFail)
-                hideRunnable = Runnable { animateToInitialPosition() }
-                hideHandler.postDelayed(hideRunnable!!, 6000)
-            }
+        if (headerView.height < headerHeight) {
+            smoothSetHeaderHeight(headerView.height, headerHeight)
         }
+    }
+
+    private fun setHeaderHeight(height: Int) {
+        val targetHeight = height.coerceIn(0, (headerHeight * 1.5).toInt())
+        headerView.layoutParams.height = targetHeight
+        headerView.requestLayout()
+
+        val progress = (targetHeight.toFloat() / headerHeight).coerceAtMost(1.5f)
+        val scale = 0.8f + 0.2f * progress
+        val alphaProgress = if (progress < 0.3) {
+            0f
+        } else {
+            ((progress - 0.3) / (1f - 0.3f))
+                .coerceIn(0.0, 1.0)
+        }.toFloat()
+        val alpha = alphaInterpolator.getInterpolation(alphaProgress)
+        if (!scale.isNaN()){
+            headerView.scaleX = scale
+            headerView.scaleY = scale
+        }
+        headerView.alpha = alpha
+    }
+
+    private fun smoothSetHeaderHeight(from: Int, to: Int) {
+        ValueAnimator.ofInt(from, to).apply {
+            addUpdateListener {
+                setHeaderHeight(it.animatedValue as Int)
+            }
+            duration = 200
+            start()
+        }
+    }
+
+    private fun canChildScrollUp(): Boolean {
+        return contentView?.canScrollVertically(-1) ?: false
     }
 }

@@ -8,7 +8,7 @@
     android:layout_height="44dp"
     android:clickable="false"
     android:maxWidth="100dp"
-    app:cardCornerRadius="@dimen/radius">
+    app:cardCornerRadius="@dimen/maximorum">
 
     <TextView
         android:id="@+id/title_small"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-12dp"
             android:alpha="0.1"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
             android:text="2"
             android:textColor="?attr/colorPrimary"
              />
@@ -44,7 +44,7 @@
             android:layout_gravity="center"
 
             android:includeFontPadding="false"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/max"
             android:textColor="?attr/colorOnPrimaryContainer"
              />
     </FrameLayout>

@@ -15,14 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.data.model.CurrentTimeObject
-import com.dertefter.neticore.features.schedule.model.FutureOrPastOrNow
-import com.dertefter.neticore.features.schedule.model.LessonDetail
 import com.dertefter.neticlient.databinding.FragmentLessonViewBinding
 import com.dertefter.neticlient.ui.person.PersonListAdapter
-import com.dertefter.neticlient.ui.person.PersonListRecyclerViewAdapter
-import com.dertefter.neticlient.ui.person.PersonListStyle
+import com.dertefter.neticore.NETICore
 import com.dertefter.neticore.features.schedule.model.Lesson
-import com.dertefter.neticore.features.schedule.model.Time
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,11 +29,15 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
+    @Inject
+    lateinit var netiCore: NETICore
 
     companion object {
         const val TAG = "LessonDetailBottomSheetFragment"
@@ -103,20 +103,22 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
 
-        val adapter = PersonListAdapter(lesson.personIds, viewLifecycleOwner){
-            val bundle = Bundle()
-            bundle.putString("personId", it)
-            requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.personViewFragment, bundle)
-            dismiss()
-        }
+        val adapter = PersonListAdapter(
+            lesson.personIds, viewLifecycleOwner,
+            onClick = {
+                val bundle = Bundle()
+                bundle.putString("personId", it)
+                requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.personViewFragment, bundle)
+                dismiss()
+            },
+            netiCore.personDetailFeature
+        )
 
 
         binding.personsRecyclerView.adapter = adapter
         binding.personsRecyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration(
-                R.dimen.margin_max,
-                R.dimen.margin_micro
-            ))
+            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+        )
         binding.personsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
 
@@ -255,8 +257,8 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
         if (startTime == null || endTime == null || currentTime == null) {return 0}
 
-        val totalMinutes = startTime.until(endTime, java.time.temporal.ChronoUnit.MINUTES)
-        val elapsedMinutes = startTime.until(currentTime, java.time.temporal.ChronoUnit.MINUTES)
+        val totalMinutes = startTime.until(endTime, ChronoUnit.MINUTES)
+        val elapsedMinutes = startTime.until(currentTime, ChronoUnit.MINUTES)
 
         return if (totalMinutes > 0) {
             ((elapsedMinutes.toDouble() / totalMinutes.toDouble()) * 100).toInt().coerceIn(0, 100)

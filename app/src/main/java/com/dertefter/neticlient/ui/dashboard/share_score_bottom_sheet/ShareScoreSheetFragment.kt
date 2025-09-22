@@ -14,8 +14,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.dertefter.neticlient.data.network.model.ResponseType
+import com.dertefter.neticlient.R
 import com.dertefter.neticlient.databinding.FragmentShareScoreBinding
+import com.dertefter.neticore.network.ResponseType
 import com.github.alexzhirkevich.customqrgenerator.QrData
 import com.github.alexzhirkevich.customqrgenerator.vector.QrCodeDrawable
 import com.github.alexzhirkevich.customqrgenerator.vector.QrVectorOptions
@@ -67,6 +68,37 @@ class ShareScoreSheetFragment : BottomSheetDialogFragment() {
 
 
 
+    fun collectStatus(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                shareScoreViewModel.status.collect { status ->
+                    binding.loadFail.root.isGone = status != ResponseType.ERROR
+                    binding.skeleton.isGone = status != ResponseType.LOADING
+                    binding.success.isGone = status != ResponseType.SUCCESS
+                }
+            }
+        }
+    }
+
+    fun collectLink(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                shareScoreViewModel.link.collect { link ->
+                    if (!link.isNullOrEmpty()){
+                        binding.linkField.editText?.setText(link)
+                        setQr(link)
+
+                        binding.copyButton.setOnClickListener {
+                            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText(getString(R.string.share_score_title), link)
+                            clipboard.setPrimaryClip(clip)
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,52 +106,15 @@ class ShareScoreSheetFragment : BottomSheetDialogFragment() {
 
         shareScoreViewModel.updateShareScore()
 
-        binding.replaceLinkButton.setOnClickListener {
+        binding.newLinkButton.setOnClickListener {
             shareScoreViewModel.replaceLink()
         }
 
         binding.loadFail.buttonRetry.setOnClickListener {
             shareScoreViewModel.updateShareScore()
         }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                shareScoreViewModel.uiStateFlow.collect { uiState ->
-
-
-                    when (uiState.responseType){
-                        ResponseType.SUCCESS -> {
-                            binding.skeleton.isGone = true
-                            binding.loadFail.root.isGone = true
-                            binding.success.isGone = false
-                            val link = (uiState.data as String?)
-                            if (!link.isNullOrEmpty()){
-                                binding.linkField.editText?.setText(link)
-                                setQr(link)
-
-                                binding.copyButton.setOnClickListener {
-                                    val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                    val clip = ClipData.newPlainText("Поделиться успеваемостью", link)
-                                    clipboard.setPrimaryClip(clip)
-                                }
-
-                            }
-                        }
-                        ResponseType.ERROR -> {
-                            binding.skeleton.isGone = true
-                            binding.loadFail.root.isGone = false
-                            binding.success.isGone = true
-                        }
-                        ResponseType.LOADING -> {
-                            binding.skeleton.isGone = false
-                            binding.loadFail.root.isGone = true
-                            binding.success.isGone = true
-                        }
-                    }
-
-                }
-            }
-        }
+        collectStatus()
+        collectLink()
 
 
     }

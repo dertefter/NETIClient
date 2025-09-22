@@ -1,43 +1,25 @@
 package com.dertefter.neticlient.ui.messages
 
-import android.content.res.Configuration
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.os.postDelayed
 import androidx.core.view.doOnNextLayout
-import androidx.core.view.isGone
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.databinding.FragmentMessagesBinding
-import com.dertefter.neticlient.ui.messages.message_detail.MessagesDetailFragment
-import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.AuthState
-import com.dertefter.neticlient.ui.login.LoginFragment
-import com.dertefter.neticlient.ui.login.LoginReasonType
-import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticore.features.authorization.model.AuthStatusType
 import com.dertefter.neticore.features.inbox.model.Message
-import com.google.android.material.chip.Chip
-import com.google.android.material.tabs.TabLayoutMediator
+import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -67,11 +49,9 @@ class MessagesFragment : Fragment() {
         )
         binding.messagesRv.adapter = adapter
         binding.messagesRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.messagesRv.addItemDecoration(VerticalSpaceItemDecoration(
-            R.dimen.radius_max,
-            R.dimen.radius_micro
-        ))
-
+        binding.messagesRv.addItemDecoration(
+            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+        )
     }
 
     fun collectMessages(){
@@ -86,13 +66,40 @@ class MessagesFragment : Fragment() {
             }
     }
 
+    fun collectStatus(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                messagesViewModel.status.collect { status ->
+                    when (status){
+                        ResponseType.LOADING -> {
+                            binding.refreshLayout.startRefreshing()
+                        }
+                        ResponseType.SUCCESS -> {
+                            binding.refreshLayout.stopRefreshing()
+                        }
+                        ResponseType.ERROR -> {
+                            binding.refreshLayout.showError()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.appbar.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appbar))
 
+
         setupRecyclerView()
         collectMessages()
+        collectStatus()
+
+        binding.refreshLayout.setOnRefreshListener {
+            messagesViewModel.updateMessages()
+        }
+
         messagesViewModel.updateMessages()
 
         binding.filterChips?.setOnCheckedStateChangeListener { group, checkedIds ->

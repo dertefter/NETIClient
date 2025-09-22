@@ -1,16 +1,12 @@
 package com.dertefter.neticlient.data.network
 
 import android.util.Log
-import com.dertefter.neticore.features.schedule.model.Day
-import com.dertefter.neticore.features.schedule.model.Lesson
-import com.dertefter.neticore.features.schedule.model.LessonTrigger
 import com.dertefter.neticore.features.schedule.model.Schedule
-import com.dertefter.neticore.features.schedule.model.Time
 import com.dertefter.neticlient.data.model.sessia_schedule.SessiaScheduleItem
 import com.dertefter.neticlient.data.model.UserInfo
 import com.dertefter.neticlient.data.model.messages.Message
 import com.dertefter.neticlient.data.model.messages.MessageDetail
-import com.dertefter.neticlient.data.model.money.MoneyItem
+import com.dertefter.neticore.features.money.model.MoneyItem
 import com.dertefter.neticlient.data.model.news.NewsDetail
 import com.dertefter.neticlient.data.model.news.NewsItem
 import com.dertefter.neticlient.data.model.news.NewsResponse
@@ -19,15 +15,14 @@ import com.dertefter.neticlient.data.model.profile_detail.ProfileDetail
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultItem
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
 import com.dertefter.neticlient.data.model.calendar.CalendarEvent
-import com.dertefter.neticlient.data.model.control_weeks.ControlItem
-import com.dertefter.neticlient.data.model.control_weeks.ControlResult
-import com.dertefter.neticlient.data.model.control_weeks.ControlSemestr
-import com.dertefter.neticlient.data.model.control_weeks.ControlWeek
-import com.dertefter.neticlient.data.model.documents.DocumentOptionItem
-import com.dertefter.neticlient.data.model.documents.DocumentRequestItem
-import com.dertefter.neticlient.data.model.documents.DocumentsItem
+import com.dertefter.neticore.features.control_weeks.model.ControlItem
+import com.dertefter.neticore.features.control_weeks.model.ControlResult
+import com.dertefter.neticore.features.control_weeks.model.ControlSemestr
+import com.dertefter.neticore.features.control_weeks.model.ControlWeek
+import com.dertefter.neticore.features.documents.model.DocumentOptionItem
+import com.dertefter.neticore.features.documents.model.DocumentRequestItem
+import com.dertefter.neticore.features.documents.model.DocumentsItem
 import com.dertefter.neticlient.data.model.news.PromoItem
-import com.dertefter.neticore.features.schedule.model.Week
 import com.dertefter.neticlient.data.model.sessia_results.SessiaResults
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -36,8 +31,6 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class HtmlParser {
 

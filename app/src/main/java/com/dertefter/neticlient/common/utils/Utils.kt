@@ -22,30 +22,6 @@ import java.util.Locale
 import androidx.core.text.parseAsHtml
 
 object Utils {
-    fun formatDayName(dateString: String): String {
-        val locale = Locale("ru", "RU")
-        val inputFormat = SimpleDateFormat("dd.MM.yy", locale)
-        val date = inputFormat.parse(dateString)
-        val outputFormat = SimpleDateFormat("EEEE", locale)
-        return outputFormat.format(date).toString()
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-    }
-
-    fun formatDate(dateString: String): String {
-        val locale = Locale("ru", "RU")
-        val inputFormat = SimpleDateFormat("dd.MM.yy", locale)
-        val date = inputFormat.parse(dateString)
-        val outputFormat = SimpleDateFormat("dd.MM", locale)
-        return outputFormat.format(date)
-    }
-
-    fun dpToPx(context: Context, dp: Float): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            context.resources.displayMetrics
-        ).toInt()
-    }
 
     fun basicAnimationOn(v: View): AnimatorSet {
         v.visibility = View.VISIBLE
@@ -72,12 +48,22 @@ object Utils {
         }
     }
 
-    fun getNavOptions(): NavOptions {
+    fun getDefaultNavOptions(): NavOptions {
         return NavOptions.Builder()
             .setEnterAnim(R.animator.nav_default_enter_anim)
             .setExitAnim(R.animator.nav_default_exit_anim)
             .setPopEnterAnim(R.animator.nav_default_pop_enter_anim)
             .setPopExitAnim(R.animator.nav_default_pop_exit_anim)
+            .build()
+    }
+
+
+    fun getNavOptions(): NavOptions {
+        return NavOptions.Builder()
+            .setEnterAnim(R.animator.nav_enter_anim)
+            .setExitAnim(R.animator.nav_exit_anim)
+            .setPopEnterAnim(R.animator.nav_pop_enter_anim)
+            .setPopExitAnim(R.animator.nav_pop_exit_anim)
             .build()
     }
 

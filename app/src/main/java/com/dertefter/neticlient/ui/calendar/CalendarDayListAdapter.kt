@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.data.model.calendar.CalendarEvent
-import com.dertefter.neticore.features.schedule.model.Schedule
 import com.dertefter.neticlient.databinding.ItemCalendarDayItemBinding
-import com.dertefter.neticlient.ui.schedule.week.day.TimesAdapter
+import com.dertefter.neticore.features.schedule.model.Schedule
 import com.google.android.material.color.MaterialColors
 import java.time.LocalDate
 import java.time.ZoneId
@@ -183,7 +181,7 @@ class CalendarDayListAdapter(
 
             if (binding.events.itemDecorationCount == 0){
                 binding.events.addItemDecoration(
-                    VerticalSpaceItemDecoration( R.dimen.margin_max, R.dimen.margin_micro)
+                    VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
                 )
             }
 

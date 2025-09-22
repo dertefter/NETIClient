@@ -14,8 +14,8 @@
         android:contentDescription="@string/lessons_list"
         android:fadingEdge="none"
         android:nestedScrollingEnabled="true"
-        android:paddingHorizontal="@dimen/margin"
-        android:paddingVertical="@dimen/margin_min"
+        android:paddingHorizontal="@dimen/max"
+        android:paddingVertical="@dimen/mini"
         android:requiresFadingEdge="none"
         tools:context=".ui.schedule.week.day.DayFragment"
         tools:listitem="@layout/item_time" />
@@ -25,9 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_margin="@dimen/margin"
+        android:layout_margin="@dimen/max"
         android:gravity="center"
-        android:paddingVertical="@dimen/margin"
+        android:paddingVertical="@dimen/max"
         android:text="@string/no_lessons"
         android:textColor="?attr/colorOnSurfaceVariant"
 

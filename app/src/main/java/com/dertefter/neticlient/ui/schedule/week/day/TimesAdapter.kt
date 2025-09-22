@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticlient.databinding.ItemTimeBinding
+import com.dertefter.neticore.features.person_detail.PersonDetailFeature
 import com.dertefter.neticore.features.schedule.model.Lesson
 import com.dertefter.neticore.features.schedule.model.Time
 import com.google.android.material.color.MaterialColors
@@ -25,6 +26,7 @@ class TimesAdapter(
     private val onCurrentTimeSlotFound: (y: Int) -> Unit,
     private val onLatestPastTimeSlotFound: (y: Int) -> Unit,
     private val onFirstFutureTimeSlotFound: (y: Int) -> Unit,
+    private val personDetailFeature: PersonDetailFeature
 ) : RecyclerView.Adapter<TimesAdapter.TimeViewHolder>() {
 
     private var recyclerView: RecyclerView? = null
@@ -139,7 +141,7 @@ class TimesAdapter(
                 else -> 1
             }
 
-            val adapter = LessonsAdapter(item.lessons, lifecycleOwner, corners, onLessonClick)
+            val adapter = LessonsAdapter(item.lessons, lifecycleOwner, corners, personDetailFeature, onLessonClick)
             binding.recylerView.adapter = adapter
             binding.recylerView.layoutManager = LinearLayoutManager(binding.root.context)
 

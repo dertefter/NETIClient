@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/rounded_maximorum"
     android:backgroundTint="?attr/colorSurface">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,8 +22,8 @@
             android:clipToPadding="false"
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/mini"
             android:requiresFadingEdge="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -52,12 +52,12 @@
                 android:id="@+id/promoRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:layout_marginBottom="@dimen/margin_min"
+                android:layout_marginBottom="@dimen/mini"
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:contentDescription="@string/news_list"
                 android:fadingEdge="none"
-                android:paddingHorizontal="@dimen/margin"
+                android:paddingHorizontal="@dimen/max"
                 android:requiresFadingEdge="none"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:fitsSystemWindows="false"
-                android:paddingHorizontal="@dimen/margin"
+                android:paddingHorizontal="@dimen/max"
                 android:scrollbarThumbHorizontal="@null">
 
                 <com.google.android.material.chip.ChipGroup
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/margin_min"
+                    android:paddingTop="@dimen/mini"
                     app:chipSpacingVertical="0dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">

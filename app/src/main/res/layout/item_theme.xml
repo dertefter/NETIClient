@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/radius"
+    app:cardCornerRadius="@dimen/maximorum"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="false">
 
@@ -30,17 +30,17 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="top|end"
-                android:layout_margin="@dimen/margin_min"
+                android:layout_margin="@dimen/mini"
                 android:layout_weight="1"
                 app:tint="?attr/colorTertiary"
-                app:srcCompat="@drawable/rounded_background" />
+                app:srcCompat="@drawable/rounded_maximorum" />
 
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
-                android:layout_margin="@dimen/margin_min"
-                android:background="@drawable/rounded_background"
+                android:layout_margin="@dimen/mini"
+                android:background="@drawable/rounded_maximorum"
                 android:backgroundTint="?attr/colorPrimaryContainer"
                 android:padding="3dp"
                 app:srcCompat="@drawable/palette_icon"
@@ -50,19 +50,19 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="bottom|start"
-                android:layout_margin="@dimen/margin_min"
+                android:layout_margin="@dimen/mini"
                 android:layout_weight="1"
                 app:tint="?attr/colorPrimary"
-                app:srcCompat="@drawable/rounded_background" />
+                app:srcCompat="@drawable/rounded_maximorum" />
 
             <ImageView
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/margin_min"
+                android:layout_margin="@dimen/mini"
                 android:layout_weight="1"
                 app:tint="?attr/colorSecondary"
-                app:srcCompat="@drawable/rounded_background" />
+                app:srcCompat="@drawable/rounded_maximorum" />
         </FrameLayout>
     </FrameLayout>
 

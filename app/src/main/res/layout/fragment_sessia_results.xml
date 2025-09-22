@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/vertical_divider_small"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/max"
+            android:paddingVertical="@dimen/mini"
             android:showDividers="middle">
 
             <include
@@ -92,7 +92,7 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_maximorum"
         android:backgroundTint="?attr/colorSurfaceContainer"
         android:clipChildren="true"
         android:contentDescription="@string/tabs"

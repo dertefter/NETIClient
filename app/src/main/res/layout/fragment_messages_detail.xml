@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/rounded_maximorum"
     android:backgroundTint="?attr/colorSurfaceContainerHigh">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,8 +20,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/radius_max"
-            android:paddingVertical="@dimen/margin_min"
+            android:paddingHorizontal="@dimen/maxi"
+            android:paddingVertical="@dimen/mini"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <Button
@@ -48,6 +48,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:padding="4dp"
                     app:cardBackgroundColor="@android:color/transparent">
 
@@ -88,18 +89,35 @@
             </LinearLayout>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/date"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:paddingHorizontal="@dimen/radius_max"
-            android:paddingVertical="@dimen/margin_min"
-            android:text="17.96.46"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
-            android:textColor="?attr/colorSecondary" />
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/mini">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:alpha="0"
+                android:paddingHorizontal="@dimen/maxi"
+                android:paddingVertical="@dimen/mini"
+                android:text="17.96.46"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                android:textColor="?attr/colorTertiary"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:paddingHorizontal="@dimen/maxi"
+                android:paddingVertical="@dimen/mini"
+                android:text="17.96.46"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
+                android:textColor="?attr/colorSecondary" />
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -108,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="1"
-        android:background="@drawable/rounded_background_big"
+        android:background="@drawable/rounded_maximorum"
         android:backgroundTint="?attr/colorSurface"
         android:clipToPadding="false"
         android:visibility="visible"
@@ -117,12 +135,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/vertical_divider"
             android:orientation="vertical"
-            android:paddingStart="@dimen/margin_max"
-            android:paddingTop="@dimen/margin_max"
-            android:paddingEnd="@dimen/margin_max"
-            android:paddingBottom="24dp"
+            android:padding="@dimen/maxi"
             android:showDividers="middle">
 
             <TextView

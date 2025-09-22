@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="?attr/colorSurfaceContainerLow"
-    android:elevation="@dimen/margin"
+    android:elevation="@dimen/max"
     tools:context=".ui.login.LoginFragment">
 
 
@@ -14,9 +14,9 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_max"
+        android:layout_marginHorizontal="@dimen/max"
         android:layout_marginTop="48dp"
-        android:paddingTop="@dimen/margin_max"
+        android:paddingTop="@dimen/max"
         android:text="@string/auth_title"
         android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
         android:textColor="?attr/colorTertiary"
@@ -28,8 +28,8 @@
         android:id="@+id/desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_max"
-        android:layout_marginTop="@dimen/margin_min"
+        android:layout_marginHorizontal="@dimen/max"
+        android:layout_marginTop="@dimen/mini"
         android:text="@string/login_resason_1"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         android:textColor="?attr/colorTertiary"
@@ -42,8 +42,8 @@
         android:id="@+id/desc2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_max"
-        android:layout_marginTop="@dimen/margin_min"
+        android:layout_marginHorizontal="@dimen/max"
+        android:layout_marginTop="@dimen/mini"
         android:text="@string/auth_helper_text"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,10 +84,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/login_hint"
             app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-            app:boxCornerRadiusBottomEnd="@dimen/radius"
-            app:boxCornerRadiusBottomStart="@dimen/radius"
-            app:boxCornerRadiusTopEnd="@dimen/radius"
-            app:boxCornerRadiusTopStart="@dimen/radius"
+            app:boxCornerRadiusBottomEnd="@dimen/maximorum"
+            app:boxCornerRadiusBottomStart="@dimen/maximorum"
+            app:boxCornerRadiusTopEnd="@dimen/maximorum"
+            app:boxCornerRadiusTopStart="@dimen/maximorum"
             app:boxStrokeColor="@android:color/transparent"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true">
@@ -105,10 +105,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
             app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-            app:boxCornerRadiusBottomEnd="@dimen/radius"
-            app:boxCornerRadiusBottomStart="@dimen/radius"
-            app:boxCornerRadiusTopEnd="@dimen/radius"
-            app:boxCornerRadiusTopStart="@dimen/radius"
+            app:boxCornerRadiusBottomEnd="@dimen/maximorum"
+            app:boxCornerRadiusBottomStart="@dimen/maximorum"
+            app:boxCornerRadiusTopEnd="@dimen/maximorum"
+            app:boxCornerRadiusTopStart="@dimen/maximorum"
             app:boxStrokeColor="@android:color/transparent"
             app:endIconMode="password_toggle">
 
@@ -123,12 +123,12 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="@dimen/margin_micro"
+            android:layout_marginTop="@dimen/mini"
             android:enabled="false"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:text="@string/sign_in_button_text"
-            app:cornerRadius="@dimen/radius" />
+            app:cornerRadius="@dimen/maximorum" />
 
     </LinearLayout>
 

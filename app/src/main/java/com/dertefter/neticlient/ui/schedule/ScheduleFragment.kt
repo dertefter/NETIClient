@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.item_decoration.GridSpacingItemDecoration
-import com.dertefter.neticlient.data.model.CurrentTimeObject
 import com.dertefter.neticore.features.schedule.model.Week
 import com.dertefter.neticlient.databinding.FragmentScheduleBinding
 import com.dertefter.neticlient.ui.schedule.week.WeekFragment
@@ -34,7 +33,6 @@ import androidx.transition.TransitionManager
 import com.dertefter.neticlient.common.item_decoration.HorizontalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
 import com.dertefter.neticore.network.ResponseType
-import kotlin.collections.get
 
 
 @AndroidEntryPoint
@@ -149,7 +147,7 @@ class ScheduleFragment : Fragment() {
         binding.weekButton.setOnClickListener { binding.weeksContainer.isGone = !binding.weeksContainer.isGone }
         binding.weeksRecyclerView.addItemDecoration(
             HorizontalSpaceItemDecoration(
-                R.dimen.margin_min
+                R.dimen.mini
             )
         )
         binding.weeksRecyclerView.adapter = weeksAdapter
@@ -186,7 +184,7 @@ class ScheduleFragment : Fragment() {
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
             val percent = 1f - (-verticalOffset.toFloat() / totalScrollRange)
-            val dayTabsPaddingH = resources.getDimension(R.dimen.margin)
+            val dayTabsPaddingH = resources.getDimension(R.dimen.mid)
 
             val newPaddingHorizontal = dayTabsPaddingH - (dayTabsPaddingH - dayTabsPaddingH * percent)
 
@@ -217,7 +215,7 @@ class ScheduleFragment : Fragment() {
         binding.weeksRecyclerView.adapter = weeksAdapter
         if (binding.weeksRecyclerView.itemDecorationCount == 0){
             binding.weeksRecyclerView.addItemDecoration(
-                GridSpacingItemDecoration(requireContext(), weeks.size, R.dimen.margin_min )
+                GridSpacingItemDecoration(requireContext(), weeks.size, R.dimen.mini )
             )
         }
 
