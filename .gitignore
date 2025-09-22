@@ -6,7 +6,7 @@ local.properties
 
 
 # IntelliJ / Android Studio
-.idea/
+.idea
 *.iml
 *.ipr
 *.iws
@@ -25,3 +25,4 @@ captures/
 
 # Misc
 .DS_Store
+.kotlin
