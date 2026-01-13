@@ -27,5 +27,8 @@
         <action
             android:id="@+id/action_messagesDetailFragment_to_personViewFragment"
             app:destination="@id/personViewFragment" />
+        <argument
+            android:name="message"
+            app:argType="com.dertefter.neticore.features.inbox.model.Message" />
     </fragment>
 </navigation>

@@ -11,24 +11,24 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/max"
         app:liftOnScrollColor="@android:color/transparent">
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/max"
-            app:tint="?attr/colorPrimary"
+            android:layout_marginHorizontal="@dimen/default_inner_screen"
+            android:layout_marginTop="@dimen/default_inner_screen"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-            app:srcCompat="@drawable/app_icon" />
+            app:srcCompat="@drawable/ic_app_icon"
+            app:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/default_inner_screen"
             android:text="@string/ob_4_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
             android:textColor="?attr/colorOnSurface"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
@@ -44,10 +44,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/max"
+            android:paddingHorizontal="@dimen/default_inner_screen"
+            android:paddingVertical="@dimen/default_inner_screen"
             android:showDividers="middle">
 
             <TextView
@@ -61,22 +61,22 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="@dimen/mini"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
+                android:layout_marginVertical="@dimen/d2"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:contentPadding="@dimen/d6">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider_small"
+                    android:divider="@drawable/div_vertical_d2"
                     android:orientation="vertical"
-                    android:padding="@dimen/max"
                     android:showDividers="middle"
                     android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:divider="@drawable/horizontal_divider_small"
+                        android:divider="@drawable/div_horizontal_d1"
                         android:orientation="horizontal"
                         android:showDividers="middle">
 
@@ -85,8 +85,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="0"
-                            app:tint="?attr/colorOnSurface"
-                            app:srcCompat="@drawable/info" />
+                            app:srcCompat="@drawable/ic_info"
+                            app:tint="?attr/colorOnSurface" />
 
                         <TextView
                             android:layout_width="match_parent"

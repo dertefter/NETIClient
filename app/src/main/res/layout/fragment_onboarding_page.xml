@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/max">
+    android:padding="@dimen/d5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -17,7 +17,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:tint="?attr/colorPrimary"
-            app:srcCompat="@drawable/app_icon" />
+            app:srcCompat="@drawable/ic_app_icon" />
 
         <TextView
             android:id="@+id/title"

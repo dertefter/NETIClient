@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
+    android:background="@drawable/rounded_d9"
     android:backgroundTint="?attr/colorSurface"
     tools:context=".ui.schedule.ScheduleFragment">
 
@@ -25,7 +25,7 @@
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_gravity="center"
-                android:src="@drawable/search"
+                android:src="@drawable/ic_search"
                 app:tint="?attr/colorSurfaceContainerLow" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Здесь можно искать группы, преподавателей или разделы приложения"
+                android:text="Здесь можно искать группы, а также сотрудников университета"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@drawable/arrow_back"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -61,18 +61,18 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginHorizontal="@dimen/d5"
             android:hint="Напиши что-то"
             app:boxBackgroundColor="?attr/colorSurfaceContainer"
-            app:boxCornerRadiusBottomEnd="@dimen/maxi"
-            app:boxCornerRadiusBottomStart="@dimen/maxi"
-            app:boxCornerRadiusTopEnd="@dimen/maxi"
-            app:boxCornerRadiusTopStart="@dimen/maxi"
+            app:boxCornerRadiusBottomEnd="@dimen/d12"
+            app:boxCornerRadiusBottomStart="@dimen/d12"
+            app:boxCornerRadiusTopEnd="@dimen/d12"
+            app:boxCornerRadiusTopStart="@dimen/d12"
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:startIconContentDescription="Поиск"
-            app:startIconDrawable="@drawable/search"
+            app:startIconDrawable="@drawable/ic_search"
             app:startIconTint="?attr/colorOnSurface">
 
             <com.google.android.material.textfield.TextInputEditText

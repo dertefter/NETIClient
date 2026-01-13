@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -23,7 +23,7 @@
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/mid"
+            android:layout_marginBottom="@dimen/d4"
             android:text="ggggnggngfbfbf"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:textColor="?attr/colorOnSurface"

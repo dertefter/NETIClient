@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.dertefter.neticore.NETICore
 import com.dertefter.neticore.features.authorization.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +30,11 @@ class LoginViewModel @Inject constructor(
     val userDetailMobile = userDetailFeature.userDetailMobile
 
     val userDetailStatus = userDetailFeature.status
+
+    val savedUsersList = authorizationFeature.savedUsersList
+
+    val loginScreenState = MutableStateFlow<LoginScreenState>(LoginScreenState.ADD_NEW_ACCOUNT)
+
 
 
     init {
@@ -54,13 +59,14 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun login(login: String, password: String){
+    fun login(login: String, password: String, clearIfError: Boolean = false){
         viewModelScope.launch {
             authorizationFeature.login(
                 User(
                     login,
                     password
-                )
+                ),
+                clearIfError
             )
         }
     }
@@ -69,7 +75,12 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             authorizationFeature.logout()
         }
+    }
 
+    fun removeUser(login: String){
+        viewModelScope.launch {
+            authorizationFeature.removeUserFromList(login)
+        }
     }
 
 

@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/mini"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider"
+            android:divider="@drawable/div_vertical_d5"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -28,92 +28,34 @@
                 android:id="@+id/dynamic_off"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@drawable/vertical_divider"
+                android:divider="@drawable/div_vertical_d5"
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:visibility="visible">
 
                 <TextView
+                    style="@style/NETIClient.TextStyle.SexyTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:text="@string/create_theme"
-                    android:textColor="?attr/colorOnSurface"
-                     />
+                    android:textColor="?attr/colorPrimary" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardCornerRadius="@dimen/maxi">
+                    app:cardCornerRadius="@dimen/d6">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:divider="@drawable/vertical_divider_micro"
-                        android:orientation="vertical"
-                        android:showDividers="middle">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/c1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:cardCornerRadius="0dp"
-                            app:contentPadding="@dimen/max">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <ir.kotlin.kavehcolorpicker.KavehColorPicker
-                                    android:id="@+id/colorPicker"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" />
-                            </LinearLayout>
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/c2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:cardCornerRadius="0dp"
-                            app:contentPadding="@dimen/max">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <ir.kotlin.kavehcolorpicker.KavehHueSlider
-                                    android:id="@+id/hueSlider"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" />
-                            </LinearLayout>
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/create_theme"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                            app:cardCornerRadius="0dp"
-                            app:contentPadding="@dimen/max">
-
-                            <TextView
-                                android:id="@+id/create_theme_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/create_theme_button"
-                                android:textColor="?attr/colorOnPrimaryContainer" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/colorsRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/rounded_d12"
+                        android:padding="@dimen/d2"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="5"
+                        tools:listitem="@layout/item_color_select" />
 
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
@@ -123,8 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="@dimen/maxi"
-                app:contentPadding="@dimen/max">
+                app:cardCornerRadius="@dimen/d6"
+                app:contentPadding="@dimen/d5">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -141,7 +83,6 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -151,9 +92,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="snap"
-
-
-            app:navigationIcon="@drawable/arrow_back" />
+            app:navigationIcon="@drawable/ic_arrow_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

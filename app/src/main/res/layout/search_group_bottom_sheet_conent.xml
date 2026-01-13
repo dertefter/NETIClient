@@ -19,29 +19,29 @@
         <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:id="@+id/drag_handle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/mini"
-            android:layout_marginTop="@dimen/max"
-            android:layout_marginBottom="@dimen/mini"
-            android:minHeight="@dimen/max"
+            android:layout_height="@dimen/d2"
+            android:layout_marginTop="@dimen/d5"
+            android:layout_marginBottom="@dimen/d2"
+            android:minHeight="@dimen/d5"
             android:paddingBottom="0dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchGroupField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
-            android:layout_marginBottom="@dimen/mini"
+            android:layout_marginHorizontal="@dimen/d5"
+            android:layout_marginBottom="@dimen/d2"
             android:hint="@string/hint_group_name"
             app:boxBackgroundColor="?attr/colorSurfaceContainer"
-            app:boxCornerRadiusBottomEnd="@dimen/maximorum"
-            app:boxCornerRadiusBottomStart="@dimen/maximorum"
-            app:boxCornerRadiusTopEnd="@dimen/maximorum"
-            app:boxCornerRadiusTopStart="@dimen/maximorum"
+            app:boxCornerRadiusBottomEnd="@dimen/d7"
+            app:boxCornerRadiusBottomStart="@dimen/d7"
+            app:boxCornerRadiusTopEnd="@dimen/d7"
+            app:boxCornerRadiusTopStart="@dimen/d7"
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:startIconContentDescription="Поиск группы"
-            app:startIconDrawable="@drawable/search"
+            app:startIconDrawable="@drawable/ic_search"
             app:startIconTint="?attr/colorOnSurface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,12 +54,12 @@
             android:id="@+id/groupsHistoryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/mini"
+            android:layout_marginBottom="@dimen/d2"
             android:layout_weight="0"
             android:clipToPadding="false"
             android:fadingEdge="none"
             android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
             android:requiresFadingEdge="none"
             android:visibility="visible"
             tools:listitem="@layout/item_group_history">
@@ -71,9 +71,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_margin="@dimen/max"
+            android:layout_margin="@dimen/d5"
             android:gravity="center"
-            android:paddingVertical="@dimen/max"
+            android:paddingVertical="@dimen/d5"
 
             android:visibility="gone" />
 
@@ -86,7 +86,7 @@
             android:contentDescription="@string/desc_group_list"
             android:minHeight="300dp"
             android:nestedScrollingEnabled="false"
-            android:paddingHorizontal="@dimen/max" />
+            android:paddingHorizontal="@dimen/d5" />
 
 
     </LinearLayout>

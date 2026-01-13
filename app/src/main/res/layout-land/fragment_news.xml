@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:divider="@drawable/horizontal_divider"
+    android:divider="@drawable/div_horizontal_d5"
     android:fitsSystemWindows="true"
     android:orientation="horizontal"
     android:showDividers="middle">
@@ -31,8 +31,8 @@
                 android:clipToPadding="false"
                 android:contentDescription="@string/news_list"
                 android:fadingEdge="none"
-                android:paddingHorizontal="@dimen/max"
-                android:paddingVertical="@dimen/mini"
+                android:paddingHorizontal="@dimen/d5"
+                android:paddingVertical="@dimen/d2"
                 android:requiresFadingEdge="none"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -73,7 +73,7 @@
                         android:clipToPadding="false"
                         android:contentDescription="@string/news_list"
                         android:fadingEdge="none"
-                        android:paddingHorizontal="@dimen/max"
+                        android:paddingHorizontal="@dimen/d5"
                         android:requiresFadingEdge="none"
                         android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -88,7 +88,7 @@
                     android:layout_weight="1"
                     android:clipToPadding="false"
                     android:fitsSystemWindows="false"
-                    android:paddingHorizontal="@dimen/max"
+                    android:paddingHorizontal="@dimen/d5"
                     android:scrollbarThumbHorizontal="@null">
 
                     <com.google.android.material.chip.ChipGroup

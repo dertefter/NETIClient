@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/arrow_back"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/sessia_schedule_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -26,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/mini"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d2"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_sessia_schedule" />

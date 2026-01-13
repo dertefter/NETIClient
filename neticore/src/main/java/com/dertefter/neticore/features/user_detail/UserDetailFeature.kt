@@ -42,6 +42,10 @@ class UserDetailFeature(
 
     val statusMobile = MutableStateFlow(ResponseType.LOADING)
 
+
+
+
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val userDetail: Flow<UserDetail?> = userDataStoreManager.currentStore
         .flatMapLatest { dataStore ->
@@ -111,6 +115,7 @@ class UserDetailFeature(
 
 
     suspend fun setCurrentGroup(group: String) {
+        Log.e("setCurrentGroup", "setCurrentGroup: $group")
         addGroupToHistory(group)
         userDataStoreManager.currentStore.value.edit { prefs ->
             prefs[CURRENT_GROUP_KEY] = group
@@ -223,6 +228,7 @@ class UserDetailFeature(
 
         val userDetail = mobileMethods.fetchUserDetail()
 
+        Log.e("updateUserDetailMobile", userDetail.toString())
 
 
         val storeLogin = userDataStoreManager.getDataStoreName()

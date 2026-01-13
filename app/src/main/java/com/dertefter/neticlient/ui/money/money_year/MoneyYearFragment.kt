@@ -1,7 +1,6 @@
 package com.dertefter.neticlient.ui.money.money_year
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dertefter.neticlient.R
-import com.dertefter.neticore.features.money.model.MoneyItem
-import com.dertefter.neticlient.data.model.sessia_results.SessiaResultSemestr
-import com.dertefter.neticlient.data.network.model.ResponseType
 import com.dertefter.neticlient.databinding.FragmentMoneyYearBinding
-import com.dertefter.neticlient.databinding.FragmentSemestrBinding
 import com.dertefter.neticlient.ui.money.MoneyRecyclerViewAdapter
-import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -66,7 +60,7 @@ class MoneyYearFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.recyclerView) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val defaultMargin = resources.getDimensionPixelSize(R.dimen.maximorum)
+            val defaultMargin = resources.getDimensionPixelSize(R.dimen.d7)
             v.updatePadding(
                 bottom = defaultMargin + insets.bottom,
                 left = defaultMargin + insets.left,
@@ -84,7 +78,7 @@ class MoneyYearFragment : Fragment() {
         binding.recyclerView.adapter = adapter
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-        decoration.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.vertical_divider_big, null)!!)
+        decoration.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.div_vertical_d1, null)!!)
         binding.recyclerView.addItemDecoration(decoration)
 
         collectMoneyItems(year)

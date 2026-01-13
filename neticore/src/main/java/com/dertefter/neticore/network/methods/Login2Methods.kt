@@ -27,15 +27,10 @@ class Login2Methods(val api: Login2ApiService) {
                 client_data = params["client_data"]!!,
                 params = paramLoginPassword
             )
-
-            val paramsForMobileAuth = HashMap<String?, String?>()
-            paramsForMobileAuth["X-Username"] = login
-            paramsForMobileAuth["X-Password"] = password
-
             return true
 
         } catch (e: Exception) {
-            Log.e("eeee", e.stackTraceToString())
+            Log.e("authUserrrr", e.stackTraceToString())
             return false
         }
     }

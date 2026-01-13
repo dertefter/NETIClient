@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/max">
+    android:padding="@dimen/d5">
 
     <ImageView
         android:id="@+id/icon"
@@ -12,16 +12,16 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
         app:tint="?attr/colorSecondary"
-        app:srcCompat="@drawable/group_icon" />
+        app:srcCompat="@drawable/ic_group" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:divider="@drawable/vertical_divider_micro"
+        android:divider="@drawable/div_vertical_d1"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/mini"
+        android:paddingHorizontal="@dimen/d2"
         android:showDividers="middle">
 
         <TextView

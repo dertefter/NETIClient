@@ -20,13 +20,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
-import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.goingTo
 import com.dertefter.neticlient.databinding.FragmentDashboardBinding
 import com.dertefter.neticlient.ui.dashboard.sessia_results.SemestrPagerAdapter
 import com.dertefter.neticlient.ui.dashboard.sessia_results.SessiaResultsViewModel
 import com.dertefter.neticlient.ui.dashboard.share_score_bottom_sheet.ShareScoreSheetFragment
 import com.dertefter.neticlient.ui.login.LoginViewModel
-import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,8 +41,11 @@ class DashboardFragment : Fragment() {
 
     lateinit var pagerAdapter: SemestrPagerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentDashboardBinding.inflate(inflater, container, false).also { _binding = it }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = FragmentDashboardBinding.inflate(inflater, container, false).also { _binding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,13 +62,17 @@ class DashboardFragment : Fragment() {
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.controlWeeks -> {
-                            navigateTo(R.id.controlWeeksFragment)
+                            val action =
+                                DashboardFragmentDirections.actionDashboardFragmentToControlWeeksFragment()
+                            findNavController().goingTo(action)
                             true
                         }
+
                         R.id.shareScore -> {
                             ShareScoreSheetFragment().show(parentFragmentManager, "ShareScore")
                             true
                         }
+
                         else -> false
                     }
                 }
@@ -82,7 +88,7 @@ class DashboardFragment : Fragment() {
                 val item = pagerAdapter.getItem(position)
                 binding.toolbar.title = getString(R.string.semester) + " " + item.title
 
-                if (item.srScoreSem != null && item.srScoreSem != 0f){
+                if (item.srScoreSem != null && item.srScoreSem != 0f) {
                     val rounded = String.format("%.2f", item.srScoreSem)
                     binding.toolbar.subtitle = getString(R.string.sr_ball) + ": " + rounded
                 }
@@ -96,12 +102,11 @@ class DashboardFragment : Fragment() {
             binding.pager.currentItem = position
         }
 
-        if (binding.pager.orientation == ViewPager2.ORIENTATION_VERTICAL){
+        if (binding.pager.orientation == ViewPager2.ORIENTATION_VERTICAL) {
             binding.pager.isUserInputEnabled = false
             ViewCompat.setOnApplyWindowInsetsListener(binding.pager) { v, insets ->
                 val bars = insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                            or WindowInsetsCompat.Type.displayCutout()
+                    WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
                 )
                 v.updatePadding(
                     right = bars.right,
@@ -109,18 +114,10 @@ class DashboardFragment : Fragment() {
                 WindowInsetsCompat.CONSUMED
             }
         }
-        collectStatus()
-        binding.refreshLayout.setOnRefreshListener {
-            sessiaResultsViewModel.updateSessiaResults()
-        }
+
         collectSessiaResults()
         sessiaResultsViewModel.updateSessiaResults()
     }
-
-    private fun navigateTo(destination: Int) {
-        findNavController().navigate(destination, null, Utils.getNavOptions())
-    }
-
 
     private fun collectSessiaResults() = viewLifecycleOwner.lifecycleScope.launch {
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -143,23 +140,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun collectStatus() = viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            sessiaResultsViewModel.status.collect { status ->
-                when (status) {
-                    ResponseType.LOADING -> {
-                        binding.refreshLayout.startRefreshing()
-                    }
-                    ResponseType.SUCCESS -> {
-                        binding.refreshLayout.stopRefreshing()
-                    }
-                    ResponseType.ERROR -> {
-                        binding.refreshLayout.showError()
-                    }
-                }
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

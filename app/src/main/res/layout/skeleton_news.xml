@@ -10,31 +10,31 @@
             layout="@layout/item_news_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/max" />
+            android:layout_marginBottom="@dimen/d5" />
 
         <include
             layout="@layout/item_news_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/max" />
+            android:layout_marginBottom="@dimen/d5" />
 
         <include
             layout="@layout/item_news_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/max" />
+            android:layout_marginBottom="@dimen/d5" />
 
         <include
             layout="@layout/item_news_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/max" />
+            android:layout_marginBottom="@dimen/d5" />
 
         <include
             layout="@layout/item_news_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/max" />
+            android:layout_marginBottom="@dimen/d5" />
 </LinearLayout>
 
 

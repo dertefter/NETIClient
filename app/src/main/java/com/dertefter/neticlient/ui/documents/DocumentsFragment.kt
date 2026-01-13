@@ -69,20 +69,9 @@ class DocumentsFragment : Fragment() {
             dialog.show(parentFragmentManager, DocumentDetailBottomSheet.TAG)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.addFab) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val defaultMargin = resources.getDimensionPixelSize(R.dimen.maximorum)
-            val layoutParams = v.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.bottomMargin = (defaultMargin + insets.bottom).toInt()
-            layoutParams.rightMargin = (defaultMargin).toInt()
-            v.layoutParams = layoutParams
-
-            WindowInsetsCompat.CONSUMED
-        }
-
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.max, R.dimen.min, R.dimen.micro))
+        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(R.dimen.d5, R.dimen.d3, R.dimen.d1))
 
         binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
@@ -115,11 +104,8 @@ class DocumentsFragment : Fragment() {
 
 
         binding.addFab.setOnClickListener {
-            findNavController().navigate(
-                R.id.newDocumentFragment,
-                null,
-                Utils.getNavOptions(),
-            )
+            val action = DocumentsFragmentDirections.actionDocumentsFragmentToNewDocumentFragment()
+            findNavController().navigate(action)
         }
 
     }

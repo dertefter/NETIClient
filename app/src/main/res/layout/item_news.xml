@@ -17,10 +17,11 @@
             android:id="@+id/news_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/mini"
-            android:layout_marginTop="@dimen/mini"
+            android:layout_marginHorizontal="@dimen/d2"
+            android:layout_marginTop="@dimen/d2"
             android:clickable="false"
             android:elevation="0dp"
+            android:visibility="visible"
             app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
@@ -40,8 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_gravity="top|end"
-                android:layout_margin="@dimen/mini"
-                android:background="@drawable/rounded_maximorum"
+                android:layout_margin="@dimen/d2"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorSurfaceVariant"
                 android:gravity="center"
 
@@ -56,16 +57,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingTop="@dimen/mid"
-            android:paddingBottom="@dimen/maxi">
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingTop="@dimen/d4"
+            android:paddingBottom="@dimen/d6">
 
             <TextView
                 android:id="@+id/title"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/mini"
+                android:paddingHorizontal="@dimen/d2"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 tools:text="fdvvfvfvdfv" />
@@ -75,7 +76,7 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/mini"
+                android:paddingHorizontal="@dimen/d2"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="italic"

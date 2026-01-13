@@ -37,7 +37,7 @@ class SemestrFragment : Fragment() {
             adapter.updateData(items)
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerView.addItemDecoration(
-                VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+                VerticalSpaceItemDecoration()
             )
         }
 

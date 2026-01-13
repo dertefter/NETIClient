@@ -7,13 +7,13 @@
     android:layout_weight="1"
     android:alpha="0.5"
     app:cardBackgroundColor="?attr/colorSurfaceVariant"
-    app:cardCornerRadius="@dimen/min"
-    app:contentPadding="@dimen/max">
+    app:cardCornerRadius="@dimen/d3"
+    app:contentPadding="@dimen/d5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/horizontal_divider"
+        android:divider="@drawable/div_horizontal_d5"
         android:orientation="horizontal"
         android:showDividers="middle">
 
@@ -23,7 +23,7 @@
             android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             app:tint="?attr/colorOnSurfaceVariant"
-            tools:src="@drawable/school" />
+            tools:src="@drawable/ic_school" />
 
         <TextView
             android:id="@+id/title"

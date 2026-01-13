@@ -17,12 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/max"
+        android:layout_margin="@dimen/d9"
         android:clickable="true"
         android:text="Далее"
         android:textColor="?attr/colorOnSecondaryContainer"
         app:backgroundTint="?attr/colorSecondaryContainer"
-        app:icon="@drawable/arrow_forward"
+        app:icon="@drawable/ic_arrow_forward"
         app:iconTint="?attr/colorOnSecondaryContainer" />
 
 </FrameLayout>

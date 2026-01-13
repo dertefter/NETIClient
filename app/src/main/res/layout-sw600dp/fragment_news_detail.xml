@@ -37,7 +37,7 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="?attr/colorPrimary"
                     android:contentDescription="@string/share_button_disc"
-                    app:icon="@drawable/share_icon"
+                    app:icon="@drawable/ic_share"
                     app:iconTint="?attr/colorOnPrimary" />
 
                 <Button
@@ -48,16 +48,16 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="?attr/colorSecondary"
                     android:contentDescription="@string/back_button_disc"
-                    app:icon="@drawable/arrow_back"
+                    app:icon="@drawable/ic_arrow_back"
                     app:iconTint="?attr/colorOnSecondary" />
             </FrameLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/max"
+                android:layout_marginHorizontal="@dimen/d5"
                 android:elevation="0dp"
-                app:cardCornerRadius="@dimen/maximorum"
+                app:cardCornerRadius="@dimen/d7"
                 app:cardElevation="0dp"
                 app:cardMaxElevation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
@@ -79,9 +79,9 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginHorizontal="@dimen/d5"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="@dimen/mini"
+            android:paddingVertical="@dimen/d2"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.cardview.widget.CardView
@@ -211,9 +211,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/max"
-            android:paddingTop="@dimen/max"
-            android:paddingEnd="@dimen/max"
+            android:paddingStart="@dimen/d5"
+            android:paddingTop="@dimen/d5"
+            android:paddingEnd="@dimen/d5"
             android:paddingBottom="24dp">
 
             <TextView
@@ -278,7 +278,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:divider="@drawable/vertical_divider"
+        android:divider="@drawable/div_vertical_d5"
         android:orientation="vertical"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"

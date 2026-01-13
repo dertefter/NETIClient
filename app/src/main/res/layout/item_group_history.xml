@@ -5,9 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorPrimary"
-    app:cardCornerRadius="@dimen/maximorum"
+    app:cardCornerRadius="@dimen/d7"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/mini">
+    app:contentPadding="@dimen/d2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:padding="2dp"
-            app:srcCompat="@drawable/close_icon"
+            app:srcCompat="@drawable/ic_close"
             app:tint="?attr/colorOnPrimary" />
 
         <TextView

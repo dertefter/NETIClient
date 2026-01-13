@@ -5,15 +5,16 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.dertefter.neticlient.R
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.CornerSize
 
 class VerticalSpaceItemDecoration(
-    private val radiusMaxDimen: Int,
-    private val radiusMinDimen: Int,
-    private val verticalSpaceDimen: Int,
+    private val radiusMaxDimen: Int = R.dimen.default_list_outer_radius,
+    private val radiusMinDimen: Int = R.dimen.default_list_innier_radius,
+    private val verticalSpaceDimen: Int = R.dimen.default_list_item_spacing,
     private val skipLeft: Boolean = false
 ) : RecyclerView.ItemDecoration() {
 

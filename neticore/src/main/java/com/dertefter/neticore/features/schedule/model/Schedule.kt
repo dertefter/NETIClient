@@ -9,8 +9,9 @@ import java.time.LocalTime
 data class Schedule (
     val weeks: List<Week>
 ) : Parcelable {
-    fun getWeek(weekNumber: Int): Week? {
-        return weeks.find { it.weekNumber == weekNumber }
+
+    fun getAllDays(): List<Day> {
+        return weeks.flatMap { it.days }.sortedBy { it.getDate() }
     }
 
     fun findNextDayWithLessonsAfter(date: LocalDate?, time: LocalTime?): Day? {

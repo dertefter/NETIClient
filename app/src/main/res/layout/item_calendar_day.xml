@@ -18,5 +18,5 @@
         android:layout_height="4dp"
         android:layout_gravity="center"
         app:tint="?attr/colorPrimary"
-        app:srcCompat="@drawable/rounded_maximorum" />
+        app:srcCompat="@drawable/rounded_d9" />
 </FrameLayout>

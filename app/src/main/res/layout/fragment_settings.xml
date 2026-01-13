@@ -18,15 +18,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:divider="@drawable/horizontal_divider"
+                android:divider="@drawable/div_horizontal_d5"
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
@@ -37,7 +37,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="?attr/colorSurfaceContainerLow"
-                    app:icon="@drawable/arrow_back"
+                    app:icon="@drawable/ic_arrow_back"
                     app:iconGravity="textStart"
                     app:iconTint="?attr/colorOnSurface" />
 
@@ -56,9 +56,9 @@
             android:id="@+id/status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
-            android:layout_marginVertical="@dimen/mini"
-            app:cardCornerRadius="@dimen/maxi">
+            android:layout_marginHorizontal="@dimen/d5"
+            android:layout_marginVertical="@dimen/d2"
+            app:cardCornerRadius="@dimen/d6">
 
             <LinearLayout
                 android:id="@+id/status_loading"
@@ -66,9 +66,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="?attr/colorPrimaryContainer"
-                android:divider="@drawable/horizontal_divider_small"
+                android:divider="@drawable/div_horizontal_d1"
                 android:orientation="horizontal"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle">
 
                 <com.google.android.material.card.MaterialCardView
@@ -77,7 +77,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     app:cardBackgroundColor="@android:color/transparent"
-                    app:cardCornerRadius="@dimen/min">
+                    app:cardCornerRadius="@dimen/d3">
 
                     <FrameLayout
                         android:id="@+id/auth_loading"
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:divider="@drawable/vertical_divider_micro"
+                    android:divider="@drawable/div_vertical_d1"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:showDividers="middle">
@@ -128,12 +128,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="?attr/colorPrimary"
-                android:divider="@drawable/horizontal_divider_small"
+                android:divider="@drawable/div_horizontal_d1"
                 android:orientation="horizontal"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle">
 
-                <com.dertefter.neticlient.common.AnotherShapeView
+                <com.dertefter.shapemorphview.ShapeMorphView
                     android:id="@+id/avatar_shape"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:divider="@drawable/vertical_divider_micro"
+                    android:divider="@drawable/div_vertical_d1"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:showDividers="middle">
@@ -172,9 +172,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="?attr/colorSurfaceVariant"
-                android:divider="@drawable/horizontal_divider_small"
+                android:divider="@drawable/div_horizontal_d1"
                 android:orientation="horizontal"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle"
                 android:visibility="visible">
 
@@ -182,16 +182,16 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:padding="@dimen/mini"
+                    android:padding="@dimen/d2"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/warning"
+                    app:srcCompat="@drawable/ic_warning"
                     app:tint="?attr/colorError" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:divider="@drawable/vertical_divider_micro"
+                    android:divider="@drawable/div_vertical_d1"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:showDividers="middle">
@@ -219,9 +219,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="?attr/colorSurfaceContainer"
-                android:divider="@drawable/horizontal_divider_small"
+                android:divider="@drawable/div_horizontal_d1"
                 android:orientation="horizontal"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle"
                 android:visibility="visible">
 
@@ -229,16 +229,16 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:padding="@dimen/mini"
+                    android:padding="@dimen/d2"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/person"
+                    app:srcCompat="@drawable/ic_person"
                     app:tint="?attr/colorPrimary" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:divider="@drawable/vertical_divider_micro"
+                    android:divider="@drawable/div_vertical_d1"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:showDividers="middle">
@@ -266,7 +266,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginHorizontal="@dimen/max"
+                android:layout_marginHorizontal="@dimen/d5"
                 android:layout_weight="1"
                 android:backgroundTint="?attr/colorSurfaceContainerHigh"
                 android:insetLeft="4dp"
@@ -274,7 +274,7 @@
                 android:insetRight="4dp"
                 android:insetBottom="4dp"
                 android:visibility="gone"
-                app:icon="@drawable/logout"
+                app:icon="@drawable/ic_logout"
                 app:iconGravity="textStart"
                 app:iconSize="24dp"
                 app:iconTint="?attr/colorError" />
@@ -289,8 +289,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/mini"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

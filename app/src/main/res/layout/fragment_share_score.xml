@@ -16,17 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="false"
-            android:divider="@drawable/vertical_divider"
+            android:divider="@drawable/div_vertical_d5"
             android:orientation="vertical"
-            android:padding="@dimen/maximorum"
+            android:padding="@dimen/d7"
             android:showDividers="middle">
 
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/max"
-                android:paddingBottom="@dimen/mini" />
+                android:minHeight="@dimen/d5"
+                android:paddingBottom="@dimen/d2" />
 
             <TextView
                 android:id="@+id/title"
@@ -46,7 +46,7 @@
                 layout="@layout/load_failed_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/max"
+                android:layout_marginVertical="@dimen/d5"
                 android:visibility="gone" />
 
             <com.dertefter.neticlient.common.ShimmerLayout
@@ -57,7 +57,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider_small"
+                    android:divider="@drawable/div_vertical_d2"
                     android:orientation="vertical"
                     android:showDividers="middle">
 
@@ -65,19 +65,19 @@
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/rounded_maximorum"
+                        android:background="@drawable/rounded_d9"
                         android:backgroundTint="?attr/colorSurfaceContainerHighest"
-                        android:padding="@dimen/max"
+                        android:padding="@dimen/d5"
                         app:tint="?attr/colorOnPrimary" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:boxBackgroundColor="?attr/colorSurfaceContainerHighest"
-                        app:boxCornerRadiusBottomEnd="@dimen/maxi"
-                        app:boxCornerRadiusBottomStart="@dimen/maxi"
-                        app:boxCornerRadiusTopEnd="@dimen/maxi"
-                        app:boxCornerRadiusTopStart="@dimen/maxi"
+                        app:boxCornerRadiusBottomEnd="@dimen/d6"
+                        app:boxCornerRadiusBottomStart="@dimen/d6"
+                        app:boxCornerRadiusTopEnd="@dimen/d6"
+                        app:boxCornerRadiusTopStart="@dimen/d6"
                         app:boxStrokeColor="@android:color/transparent"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
@@ -94,7 +94,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="0"
-                        android:divider="@drawable/horizontal_divider_small"
+                        android:divider="@drawable/div_horizontal_d1"
                         android:orientation="horizontal"
                         android:showDividers="middle">
 
@@ -104,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
                             android:backgroundTint="?attr/colorSurfaceVariant"
-                            app:icon="@drawable/content_copy_icon"
+                            app:icon="@drawable/ic_content_copy"
                             app:iconTint="?attr/colorSurfaceVariant" />
 
                         <Button
@@ -125,7 +125,7 @@
                 android:id="@+id/success"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@drawable/vertical_divider_small"
+                android:divider="@drawable/div_vertical_d2"
                 android:orientation="vertical"
                 android:showDividers="middle">
 
@@ -134,9 +134,9 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceContainerHigh"
-                    android:padding="@dimen/max"
+                    android:padding="@dimen/d5"
                     app:tint="?attr/colorOnPrimaryContainer" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -144,10 +144,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:boxBackgroundColor="?attr/colorSurfaceContainer"
-                    app:boxCornerRadiusBottomEnd="@dimen/maxi"
-                    app:boxCornerRadiusBottomStart="@dimen/maxi"
-                    app:boxCornerRadiusTopEnd="@dimen/maxi"
-                    app:boxCornerRadiusTopStart="@dimen/maxi"
+                    app:boxCornerRadiusBottomEnd="@dimen/d6"
+                    app:boxCornerRadiusBottomStart="@dimen/d6"
+                    app:boxCornerRadiusTopEnd="@dimen/d6"
+                    app:boxCornerRadiusTopStart="@dimen/d6"
                     app:boxStrokeColor="@android:color/transparent"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
@@ -164,7 +164,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@drawable/horizontal_divider_small"
+                    android:divider="@drawable/div_horizontal_d1"
                     android:orientation="horizontal"
                     android:showDividers="middle">
 
@@ -174,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        app:icon="@drawable/content_copy_icon" />
+                        app:icon="@drawable/ic_content_copy" />
 
                     <Button
                         android:id="@+id/new_link_button"

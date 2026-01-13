@@ -15,7 +15,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:fitsSystemWindows="true"
         android:showDividers="none">
 
@@ -23,8 +23,8 @@
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d5"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center|start"
                 android:maxWidth="1000dp"
-                android:paddingVertical="@dimen/max"
+                android:paddingVertical="@dimen/d5"
                 android:text="@string/sessia_results_title"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
@@ -45,7 +45,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical|end"
-                app:icon="@drawable/more_icon"
+                app:icon="@drawable/ic_more"
                 app:iconGravity="textStart" />
 
         </FrameLayout>
@@ -54,15 +54,15 @@
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingBottom="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingBottom="@dimen/d5"
             android:visibility="gone"
-            app:barDrawable="@drawable/bar_bg"
-            app:barSpacing="@dimen/max"
+            app:barDrawable="@drawable/dr_score_bar_bg"
+            app:barSpacing="@dimen/d5"
             app:barWidth="56dp"
             app:labelFontFamily="sans-serif-medium"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-            app:maxIconDrawable="@drawable/bar_max_icon" />
+            app:maxIconDrawable="@drawable/dr_bar_max" />
 
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -100,7 +100,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -109,10 +109,10 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_1"
+                android:background="@drawable/dr_shape_1"
                 android:backgroundTint="?attr/colorPrimaryContainer"
                 android:padding="20dp"
-                app:srcCompat="@drawable/school"
+                app:srcCompat="@drawable/ic_school"
                 app:tint="?attr/colorOnPrimaryContainer" />
 
             <TextView

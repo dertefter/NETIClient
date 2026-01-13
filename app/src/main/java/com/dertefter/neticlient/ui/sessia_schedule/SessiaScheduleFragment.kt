@@ -35,7 +35,7 @@ class SessiaScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = SessiaScheduleRecyclerViewAdapter(emptyList(), this)
         binding.recyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+            VerticalSpaceItemDecoration( R.dimen.d5, R.dimen.d3, R.dimen.d1)
         )
         adapter.setLoading(true)
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }

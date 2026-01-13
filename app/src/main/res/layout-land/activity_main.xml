@@ -17,16 +17,15 @@
         android:layout_weight="0"
         android:background="?attr/colorSurfaceContainerLow"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/max">
+        android:paddingVertical="@dimen/d5">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/profile_button"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/max"
             app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="@dimen/maxi">
+            app:cardCornerRadius="@dimen/d6">
 
             <ImageView
                 android:id="@+id/status_error"
@@ -34,9 +33,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="?attr/colorErrorContainer"
-                android:padding="@dimen/min"
+                android:padding="@dimen/d3"
                 android:visibility="visible"
-                app:srcCompat="@drawable/person"
+                app:srcCompat="@drawable/ic_person"
                 app:tint="?attr/colorOnErrorContainer"
                 tools:visibility="gone" />
 
@@ -46,9 +45,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="?attr/colorSecondaryContainer"
-                android:padding="@dimen/min"
+                android:padding="@dimen/d3"
                 android:visibility="visible"
-                app:srcCompat="@drawable/person"
+                app:srcCompat="@drawable/ic_person"
                 app:tint="?attr/colorOnSecondaryContainer"
                 tools:visibility="gone" />
 
@@ -56,7 +55,8 @@
                 android:id="@+id/status_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimaryContainer">
+                android:background="?attr/colorPrimaryContainer"
+                tools:visibility="gone">
 
                 <com.google.android.material.loadingindicator.LoadingIndicator
                     android:layout_width="wrap_content"
@@ -73,13 +73,12 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent">
 
-                <com.dertefter.neticlient.common.AnotherShapeView
+                <com.dertefter.shapemorphview.ShapeMorphView
                     android:id="@+id/avatar_shape"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:visibility="visible"
-                    app:rippleForeground="?attr/selectableItemBackground" />
+                    android:visibility="visible" />
             </FrameLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -87,12 +86,11 @@
         <com.google.android.material.navigationrail.NavigationRailView
             android:id="@+id/navigation_rail"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:fitsSystemWindows="false"
             android:minHeight="0dp"
-            android:paddingVertical="@dimen/max"
+            android:paddingVertical="@dimen/d5"
             app:itemGravity="center"
             app:itemPaddingBottom="0dp"
             app:itemPaddingTop="0dp"

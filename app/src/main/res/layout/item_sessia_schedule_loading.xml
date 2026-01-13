@@ -9,13 +9,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/mini">
+        android:paddingBottom="@dimen/d2">
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_maximorum"
+            android:background="@drawable/rounded_d9"
             android:fontFamily="sans-serif-medium"
             android:text="              "
             android:textColor="?attr/colorOnSurfaceVariant"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/rounded_maximorum"
+            android:background="@drawable/rounded_d9"
             android:fontFamily="sans-serif-medium"
             android:text="              "
             android:textColor="?attr/colorOnSurfaceVariant"
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/colorSurfaceContainer"
-        app:cardCornerRadius="@dimen/maxi"
+        app:cardCornerRadius="@dimen/d6"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="false"
         app:strokeColor="@android:color/transparent"
@@ -48,9 +48,9 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_big"
+            android:divider="@drawable/div_vertical_d1"
             android:orientation="vertical"
-            android:padding="@dimen/max"
+            android:padding="@dimen/d5"
             android:showDividers="middle">
 
             <TextView
@@ -75,7 +75,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
@@ -92,7 +92,7 @@
                     android:clickable="false"
                     android:isScrollContainer="false"
                     android:nestedScrollingEnabled="false"
-                    android:paddingHorizontal="@dimen/mini"
+                    android:paddingHorizontal="@dimen/d2"
                     android:visibility="visible" />
 
                 <TextView
@@ -101,7 +101,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
                     android:paddingHorizontal="12dp"

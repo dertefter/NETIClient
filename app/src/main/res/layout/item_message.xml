@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/micro">
+    app:cardCornerRadius="@dimen/d1">
 
     <TextView
         android:id="@+id/date"
@@ -15,7 +15,7 @@
         android:ellipsize="end"
         android:justificationMode="inter_word"
         android:maxLines="2"
-        android:padding="@dimen/maxi"
+        android:padding="@dimen/d6"
         android:text="19 сен"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall.Emphasized"
         android:textStyle="bold" />
@@ -23,9 +23,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/horizontal_divider"
+        android:divider="@drawable/div_horizontal_d5"
         android:orientation="horizontal"
-        android:padding="@dimen/maxi"
+        android:padding="@dimen/d6"
         android:showDividers="middle">
 
         <FrameLayout
@@ -39,7 +39,7 @@
                 android:background="?attr/colorSecondaryContainer"
                 app:contentPadding="4dp"
                 app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
-                app:srcCompat="@drawable/person"
+                app:srcCompat="@drawable/ic_person"
                 app:tint="?attr/colorOnSecondaryContainer" />
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -54,7 +54,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_micro"
+            android:divider="@drawable/div_vertical_d1"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -85,9 +85,10 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:justificationMode="inter_word"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:text="sddvsjoooooooooooooooooooooooooooo"
-                android:textAppearance="@style/TextAppearance.Material3.BodySmall.Emphasized" />
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall.Emphasized"
+                android:visibility="gone" />
 
         </LinearLayout>
 

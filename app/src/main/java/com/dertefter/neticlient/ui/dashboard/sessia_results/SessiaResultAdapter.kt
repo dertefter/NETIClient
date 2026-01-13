@@ -12,8 +12,6 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.databinding.ItemSessiaResultBinding
 import com.dertefter.neticore.features.sessia_results.model.SessiaResultItem
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.ShapeAppearanceModel
 import kotlin.math.pow
 
 
@@ -69,11 +67,11 @@ class SessiaResultAdapter(private var items: List<SessiaResultItemUi>) :
             binding.ectsShrink.text = ectsPt1
 
             if (ectsPt2 == "+"){
-                binding.ectsAdd.setImageResource(R.drawable.plus_icon)
-                binding.ectsAddShrink.setImageResource(R.drawable.plus_icon)
+                binding.ectsAdd.setImageResource(R.drawable.ic_plus)
+                binding.ectsAddShrink.setImageResource(R.drawable.ic_plus)
             } else if (ectsPt2 == "-"){
-                binding.ectsAdd.setImageResource(R.drawable.minus_icon)
-                binding.ectsAddShrink.setImageResource(R.drawable.minus_icon)
+                binding.ectsAdd.setImageResource(R.drawable.ic_minus)
+                binding.ectsAddShrink.setImageResource(R.drawable.ic_minus)
             }else{
                 ectsPt2 = ""
             }

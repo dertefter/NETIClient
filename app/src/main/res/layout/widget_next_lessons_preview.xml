@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_background_big"
+    android:background="@drawable/rounded_d7"
     android:backgroundTint="?attr/colorSurfaceContainer"
     android:orientation="vertical"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
@@ -11,8 +11,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/max">
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,10 +57,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
-        android:divider="@drawable/vertical_divider_micro"
+        android:divider="@drawable/div_vertical_d1"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/max"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d5"
         android:showDividers="middle">
 
         <include

@@ -20,6 +20,7 @@ import androidx.palette.graphics.Palette
 import com.dertefter.neticlient.R
 import java.util.Locale
 import androidx.core.text.parseAsHtml
+import androidx.navigation.NavDirections
 
 object Utils {
 
@@ -48,28 +49,27 @@ object Utils {
         }
     }
 
-    fun getDefaultNavOptions(): NavOptions {
-        return NavOptions.Builder()
-            .setEnterAnim(R.animator.nav_default_enter_anim)
-            .setExitAnim(R.animator.nav_default_exit_anim)
-            .setPopEnterAnim(R.animator.nav_default_pop_enter_anim)
-            .setPopExitAnim(R.animator.nav_default_pop_exit_anim)
+
+    fun NavController.goingTo(directions: NavDirections) {
+        val defaultNavOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.nav_default_enter_anim)
+            .setExitAnim(R.anim.nav_default_exit_anim)
+            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
             .build()
+
+        this.navigate(directions, defaultNavOptions)
     }
 
-
-    fun getNavOptions(): NavOptions {
-        return NavOptions.Builder()
-            .setEnterAnim(R.animator.nav_enter_anim)
-            .setExitAnim(R.animator.nav_exit_anim)
-            .setPopEnterAnim(R.animator.nav_pop_enter_anim)
-            .setPopExitAnim(R.animator.nav_pop_exit_anim)
+    fun NavController.goingTo(id: Int) {
+        val defaultNavOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.nav_default_enter_anim)
+            .setExitAnim(R.anim.nav_default_exit_anim)
+            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
             .build()
-    }
 
-
-    fun NavController.navigateTo(destinationId: Int, args: Bundle? = null) {
-        this.navigate(destinationId, args, navOptions = getNavOptions())
+        this.navigate(resId = id, null, defaultNavOptions)
     }
 
     fun TextView.displayHtml(html: String) {

@@ -163,5 +163,7 @@
     <string name="n_loading_schedule">Загрузка расписания занятий</string>
     <string name="please_wait">Это не займёт много времени...</string>
     <string name="n_open_app_find_group">Выберите группу в приложении</string>
-    <string name="connected">Connected to NSTU NETI</string>
+    <string name="connected">Подключено к НГТУ НЭТИ</string>
+    <string name="different_account">Войти в другой аккаунт</string>
+    <string name="week">неделя</string>
 </resources>

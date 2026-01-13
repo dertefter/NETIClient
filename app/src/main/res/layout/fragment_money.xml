@@ -19,8 +19,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <Button
@@ -30,7 +30,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="?attr/colorSurfaceContainerLow"
-                app:icon="@drawable/arrow_back"
+                app:icon="@drawable/ic_arrow_back"
                 app:iconGravity="textStart" />
 
         </FrameLayout>
@@ -56,7 +56,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_background_big"
+            android:background="@drawable/rounded_d7"
             android:backgroundTint="?attr/colorSurface"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="true"

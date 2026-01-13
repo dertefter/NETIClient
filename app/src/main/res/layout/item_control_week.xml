@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/maxi"
+    app:cardCornerRadius="@dimen/d6"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/max"
+    app:contentPadding="@dimen/d5"
     app:strokeColor="@android:color/transparent"
     app:strokeWidth="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/vertical_divider_micro"
+        android:divider="@drawable/div_vertical_d1"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -33,21 +33,21 @@
             android:id="@+id/value_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_maximorum"
+            android:background="@drawable/rounded_d9"
             android:backgroundTint="?attr/colorSurfaceContainerHigh"
-            android:padding="@dimen/mini">
+            android:padding="@dimen/d2">
 
             <TextView
                 android:id="@+id/week_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:background="@drawable/rounded_maximorum"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorTertiaryContainer"
 
                 android:includeFontPadding="false"
-                android:paddingHorizontal="@dimen/max"
-                android:paddingVertical="@dimen/mini"
+                android:paddingHorizontal="@dimen/d5"
+                android:paddingVertical="@dimen/d2"
                 android:text="1"
                 android:textColor="?attr/colorOnTertiaryContainer"
 
@@ -58,12 +58,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:background="@drawable/rounded_maximorum"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorPrimaryContainer"
 
                 android:includeFontPadding="false"
-                android:paddingHorizontal="@dimen/max"
-                android:paddingVertical="@dimen/mini"
+                android:paddingHorizontal="@dimen/d5"
+                android:paddingVertical="@dimen/d2"
                 android:text="1"
                 android:textColor="?attr/colorOnPrimaryContainer"
 

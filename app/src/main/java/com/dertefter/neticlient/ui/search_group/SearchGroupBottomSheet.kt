@@ -69,7 +69,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
         binding.groupsHistoryRecyclerView.adapter = adapterHistory
         binding.groupsHistoryRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.groupsHistoryRecyclerView.addItemDecoration(
-            HorizontalSpaceItemDecoration(R.dimen.mini)
+            HorizontalSpaceItemDecoration(R.dimen.d2)
         )
 
         ViewCompat.setNestedScrollingEnabled(binding.groupsHistoryRecyclerView, false)
@@ -78,7 +78,7 @@ class SearchGroupBottomSheet : BottomSheetDialogFragment() {
             GridSpacingItemDecoration(
                 requireContext(),
                 spanCount,
-                R.dimen.mini
+                R.dimen.d2
             )
         )
 

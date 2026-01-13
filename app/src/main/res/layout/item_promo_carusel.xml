@@ -1,11 +1,14 @@
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.carousel.MaskableFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/carousel_item_container"
-    android:layout_width="match_parent"
+    android:layout_width="150dp"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurfaceContainerHigh"
-    app:cardCornerRadius="@dimen/maxi">
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
 
     <ImageView
         android:id="@+id/bg_image"
@@ -19,21 +22,19 @@
         android:layout_height="match_parent"
         android:alpha="0.5"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/gradient_background" />
+        app:srcCompat="@drawable/dr_gradient_1" />
 
     <TextView
         android:id="@+id/promo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/mini"
-        android:background="@drawable/rounded_background_for_promo_title"
-        android:backgroundTint="?attr/colorSurfaceContainerLow"
+        android:layout_margin="@dimen/d2"
         android:ellipsize="end"
         android:maxLines="3"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         android:textColor="?attr/colorOnSurface"
         tools:text="ddddddd" />
 
-</com.google.android.material.card.MaterialCardView>
+</com.google.android.material.carousel.MaskableFrameLayout>

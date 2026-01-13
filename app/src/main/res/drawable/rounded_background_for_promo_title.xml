@@ -5,8 +5,8 @@
         android:width="2dp"
         android:color="?attr/colorSurfaceContainer" />
     <corners
-        android:topLeftRadius="@dimen/mini"
-        android:topRightRadius="@dimen/mini"
-        android:bottomLeftRadius="@dimen/maximorum"
-        android:bottomRightRadius="@dimen/maximorum"/>
+        android:topLeftRadius="@dimen/d2"
+        android:topRightRadius="@dimen/d2"
+        android:bottomLeftRadius="@dimen/d7"
+        android:bottomRightRadius="@dimen/d7"/>
 </shape>

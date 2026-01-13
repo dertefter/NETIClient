@@ -19,15 +19,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:divider="@drawable/horizontal_divider"
+                android:divider="@drawable/div_horizontal_d5"
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
@@ -38,7 +38,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="?attr/colorSurfaceContainerLow"
-                    app:icon="@drawable/arrow_back"
+                    app:icon="@drawable/ic_arrow_back"
                     app:iconGravity="textStart"
                     app:iconTint="?attr/colorOnSurface" />
 
@@ -60,10 +60,10 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_background_big"
+        android:background="@drawable/rounded_d7"
         android:backgroundTint="?attr/colorSurface"
         android:clipToPadding="false"
-        android:paddingVertical="@dimen/max"
+        android:paddingVertical="@dimen/d5"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -75,15 +75,15 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/max"
+                android:layout_marginHorizontal="@dimen/d5"
                 android:clickable="false"
                 app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="@dimen/maxi">
+                app:cardCornerRadius="@dimen/d6">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider_micro"
+                    android:divider="@drawable/div_vertical_d1"
                     android:orientation="vertical"
                     android:showDividers="middle">
 
@@ -92,13 +92,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                        app:cardCornerRadius="@dimen/micro"
-                        app:contentPadding="@dimen/max">
+                        app:cardCornerRadius="@dimen/d1"
+                        app:contentPadding="@dimen/d5">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:divider="@drawable/horizontal_divider"
+                            android:divider="@drawable/div_horizontal_d5"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:showDividers="middle">
@@ -107,7 +107,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingVertical="@dimen/mini"
+                                android:paddingVertical="@dimen/d2"
                                 android:text="@string/need_permissions_notify"
                                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
@@ -117,7 +117,7 @@
                                 android:layout_height="34dp"
                                 android:layout_weight="0"
                                 android:tint="?attr/colorOnPrimaryContainer"
-                                app:srcCompat="@drawable/settings_icon" />
+                                app:srcCompat="@drawable/ic_settings" />
 
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -128,13 +128,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                        app:cardCornerRadius="@dimen/micro"
-                        app:contentPadding="@dimen/max">
+                        app:cardCornerRadius="@dimen/d1"
+                        app:contentPadding="@dimen/d5">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:divider="@drawable/horizontal_divider"
+                            android:divider="@drawable/div_horizontal_d5"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:showDividers="middle">
@@ -173,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
-                    android:background="@drawable/rounded_background_big"
+                    android:background="@drawable/rounded_d7"
                     android:backgroundTint="#000000"
                     android:orientation="vertical">
 
@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:orientation="horizontal"
-                        android:padding="@dimen/max">
+                        android:padding="@dimen/d5">
 
                         <ImageView
                             android:id="@+id/imageView10"
@@ -191,7 +191,7 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1"
                             android:tint="#ffffff"
-                            app:srcCompat="@drawable/network_wifi" />
+                            app:srcCompat="@drawable/ic_network_wifi" />
 
                         <ImageView
                             android:id="@+id/imageView5"
@@ -200,7 +200,7 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1"
                             android:tint="#ffffff"
-                            app:srcCompat="@drawable/network_cell" />
+                            app:srcCompat="@drawable/ic_network_cell" />
 
                         <ImageView
                             android:id="@+id/imageView3"
@@ -209,22 +209,22 @@
                             android:layout_marginLeft="4dp"
                             android:layout_weight="1"
                             android:tint="#ffffff"
-                            app:srcCompat="@drawable/battery_bar" />
+                            app:srcCompat="@drawable/ic_battery_bar" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@drawable/horizontal_divider_small"
+                        android:divider="@drawable/div_horizontal_d1"
                         android:orientation="horizontal"
-                        android:paddingVertical="@dimen/mini"
+                        android:paddingVertical="@dimen/d2"
                         android:showDividers="middle|beginning|end">
 
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="@drawable/rounded_background_big"
+                            android:background="@drawable/rounded_d7"
                             android:backgroundTint="?attr/colorPrimaryFixed">
 
                         </FrameLayout>
@@ -233,7 +233,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="@drawable/rounded_background_big"
+                            android:background="@drawable/rounded_d7"
                             android:backgroundTint="?attr/colorPrimaryFixed">
 
                         </FrameLayout>
@@ -242,16 +242,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@drawable/horizontal_divider_small"
+                        android:divider="@drawable/div_horizontal_d1"
                         android:orientation="horizontal"
-                        android:paddingVertical="@dimen/mini"
+                        android:paddingVertical="@dimen/d2"
                         android:showDividers="middle|beginning|end">
 
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="@drawable/rounded_background_big"
+                            android:background="@drawable/rounded_d7"
                             android:backgroundTint="?attr/colorPrimaryFixed">
 
                         </FrameLayout>
@@ -260,7 +260,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:background="@drawable/rounded_background_big"
+                            android:background="@drawable/rounded_d7"
                             android:backgroundTint="?attr/colorPrimaryFixed">
 
                         </FrameLayout>
@@ -269,19 +269,19 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/mini"
-                        android:background="@drawable/rounded_background_big"
+                        android:layout_marginTop="@dimen/d2"
+                        android:background="@drawable/rounded_d7"
                         android:backgroundTint="?attr/colorSurface"
-                        android:padding="@dimen/max">
+                        android:padding="@dimen/d5">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_background_big"
+                            android:background="@drawable/rounded_d7"
                             android:backgroundTint="?attr/colorSurfaceContainer"
-                            android:divider="@drawable/horizontal_divider_small"
+                            android:divider="@drawable/div_horizontal_d1"
                             android:orientation="horizontal"
-                            android:padding="@dimen/max"
+                            android:padding="@dimen/d5"
                             android:showDividers="middle">
 
                             <ImageView
@@ -289,10 +289,10 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_weight="0"
-                                android:background="@drawable/rounded_maximorum"
+                                android:background="@drawable/rounded_d9"
                                 android:backgroundTint="?attr/colorPrimary"
                                 android:tint="?attr/colorOnPrimary"
-                                app:srcCompat="@drawable/app_icon" />
+                                app:srcCompat="@drawable/ic_app_icon" />
 
                             <include
                                 layout="@layout/notification_lesson_large"
@@ -307,11 +307,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:layout_margin="@dimen/max"
-                    android:background="@drawable/rounded_background_big"
+                    android:layout_margin="@dimen/d5"
+                    android:background="@drawable/rounded_d7"
                     android:backgroundTint="?attr/colorSecondary"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/max"
+                    android:paddingHorizontal="@dimen/d5"
                     android:text="Пример"
                     android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
                     android:textColor="?attr/colorOnSecondary" />

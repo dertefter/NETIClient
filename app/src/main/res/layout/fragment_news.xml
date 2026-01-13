@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
+    android:background="@drawable/rounded_d9"
     android:backgroundTint="?attr/colorSurface">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,8 +22,8 @@
             android:clipToPadding="false"
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d2"
             android:requiresFadingEdge="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -46,18 +46,18 @@
                 android:layout_weight="1"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                app:navigationIcon="@drawable/arrow_back" />
+                app:navigationIcon="@drawable/ic_arrow_back" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/promoRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:layout_marginBottom="@dimen/mini"
+                android:layout_marginBottom="@dimen/d2"
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:contentDescription="@string/news_list"
                 android:fadingEdge="none"
-                android:paddingHorizontal="@dimen/max"
+                android:paddingHorizontal="@dimen/d5"
                 android:requiresFadingEdge="none"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:fitsSystemWindows="false"
-                android:paddingHorizontal="@dimen/max"
+                android:paddingHorizontal="@dimen/d5"
                 android:scrollbarThumbHorizontal="@null">
 
                 <com.google.android.material.chip.ChipGroup
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/mini"
+                    android:paddingTop="@dimen/d2"
                     app:chipSpacingVertical="0dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
@@ -169,7 +169,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_weight="1"
                 android:backgroundTint="?attr/colorPrimaryContainer"
-                app:icon="@drawable/share_icon"
+                app:icon="@drawable/ic_share"
                 app:iconTint="?attr/colorOnPrimaryContainer" />
 
             <Button
@@ -178,7 +178,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical|end"
-                app:icon="@drawable/close_icon" />
+                app:icon="@drawable/ic_close" />
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView

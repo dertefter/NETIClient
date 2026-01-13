@@ -10,7 +10,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 
 class AppBarEdgeToEdge(
-    private val appBar: AppBarLayout
+    private val appBar: AppBarLayout,
+    private val remakeLiftOnScrollBehavior: Boolean = true
 ) : AppBarLayout.OnOffsetChangedListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private val childInfo = mutableListOf<ChildInfo>()
@@ -18,22 +19,19 @@ class AppBarEdgeToEdge(
     private var targetBottomPadding = 0
 
     init {
-        appBar.setLiftable(false)
+        appBar.setLiftable(!remakeLiftOnScrollBehavior)
         setupInsets()
         appBar.addOnOffsetChangedListener(this)
-        // Добавляем слушатель изменения макета
         appBar.viewTreeObserver.addOnGlobalLayoutListener(this)
         targetBottomPadding = appBar.context.resources
-            .getDimensionPixelSize(R.dimen.mini)
+            .getDimensionPixelSize(R.dimen.d2)
     }
 
-    // ✅ Метод для очистки слушателей, чтобы избежать утечек памяти
     fun destroy() {
         appBar.removeOnOffsetChangedListener(this)
         appBar.viewTreeObserver.removeOnGlobalLayoutListener(this)
     }
 
-    // ✅ Этот метод будет вызываться каждый раз, когда макет будет перерисован
     override fun onGlobalLayout() {
         updateChildInfo()
     }
@@ -47,17 +45,13 @@ class AppBarEdgeToEdge(
                 top = systemBars.top,
             )
 
-            // Первоначальный вызов остается на всякий случай
             updateChildInfo()
             WindowInsetsCompat.CONSUMED
         }
     }
 
     private fun updateChildInfo() {
-        // Проверяем, изменилось ли что-то, чтобы не создавать объекты без надобности
         if (childInfo.size == appBar.childCount && childInfo.all { it.height > 0 }) {
-            // Если количество дочерних элементов совпадает и у всех уже есть высота,
-            // можно предположить, что ничего не изменилось. Для более строгой проверки можно сравнивать высоты.
             var hasChanged = false
             for (i in 0 until appBar.childCount){
                 if (childInfo[i].height != appBar.getChildAt(i).height || childInfo[i].top != appBar.getChildAt(i).top - statusBarInset){
@@ -82,9 +76,6 @@ class AppBarEdgeToEdge(
         val scroll = -verticalOffset
         val progress = scroll.toFloat() / totalRange
 
-        // 💡 Эту логику можно упростить. Она очень хрупкая.
-        // Лучше дать контейнеру для заголовка ID и искать его по ID,
-        // а не полагаться на иерархию и типы View.
         val lastChild = appBar.getChildAt(appBar.childCount - 1)
         if (lastChild !is MaterialToolbar) {
             val isToolbarContainer = lastChild is FrameLayout && lastChild.getChildAt(0) is MaterialToolbar
@@ -95,7 +86,6 @@ class AppBarEdgeToEdge(
         }
 
         if (childInfo.size != appBar.childCount) {
-            // Если информация устарела, принудительно обновляем
             updateChildInfo()
         }
 
@@ -112,7 +102,12 @@ class AppBarEdgeToEdge(
             view.scaleX = scale.coerceIn(0f, 1f)
             view.scaleY = scale.coerceIn(0f, 1f)
         }
-        appBar.isLifted = scroll == totalRange
+
+        if (remakeLiftOnScrollBehavior){
+            appBar.isLifted = scroll == totalRange
+        }
+
+
     }
 
     private data class ChildInfo(val top: Int, val height: Int)

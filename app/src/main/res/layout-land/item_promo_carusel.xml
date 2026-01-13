@@ -5,7 +5,7 @@
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:background="?attr/colorSurfaceContainerHigh"
-    app:cardCornerRadius="@dimen/maxi">
+    app:cardCornerRadius="@dimen/d6">
 
     <ImageView
         android:id="@+id/bg_image"
@@ -19,19 +19,19 @@
         android:layout_height="match_parent"
         android:alpha="0.5"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/gradient_background" />
+        app:srcCompat="@drawable/dr_gradient_1" />
 
     <TextView
         android:id="@+id/promo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/mini"
+        android:layout_margin="@dimen/d2"
         android:background="@drawable/rounded_background_for_promo_title"
         android:backgroundTint="?attr/colorSurfaceContainerLow"
         android:ellipsize="end"
         android:maxLines="3"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         android:textColor="?attr/colorOnSurface"
         tools:text="ddddddd" />

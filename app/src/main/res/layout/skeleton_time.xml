@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
-    android:divider="@drawable/horizontal_divider_small"
+    android:divider="@drawable/div_horizontal_d1"
     android:orientation="horizontal"
     android:showDividers="middle">
 

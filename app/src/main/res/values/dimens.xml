@@ -1,12 +1,24 @@
 <resources>
 
-    <dimen name="micro">8dp</dimen>
-    <dimen name="mini">10dp</dimen>
-    <dimen name="min">12dp</dimen>
-    <dimen name="mid">14dp</dimen>
-    <dimen name="max">16dp</dimen>
-    <dimen name="maxi">18dp</dimen>
-    <dimen name="maximorum">20dp</dimen>
+    <dimen name="d0">2dp</dimen>
+    <dimen name="d1">4dp</dimen>
+    <dimen name="d2">6dp</dimen>
+    <dimen name="d3">8dp</dimen>
+    <dimen name="d4">10dp</dimen>
+    <dimen name="d5">12dp</dimen>
+    <dimen name="d6">14dp</dimen>
+    <dimen name="d7">16dp</dimen>
+    <dimen name="d8">18dp</dimen>
+    <dimen name="d9">20dp</dimen>
+    <dimen name="d10">22dp</dimen>
+    <dimen name="d11">24dp</dimen>
+    <dimen name="d12">26dp</dimen>
+    <dimen name="d13">28dp</dimen>
+
+    <dimen name="default_inner_screen">@dimen/d6</dimen>
+    <dimen name="default_list_outer_radius">@dimen/d11</dimen>
+    <dimen name="default_list_innier_radius">@dimen/d4</dimen>
+    <dimen name="default_list_item_spacing">@dimen/d1</dimen>
 
 
     <dimen name="insets_min">4dp</dimen>

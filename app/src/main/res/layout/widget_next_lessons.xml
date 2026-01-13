@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_background_big"
+    android:background="@drawable/rounded_d7"
     android:backgroundTint="?attr/colorSurfaceContainer"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
@@ -16,8 +16,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/max">
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d5">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,10 +56,10 @@
             android:layout_weight="1"
             android:background="?attr/colorSurface"
             android:clipToPadding="false"
-            android:divider="@drawable/vertical_divider_micro"
-            android:paddingLeft="@dimen/max"
-            android:paddingTop="@dimen/max"
-            android:paddingRight="@dimen/max"
+            android:divider="@drawable/div_vertical_d1"
+            android:paddingLeft="@dimen/d5"
+            android:paddingTop="@dimen/d5"
+            android:paddingRight="@dimen/d5"
             android:paddingBottom="110dp"
             tools:listitem="@layout/widget_next_lessons_item" />
     </LinearLayout>
@@ -78,14 +78,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/mini"
-        android:background="@drawable/rounded_maximorum"
+        android:layout_margin="@dimen/d2"
+        android:background="@drawable/rounded_d9"
         android:backgroundTint="?attr/colorPrimary"
         android:elevation="4dp"
         android:text="Button"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="16sp"
         android:visibility="gone"
-        app:cornerRadius="@dimen/maximorum" />
+        app:cornerRadius="@dimen/d7" />
 
 </FrameLayout>

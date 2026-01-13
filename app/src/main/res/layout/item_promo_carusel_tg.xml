@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurfaceContainerHigh"
-    app:cardCornerRadius="@dimen/maxi">
+    app:cardCornerRadius="@dimen/d6">
 
     <ImageView
         android:id="@+id/bg_image"
@@ -23,7 +23,7 @@
         android:layout_marginEnd="-100dp"
         android:alpha="0.1"
         android:tint="?attr/colorPrimary"
-        app:srcCompat="@drawable/app_icon" />
+        app:srcCompat="@drawable/ic_app_icon" />
 
     <ImageView
         android:id="@+id/bg_gradient"
@@ -38,12 +38,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/mini"
+        android:layout_margin="@dimen/d2"
         android:background="@drawable/rounded_background_for_promo_title"
         android:backgroundTint="?attr/colorPrimary"
         android:ellipsize="end"
         android:maxLines="3"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         android:text="Дневничок разработки NETI Клиент"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
         android:textColor="?attr/colorOnPrimary" />
@@ -52,8 +52,8 @@
         android:id="@+id/imageView8"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_margin="@dimen/max"
+        android:layout_margin="@dimen/d5"
         android:tint="?attr/colorOnPrimaryContainer"
-        app:srcCompat="@drawable/telegram_logo" />
+        app:srcCompat="@drawable/ic_telegram_logo" />
 
 </com.google.android.material.card.MaterialCardView>

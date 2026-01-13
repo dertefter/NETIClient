@@ -4,13 +4,12 @@
     <item
         android:id="@+id/nav_graph_home"
         android:title="@string/title_home"
-        android:icon="@drawable/dashboard"
+        android:icon="@drawable/ic_dashboard"
         />
-
     <item
-        android:id="@+id/nav_graph_settings"
-        android:title="@string/title_settings"
-        android:icon="@drawable/settings_icon"
-        />
+        android:id="@+id/nav_graph_profile"
+        android:visible="false"
+        android:title="@string/profile_title"
+        android:icon="@drawable/ic_inbox_text"/>
 
 </menu>

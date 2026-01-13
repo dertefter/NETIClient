@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
-    android:divider="@drawable/horizontal_divider_small"
+    android:divider="@drawable/div_horizontal_d1"
     android:orientation="horizontal"
     android:showDividers="middle">
 
@@ -13,7 +13,7 @@
         android:id="@+id/time_container"
         android:layout_width="64dp"
         android:layout_height="match_parent"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -40,7 +40,7 @@
             android:rotation="180"
             app:indicatorColor="?attr/colorSecondary"
             app:trackColor="?attr/colorSurfaceContainer"
-            app:trackInnerCornerRadius="@dimen/maxi"
+            app:trackInnerCornerRadius="@dimen/d6"
             app:trackStopIndicatorSize="0dp"
             app:waveAmplitude="2dp"
             app:waveSpeed="12dp"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="@drawable/vertical_divider_small"
+    android:divider="@drawable/div_vertical_d2"
     android:orientation="vertical"
     android:showDividers="middle">
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingBottom="@dimen/mini"
+        android:paddingBottom="@dimen/d2"
         android:text="Идёт сейчас"
         android:textColor="@color/material_dynamic_neutral10"
         android:textSize="14sp" />
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/rounded_maximorum"
+            android:background="@drawable/rounded_d9"
             android:backgroundTint="@android:color/system_neutral2_100"
             android:gravity="center"
             android:paddingHorizontal="12dp"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_gravity="center_vertical|end"
-            android:background="@drawable/rounded_maximorum"
+            android:background="@drawable/rounded_d9"
             android:backgroundTint="@android:color/system_neutral2_100"
             android:gravity="center"
             android:paddingHorizontal="12dp"
@@ -71,12 +71,12 @@
         android:id="@+id/on_going_container"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@drawable/rounded_background_big"
+        android:background="@drawable/rounded_d7"
         android:backgroundTint="@android:color/system_accent1_200"
-        android:divider="@drawable/horizontal_divider"
+        android:divider="@drawable/div_horizontal_d5"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/max"
+        android:paddingHorizontal="@dimen/d5"
         android:showDividers="middle">
 
         <TextView

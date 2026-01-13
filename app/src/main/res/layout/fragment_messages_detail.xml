@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
+    android:background="@drawable/rounded_d9"
     android:backgroundTint="?attr/colorSurfaceContainerHigh">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,8 +20,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <Button
@@ -31,14 +31,14 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="?attr/colorSurfaceContainerLow"
-                app:icon="@drawable/arrow_back"
+                app:icon="@drawable/ic_arrow_back"
                 app:iconGravity="textStart" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
-                android:divider="@drawable/horizontal_divider_micro"
+                android:divider="@drawable/div_horizontal_d2"
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
@@ -58,7 +58,7 @@
                         android:background="?attr/colorSurfaceVariant"
                         app:contentPadding="4dp"
                         app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
-                        app:srcCompat="@drawable/person"
+                        app:srcCompat="@drawable/ic_person"
                         app:tint="?attr/colorOnSurfaceVariant" />
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -83,7 +83,8 @@
                     android:insetTop="4dp"
                     android:insetRight="4dp"
                     android:insetBottom="4dp"
-                    app:icon="@drawable/delete_icon"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_delete"
                     app:iconGravity="textStart"
                     app:iconSize="24dp" />
             </LinearLayout>
@@ -92,7 +93,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/mini">
+            android:paddingTop="@dimen/d2">
 
             <TextView
                 android:id="@+id/name"
@@ -100,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:alpha="0"
-                android:paddingHorizontal="@dimen/maxi"
-                android:paddingVertical="@dimen/mini"
+                android:paddingHorizontal="@dimen/d6"
+                android:paddingVertical="@dimen/d2"
                 android:text="17.96.46"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
                 android:textColor="?attr/colorTertiary"
@@ -112,8 +113,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:paddingHorizontal="@dimen/maxi"
-                android:paddingVertical="@dimen/mini"
+                android:paddingHorizontal="@dimen/d6"
+                android:paddingVertical="@dimen/d2"
                 android:text="17.96.46"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge.Emphasized"
                 android:textColor="?attr/colorSecondary" />
@@ -126,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="1"
-        android:background="@drawable/rounded_maximorum"
+        android:background="@drawable/rounded_d9"
         android:backgroundTint="?attr/colorSurface"
         android:clipToPadding="false"
         android:visibility="visible"
@@ -135,9 +136,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/vertical_divider"
+            android:divider="@drawable/div_vertical_d5"
             android:orientation="vertical"
-            android:padding="@dimen/maxi"
+            android:padding="@dimen/d6"
             android:showDividers="middle">
 
             <TextView

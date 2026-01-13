@@ -12,9 +12,11 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     val netiCore: NETICore
 ) : ViewModel() {
-
+    val studentGroup = netiCore.studentsFeature.studentGroup
 
     val lksList = netiCore.userDetailFeature.lksList
+
+
 
     fun updateLks(){
         viewModelScope.launch {
@@ -25,6 +27,12 @@ class ProfileViewModel @Inject constructor(
     fun updateUserDetail(){
         viewModelScope.launch {
             netiCore.userDetailFeature.updateUserDetail()
+        }
+    }
+
+    fun updateStudentGroup(id: Int?){
+        viewModelScope.launch {
+            netiCore.studentsFeature.updateStudentGroup(id)
         }
     }
 

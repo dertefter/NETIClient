@@ -5,265 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
-    android:backgroundTint="?attr/colorSurface"
+    android:background="?attr/colorSurface"
     tools:context=".ui.schedule.ScheduleFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
 
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="false"
         android:visibility="visible">
 
-        <FrameLayout
-            android:id="@+id/week_group_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mini"
-            android:layout_weight="1"
-            android:paddingHorizontal="@dimen/max"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/week_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:animateLayoutChanges="true"
-                app:cardBackgroundColor="?attr/colorTertiaryContainer"
-                app:cardCornerRadius="24dp">
-
-                <TextView
-                    android:id="@+id/w"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall.Emphasized"
-                    android:textColor="?attr/colorOnTertiaryContainer"
-                    tools:text="12" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/back_button"
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="0"
-                    app:icon="@drawable/arrow_back"
-                    app:iconSize="24dp"
-                    app:iconTint="?attr/colorOnSurfaceVariant" />
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/group_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                    app:cardCornerRadius="24dp">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="@dimen/mini"
-                        android:alpha="0.2"
-                        android:src="@drawable/group_icon"
-                        app:tint="?attr/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-
-                        android:paddingHorizontal="@dimen/max"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-                        android:textColor="?attr/colorOnPrimaryContainer" />
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/weeks_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
-            android:layout_marginTop="@dimen/mini"
-            android:visibility="gone"
-            app:cardBackgroundColor="?attr/colorTertiaryContainer"
-            app:cardCornerRadius="@dimen/maximorum"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.4"
-                android:src="?attr/colorSurface" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/weeks_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:clipToPadding="false"
-                android:paddingHorizontal="@dimen/mini"
-                android:paddingVertical="@dimen/mini"
-                android:visibility="visible"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_week" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <FrameLayout
-            android:id="@+id/c1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/max"
-            android:layout_marginTop="@dimen/mini"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_background_top"
-            android:backgroundTint="?attr/colorSurfaceContainer"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingTop="@dimen/max"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/default_inner_screen">
 
             <Button
-                android:id="@+id/calendar_button"
-                style="@style/Widget.Material3Expressive.Button.IconButton.Filled"
-                android:layout_width="52dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical|end"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                app:icon="@drawable/calendar_month_icon"
-                app:iconGravity="textEnd"
-                app:iconSize="20dp" />
+                android:id="@+id/back_button"
+                style="@style/Widget.Material3Expressive.Button.IconButton.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0"
+                android:backgroundTint="?attr/colorSurfaceContainerLow"
+                app:icon="@drawable/ic_arrow_back"
+                app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/year_and_mounth"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_gravity="center_vertical"
-
-                android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-                android:textColor="?attr/colorOnSurface"
-                tools:text="dhvdjvdjkvsdjk" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/days_tabs_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/max"
-            android:background="@drawable/rounded_background_bottom"
-            android:backgroundTint="?attr/colorSurfaceContainer"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingBottom="@dimen/max">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/days_tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="68dp"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_background_bottom"
-                android:backgroundTint="?attr/colorSurfaceContainer"
-                android:clipToPadding="false"
-                android:contentDescription="@string/tabs"
-                android:fitsSystemWindows="false"
-                app:tabGravity="fill"
-                app:tabIndicator="@drawable/rounded_maximorum"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorColor="?attr/colorPrimaryContainer"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorGravity="stretch"
-                app:tabPaddingEnd="0dp"
-                app:tabPaddingStart="0dp"
-                app:tabRippleColor="@null"
-                app:tabSelectedTextColor="?attr/colorOnPrimary" />
-        </FrameLayout>
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/default_inner_screen">
+
+                <TextView
+                    android:id="@+id/m_text_view"
+                    style="@style/NETIClient.TextStyle.SexyTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="2dp" />
+
+                <TextView
+                    android:id="@+id/week_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium.Emphasized" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/group_button"
+                style="@style/Widget.Material3Expressive.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_weight="0"
+                app:icon="@drawable/ic_group"
+                app:iconGravity="textStart" />
+
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:tabGravity="start"
+            app:tabMode="scrollable" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/week_fragment_container"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/daysPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/mini"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <include
-            layout="@layout/skeleton_lessons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/no_group"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:divider="@drawable/vertical_divider"
-            android:orientation="vertical"
-            android:showDividers="middle">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:contentDescription="@string/icon"
-                android:src="@drawable/calendar_month_icon"
-                app:tint="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/add_group"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?attr/colorOnSurface"
-                 />
-
-            <Button
-                android:id="@+id/search_group_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:contentDescription="@string/add_group_button"
-                android:text="@string/add_group_button"
-                app:iconSize="20dp" />
-
-        </LinearLayout>
-    </FrameLayout>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

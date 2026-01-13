@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
+    android:background="@drawable/rounded_d9"
     android:backgroundTint="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +16,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:fitsSystemWindows="true"
         android:showDividers="none">
 
@@ -24,8 +24,8 @@
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center|start"
                 android:maxWidth="1000dp"
-                android:paddingVertical="@dimen/max"
+                android:paddingVertical="@dimen/d5"
                 android:text="@string/messages_title"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
@@ -45,7 +45,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical|end"
-                app:icon="@drawable/more_icon"
+                app:icon="@drawable/ic_more"
                 app:iconGravity="textStart" />
 
         </FrameLayout>
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:clipToPadding="false"
             android:fitsSystemWindows="false"
-            android:paddingHorizontal="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
             android:scrollbarThumbHorizontal="@null">
 
             <com.google.android.material.chip.ChipGroup
@@ -64,9 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingHorizontal="@dimen/maxi"
-                android:paddingVertical="@dimen/mini"
-                app:chipSpacingHorizontal="@dimen/mini"
+                android:paddingHorizontal="@dimen/d6"
+                android:paddingVertical="@dimen/d2"
+                app:chipSpacingHorizontal="@dimen/d2"
                 app:chipSpacingVertical="0dp"
                 app:selectionRequired="true"
                 app:singleSelection="true">
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/filter_news_all"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Непрочитано"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Преподаватели"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Деканат"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Тьютор"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Службы"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
                 <com.google.android.material.chip.Chip
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="Прочее"
-                    app:chipCornerRadius="@dimen/micro"
+                    app:chipCornerRadius="@dimen/d1"
                     app:ensureMinTouchTargetSize="false" />
 
             </com.google.android.material.chip.ChipGroup>
@@ -158,8 +158,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d2"
             tools:listitem="@layout/item_message" />
     </com.dertefter.neticlient.common.CustomPullToRefreshLayout>
 
@@ -169,7 +169,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         android:text="Нет данных о результатах сессии"
         android:textColor="?attr/colorOnSurfaceVariant"
 

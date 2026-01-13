@@ -1,81 +1,80 @@
 package com.dertefter.neticlient.ui.settings.settings_pages
 
-import android.Manifest
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dertefter.neticlient.R
-import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.databinding.FragmentSettingsBinding
+import com.dertefter.neticlient.common.AppBarEdgeToEdge
+import com.dertefter.neticlient.databinding.FragmentThemeCreatorBinding
 import com.dertefter.neticlient.ui.main.theme_engine.ThemeEngine
-import com.dertefter.neticlient.ui.messages.MessagesAdapter
-import com.dertefter.neticlient.ui.settings.SettingsListAdapter
-import com.dertefter.neticlient.ui.settings.SettingsListItem
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
-import com.google.android.material.color.DynamicColors
+import com.dertefter.neticlient.ui.settings.theme_creator.ColorAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class SettingsPersonaliztionFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+    private lateinit var binding: FragmentThemeCreatorBinding
     private val settingsViewModel: SettingsViewModel by activityViewModels()
 
+    private val presetColors = listOf(
+        Color.parseColor("#F44336"), // Red
+        Color.parseColor("#E91E63"), // Pink
+        Color.parseColor("#9C27B0"), // Purple
+        Color.parseColor("#673AB7"), // Deep Purple
+        Color.parseColor("#3F51B5"), // Indigo
+        Color.parseColor("#2196F3"), // Blue
+        Color.parseColor("#03A9F4"), // Light Blue
+        Color.parseColor("#00BCD4"), // Cyan
+        Color.parseColor("#009688"), // Teal
+        Color.parseColor("#4CAF50"), // Green
+        Color.parseColor("#8BC34A"), // Light Green
+        Color.parseColor("#CDDC39"), // Lime
+        Color.parseColor("#FFEB3B"), // Yellow
+        Color.parseColor("#FFC107"), // Amber
+        Color.parseColor("#FF9800"), // Orange
+        Color.parseColor("#FF5722"), // Deep Orange
+        Color.parseColor("#795548"), // Brown
+        Color.parseColor("#9E9E9E"), // Grey
+        Color.parseColor("#607D8B"), // Blue Grey
+        Color.parseColor("#000000")  // Black
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding = FragmentThemeCreatorBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val bars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
-                        or WindowInsetsCompat.Type.displayCutout()
-            )
-            binding.appBarLayout.updatePadding(
-                top = bars.top
-            )
+        binding.appBarLayout.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appBarLayout))
 
-            binding.recyclerView.updatePadding(
-                bottom = bars.bottom
-            )
-            WindowInsetsCompat.CONSUMED
+
+        val currentColor = ThemeEngine.getSelectedColor()
+
+        val adapter = ColorAdapter(presetColors, currentColor) { selectedColor ->
+            ThemeEngine.setThemeType(1)
+            ThemeEngine.setSelectedColor(selectedColor)
+            requireActivity().recreate()
+        }
+
+        binding.colorsRecyclerView.adapter = adapter
+
+        binding.buttonDefaultColor.setOnClickListener {
+            ThemeEngine.setThemeType(0)
+            ThemeEngine.setSelectedColor(null)
+            requireActivity().recreate()
         }
     }
-
-
-
-
-
 }
-

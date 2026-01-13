@@ -10,7 +10,8 @@ data class Day (
     val dayName: String,
     val times: List<Time>,
     val dayNumber: Int,
-    var date: String? = null
+    var date: String? = null,
+    var weekNumber: Int? = null
 ) : Parcelable {
     fun getDate(): LocalDate? {
         return try{

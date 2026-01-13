@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -43,6 +44,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import androidx.core.view.size
+import com.dertefter.shapemorphview.ShapeMorphView
 
 
 @AndroidEntryPoint
@@ -66,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         ThemeEngine.setup(this)
         val themeType = ThemeEngine.getThemeType()
         when (themeType){
-            0 -> {}
             1 -> {
                 val selectedColor = ThemeEngine.getSelectedColor()
                 if (selectedColor != 0){
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
-            2 -> {
+            else -> {
                 DynamicColors.applyToActivityIfAvailable(this)
             }
         }
@@ -105,25 +107,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation?.setupWithNavController(navController)
         binding.navigationRail?.setupWithNavController(navController)
+
         binding.profileButton.setOnClickListener {
-            navController.navigate(R.id.nav_graph_profile)
+            binding.bottomNavigation?.selectedItemId = R.id.nav_graph_profile
+            binding.navigationRail?.selectedItemId = R.id.nav_graph_profile
         }
         binding.avatarShape.setOnClickListener{
-            navController.navigate(R.id.nav_graph_profile)
+            binding.bottomNavigation?.selectedItemId = R.id.nav_graph_profile
+            binding.navigationRail?.selectedItemId = R.id.nav_graph_profile
         }
 
-        val showNavIds = listOf(
-            R.id.messagesFragment,
-            R.id.homeFragment,
-            R.id.dashboardFragment
-        )
-
-        navController.addOnDestinationChangedListener {
-                controller, destination, arguments ->
-            binding.verticalNav?.isVisible = showNavIds.contains(destination.id)
-            binding.horizontalNav?.isVisible = showNavIds.contains(destination.id)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.verticalNav?.isGone = destination.id == R.id.newsDetailFragment || destination.id == R.id.onBoardingFragment
+            binding.horizontalNav?.isGone = destination.id == R.id.newsDetailFragment || destination.id == R.id.onBoardingFragment
         }
-
 
         if (binding.horizontalNav != null){
             ViewCompat.setOnApplyWindowInsetsListener(binding.horizontalNav!!) { v, insets ->
@@ -184,6 +181,33 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun adoptNavigationForAuthStatus(){
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.authStatus.collect { status ->
+                    Log.e("MainActivity status", status.toString())
+                    val menuSize = binding.bottomNavigation?.menu?.size ?: binding.navigationRail?.menu?.size!!
+                    if (status == AuthStatusType.UNAUTHORIZED){
+                        if ( menuSize != 2 ){
+                            binding.bottomNavigation?.menu?.clear()
+                            binding.bottomNavigation?.inflateMenu(R.menu.navigation_menu_guest)
+                            binding.navigationRail?.menu?.clear()
+                            binding.navigationRail?.inflateMenu(R.menu.navigation_menu_guest)
+                        }
+                    } else {
+                        if ( menuSize != 5 ){
+                            binding.bottomNavigation?.menu?.clear()
+                            binding.bottomNavigation?.inflateMenu(R.menu.navigation_menu)
+                            binding.navigationRail?.menu?.clear()
+                            binding.navigationRail?.inflateMenu(R.menu.navigation_menu)
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
     fun collectAuthStatus() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -199,22 +223,24 @@ class MainActivity : AppCompatActivity() {
                     binding.statusSuccess.isGone = authStatus != AuthStatusType.AUTHORIZED
                     binding.statusError.isGone = authStatus != AuthStatusType.AUTHORIZED_WITH_ERROR
 
-
                     if (authStatus != AuthStatusType.LOADING){
                         keepSplashScreen = false
                     }
 
-                    if (authStatus == AuthStatusType.AUTHORIZED && userDetail?.photoPath != null){
+                    if (!userDetail?.photoPath.isNullOrEmpty()){
                         picasso
                             .load(userDetail.photoPath)
                             .into(object : com.squareup.picasso.Target {
                                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                                    binding.avatarShape.setImageBitmap(bitmap)
+                                    bitmap?.let{
+                                        (binding.avatarShape as ShapeMorphView).setBitmap(bitmap)
+                                    }
                                 }
-
                                 override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
                                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
                             })
+
+
                     }
 
                 }
@@ -263,6 +289,8 @@ class MainActivity : AppCompatActivity() {
 
         collectAuthStatus()
 
+        adoptNavigationForAuthStatus()
+
     }
 
     override fun onNewIntent(intent: Intent, caller: ComponentCaller) {
@@ -273,20 +301,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleShortcutIntent(intent: Intent) {
         val destination = intent.getStringExtra("shortcut_id")
         when (destination) {
-            "profile" -> {
-                navController.navigate(
-                    R.id.profileFragment,
-                    null,
-                    Utils.getNavOptions(),
-                )
-            }
-            "schedule" -> {
-                navController.navigate(
-                    R.id.scheduleFragment,
-                    null,
-                    Utils.getNavOptions(),
-                )
-            }
+
         }
     }
 

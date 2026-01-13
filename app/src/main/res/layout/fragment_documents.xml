@@ -12,10 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/max"
+        android:layout_margin="@dimen/d5"
         android:clickable="true"
         android:text="Создать заявку"
-        app:icon="@drawable/edit_icon" />
+        app:icon="@drawable/ic_edit" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -30,8 +30,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/maxi"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d6"
+            android:paddingVertical="@dimen/d2"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <Button
@@ -41,7 +41,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:backgroundTint="?attr/colorSurfaceContainerLow"
-                app:icon="@drawable/arrow_back"
+                app:icon="@drawable/ic_arrow_back"
                 app:iconGravity="textStart" />
 
         </FrameLayout>
@@ -57,13 +57,13 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_background_big"
+            android:background="@drawable/rounded_d7"
             android:backgroundTint="?attr/colorSurface"
             android:clipToPadding="false"
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
-            android:paddingHorizontal="@dimen/mini"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d2"
+            android:paddingVertical="@dimen/d2"
             android:requiresFadingEdge="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 
@@ -92,7 +92,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -101,11 +101,11 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_1"
+                android:background="@drawable/dr_shape_1"
                 android:backgroundTint="?attr/colorPrimaryContainer"
                 android:padding="20dp"
                 app:tint="?attr/colorOnPrimaryContainer"
-                app:srcCompat="@drawable/document_icon" />
+                app:srcCompat="@drawable/ic_document" />
 
             <TextView
                 android:layout_width="match_parent"

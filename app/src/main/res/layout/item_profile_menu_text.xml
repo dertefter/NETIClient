@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider"
+        android:divider="@drawable/div_vertical_d5"
         android:orientation="vertical"
         android:showDividers="middle">
 

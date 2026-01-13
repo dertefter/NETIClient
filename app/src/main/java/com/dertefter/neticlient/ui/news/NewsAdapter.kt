@@ -110,10 +110,9 @@ class NewsAdapter(
 
             val context = itemView.context
             val cardView = binding.newsCard
-            val marginMin = context.resources.getDimension(R.dimen.mini).toFloat()
-
-            val radiusMin = context.resources.getDimension(R.dimen.min).toFloat() - marginMin
-            val radiusMax = context.resources.getDimension(R.dimen.maximorum).toFloat() - marginMin
+            val marginMin = context.resources.getDimension(R.dimen.d2)
+            val radiusMin = context.resources.getDimension(R.dimen.default_list_innier_radius) - marginMin
+            val radiusMax = context.resources.getDimension(R.dimen.default_list_outer_radius) - marginMin
 
             val shapeModel = when (bindingAdapterPosition) {
                 0 -> ShapeAppearanceModel()

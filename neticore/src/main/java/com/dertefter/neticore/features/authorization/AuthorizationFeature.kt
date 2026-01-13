@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class AuthorizationFeature(
@@ -23,6 +24,7 @@ class AuthorizationFeature(
     val coreDataStoreManager: CoreDataStoreManager
 ) {
 
+    private val isBusy = AtomicBoolean(false)
     private val gson = Gson()
     private val SAVED_USERS_KEY = stringPreferencesKey("saved_users")
     private val CURRENT_USER_KEY = stringPreferencesKey("current_user")
@@ -56,40 +58,54 @@ class AuthorizationFeature(
     private val mobileMethods = MobileMethods(client.mobileApiService)
     val ciuMethods = CiuMethods(client.ciuApiService)
 
-    suspend fun login(user: User) {
-        client.clearSession()
-        userDataStoreManager.switchToUser(user.login)
-        setCurrentUser(user)
-        ciuStatus.value = AuthStatusType.LOADING
-        mobileStatus.value = AuthStatusType.LOADING
-        val authStatus = login2Methods.authUser(user.login, user.password)
-        if (authStatus == true || authStatus == false) {
+    suspend fun login(user: User, clearIfError: Boolean = false) {
+        if (!isBusy.compareAndSet(false, true)) return
+
+        try {
+            client.clearSession()
+            userDataStoreManager.switchToUser(user.login)
+            setCurrentUser(user)
+            ciuStatus.value = AuthStatusType.LOADING
+            mobileStatus.value = AuthStatusType.LOADING
+            login2Methods.authUser(user.login, user.password)
             val userDetail = ciuMethods.fetchUserDetail()
-            if (userDetail != null && !userDetail.name.isNullOrEmpty()){
+            if (userDetail != null && !userDetail.name.isNullOrEmpty()) {
                 ciuStatus.value = AuthStatusType.AUTHORIZED
                 addUserToList(user)
             } else {
                 ciuStatus.value = AuthStatusType.AUTHORIZED_WITH_ERROR
+                if (clearIfError) {
+                    doLogoutWork()
+                    return
+                }
             }
-
             val params = HashMap<String?, String?>()
             params["X-Username"] = user.login
             params["X-Password"] = user.password
             val mobileAuthStatus = mobileMethods.mobileLogin(params)
-            if (mobileAuthStatus == true){
+            if (mobileAuthStatus == true) {
                 mobileStatus.value = AuthStatusType.AUTHORIZED
             } else if (mobileAuthStatus == false) {
-                 mobileStatus.value = AuthStatusType.UNAUTHORIZED
-             } else{
-                 mobileStatus.value = AuthStatusType.AUTHORIZED_WITH_ERROR
-             }
-
-        } else {
-            ciuStatus.value = AuthStatusType.AUTHORIZED_WITH_ERROR
+                mobileStatus.value = AuthStatusType.UNAUTHORIZED
+            } else {
+                mobileStatus.value = AuthStatusType.AUTHORIZED_WITH_ERROR
+            }
+        } finally {
+            isBusy.set(false)
         }
     }
 
     suspend fun logout() {
+        if (!isBusy.compareAndSet(false, true)) return
+
+        try {
+            doLogoutWork()
+        } finally {
+            isBusy.set(false)
+        }
+    }
+
+    private suspend fun doLogoutWork() {
         client.clearSession()
         userDataStoreManager.resetToGuest()
         setCurrentUser(null)

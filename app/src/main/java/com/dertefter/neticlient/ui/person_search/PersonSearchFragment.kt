@@ -65,7 +65,7 @@ class PersonSearchFragment : Fragment() {
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        val decoration = GridSpacingItemDecoration(requireContext(), 1, R.dimen.mini)
+        val decoration = GridSpacingItemDecoration(requireContext(), 1, R.dimen.d2)
         binding.recyclerView.addItemDecoration(decoration)
 
         val adapter = PersonSearchRecyclerViewAdapter(

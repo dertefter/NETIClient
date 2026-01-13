@@ -12,11 +12,11 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="end"
-        android:layout_margin="@dimen/max"
+        android:layout_margin="@dimen/d5"
         android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/close_photo_dialog"
-        app:cornerRadius="@dimen/min"
-        app:icon="@drawable/close_icon"
+        app:cornerRadius="@dimen/d3"
+        app:icon="@drawable/ic_close"
         app:iconTint="?attr/colorOnSecondary" />
 
 </FrameLayout>

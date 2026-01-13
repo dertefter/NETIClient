@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/rounded_maximorum"
+    android:background="@drawable/rounded_d9"
     android:backgroundTint="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,26 +19,19 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true"
-        android:showDividers="beginning"
+        android:showDividers="middle|end"
         app:elevation="0dp">
 
-        <FrameLayout
+        <TextView
+            android:id="@+id/week_label"
+            style="@style/NETIClient.TextStyle.SexyTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/max"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
-            <TextView
-                android:id="@+id/week_label"
-                style="@style/NETIClient.TextStyle.SexyTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:gravity="center|start"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                tools:text="1 учебная нежеля" />
-
-        </FrameLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="center|start"
+            android:paddingHorizontal="@dimen/default_inner_screen"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            tools:text="1 учебная нежеля" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -49,8 +42,7 @@
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
             android:nestedScrollingEnabled="false"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/max"
+            android:paddingHorizontal="@dimen/default_inner_screen"
             android:requiresFadingEdge="none"
             android:visibility="visible"
             app:layout_scrollFlags="scroll"
@@ -62,14 +54,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/max">
+            android:paddingHorizontal="@dimen/default_inner_screen">
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorSurfaceContainer"
-                android:hint="Поиск чего угодно!"
+                android:hint="Поиск..."
                 app:backgroundTint="?attr/colorSurfaceContainer"
                 app:defaultMarginsEnabled="false"
                 app:elevation="0dp"
@@ -90,7 +82,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_big"
+            android:divider="@drawable/div_vertical_d1"
             android:orientation="vertical"
             android:showDividers="middle|beginning">
 
@@ -98,39 +90,38 @@
                 android:id="@+id/tg_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/max"
-                android:visibility="gone"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
-                app:cardCornerRadius="@dimen/max">
+                android:layout_marginHorizontal="@dimen/d5"
+                android:visibility="visible"
+                app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0.3"
-                    app:srcCompat="@drawable/gradient_background"
+                    app:srcCompat="@drawable/dr_gradient_1"
                     app:tint="?attr/colorTertiaryContainer" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@drawable/horizontal_divider"
+                    android:divider="@drawable/div_horizontal_d2"
                     android:orientation="horizontal"
-                    android:padding="@dimen/max"
+                    android:padding="@dimen/d5"
                     android:showDividers="middle">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        android:padding="@dimen/max"
-                        app:srcCompat="@drawable/telegram_logo"
+                        android:padding="@dimen/d5"
+                        app:srcCompat="@drawable/ic_telegram_logo"
                         app:tint="?attr/colorTertiary" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:divider="@drawable/vertical_divider_micro"
+                        android:divider="@drawable/div_vertical_d1"
                         android:orientation="vertical"
                         android:showDividers="middle">
 
@@ -156,7 +147,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="end"
-                    app:icon="@drawable/close_icon"
+                    app:icon="@drawable/ic_close"
                     app:iconTint="?attr/colorOnSurfaceVariant" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -166,9 +157,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
-                android:divider="@drawable/vertical_divider_small"
+                android:divider="@drawable/div_vertical_d2"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/max"
+                android:paddingHorizontal="@dimen/default_inner_screen"
                 android:showDividers="middle">
 
 
@@ -186,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingVertical="@dimen/mid">
+                            android:paddingVertical="@dimen/d4">
 
                             <TextView
 
@@ -216,7 +207,7 @@
                             android:layout_gravity="center_vertical|end"
                             android:textSize="16sp"
                             android:visibility="gone"
-                            app:icon="@drawable/edit_icon" />
+                            app:icon="@drawable/ic_edit" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -234,16 +225,14 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:clickable="true"
-                    android:paddingVertical="@dimen/max"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/max"
-                    app:contentPadding="@dimen/max">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:divider="@drawable/vertical_divider_small"
+                        android:divider="@drawable/div_vertical_d2"
                         android:orientation="vertical"
+                        android:padding="@dimen/d6"
                         android:showDividers="middle"
                         android:visibility="visible">
 
@@ -283,7 +272,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@drawable/vertical_divider_small"
+                        android:divider="@drawable/div_vertical_d2"
                         android:orientation="vertical"
                         android:showDividers="middle">
 
@@ -309,7 +298,7 @@
                     android:id="@+id/schedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/vertical_divider_small"
+                    android:divider="@drawable/div_vertical_d2"
                     android:orientation="vertical"
                     android:showDividers="middle"
                     android:visibility="visible">
@@ -333,7 +322,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
-                        android:paddingVertical="@dimen/mini"
+                        android:paddingVertical="@dimen/d2"
                         android:text="@string/no_lessons_for_all"
                         android:textColor="?attr/colorOnSurfaceVariant"
 
@@ -346,7 +335,7 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:text="@string/full_schedule"
-                        app:icon="@drawable/calendar_month_icon" />
+                        app:icon="@drawable/ic_calendar_month" />
 
                 </LinearLayout>
 
@@ -356,6 +345,7 @@
                 android:id="@+id/news_block"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@drawable/div_vertical_d2"
                 android:orientation="vertical">
 
 
@@ -364,8 +354,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:paddingHorizontal="@dimen/max"
-                    android:paddingVertical="@dimen/mid"
+                    android:paddingHorizontal="@dimen/default_inner_screen"
+                    android:paddingVertical="@dimen/d4"
                     android:text="@string/title_news"
                     android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
                     android:textColor="?attr/colorOnSurface" />
@@ -376,7 +366,7 @@
                     android:layout_weight="1"
                     android:clipToPadding="false"
                     android:fitsSystemWindows="false"
-                    android:paddingHorizontal="@dimen/max"
+                    android:paddingHorizontal="@dimen/default_inner_screen"
                     android:scrollbarThumbHorizontal="@null">
 
                     <com.google.android.material.chip.ChipGroup
@@ -384,10 +374,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingHorizontal="@dimen/maxi"
-                        android:paddingVertical="@dimen/mini"
-                        android:paddingTop="@dimen/mini"
-                        app:chipSpacingHorizontal="@dimen/mini"
+                        android:paddingHorizontal="@dimen/default_list_outer_radius"
+                        android:paddingVertical="@dimen/d2"
+                        android:paddingTop="@dimen/d2"
+                        app:chipSpacingHorizontal="@dimen/d1"
                         app:chipSpacingVertical="0dp"
                         app:selectionRequired="true"
                         app:singleSelection="true">
@@ -399,7 +389,7 @@
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="@string/filter_news_all"
-                            app:chipCornerRadius="@dimen/mid"
+                            app:chipCornerRadius="@dimen/d4"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -409,7 +399,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_news"
-                            app:chipCornerRadius="@dimen/mid"
+                            app:chipCornerRadius="@dimen/d4"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -419,7 +409,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_obj"
-                            app:chipCornerRadius="@dimen/mid"
+                            app:chipCornerRadius="@dimen/d4"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -429,7 +419,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_interv"
-                            app:chipCornerRadius="@dimen/mid"
+                            app:chipCornerRadius="@dimen/d4"
                             app:ensureMinTouchTargetSize="false" />
 
                         <com.google.android.material.chip.Chip
@@ -439,7 +429,7 @@
                             android:layout_height="wrap_content"
                             android:checked="false"
                             android:text="@string/filter_news_photo"
-                            app:chipCornerRadius="@dimen/mid"
+                            app:chipCornerRadius="@dimen/d4"
                             app:ensureMinTouchTargetSize="false" />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -453,8 +443,8 @@
                     android:contentDescription="@string/lessons_list"
                     android:fadingEdge="none"
                     android:isScrollContainer="false"
-                    android:paddingHorizontal="@dimen/max"
-                    android:paddingVertical="@dimen/mini"
+                    android:paddingHorizontal="@dimen/default_inner_screen"
+                    android:paddingVertical="@dimen/d2"
                     android:requiresFadingEdge="none"
                     android:visibility="visible"
                     tools:itemCount="2"
@@ -471,10 +461,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/max"
+        android:layout_margin="@dimen/d5"
         android:contentDescription="top"
         android:visibility="invisible"
-        app:srcCompat="@drawable/arrow_upward" />
+        app:srcCompat="@drawable/ic_arrow_upward" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

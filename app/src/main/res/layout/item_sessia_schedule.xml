@@ -9,8 +9,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/maxi"
-        android:paddingBottom="@dimen/mini">
+        android:paddingHorizontal="@dimen/d6"
+        android:paddingBottom="@dimen/d2">
 
         <TextView
             android:id="@+id/time"
@@ -37,10 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="?attr/colorSurfaceContainer"
-        app:cardCornerRadius="@dimen/maxi"
+        app:cardCornerRadius="@dimen/d6"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="false"
-        app:contentPadding="@dimen/max"
+        app:contentPadding="@dimen/d5"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="3dp">
 
@@ -48,7 +48,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_big"
+            android:divider="@drawable/div_vertical_d1"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -76,7 +76,7 @@
                     android:clickable="false"
                     android:isScrollContainer="false"
                     android:nestedScrollingEnabled="false"
-                    android:paddingEnd="@dimen/mini"
+                    android:paddingEnd="@dimen/d2"
                     android:visibility="visible"
                     tools:listitem="@layout/item_person_avatar" />
 
@@ -91,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical|end"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
                     android:paddingHorizontal="12dp"

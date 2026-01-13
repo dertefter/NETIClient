@@ -168,6 +168,7 @@ class HtmlParserSchedule {
                         times = times,
                         day_index+1,
                         date = date,
+                        weekNumber = weekNumber
                     )
                     days.add(newDay)
                     day_index = day_index + 1

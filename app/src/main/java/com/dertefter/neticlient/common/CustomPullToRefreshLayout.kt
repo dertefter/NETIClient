@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.view.animation.PathInterpolator
 import android.widget.LinearLayout
 import com.dertefter.neticlient.R
@@ -96,11 +97,19 @@ class CustomPullToRefreshLayout @JvmOverloads constructor(
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 initialY = ev.y
+                // Не перехватываем ACTION_DOWN, чтобы дочерний элемент мог начать обработку скролла/клика
+                // super.onInterceptTouchEvent вернет false для LinearLayout по умолчанию,
+                // если нет ClickListener, но это нормально.
             }
             MotionEvent.ACTION_MOVE -> {
                 val deltaY = ev.y - initialY
 
+                // Проверяем:
+                // 1. Тянем вниз (deltaY > touchSlop)
+                // 2. Ребенок НЕ может скроллиться вверх (!canChildScrollUp)
+                // 3. Мы сейчас в покое (IDLE)
                 val isPullingDown = deltaY > touchSlop && !canChildScrollUp() && currentState == State.IDLE
+
                 val isSwipingError = currentState == State.ERROR && abs(deltaY) > touchSlop
                 val isSwipingToCancel = currentState == State.REFRESHING && abs(deltaY) > touchSlop
 
@@ -126,6 +135,9 @@ class CustomPullToRefreshLayout @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (currentState == State.PULLING) {
                     val deltaY = event.y - initialY
+                    // Добавляем проверку, чтобы не уходить в отрицательные значения (если палец пошел вверх выше точки старта)
+                    if (deltaY < 0) return false
+
                     val pullDistance = deltaY / 2.0f
                     setHeaderHeight(pullDistance.toInt())
 
@@ -258,6 +270,32 @@ class CustomPullToRefreshLayout @JvmOverloads constructor(
     }
 
     private fun canChildScrollUp(): Boolean {
-        return contentView?.canScrollVertically(-1) ?: false
+        if (contentView == null) {
+            if (childCount > 1) {
+                contentView = getChildAt(1)
+            }
+        }
+
+        val target = contentView ?: return false
+        return canScrollVerticallyRecursive(target)
+    }
+
+    private fun canScrollVerticallyRecursive(view: View): Boolean {
+        if (view.visibility != View.VISIBLE) return false
+
+        if (view.canScrollVertically(-1)) {
+            return true
+        }
+
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                if (canScrollVerticallyRecursive(child)) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

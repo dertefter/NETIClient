@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/arrow_back"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -23,18 +23,18 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginHorizontal="@dimen/d5"
             android:hint="@string/group_name_hint"
             app:boxBackgroundColor="?attr/colorSurfaceContainer"
-            app:boxCornerRadiusBottomEnd="@dimen/maxi"
-            app:boxCornerRadiusBottomStart="@dimen/maxi"
-            app:boxCornerRadiusTopEnd="@dimen/maxi"
-            app:boxCornerRadiusTopStart="@dimen/maxi"
+            app:boxCornerRadiusBottomEnd="@dimen/d6"
+            app:boxCornerRadiusBottomStart="@dimen/d6"
+            app:boxCornerRadiusTopEnd="@dimen/d6"
+            app:boxCornerRadiusTopStart="@dimen/d6"
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:startIconContentDescription="Поиск группы"
-            app:startIconDrawable="@drawable/search"
+            app:startIconDrawable="@drawable/ic_search"
             app:startIconTint="?attr/colorOnSurface">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -50,9 +50,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/max"
+        android:layout_marginTop="@dimen/d5"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/max"
+        android:paddingHorizontal="@dimen/d5"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

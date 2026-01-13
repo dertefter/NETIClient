@@ -92,11 +92,7 @@ class SearchFragment : Fragment() {
 
 
         adapter.onNavClick = {
-            findNavController().navigate(
-                it.dist.id,
-                null,
-                Utils.getNavOptions(),
-            )
+
         }
 
         adapter.onGroupClick = {

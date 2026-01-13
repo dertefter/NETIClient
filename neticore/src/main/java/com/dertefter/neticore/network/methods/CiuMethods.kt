@@ -9,6 +9,7 @@ import com.dertefter.neticore.features.money.model.MoneyItem
 import com.dertefter.neticore.features.person_detail.model.Person
 import com.dertefter.neticore.features.schedule.model.Schedule
 import com.dertefter.neticore.features.sessia_results.model.SessiaResults
+import com.dertefter.neticore.features.students.model.StudentGroup
 import com.dertefter.neticore.features.user_detail.model.UserDetail
 import com.dertefter.neticore.features.user_detail.model.lks
 import com.dertefter.neticore.network.api.CiuApiService
@@ -22,8 +23,6 @@ import org.jsoup.Jsoup
 import kotlin.toString
 
 class CiuMethods(val api: CiuApiService) {
-
-
 
 
     suspend fun fetchUserDetail(): UserDetail? {

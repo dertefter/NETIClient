@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorTertiaryContainer"
-    app:cardCornerRadius="@dimen/maxi"
-    app:contentPadding="@dimen/max">
+    app:cardCornerRadius="@dimen/d6"
+    app:contentPadding="@dimen/d5">
 
     <TextView
         android:id="@+id/title"

@@ -14,17 +14,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
-            android:padding="@dimen/maximorum"
+            android:padding="@dimen/d7"
             android:showDividers="middle">
 
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/maxi"
-                android:paddingBottom="@dimen/mini" />
+                android:minHeight="@dimen/d6"
+                android:paddingBottom="@dimen/d2" />
 
             <TextView
                 android:id="@+id/title"
@@ -47,10 +47,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/max"
+                    android:paddingHorizontal="@dimen/d5"
                     android:text="1111111"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
 
@@ -62,10 +62,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_gravity="center_vertical|end"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSurfaceVariant"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/max"
+                    android:paddingHorizontal="@dimen/d5"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
 
                     android:textColor="?attr/colorOnSurfaceVariant"
@@ -77,11 +77,11 @@
                 android:id="@+id/now"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_maximorum"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorSurfaceContainerHighest"
-                android:divider="@drawable/vertical_divider_micro"
+                android:divider="@drawable/div_vertical_d1"
                 android:orientation="vertical"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle">
 
                 <TextView
@@ -98,7 +98,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@drawable/horizontal_divider_small"
+                    android:divider="@drawable/div_horizontal_d1"
 
                     android:showDividers="middle">
 
@@ -149,11 +149,11 @@
                 android:id="@+id/future_past"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_maximorum"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorSurfaceContainerHigh"
-                android:divider="@drawable/vertical_divider_micro"
+                android:divider="@drawable/div_vertical_d1"
                 android:orientation="vertical"
-                android:padding="@dimen/max"
+                android:padding="@dimen/d5"
                 android:showDividers="middle">
 
                 <TextView
@@ -219,9 +219,9 @@
                 style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/max"
+                android:layout_marginBottom="@dimen/d5"
                 app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="@dimen/maximorum">
+                app:cardCornerRadius="@dimen/d7">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/personsRecyclerView"

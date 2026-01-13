@@ -26,17 +26,20 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.HorizontalSpaceItemDecoration
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
-import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.goingTo
 import com.dertefter.neticlient.databinding.FragmentHomeBinding
 import com.dertefter.neticlient.ui.news.NewsAdapter
 import com.dertefter.neticlient.ui.news.NewsViewModel
 import com.dertefter.neticlient.ui.news.PromoAdapter
 import com.dertefter.neticlient.ui.schedule.ScheduleViewModel
 import com.dertefter.neticlient.ui.schedule.lesson_view.LessonViewBottomSheetFragment
-import com.dertefter.neticlient.ui.schedule.week.day.TimesAdapter
+import com.dertefter.neticlient.ui.schedule.TimesAdapter
 import com.dertefter.neticlient.ui.search_group.SearchGroupBottomSheet
 import com.dertefter.neticlient.ui.settings.SettingsViewModel
 import com.dertefter.neticore.NETICore
+import com.google.android.material.carousel.CarouselLayoutManager
+import com.google.android.material.carousel.CarouselSnapHelper
+import com.google.android.material.carousel.HeroCarouselStrategy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
@@ -53,18 +56,15 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // ViewModels
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     private val newsViewModel: NewsViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
 
-    // Adapters
     private lateinit var scheduleTimesAdapter: TimesAdapter
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var promoAdapter: PromoAdapter
 
-    // State flags
     private var isInitialFilterSetup = true
     private var hasScrolledToInitialLesson = false
 
@@ -112,11 +112,16 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.promoRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = CarouselLayoutManager(HeroCarouselStrategy()).apply {
+                carouselAlignment = CarouselLayoutManager.ALIGNMENT_CENTER
+            }
             adapter = promoAdapter
-            addItemDecoration(HorizontalSpaceItemDecoration(R.dimen.mini))
-            LinearSnapHelper().attachToRecyclerView(this)
+            //addItemDecoration(HorizontalSpaceItemDecoration(R.dimen.d2))
+            val snapHelper = CarouselSnapHelper()
+            snapHelper.attachToRecyclerView(this)
         }
+
+
     }
 
     private fun setupButtons() {
@@ -129,10 +134,12 @@ class HomeFragment : Fragment() {
         binding.groupButton.setOnClickListener { openGroupSearchDialog() }
         binding.searchGroupButton.setOnClickListener { openGroupSearchDialog() }
         binding.buttonScheduleAll.setOnClickListener {
-            findNavController().navigate(R.id.scheduleFragment, null, Utils.getNavOptions())
+            val action = HomeFragmentDirections.actionHomeFragmentToScheduleFragment()
+            findNavController().goingTo(action)
         }
         binding.searchBar.setOnClickListener {
-            findNavController().navigate(R.id.nav_graph_search, null, Utils.getNavOptions())
+            val action = HomeFragmentDirections.actionHomeFragmentToNavGraphSearch()
+            findNavController().goingTo(action)
         }
     }
 
@@ -154,7 +161,7 @@ class HomeFragment : Fragment() {
             adapter = scheduleTimesAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(
-                VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+                VerticalSpaceItemDecoration()
             )
         }
     }
@@ -167,7 +174,7 @@ class HomeFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(
-                VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+                VerticalSpaceItemDecoration()
             )
             isNestedScrollingEnabled = false
         }
@@ -191,7 +198,6 @@ class HomeFragment : Fragment() {
         binding.scrollview.setOnScrollChangeListener { v: View, _, scrollY, _, _ ->
             val view = v as NestedScrollView
 
-            // Логика для кнопки "вверх"
             val isFabVisible = scrollY > resources.displayMetrics.heightPixels * 2.5
             binding.upFab?.isInvisible = !isFabVisible
             if (isFabVisible) {
@@ -214,9 +220,7 @@ class HomeFragment : Fragment() {
     private fun observeViewModels() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeGroup() }
-                launch { observeNextDayWithLessons() }
-                launch { observeScheduleStatus() }
+                launch { observeSchedule() }
                 launch { observeWeekLabel() }
                 launch { observeInitialScrollPosition() }
                 launch { observeNews() }
@@ -226,52 +230,57 @@ class HomeFragment : Fragment() {
             }
         }
     }
+    private fun observeSchedule() {
+        lifecycleScope.launch {
+            combine(
+                scheduleViewModel.currentGroup,
+                scheduleViewModel.nextDayWithLessons,
+                scheduleViewModel.status
+            ) { currentGroup, nextDayWithLessons, status ->
+                Triple(currentGroup, nextDayWithLessons, status)
+            }.collect { (currentGroup, nextDayWithLessons, status) ->
 
-    private suspend fun observeGroup() {
-        scheduleViewModel.currentGroup.collect { currentGroup ->
-            binding.noGroup.isGone = !currentGroup.isNullOrEmpty()
-            binding.groupButton.isGone = currentGroup.isNullOrEmpty()
-            if (currentGroup != null) {
-                binding.groupButton.text = currentGroup
-                scheduleViewModel.updateScheduleForGroup(currentGroup)
-            }
-        }
-    }
+                Log.e("observeSchedule", "($currentGroup, $nextDayWithLessons, $status)")
 
-    private suspend fun observeNextDayWithLessons() {
-        scheduleViewModel.nextDayWithLessons.collect { nextDayWithLessons ->
-            if (nextDayWithLessons != null) {
-                scheduleTimesAdapter.updateData(nextDayWithLessons.times)
-                binding.scheduleRv.isGone = false
-                val date = nextDayWithLessons.getDate()
-                val (text1, text2) = when (date) {
-                    LocalDate.now() -> getString(R.string.classses_for) to getString(R.string.today)
-                    LocalDate.now().plusDays(1) -> getString(R.string.classses_for) to getString(R.string.tomorrow)
-                    else -> {
-                        val formatter = DateTimeFormatter.ofPattern("d MMMM")
-                        getString(R.string.classses_for) to date?.format(formatter)
-                    }
+
+                binding.loadFailSchedule.root.isGone = status != com.dertefter.neticore.network.ResponseType.ERROR || currentGroup.isNullOrEmpty()
+                binding.skeletonSchedule.isGone = status != com.dertefter.neticore.network.ResponseType.LOADING || currentGroup.isNullOrEmpty()
+                binding.scheduleRv.isGone = status == com.dertefter.neticore.network.ResponseType.LOADING || currentGroup.isNullOrEmpty()
+                binding.noGroup.isGone = !currentGroup.isNullOrEmpty()
+                binding.groupButton.isGone = currentGroup.isNullOrEmpty()
+                binding.buttonScheduleAll.isGone = currentGroup.isNullOrEmpty()
+
+                if (currentGroup != null) {
+                    binding.groupButton.text = currentGroup
+                    scheduleViewModel.updateScheduleForGroup(currentGroup)
                 }
-                binding.dateTv1?.text = text1
-                binding.dateTv2?.text = text2
-            } else {
-                scheduleTimesAdapter.updateData(emptyList())
-                binding.dateTv1?.text = getString(R.string.near_lessons)
-                binding.dateTv2?.text = ""
+
+                if (nextDayWithLessons != null) {
+                    scheduleTimesAdapter.updateData(nextDayWithLessons.times)
+                    binding.scheduleRv.isGone = false
+
+                    val date = nextDayWithLessons.getDate()
+                    val (text1, text2) = when (date) {
+                        LocalDate.now() -> getString(R.string.classses_for) to getString(R.string.today)
+                        LocalDate.now().plusDays(1) -> getString(R.string.classses_for) to getString(R.string.tomorrow)
+                        else -> {
+                            val formatter = DateTimeFormatter.ofPattern("d MMMM")
+                            getString(R.string.classses_for) to date?.format(formatter)
+                        }
+                    }
+                    binding.dateTv1?.text = text1
+                    binding.dateTv2?.text = text2
+                } else {
+                    scheduleTimesAdapter.updateData(emptyList())
+                    binding.dateTv1?.text = getString(R.string.near_lessons)
+                    binding.dateTv2?.text = ""
+                }
+                binding.dateTv1?.isGone = binding.dateTv1?.text.isNullOrEmpty()
+                binding.dateTv2?.isGone = binding.dateTv2?.text.isNullOrEmpty()
             }
-            binding.dateTv1?.isGone = binding.dateTv1?.text.isNullOrEmpty()
-            binding.dateTv2?.isGone = binding.dateTv2?.text.isNullOrEmpty()
         }
     }
 
-    private suspend fun observeScheduleStatus() {
-        scheduleViewModel.status.collect { status ->
-            Log.d("HomeFragment", "Schedule status: $status")
-            binding.loadFailSchedule.root.isGone = status != com.dertefter.neticore.network.ResponseType.ERROR
-            binding.skeletonSchedule.isGone = status != com.dertefter.neticore.network.ResponseType.LOADING
-            binding.scheduleRv.isGone = status == com.dertefter.neticore.network.ResponseType.LOADING
-        }
-    }
 
     private suspend fun observeWeekLabel() {
         scheduleViewModel.weekLabel.collect { weekLabel ->
@@ -354,7 +363,7 @@ class HomeFragment : Fragment() {
 
     private fun openNewsDetail(id: String, imageUrl: String?, color: Int) {
         val action = HomeFragmentDirections.actionHomeFragmentToNewsDetailFragment(id, imageUrl, color)
-        findNavController().navigate(action, Utils.getNavOptions())
+        findNavController().goingTo(action)
     }
 
     private fun openGroupSearchDialog() {

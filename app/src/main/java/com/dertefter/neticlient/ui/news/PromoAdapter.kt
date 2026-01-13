@@ -44,14 +44,14 @@ class PromoAdapter(
                 override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                     binding.bgImage.setImageBitmap(bitmap)
                     CoroutineScope(Dispatchers.IO).launch {
-                        val paletteSwatch = Palette.from(bitmap).generate().vibrantSwatch
-                        val textColor = paletteSwatch?.titleTextColor
+                        val paletteSwatch = Palette.from(bitmap).generate().dominantSwatch
+                        val textColor = paletteSwatch?.bodyTextColor
                         val backgroundColor = paletteSwatch?.rgb
                         if (textColor != null && backgroundColor != null) {
                             withContext(Dispatchers.Main) {
                                 promoTitle.setTextColor(textColor)
-                                promoTitle.backgroundTintList = ColorStateList.valueOf(backgroundColor)
-                                bgGradient.imageTintList = ColorStateList.valueOf(textColor)
+                                promoTitle.backgroundTintList = ColorStateList.valueOf(textColor)
+                                bgGradient.imageTintList = ColorStateList.valueOf(backgroundColor)
                             }
                         }
                     }

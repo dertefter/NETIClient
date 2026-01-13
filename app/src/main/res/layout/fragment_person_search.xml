@@ -22,8 +22,8 @@
             android:clipToPadding="false"
             android:contentDescription="@string/news_list"
             android:fadingEdge="none"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d5"
             android:requiresFadingEdge="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
-                app:navigationIcon="@drawable/arrow_back"
+                app:navigationIcon="@drawable/ic_arrow_back"
                 app:title="@string/title_person_search" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -54,19 +54,19 @@
                 android:id="@+id/searchField"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/max"
+                android:layout_marginHorizontal="@dimen/d5"
                 android:layout_weight="1"
                 android:hint="@string/search_by_name_hint"
                 app:boxBackgroundColor="?attr/colorSurfaceContainer"
-                app:boxCornerRadiusBottomEnd="@dimen/maximorum"
-                app:boxCornerRadiusBottomStart="@dimen/maximorum"
-                app:boxCornerRadiusTopEnd="@dimen/maximorum"
-                app:boxCornerRadiusTopStart="@dimen/maximorum"
+                app:boxCornerRadiusBottomEnd="@dimen/d7"
+                app:boxCornerRadiusBottomStart="@dimen/d7"
+                app:boxCornerRadiusTopEnd="@dimen/d7"
+                app:boxCornerRadiusTopStart="@dimen/d7"
                 app:boxStrokeColor="@android:color/transparent"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 app:startIconContentDescription="Поиск группы"
-                app:startIconDrawable="@drawable/search"
+                app:startIconDrawable="@drawable/ic_search"
                 app:startIconTint="?attr/colorOnSurface">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.doOnNextLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.databinding.FragmentMessagesBinding
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.goingTo
 import com.dertefter.neticore.features.inbox.model.Message
 import com.dertefter.neticore.network.ResponseType
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +52,7 @@ class MessagesFragment : Fragment() {
         binding.messagesRv.adapter = adapter
         binding.messagesRv.layoutManager = LinearLayoutManager(requireContext())
         binding.messagesRv.addItemDecoration(
-            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+            VerticalSpaceItemDecoration( R.dimen.d9, R.dimen.d3, R.dimen.d1)
         )
     }
 
@@ -102,7 +104,7 @@ class MessagesFragment : Fragment() {
 
         messagesViewModel.updateMessages()
 
-        binding.filterChips?.setOnCheckedStateChangeListener { group, checkedIds ->
+        binding.filterChips.setOnCheckedStateChangeListener { group, checkedIds ->
             val checked = checkedIds.first()
             when (checked){
                 R.id.filter_all -> {
@@ -143,12 +145,8 @@ class MessagesFragment : Fragment() {
 
 
     private fun navigateToDetail(message: Message) {
-        val args = bundleOf("message" to message)
-        findNavController().navigate(
-            R.id.messagesDetailFragment,
-            args,
-            Utils.getNavOptions(),
-        )
+        val action = MessagesFragmentDirections.actionMessagesFragmentToMessagesDetailFragment(message)
+        findNavController().goingTo(action)
     }
 
 }

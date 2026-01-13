@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/min"
+    app:cardCornerRadius="@dimen/d3"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false">
 
@@ -26,8 +26,8 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/mini"
-            android:divider="@drawable/vertical_divider_small"
+            android:layout_margin="@dimen/d2"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
             android:showDividers="middle">
 
@@ -68,7 +68,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0"
                         android:paddingHorizontal="2dp"
-                        app:srcCompat="@drawable/location_icon" />
+                        app:srcCompat="@drawable/ic_location" />
 
                     <TextView
                         android:id="@+id/aud"
@@ -112,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:layout_margin="@dimen/mini"
+        android:layout_margin="@dimen/d2"
         android:layout_weight="1"
         android:clickable="false"
         android:isScrollContainer="false"

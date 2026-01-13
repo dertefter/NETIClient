@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingVertical="@dimen/mini"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingVertical="@dimen/d2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.dertefter.neticlient.common.ShimmerLayout
@@ -26,17 +26,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/vertical_divider_small"
+            android:divider="@drawable/div_vertical_d2"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/max"
-            android:paddingVertical="@dimen/mini"
+            android:paddingHorizontal="@dimen/d5"
+            android:paddingVertical="@dimen/d2"
             android:showDividers="middle"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_maximorum"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorSurfaceContainer"
                 android:text="                            "
                  />
@@ -78,7 +78,7 @@
         layout="@layout/load_failed_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/max"
+        android:layout_marginVertical="@dimen/d5"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:navigationIcon="@drawable/arrow_back"
+            app:navigationIcon="@drawable/ic_arrow_back"
 
 
             app:title="Контрольные недели" />

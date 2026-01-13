@@ -1,148 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="?attr/colorSurfaceContainerLow"
-    android:elevation="@dimen/max"
-    tools:context=".ui.login.LoginFragment">
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/max"
-        android:layout_marginTop="48dp"
-        android:paddingTop="@dimen/max"
-        android:text="@string/auth_title"
-        android:textAppearance="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
-        android:textColor="?attr/colorTertiary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/max"
-        android:layout_marginTop="@dimen/mini"
-        android:text="@string/login_resason_1"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-        android:textColor="?attr/colorTertiary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
-
-    <TextView
-        android:id="@+id/desc2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/max"
-        android:layout_marginTop="@dimen/mini"
-        android:text="@string/auth_helper_text"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
-
-    <com.google.android.material.loadingindicator.LoadingIndicator
-        android:id="@+id/loading"
-        style="@style/Widget.Material3.LoadingIndicator.Contained"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:containerHeight="250dp"
-        app:containerWidth="250dp"
-        app:indicatorSize="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/login"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_micro"
+        android:animateLayoutChanges="false"
+        android:divider="@drawable/div_vertical_d2"
         android:orientation="vertical"
-        android:showDividers="middle"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="@dimen/d7"
+        android:showDividers="middle">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/loginTextField"
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_hint"
-            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-            app:boxCornerRadiusBottomEnd="@dimen/maximorum"
-            app:boxCornerRadiusBottomStart="@dimen/maximorum"
-            app:boxCornerRadiusTopEnd="@dimen/maximorum"
-            app:boxCornerRadiusTopStart="@dimen/maximorum"
-            app:boxStrokeColor="@android:color/transparent"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true">
+            android:minHeight="@dimen/d6"
+            android:paddingBottom="@dimen/d2" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTextField"
+        <TextView
+            android:id="@+id/title"
+            style="@style/NETIClient.TextStyle.SexyTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password_hint"
-            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-            app:boxCornerRadiusBottomEnd="@dimen/maximorum"
-            app:boxCornerRadiusBottomStart="@dimen/maximorum"
-            app:boxCornerRadiusTopEnd="@dimen/maximorum"
-            app:boxCornerRadiusTopStart="@dimen/maximorum"
-            app:boxStrokeColor="@android:color/transparent"
-            app:endIconMode="password_toggle">
+            android:includeFontPadding="false"
+            android:text="@string/auth_login_to"
+            android:textSize="22sp"
+            android:textStyle="normal" />
 
-            <com.google.android.material.textfield.TextInputEditText
+        <LinearLayout
+            android:id="@+id/select_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/div_vertical_default"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/d2"
+            android:showDividers="middle">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/accountsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/d2"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_user" />
+
+            <Button
+                android:id="@+id/toStateAddNew"
+                style="@style/Widget.Material3Expressive.Button"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/different_account"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:visibility="visible"
+                app:cornerRadius="@dimen/d6" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_new_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/div_vertical_default"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/d2"
+            android:showDividers="middle"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:hint="@string/login_hint"
+                app:boxCornerRadiusBottomEnd="@dimen/d6"
+                app:boxCornerRadiusBottomStart="@dimen/d6"
+                app:boxCornerRadiusTopEnd="@dimen/d6"
+                app:boxCornerRadiusTopStart="@dimen/d6">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="@dimen/mini"
-            android:enabled="false"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="@string/sign_in_button_text"
-            app:cornerRadius="@dimen/maximorum" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/d2"
+                android:hint="@string/password_hint"
+                app:boxCornerRadiusBottomEnd="@dimen/d6"
+                app:boxCornerRadiusBottomStart="@dimen/d6"
+                app:boxCornerRadiusTopEnd="@dimen/d6"
+                app:boxCornerRadiusTopStart="@dimen/d6"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/div_horizontal_d2"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/toStateSelectAccount"
+                    style="@style/Widget.Material3Expressive.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/cancel"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:visibility="visible"
+                    app:cornerRadius="@dimen/d6" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/loginButtonContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    app:cardCornerRadius="@dimen/d6">
+
+                    <FrameLayout
+                        android:id="@+id/loading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSecondary"
+                        android:visibility="gone">
+
+                        <com.google.android.material.loadingindicator.LoadingIndicator
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            app:containerColor="?attr/colorSecondary"
+                            app:containerHeight="52dp"
+                            app:indicatorColor="?attr/colorOnSecondary"
+                            app:indicatorSize="30dp" />
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/loginButton"
+                        style="@style/Widget.Material3Expressive.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:enabled="false"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/sign_in_button_text"
+                        android:visibility="visible"
+                        app:cornerRadius="0dp"
+                        app:icon="@drawable/ic_neti_logo" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/policy_button"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:text="@string/policy_button_text"
-        app:icon="@drawable/policy_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

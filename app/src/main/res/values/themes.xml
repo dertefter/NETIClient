@@ -2,7 +2,7 @@
 
 
     <style name="NETIClient.DialogTheme" parent="Theme.Material3.DayNight.Dialog">
-        <item name="android:windowBackground">@drawable/rounded_maximorum</item>
+        <item name="android:windowBackground">@drawable/rounded_d9</item>
     </style>
 
 
@@ -14,7 +14,7 @@
     </style>
 
 
-    <style name="NETIClient.DynamicTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
+    <style name="NETIClient.DynamicTheme" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
 
         <item name="appBarLayoutStyle">@style/NETIClient.Widget.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/NETIClient.Widget.CardView</item>

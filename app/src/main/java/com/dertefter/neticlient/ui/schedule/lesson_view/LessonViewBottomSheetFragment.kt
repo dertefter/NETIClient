@@ -117,7 +117,7 @@ class LessonViewBottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.personsRecyclerView.adapter = adapter
         binding.personsRecyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+            VerticalSpaceItemDecoration( R.dimen.d5, R.dimen.d3, R.dimen.d1)
         )
         binding.personsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 

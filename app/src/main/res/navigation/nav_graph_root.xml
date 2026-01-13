@@ -15,10 +15,5 @@
         tools:layout="@layout/fragment_on_boarding" />
     <include app:graph="@navigation/nav_graph_search" />
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.dertefter.neticlient.ui.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <include app:graph="@navigation/nav_graph_settings" />
+
 </navigation>

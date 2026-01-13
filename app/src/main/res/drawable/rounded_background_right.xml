@@ -6,7 +6,7 @@
         android:color="?attr/colorSurfaceContainer" />
     <corners
         android:topLeftRadius="0dp"
-        android:topRightRadius="@dimen/maxi"
+        android:topRightRadius="@dimen/d6"
         android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="@dimen/maxi"/>
+        android:bottomRightRadius="@dimen/d6"/>
 </shape>

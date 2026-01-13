@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.core.app.NotificationCompat
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.ui.main.MainActivity
 import com.dertefter.neticore.NETICore
-import com.dertefter.neticore.features.schedule.model.Lesson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -182,7 +180,7 @@ class ScheduleService : Service() {
         )
 
         return NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.app_icon)
+            .setSmallIcon(R.drawable.ic_app_icon)
             .setOngoing(true)
             .setPriority(2)
             .setShowWhen(false)

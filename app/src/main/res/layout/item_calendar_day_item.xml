@@ -10,13 +10,13 @@
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/mini"
+        android:layout_marginBottom="@dimen/d2"
         android:background="@drawable/rounded_background_right"
         android:backgroundTint="?attr/colorSurfaceContainer"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/mini"
-        android:paddingStart="@dimen/max"
-        android:paddingEnd="@dimen/max">
+        android:paddingVertical="@dimen/d2"
+        android:paddingStart="@dimen/d5"
+        android:paddingEnd="@dimen/d5">
 
         <TextView
             android:id="@+id/day_short_name"
@@ -46,13 +46,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:paddingHorizontal="@dimen/max" />
+        android:paddingHorizontal="@dimen/d5" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/events"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="false"
-        android:paddingHorizontal="@dimen/max" />
+        android:paddingHorizontal="@dimen/d5" />
 
 </LinearLayout>

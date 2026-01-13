@@ -21,6 +21,7 @@ import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
 import com.dertefter.neticlient.common.item_decoration.VerticalSpaceItemDecoration
 import com.dertefter.neticlient.common.utils.Utils
+import com.dertefter.neticlient.common.utils.Utils.goingTo
 import com.dertefter.neticlient.databinding.FragmentSettingsBinding
 import com.dertefter.neticlient.ui.login.LoginViewModel
 import com.dertefter.neticore.features.authorization.model.AuthStatusType
@@ -72,7 +73,12 @@ class SettingsFragment : Fragment() {
                             .load(userDetail.photoPath)
                             .into(object : com.squareup.picasso.Target {
                                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                                    binding.avatarShape.setImageBitmap(bitmap)
+
+                                    bitmap?.let{
+                                        binding.avatarShape.setBitmap(bitmap)
+                                    }
+
+
                                 }
 
                                 override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
@@ -97,43 +103,39 @@ class SettingsFragment : Fragment() {
             SettingsListItem(
                 titleRes = R.string.settings_notifications_title,
                 subtitleRes = R.string.settings_notifications_subtitle,
-                iconRes = R.drawable.notifications,
+                iconRes = R.drawable.ic_notifications,
                 navId = R.id.settingsNotificationsFragment
             ),
             SettingsListItem(
                 titleRes = R.string.settings_personaliztion_title,
                 subtitleRes = R.string.settings_personaliztion_subtitle,
-                iconRes = R.drawable.palette_icon,
+                iconRes = R.drawable.ic_palette,
                 navId = R.id.settingsPersonaliztionFragment
             ),
             SettingsListItem(
                 titleRes = R.string.settings_labs_title,
                 subtitleRes = R.string.settings_labs_subtitle,
-                iconRes = R.drawable.experiment,
+                iconRes = R.drawable.ic_experiment,
                 navId = R.id.settingsLabsFragment
             ),
             SettingsListItem(
                 titleRes = R.string.settings_about_title,
                 subtitleRes = R.string.settings_about_subtitle,
-                iconRes = R.drawable.info,
+                iconRes = R.drawable.ic_info,
                 navId = R.id.settingsAboutFragment
             )
         )
 
         val adapter = SettingsListAdapter(
             onItemClick = {navId ->
-                findNavController().navigate(
-                    navId,
-                    null,
-                    Utils.getNavOptions(),
-                )
+                findNavController().goingTo(navId)
             },
             items = settings
         )
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.addItemDecoration(
-            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+            VerticalSpaceItemDecoration( R.dimen.d5, R.dimen.d3, R.dimen.d1)
         )
 
     }
@@ -168,11 +170,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.statusGuest.setOnClickListener {
-            findNavController().navigate(
-                R.id.loginFragment,
-                null,
-                Utils.getNavOptions(),
-            )
+            
         }
 
         binding.backButton.setOnClickListener {

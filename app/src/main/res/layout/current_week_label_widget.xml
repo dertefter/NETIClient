@@ -6,7 +6,7 @@
     android:background="@drawable/app_widget_background"
     android:backgroundTint="?attr/colorPrimaryContainer"
     android:orientation="vertical"
-    android:padding="@dimen/max"
+    android:padding="@dimen/d5"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <FrameLayout
@@ -27,7 +27,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical|end"
-            android:src="@drawable/app_icon"
+            android:src="@drawable/ic_app_icon"
             app:tint="?attr/colorPrimary" />
 
     </FrameLayout>
@@ -39,8 +39,8 @@
         android:layout_gravity="center"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:paddingHorizontal="@dimen/max"
-        android:paddingTop="@dimen/max"
+        android:paddingHorizontal="@dimen/d5"
+        android:paddingTop="@dimen/d5"
         android:text="@string/loading"
         android:textColor="?attr/colorOnPrimaryContainer"
          />

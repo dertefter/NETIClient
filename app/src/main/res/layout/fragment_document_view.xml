@@ -15,17 +15,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider"
+            android:divider="@drawable/div_vertical_d5"
             android:orientation="vertical"
-            android:padding="@dimen/max"
+            android:padding="@dimen/d5"
             android:showDividers="middle">
 
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/max"
-                android:paddingBottom="@dimen/mini" />
+                android:minHeight="@dimen/d5"
+                android:paddingBottom="@dimen/d2" />
 
             <TextView
                 android:id="@+id/type"
@@ -45,11 +45,11 @@
                     android:layout_gravity="end"
                     android:elevation="0dp"
                     app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                    app:cardCornerRadius="@dimen/maxi"
+                    app:cardCornerRadius="@dimen/d6"
                     app:cardElevation="0dp"
                     app:cardMaxElevation="0dp"
-                    app:contentPaddingLeft="@dimen/mini"
-                    app:contentPaddingRight="@dimen/mini">
+                    app:contentPaddingLeft="@dimen/d2"
+                    app:contentPaddingRight="@dimen/d2">
 
                     <TextView
                         android:id="@+id/status"
@@ -72,16 +72,16 @@
                     android:layout_height="wrap_content"
                     android:elevation="0dp"
                     app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                    app:cardCornerRadius="@dimen/maxi"
+                    app:cardCornerRadius="@dimen/d6"
                     app:cardElevation="0dp"
                     app:cardMaxElevation="0dp"
-                    app:contentPaddingLeft="@dimen/mini"
-                    app:contentPaddingRight="@dimen/mini">
+                    app:contentPaddingLeft="@dimen/d2"
+                    app:contentPaddingRight="@dimen/d2">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:divider="@drawable/horizontal_divider_small"
+                        android:divider="@drawable/div_horizontal_d1"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -90,7 +90,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:tint="?attr/colorOnSurfaceVariant"
-                            app:srcCompat="@drawable/tag_icon" />
+                            app:srcCompat="@drawable/ic_tag" />
 
                         <TextView
                             android:id="@+id/number"
@@ -112,7 +112,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@drawable/horizontal_divider_small"
+                android:divider="@drawable/div_horizontal_d1"
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
@@ -121,7 +121,7 @@
                     android:layout_height="24dp"
                     android:layout_weight="0"
                     app:tint="?attr/colorOnSurfaceVariant"
-                    app:srcCompat="@drawable/person" />
+                    app:srcCompat="@drawable/ic_person" />
 
                 <TextView
                     android:id="@+id/person"
@@ -130,7 +130,7 @@
                     android:layout_weight="1"
                     android:includeFontPadding="false"
                     android:lineSpacingExtra="3sp"
-                    android:paddingEnd="@dimen/max"
+                    android:paddingEnd="@dimen/d5"
                     android:text="TextView"
                     android:textColor="?attr/colorOnSurfaceVariant" />
             </LinearLayout>
@@ -140,10 +140,10 @@
                 android:layout_height="match_parent"
                 android:elevation="0dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                app:cardCornerRadius="@dimen/maximorum"
+                app:cardCornerRadius="@dimen/d7"
                 app:cardElevation="0dp"
                 app:cardMaxElevation="0dp"
-                app:contentPadding="@dimen/max">
+                app:contentPadding="@dimen/d5">
 
                 <TextView
                     android:id="@+id/comment"

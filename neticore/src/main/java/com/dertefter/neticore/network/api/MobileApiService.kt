@@ -1,6 +1,7 @@
 package com.dertefter.neticore.network.api
 
 import com.dertefter.neticore.features.inbox.model.Message
+import com.dertefter.neticore.features.students.model.StudentGroup
 import com.dertefter.neticore.features.user_detail.model.UserDetail
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -11,6 +12,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MobileApiService {
@@ -35,6 +37,7 @@ interface MobileApiService {
     suspend fun fetchMessages(@Query("start_date") start_date: String = "1990-01-01T00:00:00.000Z"): Response<List<Message>>
 
 
-
+    @GET("student/get_data/head/get_for_study_group/{groupId}")
+    suspend fun fetchStudentGroup(@Path("groupId") groupId: String): Response<StudentGroup>
 
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="@dimen/maxi"
+    app:cardCornerRadius="@dimen/d6"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
     app:strokeColor="@android:color/transparent"
@@ -16,9 +16,9 @@
         android:id="@+id/content_expand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_big"
+        android:divider="@drawable/div_vertical_d1"
         android:orientation="vertical"
-        android:padding="@dimen/max"
+        android:padding="@dimen/d5"
         android:showDividers="middle"
         android:visibility="gone">
 
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:divider="@drawable/vertical_divider_micro"
+                android:divider="@drawable/div_vertical_d1"
                 android:orientation="vertical"
                 android:showDividers="middle">
 
@@ -78,7 +78,7 @@
                     android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/shape_1"
+                    app:srcCompat="@drawable/dr_shape_1"
                     app:tint="?attr/colorPrimaryContainer" />
 
                 <TextView
@@ -98,10 +98,10 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="bottom|end"
-                    android:background="@drawable/rounded_maximorum"
+                    android:background="@drawable/rounded_d9"
                     android:backgroundTint="?attr/colorSecondaryContainer"
                     android:paddingHorizontal="1dp"
-                    app:srcCompat="@drawable/plus_icon"
+                    app:srcCompat="@drawable/ic_plus"
                     app:tint="?attr/colorOnSecondaryContainer" />
 
             </FrameLayout>
@@ -113,7 +113,7 @@
         android:id="@+id/content_shrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider_big"
+        android:divider="@drawable/div_vertical_d1"
         android:orientation="horizontal"
         android:showDividers="middle"
         android:visibility="visible">
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="@dimen/max"
+            android:layout_marginHorizontal="@dimen/d5"
             android:layout_weight="1"
 
             android:ellipsize="end"
@@ -143,9 +143,9 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/max"
-                android:layout_marginEnd="@dimen/max"
-                android:layout_marginBottom="@dimen/max"
+                android:layout_marginTop="@dimen/d5"
+                android:layout_marginEnd="@dimen/d5"
+                android:layout_marginBottom="@dimen/d5"
                 android:layout_weight="0">
 
                 <ImageView
@@ -153,7 +153,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:tint="?attr/colorSurfaceContainerHigh"
-                    app:srcCompat="@drawable/shape_1" />
+                    app:srcCompat="@drawable/dr_shape_1" />
 
                 <TextView
                     android:id="@+id/ects_shrink"
@@ -173,14 +173,14 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="@dimen/max"
-                android:layout_marginBottom="@dimen/max"
-                android:background="@drawable/rounded_maximorum"
+                android:layout_marginEnd="@dimen/d5"
+                android:layout_marginBottom="@dimen/d5"
+                android:background="@drawable/rounded_d9"
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:paddingHorizontal="1dp"
                 app:tint="?attr/colorOnSecondaryContainer"
                 android:visibility="gone"
-                app:srcCompat="@drawable/plus_icon" />
+                app:srcCompat="@drawable/ic_plus" />
 
         </FrameLayout>
 

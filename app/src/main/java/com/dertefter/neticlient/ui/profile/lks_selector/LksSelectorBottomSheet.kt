@@ -80,7 +80,7 @@ class LksSelectorBottomSheet : BottomSheetDialogFragment() {
         binding.lksRv.adapter = lksAdapter
         binding.lksRv.layoutManager = LinearLayoutManager(requireContext())
         binding.lksRv.addItemDecoration(
-            VerticalSpaceItemDecoration( R.dimen.max, R.dimen.min, R.dimen.micro)
+            VerticalSpaceItemDecoration( R.dimen.d5, R.dimen.d3, R.dimen.d1)
         )
 
     }

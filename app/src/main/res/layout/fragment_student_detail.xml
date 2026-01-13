@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:divider="@drawable/div_vertical_d2"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/d6"
+            android:showDividers="middle|beginning|end">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/div_vertical_d3"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/d9"
+                android:showDividers="middle">
+
+                <FrameLayout
+                    android:id="@+id/profile_pic_container"
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorSurfaceVariant"
+                        app:contentPadding="4dp"
+                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
+                        app:srcCompat="@drawable/ic_person"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profilePic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="TextView"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/is_monitor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="800"
+                        android:gravity="center"
+                        android:text="Староста"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                        android:textColor="?attr/colorTertiary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/d3"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="@dimen/default_list_outer_radius">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/div_vertical_d1"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <Button
+                        android:id="@+id/dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_cake"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_call"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_mail"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_location"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/vk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_vk_logo"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/tg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_telegram_logo"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                    <Button
+                        android:id="@+id/leaderId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorSurfaceContainerHigh"
+                        android:gravity="start|center_vertical"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="52dp"
+                        android:text="Button"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
+                        app:cornerRadius="@dimen/default_list_innier_radius"
+                        app:icon="@drawable/ic_leaderid"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="noScroll"
+            app:navigationIcon="@drawable/ic_arrow_back" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

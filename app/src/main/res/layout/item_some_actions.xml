@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:divider="@drawable/vertical_divider_small"
+        android:divider="@drawable/div_vertical_d2"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -22,8 +22,8 @@
             android:insetBottom="0dp"
             android:text="Показать всё расписание"
             android:textColor="?attr/colorOnSecondaryContainer"
-            app:cornerRadius="@dimen/maximorum"
-            app:icon="@drawable/calendar_month_icon"
+            app:cornerRadius="@dimen/d7"
+            app:icon="@drawable/ic_calendar_month"
             app:iconPadding="0dp"
             app:iconSize="20dp"
             app:iconTint="?attr/colorOnSecondaryContainer" />
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:divider="@drawable/horizontal_divider_small"
+            android:divider="@drawable/div_horizontal_d1"
             android:orientation="horizontal"
             android:showDividers="middle">
 
@@ -47,8 +47,8 @@
                 android:insetBottom="0dp"
                 android:text="Расписание сессии"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                app:cornerRadius="@dimen/maximorum"
-                app:icon="@drawable/school_icon"
+                app:cornerRadius="@dimen/d7"
+                app:icon="@drawable/ic_school"
                 app:iconPadding="12dp"
                 app:iconSize="20dp"
                 app:iconTint="?attr/colorOnSurfaceVariant" />
@@ -64,8 +64,8 @@
                 android:insetBottom="0dp"
                 android:text="Поиск сотрудников"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                app:cornerRadius="@dimen/maximorum"
-                app:icon="@drawable/person_search_icon"
+                app:cornerRadius="@dimen/d7"
+                app:icon="@drawable/ic_person_search"
                 app:iconPadding="12dp"
                 app:iconSize="20dp"
                 app:iconTint="?attr/colorOnSurfaceVariant" />

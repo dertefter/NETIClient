@@ -1,5 +1,5 @@
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/app_icon">
+    android:drawable="@drawable/ic_app_icon">
 
   <target
       android:name="base"

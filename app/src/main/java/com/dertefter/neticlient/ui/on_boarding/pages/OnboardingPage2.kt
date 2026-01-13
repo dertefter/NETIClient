@@ -1,44 +1,55 @@
 package com.dertefter.neticlient.ui.on_boarding.pages
 
-import android.content.Context
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.dertefter.neticlient.R
 import com.dertefter.neticlient.common.AppBarEdgeToEdge
-import com.dertefter.neticlient.common.utils.Utils
-import com.dertefter.neticlient.data.model.AuthState
+import com.dertefter.neticlient.common.utils.Utils.goingTo
 import com.dertefter.neticlient.databinding.FragmentOnboardingPage2Binding
+import com.dertefter.neticlient.ui.login.LoginBottomSheetFragment
 import com.dertefter.neticlient.ui.login.LoginViewModel
+import com.dertefter.neticlient.ui.profile.ProfileFragmentDirections
+import com.dertefter.neticlient.ui.profile.ProfileViewModel
 import com.dertefter.neticore.features.authorization.model.AuthStatusType
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.loadingindicator.LoadingIndicator
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OnboardingPage2 : Fragment() {
+
+
+    @Inject
+    lateinit var picasso: Picasso
 
     private var _binding: FragmentOnboardingPage2Binding? = null
     private val binding get() = _binding!!
 
     private val loginViewModel: LoginViewModel by activityViewModels()
+
+    private val profileViewModel: ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,51 +62,11 @@ class OnboardingPage2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.appbar.addOnOffsetChangedListener(AppBarEdgeToEdge( binding.appbar))
-        val loginEditText = binding.loginTextField.editText
-        val passwordEditText = binding.passwordTextField.editText
-        val loginButton = binding.loginButton
 
-        fun isInputValid(): Boolean {
-            return !loginEditText?.text.isNullOrEmpty() && !passwordEditText?.text.isNullOrEmpty()
-        }
+        collectStatus()
 
-        fun performLogin() {
-            if (isInputValid()) {
-                val login = loginEditText?.text.toString()
-                val password = passwordEditText?.text.toString()
-                loginViewModel.login(login, password)
-                hideKeyboard()
-            }
-        }
-
-        loginEditText?.doOnTextChanged { _, _, _, _ ->
-            loginButton.isEnabled = isInputValid()
-        }
-
-        passwordEditText?.doOnTextChanged { _, _, _, _ ->
-            loginButton.isEnabled = isInputValid()
-        }
-
-        passwordEditText?.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                performLogin()
-                return@setOnKeyListener true
-            }
-            false
-        }
-
-        loginButton.setOnClickListener {
-            performLogin()
-        }
-
-        binding.toLogin.setOnClickListener {
-            binding.info.isGone = true
-            binding.action.isVisible = true
-        }
-
-        binding.toInfo.setOnClickListener {
-            binding.info.isVisible = true
-            binding.action.isGone = true
+        binding.statusCardIncluded.statusCard.setOnClickListener {
+            showLoginDialog()
         }
 
         binding.policyButton.setOnClickListener {
@@ -107,86 +78,61 @@ class OnboardingPage2 : Fragment() {
         }
 
 
+    }
+
+    fun showLoginDialog(){
+        val modalBottomSheet = LoginBottomSheetFragment()
+        modalBottomSheet.show(childFragmentManager, LoginBottomSheetFragment.TAG)
+    }
+
+    fun collectStatus() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userDetailMobile.collect { userDetail ->
-                    Log.e("userMoble", userDetail.toString())
-                    if (!userDetail?.photoPath.isNullOrEmpty()){
+                combine(
+                    loginViewModel.mobileAuthStatus,
+                    loginViewModel.userDetail,
+                    loginViewModel.userDetailMobile
+                ) { authStatus, userDetail, userDetailMobile ->
+                    Triple(authStatus, userDetail, userDetailMobile)
+                }.collect { (authStatus, userDetail, userDetailMobile) ->
 
-                        Picasso.get()
-                            .load(userDetail.photoPath)
+                    binding.statusCardIncluded.loadingIndicator.isGone = authStatus != AuthStatusType.LOADING
+
+                    binding.statusCardIncluded.name.text = userDetail?.name
+                    binding.statusCardIncluded.email.text = userDetail?.login
+
+                    if (!userDetailMobile?.photoPath.isNullOrEmpty()){
+                        picasso
+                            .load(userDetailMobile.photoPath)
                             .into(object : com.squareup.picasso.Target {
                                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                                    binding.profilePic.setImageBitmap(bitmap)
+                                    binding.statusCardIncluded.avatarShape.isGone = false
+                                    bitmap?.let{
+                                        binding.statusCardIncluded.avatarShape.setBitmap(bitmap)
+                                    }
                                 }
 
                                 override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                                    // обработка ошибки
+                                    binding.statusCardIncluded.avatarShape.isGone = true
                                 }
 
                                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                                    // можно показать плейсхолдер
+                                    binding.statusCardIncluded.avatarShape.isGone = true
                                 }
                             })
 
 
                     }
-                }
-            }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.userDetail.collect { user ->
-                    binding.profileCard.isVisible = user != null
-
-                    if (!user?.name.isNullOrEmpty()){
-                        binding.nameTv.text = user.name
-                    }
-
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.authStatus.collect { authStatus ->
-
-                    binding.loading.isVisible = authStatus == AuthStatusType.LOADING
-                    binding.authed.isVisible = authStatus == AuthStatusType.AUTHORIZED
-                    binding.login.isVisible = authStatus == AuthStatusType.UNAUTHORIZED || authStatus == AuthStatusType.AUTHORIZED_WITH_ERROR
-
-
-                    when (authStatus){
-                        AuthStatusType.AUTHORIZED -> {
-                            binding.title.text = getString(R.string.ob_2_title_auhorized)
-                            loginViewModel.updateUserDetail()
-                        }
-                        AuthStatusType.UNAUTHORIZED -> binding.title.text = getString(R.string.ob_2_title_1)
-                        AuthStatusType.AUTHORIZED_WITH_ERROR -> binding.title.text = getString(R.string.auth_error)
-                        AuthStatusType.LOADING -> binding.title.text = getString(R.string.authing)
-                    }
-
-                    if ( authStatus == AuthStatusType.AUTHORIZED_WITH_ERROR){
-                        Utils.showToast(requireContext(),getString(R.string.auth_error))
-                        loginEditText?.setText("")
-                        passwordEditText?.setText("")
-                    }
-
-                    if ( authStatus == AuthStatusType.AUTHORIZED || authStatus == AuthStatusType.LOADING){
-                        binding.info.isGone = true
-                        binding.action.isVisible = true
-                    }
-
+                    binding.statusCardIncluded.statusGuest.isVisible = authStatus == AuthStatusType.UNAUTHORIZED
+                    binding.statusCardIncluded.statusError.isVisible = authStatus == AuthStatusType.AUTHORIZED_WITH_ERROR
+                    binding.statusCardIncluded.statusLoading.isVisible = authStatus == AuthStatusType.LOADING
+                    binding.statusCardIncluded.statusSuccess.isVisible = authStatus == AuthStatusType.AUTHORIZED
                 }
             }
         }
     }
 
-    private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?attr/colorSecondaryContainer"
-    app:cardCornerRadius="@dimen/maxi"
+    app:cardCornerRadius="@dimen/d6"
     app:cardUseCompatPadding="false"
-    app:contentPadding="@dimen/mini">
+    app:contentPadding="@dimen/d2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:background="?attr/colorSecondary"
                 app:contentPadding="4dp"
                 app:shapeAppearanceOverlay="@style/NETIClient.ShapeAppearance.Rounded"
-                app:srcCompat="@drawable/person"
+                app:srcCompat="@drawable/ic_person"
                 app:tint="?attr/colorOnSecondary" />
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/max"
+            android:paddingHorizontal="@dimen/d5"
             android:text="TextView"
             android:textColor="?attr/colorOnSecondaryContainer"
              />

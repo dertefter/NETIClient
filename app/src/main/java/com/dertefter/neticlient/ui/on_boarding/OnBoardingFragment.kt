@@ -46,7 +46,7 @@ class OnBoardingFragment : Fragment() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.next) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val defaultMargin = resources.getDimensionPixelSize(R.dimen.mid)
+            val defaultMargin = resources.getDimensionPixelSize(R.dimen.default_inner_screen)
             val layoutParams = v.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.bottomMargin = (defaultMargin + insets.bottom).toInt()
             layoutParams.rightMargin = (defaultMargin).toInt()
@@ -63,7 +63,7 @@ class OnBoardingFragment : Fragment() {
 
                 if (position==0){
                     binding.next.setOnClickListener {
-                        binding.pager.currentItem =  binding.pager.currentItem + 1
+                        binding.pager.currentItem += 1
                     }
                     binding.next.text = getString(R.string.on_board_fab_next)
                     binding.next.extend()

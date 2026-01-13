@@ -168,6 +168,8 @@
     <string name="n_open_app_find_group">Select a group in the app</string>
     <string name="appwidget_text" translatable="false">EXAMPLE</string>
     <string name="app_widget_description" translatable="false">This is an app widget description</string>
-    <string name="connected">Подключено к НГТУ НЭТИ</string>
+    <string name="connected">Connected to NSTU NETI</string>
+    <string name="different_account">Login to another account</string>
+    <string name="week">week</string>
 
 </resources>
