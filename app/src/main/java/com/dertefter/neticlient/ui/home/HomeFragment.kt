@@ -250,7 +250,7 @@ class HomeFragment : Fragment() {
                 binding.groupButton.isGone = currentGroup.isNullOrEmpty()
                 binding.buttonScheduleAll.isGone = currentGroup.isNullOrEmpty()
 
-                if (currentGroup != null) {
+                if (currentGroup != null && status != com.dertefter.neticore.network.ResponseType.ERROR ) {
                     binding.groupButton.text = currentGroup
                     scheduleViewModel.updateScheduleForGroup(currentGroup)
                 }

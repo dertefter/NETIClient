@@ -5,7 +5,7 @@
     android:initialLayout="@layout/widget_next_lessons"
     android:minWidth="100dp"
     android:minHeight="140dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen|keyguard" />
