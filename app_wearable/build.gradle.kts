@@ -15,8 +15,8 @@ android {
         applicationId = "com.dertefter.neticlient"
         minSdk = 30
         targetSdk = 37
-        versionCode = 50005
-        versionName = "5.1.3"
+        versionCode = project.property("appVersionCode").toString().toInt() + 1
+        versionName = project.property("appVersionName").toString()
 
     }
 
