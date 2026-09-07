@@ -68,8 +68,8 @@ jobs:
           echo "Determined mobile track: $MOBILE"
           echo "Determined wearable track: $WEAR"
 
-      - name: Build & Sign Release AAB
-        run: ./gradlew bundleRelease
+      - name: Build & Sign Release AAB and APK
+        run: ./gradlew bundleRelease assembleRelease
         env:
           ANDROID_KEYSTORE_FILE: release.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -99,8 +99,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            app/build/outputs/bundle/release/app-release.aab
-            app_wearable/build/outputs/bundle/release/app_wearable-release.aab
+            app/build/outputs/apk/release/app-release.apk
+            app_wearable/build/outputs/apk/release/app_wearable-release.apk
           generate_release_notes: false
           prerelease: ${{ contains(github.ref_name, '-alpha') || contains(github.ref_name, '-beta') }}
         env:
