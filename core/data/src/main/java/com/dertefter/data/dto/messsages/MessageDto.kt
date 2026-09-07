@@ -23,8 +23,8 @@ data class MessageDto(
 
     @SerializedName("ID_STUDENT") @SerialName("ID_STUDENT") val idStudent: Long? = null,
 
-    @SerializedName("IS_DELETED") @SerialName("IS_DELETED") val isDeleted: Int,
-    @SerializedName("IS_READ") @SerialName("IS_READ") val isRead: Int,
+    @SerializedName("IS_DELETED") @SerialName("IS_DELETED") val isDeleted: Int? = 0,
+    @SerializedName("IS_READ") @SerialName("IS_READ") val isRead: Int? = 0,
 
     @SerializedName("MESSAGE_URL") @SerialName("MESSAGE_URL") val messageUrl: String? = null,
 
