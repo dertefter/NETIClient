@@ -4,18 +4,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ContactInfoDto(
-    val name: String?,
-    val surname: String?,
-    val patronymic: String?,
-    val symGroup: String?,
-    val email: String?,
-    val address: String?,
-    val mobilePhoneNumber: String?,
-    val snils: String?,
-    val oms: String?,
-    val vk: String?,
-    val telegram: String?,
-    val leaderId: String?
+    val name: String? = null,
+    val surname: String? = null,
+    val patronymic: String? = null,
+    val symGroup: String? = null,
+    val email: String? = null,
+    val address: String? = null,
+    val mobilePhoneNumber: String? = null,
+    val snils: String? = null,
+    val oms: String? = null,
+    val vk: String? = null,
+    val telegram: String? = null,
+    val leaderId: String? = null
 )
 
 

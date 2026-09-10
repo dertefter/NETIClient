@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeekBoundsDto(
-    val startDateString: String,
-    val weekNumber: Int,
+    val startDateString: String = "",
+    val weekNumber: Int = 0,
 ){
     fun getStartDate(): LocalDate {
         return LocalDate.parse(startDateString)

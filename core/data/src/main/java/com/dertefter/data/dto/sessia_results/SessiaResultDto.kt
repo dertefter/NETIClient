@@ -69,7 +69,7 @@ data class SessiaResultDto(
 
     @SerializedName("SEMESTER")
     @SerialName("SEMESTER")
-    val semester: Int,
+    val semester: Int = 0,
 
     @SerializedName("TYPE_NAME")
     @SerialName("TYPE_NAME")

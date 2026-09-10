@@ -9,17 +9,17 @@ data class ControlWeekDto(
 
     @SerializedName("CONTROL_WEEK_TITLE")
     @SerialName("CONTROL_WEEK_TITLE")
-    val title: String,
+    val title: String = "",
 
     @SerializedName("CONTROL_WEEK_SEM")
     @SerialName("CONTROL_WEEK_SEM")
-    val semester: String,
+    val semester: String = "",
 
     @SerializedName("CONTROL_WEEK_NUMBER")
     @SerialName("CONTROL_WEEK_NUMBER")
-    val week: String,
+    val week: String = "",
 
     @SerializedName("CONTROL_WEEK_VALUE")
     @SerialName("CONTROL_WEEK_VALUE")
-    val value: String
+    val value: String = ""
 )
