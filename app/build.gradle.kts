@@ -11,8 +11,9 @@ plugins {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
+    jvmToolchain(21)
 }
 
 android {
@@ -28,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     signingConfigs {
@@ -60,6 +61,10 @@ android {
             optimization {
                 enable = true
             }
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -115,18 +120,15 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.play.services.wearable)
     ksp(libs.hilt.compiler)
-
     implementation(libs.hilt.navigation.compose)
     implementation(libs.navigation.compose)
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.compose.adaptive.layout)
     implementation(libs.androidx.compose.adaptive.navigation)
-
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.appwidget.preview)
     implementation(libs.androidx.glance.preview)
     implementation(libs.androidx.glance.material3)
-
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material.kolor)
     implementation(libs.haze)
