@@ -13,6 +13,7 @@
         <item quantity="one">In %d day</item>
         <item quantity="few">In %d days</item>
         <item quantity="many">In %d days</item>
+        <item quantity="other">In %d days</item>
     </plurals>
 
     <string name="app_will_start">Will start</string>

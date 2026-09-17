@@ -155,9 +155,10 @@ private fun getNextDayData(schedule: List<TimeSlotDto>?): Pair<LocalDate, List<T
     return targetDate?.let { it to (grouped[it] ?: emptyList()) }
 }
 
+@Suppress("unused")
 @OptIn(ExperimentalGlancePreviewApi::class)
 @Composable
-@Preview()
+@Preview
 fun ScheduleWidgetContentPreview() {
     val sampleTimeSlots = listOf(
         TimeSlotDto(

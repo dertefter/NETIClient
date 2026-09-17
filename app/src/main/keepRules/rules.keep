@@ -1,0 +1,4 @@
+# Keep WorkManager InputMergers from being stripped by R8/ProGuard optimization
+-keep class * extends androidx.work.InputMerger {
+    public <init>();
+}
