@@ -18,7 +18,7 @@ kotlin {
 
 android {
     namespace = "com.dertefter.neticlient"
-    compileSdk = 37
+      compileSdk { version = release(37) { minorApiLevel = 1 } }
 
     defaultConfig {
         applicationId = "com.dertefter.neticlient"
