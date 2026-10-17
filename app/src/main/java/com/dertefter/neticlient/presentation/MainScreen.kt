@@ -2,11 +2,11 @@ package com.dertefter.neticlient.presentation
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,7 +38,7 @@ import com.dertefter.swap_lks.SwapLksRoute
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navigator: Navigator,
@@ -47,18 +47,15 @@ fun MainScreen(
     themeState: ThemeState,
 ) {
 
-
-
     AppTheme(
         seedColor = themeState.seedColor,
         isCut = themeState.isShapeCut,
-        specVersion = if (themeState.oldColorSpecVersion == true) ColorSpec.SpecVersion.SPEC_2021 else ColorSpec.SpecVersion.SPEC_2025,
-        paletteStyle = when (themeState.themeStyle){
+        specVersion = if (themeState.oldColorSpecVersion) ColorSpec.SpecVersion.SPEC_2021 else ColorSpec.SpecVersion.SPEC_2025,
+        paletteStyle = when (themeState.themeStyle) {
             ThemeStyle.Neutral -> PaletteStyle.Neutral
             ThemeStyle.TonalSpot -> PaletteStyle.TonalSpot
-            ThemeStyle.Vibrant ->  PaletteStyle.Vibrant
+            ThemeStyle.Vibrant -> PaletteStyle.Vibrant
             ThemeStyle.Expressive -> PaletteStyle.Expressive
-            else -> PaletteStyle.Vibrant
         }
     ) {
 
@@ -67,9 +64,7 @@ fun MainScreen(
         val currentDestination = navBackStackEntry?.destination
 
         var bottomSheetRoute by remember { mutableStateOf<Routes?>(null) }
-        val sheetState = rememberModalBottomSheetState()
-
-
+        val sheetState = rememberBottomSheetState(initialValue = SheetValue.Hidden)
 
 
         val isFullScreen = when {
@@ -78,13 +73,9 @@ fun MainScreen(
             else -> false
         }
 
-        val bottomSheetCornerRadius by animateDpAsState(
-            targetValue = if (sheetState.targetValue == SheetValue.Expanded) 0.dp else MaterialTheme.rounding.extraLargeIncreased,
-            label = "bottomSheetCornerRadius",
-            animationSpec = MaterialTheme.motionScheme.slowSpatialSpec()
-        )
 
-        val navigationItems = getNavigationMenu(screenState.authStatusCiu !is AuthStatus.Unauthorized)
+        val navigationItems =
+            getNavigationMenu(screenState.authStatusCiu !is AuthStatus.Unauthorized)
 
         LaunchedEffect(Unit) {
             navigator.navigationActions.collect { action ->
@@ -119,7 +110,7 @@ fun MainScreen(
             }
         }
 
-        if (MaterialTheme.isTab){
+        if (MaterialTheme.isTab) {
             TabUI(
                 navController = navController,
                 currentDestination = currentDestination,
@@ -129,8 +120,7 @@ fun MainScreen(
                 onEvent = onEvent,
                 isFullScreen = isFullScreen
             )
-        }
-        else {
+        } else {
             PhoneUi(
                 navController = navController,
                 currentDestination = currentDestination,
@@ -143,43 +133,65 @@ fun MainScreen(
         }
 
 
-        if (bottomSheetRoute != null) {
-            ModalBottomSheet(
-                onDismissRequest = { bottomSheetRoute = null },
-                sheetState = sheetState,
-                shape = MaterialTheme.cornerShape(topStart = bottomSheetCornerRadius.coerceAtLeast(0.dp), topEnd = bottomSheetCornerRadius.coerceAtLeast(0.dp))
-            ) {
-                when (val route = bottomSheetRoute) {
-                    is Routes.SearchGroup -> SearchGroupRoute()
-                    is Routes.ShareScore -> ShareScoreRoute()
-                    is Routes.SwapLks -> SwapLksRoute()
-                    is Routes.LessonDetail -> LessonDetailRoute(
-                        name = route.name,
-                        type = route.type,
-                        aud = route.aud,
-                        personIds = route.personIds,
-                        startTime = route.getStartTime(),
-                        endTime = route.getEndTime(),
-                        date = route.getDate()
-                    )
-                    is Routes.DocDetail -> DocDetailRoute(
-                        type = route.type,
-                        date = route.date,
-                        status = route.status,
-                        person = route.person,
-                        comment = route.comment,
-                        number = route.number
-                    )
-                    null -> {}
-                    else -> {}
-                }
-            }
-        }
+        AppBottomSheet(
+            bottomSheetRoute = bottomSheetRoute,
+            onDismissRequest = { bottomSheetRoute = null },
+            sheetState = sheetState
+        )
 
 
     }
 
 
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppBottomSheet(
+    bottomSheetRoute: Routes?,
+    onDismissRequest: () -> Unit,
+    sheetState: SheetState
+) {
+    if (bottomSheetRoute != null) {
+        val bottomSheetCornerRadius by animateDpAsState(
+            targetValue = if (sheetState.targetValue == SheetValue.Expanded) 0.dp else MaterialTheme.rounding.extraLargeIncreased,
+            label = "bottomSheetCornerRadius",
+            animationSpec = MaterialTheme.motionScheme.slowSpatialSpec()
+        )
 
+        ModalBottomSheet(
+            onDismissRequest = onDismissRequest,
+            sheetState = sheetState,
+            shape = MaterialTheme.cornerShape(
+                topStart = bottomSheetCornerRadius.coerceAtLeast(0.dp),
+                topEnd = bottomSheetCornerRadius.coerceAtLeast(0.dp)
+            )
+        ) {
+            when (bottomSheetRoute) {
+                is Routes.SearchGroup -> SearchGroupRoute()
+                is Routes.ShareScore -> ShareScoreRoute()
+                is Routes.SwapLks -> SwapLksRoute()
+                is Routes.LessonDetail -> LessonDetailRoute(
+                    name = bottomSheetRoute.name,
+                    type = bottomSheetRoute.type,
+                    aud = bottomSheetRoute.aud,
+                    personIds = bottomSheetRoute.personIds,
+                    startTime = bottomSheetRoute.getStartTime(),
+                    endTime = bottomSheetRoute.getEndTime(),
+                    date = bottomSheetRoute.getDate()
+                )
+
+                is Routes.DocDetail -> DocDetailRoute(
+                    type = bottomSheetRoute.type,
+                    date = bottomSheetRoute.date,
+                    status = bottomSheetRoute.status,
+                    person = bottomSheetRoute.person,
+                    comment = bottomSheetRoute.comment,
+                    number = bottomSheetRoute.number
+                )
+
+                else -> {}
+            }
+        }
+    }
 }
