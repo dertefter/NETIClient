@@ -69,5 +69,3 @@ View your class schedule on your smartwatch.
   <img src="art/gp-mobile-7.jpg" width="24%" alt="Screenshot 7">
   <img src="art/gp-mobile-8.jpg" width="24%" alt="Screenshot 8">
 </p>
-
-The application is under active development. You can send your feedback, suggestions, and bug reports to the developer.
