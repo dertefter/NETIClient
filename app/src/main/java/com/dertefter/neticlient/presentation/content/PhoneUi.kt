@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
@@ -37,11 +36,10 @@ import com.dertefter.neticlient.presentation.Event
 import com.dertefter.neticlient.presentation.components.AuthNotifyCard
 import com.dertefter.neticlient.presentation.components.MainBottomBar
 import dev.chrisbanes.haze.hazeSource
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.rememberHazeState
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalHazeMaterialsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneUi(
     navController: NavHostController,
@@ -62,7 +60,7 @@ fun PhoneUi(
 
     LaunchedEffect(authStatusCiu, authStatusYourNeti) {
         if (authStatusCiu !is AuthStatus.Unauthorized && isAuthNotifyVisible) {
-            delay(8000)
+            delay(8000.milliseconds)
             isAuthNotifyVisible = false
         }
     }
